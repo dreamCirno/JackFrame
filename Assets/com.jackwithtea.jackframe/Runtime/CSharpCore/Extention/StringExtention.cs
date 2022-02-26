@@ -123,11 +123,5 @@ namespace JackFrame {
             return reg.Matches(str);
         }
 
-        public static string ToJoystickSimpleString(this string s) {
-            s = s.Replace("Left Shoulder", "LB");
-            s = s.Replace("Right Shoulder", "RB");
-            return s;
-        }
-
     }
 }
