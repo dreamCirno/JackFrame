@@ -1,0 +1,22 @@
+{
+    "name": "com.jackwithtea.jackframe",
+    "displayName": "JackFrame",
+    "version": "1.0.0",
+    "unity": "2019.4",
+    "unityRelease": "16f1",
+    "documentationUrl": "https://github.com/chenwansal/JackFrame",
+    "changelogUrl": "https://github.com/chenwansal/JackFrame/CHANGELOG.md",
+    "licensesUrl": "https://github.com/chenwansal/JackFrame/LICENSE.md",
+    "dependencies": {
+        "com.unity.cinemachine": "2.6.11",
+        "com.unity.addressables": "1.16.19"
+    },
+    "keywords": [
+        "jackframe"
+    ],
+    "author": {
+        "name": "杰克有茶",
+        "email": "chenwansal1@163.com",
+        "url": "https://github.com/chenwansal/JackFrame"
+    }
+}

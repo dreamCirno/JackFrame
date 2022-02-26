@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 57d06396239cff04eafcec0cd815e83e
+=======
+<<<<<<< HEAD:Assets/Packages/SoFunnyFrame/Core/Tool/ClassGenerator/ClassGeneratorDemo.cs.meta
+guid: 70fd8c48f8e3232439b7b6cfb76aaf01
+=======
+guid: 57d06396239cff04eafcec0cd815e83e
+>>>>>>> origin/feture@bag/zhangyuhao:Assets/Packages/SoFunnyFrame/Core/Tool/CsvReader/CsvReader.cs.meta
+>>>>>>> origin/feture@bag/zhangyuhao
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
