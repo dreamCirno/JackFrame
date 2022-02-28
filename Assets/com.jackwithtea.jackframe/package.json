@@ -18,5 +18,6 @@
         "name": "杰克有茶",
         "email": "chenwansal1@163.com",
         "url": "https://github.com/chenwansal/JackFrame"
-    }
+    },
+    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master"
 }
