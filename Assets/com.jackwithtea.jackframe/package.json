@@ -9,7 +9,8 @@
     "licensesUrl": "https://github.com/chenwansal/JackFrame/LICENSE.md",
     "dependencies": {
         "com.unity.cinemachine": "2.6.11",
-        "com.unity.addressables": "1.16.19"
+        "com.unity.addressables": "1.16.19",
+        "com.unity.ide.vscode": "1.2.3^"
     },
     "keywords": [
         "jackframe"

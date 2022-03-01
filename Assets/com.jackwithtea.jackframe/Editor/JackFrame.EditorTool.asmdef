@@ -1,6 +1,9 @@
 {
     "name": "JackFrame.EditorTool",
-    "references": [],
+    "references": [
+        "GUID:8b845b123ab418448a8be2935fa804e0",
+        "GUID:698de13ac41894b4faa41653eef13f2b"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
