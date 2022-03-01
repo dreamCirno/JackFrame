@@ -1,0 +1,15 @@
+{
+    "name": "JackBuffer.Runtime",
+    "references": [
+        "GUID:1c4f517fe4e2f1144a9af5434b1fe0e2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

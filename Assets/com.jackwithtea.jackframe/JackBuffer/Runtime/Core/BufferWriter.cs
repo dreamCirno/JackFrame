@@ -88,6 +88,13 @@ namespace JackBuffer {
             offset += curOffset;
         }
 
+        public static void WriteMessage<T>(byte[] dst, IJackMessage<T> data, ref int offset) {
+            byte[] b = data.ToBytes();
+            ushort count = (ushort)b.Length;
+            WriteUInt16(dst, count, ref offset);
+            WriteUint8Arr(dst, b, ref offset);
+        }
+
         public static void WriteInt8Arr(byte[] dst, sbyte[] data, ref int offset) {
             ushort count = (ushort)data.Length;
             WriteUInt16(dst, count, ref offset);
