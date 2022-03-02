@@ -17,7 +17,7 @@ namespace JackBuffer.Editor {
 
         static string ATTR = nameof(JackMessageObjectAttribute).Replace("Attribute", "");
 
-        public static void GenModel(string inputDir, string outputDir) {
+        public static void GenModel(string inputDir) {
 
             List<string> files = FileHelper.FindAllFileWithExt(inputDir, "*.cs");
             files.ForEach(value => {
