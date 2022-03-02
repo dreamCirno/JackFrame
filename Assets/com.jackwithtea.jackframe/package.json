@@ -1,7 +1,7 @@
 {
     "name": "com.jackwithtea.jackframe",
     "displayName": "JackFrame",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "unity": "2019.4",
     "unityRelease": "16f1",
     "documentationUrl": "https://github.com/chenwansal/JackFrame",
@@ -20,5 +20,5 @@
         "email": "chenwansal1@163.com",
         "url": "https://github.com/chenwansal/JackFrame"
     },
-    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master"
+    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#1.1.0"
 }

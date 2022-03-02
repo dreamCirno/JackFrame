@@ -29,3 +29,7 @@
 复制以下url, 然后点Add, UPM就会自动加载了  
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master
 ![JackFrame图](https://github.com/chenwansal/JackFrame/blob/master/Assets/com.jackwithtea.jackframe/Document~/2.png)  
+
+#### 注
+ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master  
+\#master 可改为 #1.1.0, 即可加载对应的版本
