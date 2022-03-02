@@ -20,5 +20,14 @@
 # 环境
 支持Unity 2019.4.x ~ 2021.2.x
 
-# upm url
+# Unity PackageManager(UPM) 使用方式
+```
+第一步:
+打开 Unity PackageManager, 并点击"Add package from git URL"
+![JackFrame图](https://github.com/chenwansal/JackFrame/blob/master/Assets/com.jackwithtea.jackframe/Document~/1.png)
+
+第二步:
+复制以下url, 然后点Add, UPM就会自动加载了
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master
+![JackFrame图](https://github.com/chenwansal/JackFrame/blob/master/Assets/com.jackwithtea.jackframe/Document~/2.png)
+```
