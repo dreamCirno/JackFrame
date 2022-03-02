@@ -57,7 +57,7 @@ namespace JackBuffer.Tests {
             Assert.That(ulongValue, Is.EqualTo(9988));
 
             BufferWriter.WriteUTF8String(dst, "hello", ref writeOffset);
-            string strValue = BufferReader.ReadString(dst, ref readOffset);
+            string strValue = BufferReader.ReadUTF8String(dst, ref readOffset);
             Assert.That(strValue, Is.EqualTo("hello"));
 
             BufferWriter.WriteSingle(dst, -8.22f, ref writeOffset);
@@ -148,7 +148,7 @@ namespace JackBuffer.Tests {
             Assert.That(doubleArr[2], Is.EqualTo(-99.331d));
 
             BufferWriter.WriteUTF8StringArr(dst, new string[4] { "h", "llo", "WWWWD", "-TT" }, ref writeOffset);
-            string[] strArr = BufferReader.ReadStringArr(dst, ref readOffset);
+            string[] strArr = BufferReader.ReadUTF8StringArr(dst, ref readOffset);
             Assert.That(strArr.Length, Is.EqualTo(4));
             Assert.That(strArr[0], Is.EqualTo("h"));
             Assert.That(strArr[1], Is.EqualTo("llo"));

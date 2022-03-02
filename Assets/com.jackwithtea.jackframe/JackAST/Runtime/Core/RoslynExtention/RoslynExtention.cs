@@ -36,6 +36,17 @@ namespace JackAST {
             return null;
         }
 
+        public static string GetFieldType(this FieldDeclarationSyntax field) {
+            return field.Declaration.Type.ToString();
+        }
+
+        public static string GetFieldName(this FieldDeclarationSyntax field) {
+            if (field.Declaration.Variables.Count > 1) {
+                throw new System.Exception("暂不支持多变量");
+            }
+            return field.Declaration.Variables[0].ToString();
+        }
+
         public static List<T> FindAll<T>(this SyntaxNode root) where T : SyntaxNode {
             List<T> list = new List<T>();
             foreach (var node in root.DescendantNodes()) {

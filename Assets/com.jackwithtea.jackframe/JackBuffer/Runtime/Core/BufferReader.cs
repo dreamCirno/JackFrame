@@ -171,14 +171,14 @@ namespace JackBuffer {
             return data;
         }
 
-        public static string ReadString(byte[] src, ref int offset) {
+        public static string ReadUTF8String(byte[] src, ref int offset) {
             ushort count = ReadUInt16(src, ref offset);
             string data = Encoding.UTF8.GetString(src, offset, count);
             offset += count;
             return data;
         }
 
-        public static string[] ReadStringArr(byte[] src, ref int offset) {
+        public static string[] ReadUTF8StringArr(byte[] src, ref int offset) {
             ushort totalCount = ReadUInt16(src, ref offset);
             string[] data = new string[totalCount];
             for (int i = 0; i < totalCount; i += 1) {

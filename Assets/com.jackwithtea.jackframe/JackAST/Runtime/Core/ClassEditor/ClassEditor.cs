@@ -83,7 +83,7 @@ namespace JackAST {
         }
 
         public string GetClassName() {
-            ClassDeclarationSyntax classDeclaration = root.Find<ClassDeclarationSyntax>();
+            TypeDeclarationSyntax classDeclaration = root.Find<TypeDeclarationSyntax>();
             return classDeclaration.GetName();
         }
 
@@ -127,10 +127,10 @@ namespace JackAST {
             BaseMethodDeclarationSyntax syntax = RoslynSyntaxFactory.CreateMethod(method);
             PLog.ForceAssert(syntax != null);
 
-            ClassDeclarationSyntax old = root.Find<ClassDeclarationSyntax>();
+            TypeDeclarationSyntax old = root.Find<TypeDeclarationSyntax>();
             PLog.ForceAssert(old != null);
             
-            ClassDeclarationSyntax newClass = old.AddMembers(syntax);
+            TypeDeclarationSyntax newClass = old.AddMembers(syntax);
             root = root.ReplaceNode(old, newClass);
 
         }
@@ -159,8 +159,7 @@ namespace JackAST {
         // ==== ATTRIBUTE ====
         public void AddMemberAttribute(string memberName, string attributeStr) {
 
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = classDeclarations[0];
+            TypeDeclarationSyntax oldClass = root.FindClass();
 
             SyntaxList<MemberDeclarationSyntax> members = oldClass.Members;
             MemberDeclarationSyntax demoMethod = members.FindMethod(memberName);
@@ -169,15 +168,15 @@ namespace JackAST {
             CompilationUnitSyntax treeRoot = tree.GetCompilationUnitRoot();
             AttributeListSyntax attribute = treeRoot.Members[0].AttributeLists[0];
             MemberDeclarationSyntax newMethod = demoMethod.AddAttributeLists(attribute);
-            ClassDeclarationSyntax newClass = oldClass.ReplaceNode(demoMethod, newMethod);
+            TypeDeclarationSyntax newClass = oldClass.ReplaceNode(demoMethod, newMethod);
             root = root.ReplaceNode(oldClass, newClass);
 
         }
 
         public void AddClassAttribute(string className, string attributeStr) {
 
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = null;
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = null;
             for (int i = 0; i < classDeclarations.Count; i++) {
                 if (classDeclarations[i].Identifier.ValueText == className) {
                     oldClass = classDeclarations[i];
@@ -188,14 +187,29 @@ namespace JackAST {
             CompilationUnitSyntax treeRoot = tree.GetCompilationUnitRoot();
             AttributeListSyntax attribute = treeRoot.Members[0].AttributeLists[0];
 
-            ClassDeclarationSyntax newClass = oldClass.AddAttributeLists(attribute);
+            TypeDeclarationSyntax newClass = oldClass.AddAttributeLists(attribute);
             root = root.ReplaceNode(oldClass, newClass);
 
         }
 
+        public bool HasClassAttribute(string attrName) {
+            TypeDeclarationSyntax oldClass = root.Find<TypeDeclarationSyntax>();
+            if (oldClass == null) {
+                return false;
+            }
+            foreach (var list in oldClass.AttributeLists) {
+                foreach (var attr in list.Attributes) {
+                    if (attr.Name.ToString() == attrName) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public void RemoveMemberAttribute(string memberName, string attributeStr) {
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = classDeclarations[0];
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = classDeclarations[0];
 
             SyntaxList<MemberDeclarationSyntax> members = oldClass.Members;
             MemberDeclarationSyntax demoMethod = members.FindMethod(memberName);
@@ -203,7 +217,7 @@ namespace JackAST {
             for (int i = 0; i < demoMethod.AttributeLists.Count; i++) {
                 if (demoMethod.AttributeLists[i].ToString() == attributeStr) {
                     AttributeListSyntax attribute = demoMethod.AttributeLists[i];
-                    ClassDeclarationSyntax newClass = oldClass.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia);
+                    TypeDeclarationSyntax newClass = oldClass.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia);
                     root = root.ReplaceNode(oldClass, newClass);
 
                 }
@@ -211,20 +225,20 @@ namespace JackAST {
         }
 
         public void RemoveMemberAttribute(string memberName) {
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = classDeclarations[0];
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = classDeclarations[0];
 
             SyntaxList<MemberDeclarationSyntax> members = oldClass.Members;
             MemberDeclarationSyntax methodTemp = members.FindMethod(memberName);
 
-            ClassDeclarationSyntax newClass = oldClass.RemoveNodes(methodTemp.AttributeLists, SyntaxRemoveOptions.KeepNoTrivia);
+            TypeDeclarationSyntax newClass = oldClass.RemoveNodes(methodTemp.AttributeLists, SyntaxRemoveOptions.KeepNoTrivia);
             root = root.ReplaceNode(oldClass, newClass);
 
         }
 
         public void RemoveClassAttribute(string className, string attributeStr) {
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = null;
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = null;
             for (int i = 0; i < classDeclarations.Count; i++) {
                 if (classDeclarations[i].Identifier.ValueText == className) {
                     oldClass = classDeclarations[i];
@@ -234,7 +248,7 @@ namespace JackAST {
             for (int i = 0; i < oldClass.AttributeLists.Count; i++) {
                 if (oldClass.AttributeLists[i].ToString() == attributeStr) {
                     AttributeListSyntax attribute = oldClass.AttributeLists[i];
-                    ClassDeclarationSyntax newClass = oldClass.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia);
+                    TypeDeclarationSyntax newClass = oldClass.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia);
                     root = root.ReplaceNode(oldClass, newClass);
 
                 }
@@ -242,15 +256,15 @@ namespace JackAST {
         }
 
         public void RemoveClassAttribute(string className) {
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = null;
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = null;
             for (int i = 0; i < classDeclarations.Count; i++) {
                 if (classDeclarations[i].Identifier.ValueText == className) {
                     oldClass = classDeclarations[i];
                 }
             }
 
-            ClassDeclarationSyntax newClass = oldClass.RemoveNodes(oldClass.AttributeLists, SyntaxRemoveOptions.KeepNoTrivia);
+            TypeDeclarationSyntax newClass = oldClass.RemoveNodes(oldClass.AttributeLists, SyntaxRemoveOptions.KeepNoTrivia);
             root = root.ReplaceNode(oldClass, newClass);
 
         }
@@ -277,8 +291,8 @@ namespace JackAST {
             PropertyDeclarationSyntax syntax = tree.GetCompilationUnitRoot().Members[0] as PropertyDeclarationSyntax;
             Console.WriteLine(syntax);
 
-            ClassDeclarationSyntax classes = root.FindClass();
-            ClassDeclarationSyntax classesOld = classes;
+            TypeDeclarationSyntax classes = root.FindClass();
+            TypeDeclarationSyntax classesOld = classes;
 
             classes = classes.AddMembers(syntax);
 
@@ -287,8 +301,8 @@ namespace JackAST {
 
         public void AddMethodNotes(string memberName, string notes) {
 
-            List<ClassDeclarationSyntax> classDeclarations = root.FindAll<ClassDeclarationSyntax>();
-            ClassDeclarationSyntax oldClass = classDeclarations[0];
+            List<TypeDeclarationSyntax> classDeclarations = root.FindAll<TypeDeclarationSyntax>();
+            TypeDeclarationSyntax oldClass = classDeclarations[0];
 
             SyntaxList<MemberDeclarationSyntax> members = oldClass.Members;
             MemberDeclarationSyntax targetMethod = members.FindMethod(memberName);
@@ -300,10 +314,10 @@ namespace JackAST {
             nodestxt += "class Temp {} }";
             SyntaxTree tree = CSharpSyntaxTree.ParseText(nodestxt);
             CompilationUnitSyntax treeRoot = tree.GetCompilationUnitRoot();
-            ClassDeclarationSyntax tarClass = treeRoot.FindClass();
+            TypeDeclarationSyntax tarClass = treeRoot.FindClass();
             SyntaxTriviaList syntaxTrivias = tarClass.GetLeadingTrivia();
             SyntaxTriviaList targetTriviaList = targetMethod.GetLeadingTrivia();
-            ClassDeclarationSyntax newClass = oldClass.InsertTriviaAfter(targetTriviaList.Last(), syntaxTrivias);
+            TypeDeclarationSyntax newClass = oldClass.InsertTriviaAfter(targetTriviaList.Last(), syntaxTrivias);
 
             root = root.ReplaceNode(oldClass, newClass);
 

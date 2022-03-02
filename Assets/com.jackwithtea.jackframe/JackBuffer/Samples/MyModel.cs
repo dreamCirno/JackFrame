@@ -1,11 +1,11 @@
 using System;
 using JackBuffer;
 
-namespace JackBuffer.Sample {
-
+namespace JackBuffer.Sample
+{
     [JackMessageObject]
-    public struct MyModel {
-
+    public struct MyModel : IJackMessage<MyModel>
+    {
         public char charValue;
         public byte byteValue;
         public sbyte sbyteValue;
@@ -17,7 +17,6 @@ namespace JackBuffer.Sample {
         public ulong ulongValue;
         public float floatValue;
         public double doubleValue;
-
         public byte[] byteArr;
         public sbyte[] sbyteArr;
         public short[] shortArr;
@@ -28,48 +27,162 @@ namespace JackBuffer.Sample {
         public ulong[] ulongArr;
         public float[] floatArr;
         public double[] doubleArr;
-
         public string strValue;
         public string[] strArr;
         public HerModel herModel;
-
-        // 自动生成
-        public void WriteTo(byte[] dst, ref int offset) {
+        public void WriteTo(byte[] dst, ref int offset)
+        {
             BufferWriter.WriteChar(dst, charValue, ref offset);
+            BufferWriter.WriteUInt8(dst, byteValue, ref offset);
+            BufferWriter.WriteInt8(dst, sbyteValue, ref offset);
+            BufferWriter.WriteInt16(dst, shortValue, ref offset);
+            BufferWriter.WriteUInt16(dst, ushortValue, ref offset);
+            BufferWriter.WriteInt32(dst, intValue, ref offset);
+            BufferWriter.WriteUInt32(dst, uintValue, ref offset);
+            BufferWriter.WriteInt64(dst, longValue, ref offset);
+            BufferWriter.WriteUInt64(dst, ulongValue, ref offset);
+            BufferWriter.WriteSingle(dst, floatValue, ref offset);
+            BufferWriter.WriteDouble(dst, doubleValue, ref offset);
+            BufferWriter.WriteUint8Arr(dst, byteArr, ref offset);
+            BufferWriter.WriteInt8Arr(dst, sbyteArr, ref offset);
+            BufferWriter.WriteInt16Arr(dst, shortArr, ref offset);
+            BufferWriter.WriteUInt16Arr(dst, ushortArr, ref offset);
+            BufferWriter.WriteInt32Arr(dst, intArr, ref offset);
+            BufferWriter.WriteUInt32Arr(dst, uintArr, ref offset);
+            BufferWriter.WriteInt64Arr(dst, longArr, ref offset);
+            BufferWriter.WriteUInt64Arr(dst, ulongArr, ref offset);
+            BufferWriter.WriteSingleArr(dst, floatArr, ref offset);
+            BufferWriter.WriteDoubleArr(dst, doubleArr, ref offset);
+            BufferWriter.WriteUTF8String(dst, strValue, ref offset);
+            BufferWriter.WriteUTF8StringArr(dst, strArr, ref offset);
+            BufferWriter.WriteMessage(dst, herModel, ref offset);
         }
 
-        // 自动生成
-        public byte[] ToBytes() {
-            bool isCertain = GetEvaluatedSize(out int count);
-            byte[] src = new byte[count];
+        public void FromBytes(byte[] src, ref int offset)
+        {
+            charValue = BufferReader.ReadChar(src, ref offset);
+            byteValue = BufferReader.ReadUInt8(src, ref offset);
+            sbyteValue = BufferReader.ReadInt8(src, ref offset);
+            shortValue = BufferReader.ReadInt16(src, ref offset);
+            ushortValue = BufferReader.ReadUInt16(src, ref offset);
+            intValue = BufferReader.ReadInt32(src, ref offset);
+            uintValue = BufferReader.ReadUInt32(src, ref offset);
+            longValue = BufferReader.ReadInt64(src, ref offset);
+            ulongValue = BufferReader.ReadUInt64(src, ref offset);
+            floatValue = BufferReader.ReadSingle(src, ref offset);
+            doubleValue = BufferReader.ReadDouble(src, ref offset);
+            byteArr = BufferReader.ReadUInt8Arr(src, ref offset);
+            sbyteArr = BufferReader.ReadInt8Arr(src, ref offset);
+            shortArr = BufferReader.ReadInt16Arr(src, ref offset);
+            ushortArr = BufferReader.ReadUInt16Arr(src, ref offset);
+            intArr = BufferReader.ReadInt32Arr(src, ref offset);
+            uintArr = BufferReader.ReadUInt32Arr(src, ref offset);
+            longArr = BufferReader.ReadInt64Arr(src, ref offset);
+            ulongArr = BufferReader.ReadUInt64Arr(src, ref offset);
+            floatArr = BufferReader.ReadSingleArr(src, ref offset);
+            doubleArr = BufferReader.ReadDoubleArr(src, ref offset);
+            strValue = BufferReader.ReadUTF8String(src, ref offset);
+            strArr = BufferReader.ReadUTF8StringArr(src, ref offset);
+            herModel = new HerModel();
+            int count = BufferReader.ReadUInt16(src, ref offset);
+            if (count > 0)
+            {
+                herModel.FromBytes(src, ref offset);
+            }
+        }
+
+        public int GetEvaluatedSize(out bool isCertain)
+        {
+            int count = 44;
+            isCertain = false;
+            if (byteArr != null)
+            {
+                count += byteArr.Length;
+            }
+
+            if (sbyteArr != null)
+            {
+                count += sbyteArr.Length;
+            }
+
+            if (shortArr != null)
+            {
+                count += shortArr.Length * 2;
+            }
+
+            if (ushortArr != null)
+            {
+                count += ushortArr.Length * 2;
+            }
+
+            if (intArr != null)
+            {
+                count += intArr.Length * 4;
+            }
+
+            if (uintArr != null)
+            {
+                count += uintArr.Length * 4;
+            }
+
+            if (longArr != null)
+            {
+                count += longArr.Length * 8;
+            }
+
+            if (ulongArr != null)
+            {
+                count += ulongArr.Length * 8;
+            }
+
+            if (floatArr != null)
+            {
+                count += floatArr.Length * 4;
+            }
+
+            if (doubleArr != null)
+            {
+                count += doubleArr.Length * 8;
+            }
+
+            if (strValue != null)
+            {
+                count += strValue.Length * 4;
+            }
+
+            if (strArr != null)
+            {
+                for (int i = 0; i < strArr.Length; i += 1)
+                {
+                    count += strArr[i].Length * 4;
+                }
+            }
+
+            if (herModel != null)
+            {
+                count += herModel.GetEvaluatedSize(out bool _bherModel);
+                isCertain &= _bherModel;
+            }
+
+            return count;
+        }
+
+        public byte[] ToBytes()
+        {
+            int count = GetEvaluatedSize(out bool isCertain);
             int offset = 0;
+            byte[] src = new byte[count];
             WriteTo(src, ref offset);
-            if (isCertain) {
+            if (isCertain)
+            {
                 return src;
-            } else {
+            }
+            else
+            {
                 byte[] dst = new byte[offset];
                 Buffer.BlockCopy(src, 0, dst, 0, offset);
                 return dst;
             }
         }
-
-        // 自动生成
-        bool GetEvaluatedSize(out int count) {
-            bool isCertain = true;
-            // 确定长度 + 字符串预估长度 + 自定义类型长度
-            count = 1 + 2;
-
-            // 是否确定的长度
-            // 如果有字符串或自定义类型, 返回 false
-            // 否则, 返回 true
-            return isCertain;
-        }
-
-        // 自动生成
-        public void FromBytes(byte[] src, ref int offset) {
-            charValue = BufferReader.ReadChar(src, ref offset);
-        }
-
     }
-
 }
