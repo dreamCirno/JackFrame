@@ -98,10 +98,19 @@ namespace JackBuffer.Editor {
                             throw new Exception($"不可循环依赖: {fieldType}");
                         }
 
-                        if (IsJackBufferObject(inputDir, fieldType)) {
-                            return WRITER + nameof(BufferWriter.WriteMessage) + writeSuffix;
+                        if (fieldType.Contains("[]")) {
+                            string trueType = fieldType.Replace("[]", "");
+                            if (IsJackBufferObject(inputDir, trueType)) {
+                                return WRITER + nameof(BufferWriter.WriteMessageArr) + writeSuffix;
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         } else {
-                            throw new Exception($"未处理该类型: {fieldType}");
+                            if (IsJackBufferObject(inputDir, fieldType)) {
+                                return WRITER + nameof(BufferWriter.WriteMessage) + writeSuffix;
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         }
 
                 }
@@ -163,15 +172,21 @@ namespace JackBuffer.Editor {
                             throw new Exception($"不可循环依赖: {fieldType}");
                         }
 
-                        if (IsJackBufferObject(inputDir, fieldType)) {
-                            string str = fieldName + $" = new {fieldType}();\r\n";
-                            str += "int count = " + READER + nameof(BufferReader.ReadUInt16) + readSuffix;
-                            str += "if (count > 0) {";
-                            str += $"{fieldName}.{FROM_BYTES_METHOD_NAME}" + readSuffix;
-                            str += "}";
-                            return str;
+                        if (fieldType.Contains("[]")) {
+                            // 处理自定义类型数组
+                            string trueType = fieldType.Replace("[]", "");
+                            if (IsJackBufferObject(inputDir, trueType)) {
+                                return $"{fieldName} = " + READER + nameof(BufferReader.ReadMessageArr) + $"({SRC_PARAM_NAME}, () => new {trueType}(), ref {OFFSET_PARAM_NAME});";
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         } else {
-                            throw new Exception($"未处理该类型: {fieldType}");
+                            // 处理单自定义类型
+                            if (IsJackBufferObject(inputDir, fieldType)) {
+                                return $"{fieldName} = " + READER + nameof(BufferReader.ReadMessage) + $"({SRC_PARAM_NAME}, () => new {fieldType}(), ref {OFFSET_PARAM_NAME});";
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         }
 
                 }
@@ -302,14 +317,33 @@ namespace JackBuffer.Editor {
                             throw new Exception($"不可循环依赖: {fieldType}");
                         }
 
-                        if (IsJackBufferObject(inputDir, fieldType)) {
-                            string s = COUNT_VAR + $" += {fieldName}.{GET_EVELUATED_SIZE_METHOD_NAME}(out bool _b{fieldName});\r\n";
-                            s += CERTAIN_PARAM_NAME + "&=" + $"_b{fieldName};";
-                            evaluatedObjectLine.AppendLine($"if ({fieldName} != null) " + "{");
-                            evaluatedObjectLine.AppendLine(s);
-                            evaluatedObjectLine.AppendLine("}");
+                        if (fieldType.Contains("[]")) {
+                            string trueType = fieldType.Replace("[]", "");
+                            if (IsJackBufferObject(inputDir, trueType)) {
+                                const string CHILD = "__child";
+                                string s = $"if ({fieldName} != null)" + "{"
+                                        + $"for (int i = 0; i < {fieldName}.Length; i += 1)" + "{"
+                                            + $"var {CHILD} = {fieldName}[i];"
+                                            + $"if ({CHILD} != null)" + "{"
+                                                + $"{COUNT_VAR} += {CHILD}." + GET_EVELUATED_SIZE_METHOD_NAME + $"(out bool _cb_{fieldName});"
+                                                + CERTAIN_PARAM_NAME + "&=" + $"_cb_{fieldName};"
+                                                + "}"
+                                            + "}"
+                                        + "}";
+                                evaluatedObjectLine.AppendLine(s);
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         } else {
-                            throw new Exception($"未处理该类型: {fieldType}");
+                            if (IsJackBufferObject(inputDir, fieldType)) {
+                                string s = COUNT_VAR + $" += {fieldName}.{GET_EVELUATED_SIZE_METHOD_NAME}(out bool _b{fieldName});\r\n";
+                                s += CERTAIN_PARAM_NAME + "&=" + $"_b{fieldName};";
+                                evaluatedObjectLine.AppendLine($"if ({fieldName} != null) " + "{");
+                                evaluatedObjectLine.AppendLine(s);
+                                evaluatedObjectLine.AppendLine("}");
+                            } else {
+                                throw new Exception($"未处理该类型: {fieldType}");
+                            }
                         }
                         break;
                 }

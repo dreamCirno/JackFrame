@@ -6,6 +6,7 @@ namespace JackBuffer.Sample
     [JackMessageObject]
     public class HerModel : IJackMessage<HerModel>
     {
+        public int value;
         // 自动生成
         bool GetMaxSize(out int count)
         {
@@ -20,15 +21,17 @@ namespace JackBuffer.Sample
 
         public void WriteTo(byte[] dst, ref int offset)
         {
+            BufferWriter.WriteInt32(dst, value, ref offset);
         }
 
         public void FromBytes(byte[] src, ref int offset)
         {
+            value = BufferReader.ReadInt32(src, ref offset);
         }
 
         public int GetEvaluatedSize(out bool isCertain)
         {
-            int count = 0;
+            int count = 4;
             isCertain = true;
             return count;
         }

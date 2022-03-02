@@ -30,6 +30,8 @@ namespace JackBuffer.Sample
         public string strValue;
         public string[] strArr;
         public HerModel herModel;
+        public HerModel[] herModelArr;
+        public string otherStr;
         public void WriteTo(byte[] dst, ref int offset)
         {
             BufferWriter.WriteChar(dst, charValue, ref offset);
@@ -56,6 +58,8 @@ namespace JackBuffer.Sample
             BufferWriter.WriteUTF8String(dst, strValue, ref offset);
             BufferWriter.WriteUTF8StringArr(dst, strArr, ref offset);
             BufferWriter.WriteMessage(dst, herModel, ref offset);
+            BufferWriter.WriteMessageArr(dst, herModelArr, ref offset);
+            BufferWriter.WriteUTF8String(dst, otherStr, ref offset);
         }
 
         public void FromBytes(byte[] src, ref int offset)
@@ -83,12 +87,9 @@ namespace JackBuffer.Sample
             doubleArr = BufferReader.ReadDoubleArr(src, ref offset);
             strValue = BufferReader.ReadUTF8String(src, ref offset);
             strArr = BufferReader.ReadUTF8StringArr(src, ref offset);
-            herModel = new HerModel();
-            int count = BufferReader.ReadUInt16(src, ref offset);
-            if (count > 0)
-            {
-                herModel.FromBytes(src, ref offset);
-            }
+            herModel = BufferReader.ReadMessage(src, () => new HerModel(), ref offset);
+            herModelArr = BufferReader.ReadMessageArr(src, () => new HerModel(), ref offset);
+            otherStr = BufferReader.ReadUTF8String(src, ref offset);
         }
 
         public int GetEvaluatedSize(out bool isCertain)
@@ -158,10 +159,28 @@ namespace JackBuffer.Sample
                 }
             }
 
+            if (otherStr != null)
+            {
+                count += otherStr.Length * 4;
+            }
+
             if (herModel != null)
             {
                 count += herModel.GetEvaluatedSize(out bool _bherModel);
                 isCertain &= _bherModel;
+            }
+
+            if (herModelArr != null)
+            {
+                for (int i = 0; i < herModelArr.Length; i += 1)
+                {
+                    var __child = herModelArr[i];
+                    if (__child != null)
+                    {
+                        count += __child.GetEvaluatedSize(out bool _cb_herModelArr);
+                        isCertain &= _cb_herModelArr;
+                    }
+                }
             }
 
             return count;

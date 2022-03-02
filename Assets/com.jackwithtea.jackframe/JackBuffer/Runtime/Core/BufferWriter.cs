@@ -84,25 +84,11 @@ namespace JackBuffer {
         static byte[] temp = new byte[4096];
         public static void WriteUTF8StringArr(byte[] dst, string[] data, ref int offset) {
             if (data != null) {
-                int curOffset = 0;
-                for (int i = 0; i < data.Length; i += 1) {
-                    WriteUTF8String(temp, data[i], ref curOffset);
-                }
                 ushort count = (ushort)data.Length;
                 WriteUInt16(dst, count, ref offset);
-                Buffer.BlockCopy(temp, 0, dst, offset, curOffset);
-                offset += curOffset;
-            } else {
-                WriteUInt16(dst, 0, ref offset);
-            }
-        }
-
-        public static void WriteMessage<T>(byte[] dst, IJackMessage<T> data, ref int offset) {
-            if (data != null) {
-                byte[] b = data.ToBytes();
-                ushort count = (ushort)b.Length;
-                WriteUInt16(dst, count, ref offset);
-                WriteUint8Arr(dst, b, ref offset);
+                for (int i = 0; i < data.Length; i += 1) {
+                    WriteUTF8String(dst, data[i], ref offset);
+                }
             } else {
                 WriteUInt16(dst, 0, ref offset);
             }
@@ -220,6 +206,30 @@ namespace JackBuffer {
                 WriteUInt16(dst, count, ref offset);
                 for (int i = 0; i < count; i += 1) {
                     WriteDouble(dst, data[i], ref offset);
+                }
+            } else {
+                WriteUInt16(dst, 0, ref offset);
+            }
+        }
+
+        public static void WriteMessage<T>(byte[] dst, IJackMessage<T> data, ref int offset) {
+            if (data != null) {
+                byte[] b = data.ToBytes();
+                ushort count = (ushort)b.Length;
+                WriteUInt16(dst, count, ref offset);
+                Buffer.BlockCopy(b, 0, dst, offset, count);
+                offset += count;
+            } else {
+                WriteUInt16(dst, 0, ref offset);
+            }
+        }
+
+        public static void WriteMessageArr<T>(byte[] dst, IJackMessage<T>[] data, ref int offset) {
+            if (data != null) {
+                ushort count = (ushort)data.Length;
+                WriteUInt16(dst, count, ref offset);
+                for (int i = 0; i < data.Length; i += 1) {
+                    WriteMessage(dst, data[i], ref offset);
                 }
             } else {
                 WriteUInt16(dst, 0, ref offset);

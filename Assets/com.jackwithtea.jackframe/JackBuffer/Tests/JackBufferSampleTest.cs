@@ -28,14 +28,20 @@ namespace JackBuffer.Tests {
             myModel.byteArr = new byte[3] { 1, 2, 9 };
             myModel.sbyteArr = new sbyte[4] { -1, -1, -2, -8 };
             myModel.ushortArr = new ushort[1] { 222 };
-            myModel.strArr = new string[2] {"hl", "ddd"};
+            myModel.strArr = new string[2] { "hl", "ddd" };
+            myModel.herModel = new HerModel() { value = 3 };
+            myModel.herModelArr = new HerModel[2] {
+                new HerModel{value = 4},
+                new HerModel{value = -99}
+            };
+            myModel.otherStr = "endall";
 
             byte[] data = myModel.ToBytes();
 
             MyModel newModel = new MyModel();
             int offset = 0;
             newModel.FromBytes(data, ref offset);
-            
+
             Assert.That(newModel.charValue, Is.EqualTo('D'));
             Assert.That(newModel.byteValue, Is.EqualTo(5));
             Assert.That(newModel.sbyteValue, Is.EqualTo(-85));
@@ -68,6 +74,15 @@ namespace JackBuffer.Tests {
             Assert.That(newModel.strArr.Length, Is.EqualTo(2));
             Assert.That(newModel.strArr[0], Is.EqualTo("hl"));
             Assert.That(newModel.strArr[1], Is.EqualTo("ddd"));
+
+            Assert.That(newModel.herModel, Is.Not.Null);
+            Assert.That(newModel.herModel.value, Is.EqualTo(3));
+
+            Assert.That(newModel.herModelArr.Length, Is.EqualTo(2));
+            Assert.That(newModel.herModelArr[0].value, Is.EqualTo(4));
+            Assert.That(newModel.herModelArr[1].value, Is.EqualTo(-99));
+
+            Assert.That(newModel.otherStr, Is.EqualTo("endall"));
 
         }
 

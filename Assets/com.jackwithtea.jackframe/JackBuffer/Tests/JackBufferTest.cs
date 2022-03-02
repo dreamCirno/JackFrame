@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.TestTools;
 using NUnit.Framework;
+using JackFrame;
+using JackBuffer.Sample;
 
 namespace JackBuffer.Tests {
 
@@ -154,6 +156,15 @@ namespace JackBuffer.Tests {
             Assert.That(strArr[1], Is.EqualTo("llo"));
             Assert.That(strArr[2], Is.EqualTo("WWWWD"));
             Assert.That(strArr[3], Is.EqualTo("-TT"));
+
+            byte[] newDst = new byte[2000];
+            writeOffset = 0;
+            readOffset = 0;
+            BufferWriter.WriteMessage(newDst, new HerModel() { value = 1 }, ref writeOffset);
+            HerModel herModel = BufferReader.ReadMessage(newDst, () => new HerModel(), ref readOffset);
+            Assert.That(writeOffset, Is.EqualTo(readOffset));
+            Assert.That(herModel.value, Is.EqualTo(1));
+            Assert.Pass(newDst.ToFullString());
 
         }
 
