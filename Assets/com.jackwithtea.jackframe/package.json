@@ -1,7 +1,7 @@
 {
     "name": "com.jackwithtea.jackframe",
     "displayName": "JackFrame",
-    "version": "1.2.0",
+    "version": "v1.2.0-alpha",
     "unity": "2019.4",
     "unityRelease": "16f1",
     "documentationUrl": "https://github.com/chenwansal/JackFrame",
