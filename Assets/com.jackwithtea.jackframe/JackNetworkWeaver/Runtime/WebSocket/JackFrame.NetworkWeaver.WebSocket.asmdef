@@ -1,0 +1,16 @@
+{
+    "name": "JackFrame.NetworkWeaver.WebSocket",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1bc120e0b655cfd42be3241e118df8a8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
