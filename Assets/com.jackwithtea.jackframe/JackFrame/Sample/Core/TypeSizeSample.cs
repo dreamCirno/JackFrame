@@ -5,7 +5,7 @@ namespace JackFrame.Sample {
 
     public static class TypeSizeSample {
 
-#if JACKWITHTEA
+#if JACK_FRAME_DEV
         [UnityEditor.MenuItem("JackFrame/Sample/TypeSizeSample")]
 #endif
         public static void Run() {

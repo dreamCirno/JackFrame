@@ -4,7 +4,7 @@ using JackBuffer;
 namespace JackBuffer.Editor {
 
     public class JackBufferGeneratorSampleTool {
-#if JACKWITHTEA
+#if JACK_FRAME_DEV
         [UnityEditor.MenuItem("JackFrame/Sample/JackBuffer/Gen")]
 #endif
         public static void Gen() {
