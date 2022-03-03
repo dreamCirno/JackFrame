@@ -26,7 +26,7 @@
         "email": "chenwansal1@163.com",
         "url": "https://github.com/chenwansal/JackFrame"
     },
-    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#1.1.0",
+    "description": "网络通信 / 文件读取工具 / CSV 读表工具 / AST 工具 / UI框架 / C# 标准库扩展 / UnityEngine 标准库扩展 / UnityEditor 脏脚本编译......",
     "samples":[
         {
             "displayName": "JackBuffer Sample",
