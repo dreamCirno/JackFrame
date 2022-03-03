@@ -40,7 +40,7 @@ namespace JackFrame.Network {
             server.StopListen();
         }
 
-        public void Send<T>(byte serviceId, byte messageId, int connId, IJackMessage<T> msg) {
+        public void Send<T>(byte serviceId, byte messageId, int connId, T msg) where T : IJackMessage<T> {
             byte[] data = msg.ToBytes();
             byte[] dst = new byte[data.Length + 2];
             int offset = 0;
@@ -52,7 +52,7 @@ namespace JackFrame.Network {
             server.Send(connId, dst);
         }
 
-        public void On<T>(byte serviceId, byte messageId, Func<IJackMessage<T>> generateHandle, Action<int, IJackMessage<T>> handle) {
+        public void On<T>(byte serviceId, byte messageId, Func<T> generateHandle, Action<int, T> handle) where T : IJackMessage<T> {
 
             if (generateHandle == null) {
                 PLog.ForceError("未注册: " + nameof(generateHandle));
@@ -66,7 +66,7 @@ namespace JackFrame.Network {
                 return;
             } else {
                 dic.Add(key, (connId, byteData) => {
-                    var msg = generateHandle.Invoke();
+                    T msg = generateHandle.Invoke();
                     int offset = 2;
                     msg.FromBytes(byteData.Array, ref offset);
                     handle.Invoke(connId, msg);

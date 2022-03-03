@@ -42,7 +42,7 @@ namespace JackFrame.Network {
             client.Disconnect();
         }
 
-        public void Send<T>(byte serviceId, byte messageId, IJackMessage<T> msg) {
+        public void Send<T>(byte serviceId, byte messageId, T msg) where T : IJackMessage<T> {
             byte[] buffer = msg.ToBytes();
             byte[] dst = new byte[buffer.Length + 2];
             int offset = 0;
@@ -54,7 +54,7 @@ namespace JackFrame.Network {
             client.Send(dst);
         }
 
-        public void On<T>(byte serviceId, byte messageId, Func<IJackMessage<T>> generateHandle, Action<IJackMessage<T>> handle) {
+        public void On<T>(byte serviceId, byte messageId, Func<T> generateHandle, Action<T> handle) where T : IJackMessage<T> {
             
             if (generateHandle == null) {
                 PLog.ForceWarning($"未注册: " + nameof(generateHandle));
@@ -69,7 +69,7 @@ namespace JackFrame.Network {
                 return;
             } else {
                 dic.Add(key, (byteData) => {
-                    IJackMessage<T> msg = generateHandle.Invoke();
+                    T msg = generateHandle.Invoke();
                     int offset = 2;
                     msg.FromBytes(byteData.Array, ref offset);
                     handle.Invoke(msg);

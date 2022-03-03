@@ -580,7 +580,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Standalone: JACKWITHTEA
+    Standalone: JACK_FRAME_DEV
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

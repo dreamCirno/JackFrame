@@ -1,7 +1,7 @@
 using System;
 using JackBuffer;
 
-namespace JackBuffer.Sample
+namespace JackFrame.Network.Sample
 {
     [JackMessageObject]
     public struct MyModel : IJackMessage<MyModel>
