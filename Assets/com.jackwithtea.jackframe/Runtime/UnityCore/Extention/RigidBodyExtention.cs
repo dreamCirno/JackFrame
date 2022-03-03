@@ -37,20 +37,20 @@ namespace JackFrame {
         }
 
         // Topdown角色移动
-        public static void MoveInTopDown(this Rigidbody r, Vector2 moveAxis, float moveSpeed, Transform cameraForwardTrans, Transform playerRootTrans) {
+        public static void MoveInTopDown(this Rigidbody r, Vector2 moveAxis, float moveSpeed, Transform playerRootTrans, Transform playerBodyTrans) {
 
             // Move
-            Vector3 verticalMove = cameraForwardTrans.forward * moveAxis.y;
-            Vector3 horizontalMove = cameraForwardTrans.right * moveAxis.x;
+            Vector3 verticalMove = playerRootTrans.forward * moveAxis.y;
+            Vector3 horizontalMove = playerRootTrans.right * moveAxis.x;
 
             Vector3 moveDir = verticalMove + horizontalMove;
-            moveDir.Normalize();
+            // moveDir.Normalize();
             moveDir.y = 0;
 
             float verticalVelocity = r.velocity.y;
             r.velocity = moveDir * moveSpeed;
             r.velocity = new Vector3(r.velocity.x, verticalVelocity, r.velocity.z);
-            playerRootTrans.LookAt(playerRootTrans.position + moveDir * 10f);
+            playerBodyTrans.LookAt(playerBodyTrans.position + moveDir);
 
         }
 

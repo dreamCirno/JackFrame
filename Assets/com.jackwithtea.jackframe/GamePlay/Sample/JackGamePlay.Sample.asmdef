@@ -1,0 +1,16 @@
+{
+    "name": "JackGamePlay.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:58e264fe813792749945ea92454bbf7d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
