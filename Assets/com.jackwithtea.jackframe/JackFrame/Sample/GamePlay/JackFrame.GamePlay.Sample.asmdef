@@ -1,8 +1,8 @@
 {
-    "name": "JackGamePlay.Runtime",
+    "name": "JackFrame.GamePlay.Sample",
     "rootNamespace": "",
     "references": [
-        "GUID:698de13ac41894b4faa41653eef13f2b"
+        "GUID:58e264fe813792749945ea92454bbf7d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
