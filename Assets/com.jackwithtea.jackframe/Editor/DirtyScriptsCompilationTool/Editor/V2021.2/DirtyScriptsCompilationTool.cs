@@ -39,7 +39,7 @@ namespace JackFrame.EditorTool {
             }
         }
 
-        [MenuItem(MENU_CONTEXT_NAME.L1_TOOL + nameof(DirtyScriptsCompilationTool) + "/Compile " + SHORTCUT_KEY)]
+        [MenuItem(MENU_CONTEXT_NAME.L1_TOOL + "/" + nameof(DirtyScriptsCompilationTool) + "/Compile " + SHORTCUT_KEY)]
         public static void Compile() {
 
             sw = new System.Diagnostics.Stopwatch();

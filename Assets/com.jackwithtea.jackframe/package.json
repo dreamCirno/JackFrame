@@ -13,6 +13,10 @@
         "com.unity.ide.vscode": "1.2.3^",
         "com.unity.nuget.newtonsoft-json": "2.0.0"
     },
+    "repository": {
+        "url": "https://github.com/chenwansal/JackFrame",
+        "type": "git"
+    },
     "keywords": [
         "jackframe"
     ],
@@ -21,5 +25,12 @@
         "email": "chenwansal1@163.com",
         "url": "https://github.com/chenwansal/JackFrame"
     },
-    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#1.1.0"
+    "description": "upm url:\r\nssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#1.1.0",
+    "samples":[
+        {
+            "displayName": "JackBuffer Sample",
+            "description": "How To Gen Model",
+            "path": "Samples"
+        }
+    ]
 }
