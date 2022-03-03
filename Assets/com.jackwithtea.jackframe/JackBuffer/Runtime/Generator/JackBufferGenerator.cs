@@ -249,51 +249,61 @@ namespace JackBuffer.Editor {
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + ";");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "sbyte[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + ";");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "short[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 2;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "ushort[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 2;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "int[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 4;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "uint[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 4;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "long[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 8;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "ulong[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 8;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "float[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 4;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
                     case "double[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 8;");
                         dealCertainLine.AppendLine("}");
+                        certainCount += 2;
                         break;
 
                     case "string":
@@ -301,6 +311,7 @@ namespace JackBuffer.Editor {
                         evaluatedStringLine.AppendLine($"if ({fieldName} != null) " + "{");
                         evaluatedStringLine.AppendLine(COUNT_VAR + " += " + fieldName + ".Length * 4;");
                         evaluatedStringLine.AppendLine("}");
+                        certainCount += 2;
                         break;
 
                     case "string[]":
@@ -309,6 +320,7 @@ namespace JackBuffer.Editor {
                         string str = $"for (int i = 0; i < {fieldName}.Length; i += 1)" + "{" + $"{COUNT_VAR} += {fieldName}[i].Length * 4;" + "}";
                         evaluatedStringLine.AppendLine(str);
                         evaluatedStringLine.AppendLine("}");
+                        certainCount += 2;
                         break;
 
                     default:
@@ -331,6 +343,7 @@ namespace JackBuffer.Editor {
                                             + "}"
                                         + "}";
                                 evaluatedObjectLine.AppendLine(s);
+                                certainCount += 2;
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }
@@ -341,6 +354,7 @@ namespace JackBuffer.Editor {
                                 evaluatedObjectLine.AppendLine($"if ({fieldName} != null) " + "{");
                                 evaluatedObjectLine.AppendLine(s);
                                 evaluatedObjectLine.AppendLine("}");
+                                certainCount += 2;
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }

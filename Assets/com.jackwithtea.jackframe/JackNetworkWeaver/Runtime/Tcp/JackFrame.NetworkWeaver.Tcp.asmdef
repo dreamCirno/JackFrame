@@ -1,0 +1,18 @@
+{
+    "name": "JackFrame.NetworkWeaver.Tcp",
+    "rootNamespace": "",
+    "references": [
+        "GUID:698de13ac41894b4faa41653eef13f2b",
+        "GUID:72e53efc3db839d40ab26cd2f7fe819d",
+        "GUID:6ba71ab539627b94393871bc8d303b48"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

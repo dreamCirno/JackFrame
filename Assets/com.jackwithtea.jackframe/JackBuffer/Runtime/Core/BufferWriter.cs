@@ -81,7 +81,6 @@ namespace JackBuffer {
             }
         }
 
-        static byte[] temp = new byte[4096];
         public static void WriteUTF8StringArr(byte[] dst, string[] data, ref int offset) {
             if (data != null) {
                 ushort count = (ushort)data.Length;
