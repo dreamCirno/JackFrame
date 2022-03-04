@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using JackFrame;
 
 namespace JackFrame.Network.Sample {
 
@@ -12,14 +13,49 @@ namespace JackFrame.Network.Sample {
 
         void Awake() {
 
+            // ==== 创建服务端 ====
+            // ==== 创建服务端 ====
+            // ==== 创建服务端 ====
             server = new TcpServer();
             server.StartListen(PORT);
 
+            // 服务端: 监听连接事件
+            server.OnConnectedHandle += (int connID) => {
+
+            };
+
+            // 服务端: 监听断开连接事件
+            server.OnDisconnectedHandle += (int connID) => {
+
+            };
+
+            // 服务端: 监听消息
+            server.On(1, 1, () => new MyModel(), (connId, msg) => {
+                PLog.ForceLog("SERVER RECV: " + msg.intValue);
+
+                // 发送消息给客户端
+                server.Send(1, 2, connId, new HerModel());
+            });
+
+            // ==== 创建客户端 ====
+            // ==== 创建客户端 ====
+            // ==== 创建客户端 ====
             client = new TcpClient();
             client.Connect("127.0.0.1", PORT);
 
-            server.On(1, 1, () => new MyModel(), (connId, msg) => {
-                PLog.ForceLog("SERVER RECV: " + msg.intValue);
+            // 客户端: 监听连接事件
+            client.OnConnectedHandle += () => {
+
+            };
+
+            // 客户端: 监听断开连接事件
+            client.OnDisconnectedHandle += () => {
+
+            };
+
+            // 客户端: 监听消息
+            client.On(1, 2, () => new HerModel(), (msg) => {
+
             });
 
         }
@@ -30,14 +66,17 @@ namespace JackFrame.Network.Sample {
 
         void Update() {
 
+            // 服务端 Tick
             server.Tick();
 
+            // 客户端 Tick
             if (client.IsConnected()) {
                 client.Tick();
             }
 
         }
 
+        // 模拟用户输入
         IEnumerator FakeInputIE() {
             WaitForSeconds seconds = new WaitForSeconds(1f);
             while (enabled) {
