@@ -20,6 +20,10 @@ namespace JackBuffer.Tests {
             ushort bb = (ushort)(aa << 0);
             Assert.That(bb, Is.EqualTo(8));
 
+            BufferWriter.WriteBool(dst, true, ref writeOffset);
+            bool boolValue = BufferReader.ReadBool(dst, ref readOffset);
+            Assert.That(boolValue, Is.EqualTo(true));
+
             BufferWriter.WriteChar(dst, 'c', ref writeOffset);
             char charValue = BufferReader.ReadChar(dst, ref readOffset);
             Assert.That(charValue, Is.EqualTo('c'));
@@ -76,6 +80,14 @@ namespace JackBuffer.Tests {
             Assert.That(sbyteArr[0], Is.EqualTo(-1));
             Assert.That(sbyteArr[1], Is.EqualTo(-2));
             Assert.That(sbyteArr[2], Is.EqualTo(-3));
+
+            BufferWriter.WriteBoolArr(dst, new bool[5] { false, true, true, true, false }, ref writeOffset);
+            bool[] boolArr = BufferReader.ReadBoolArr(dst, ref readOffset);
+            Assert.That(boolArr[0], Is.EqualTo(false));
+            Assert.That(boolArr[1], Is.EqualTo(true));
+            Assert.That(boolArr[2], Is.EqualTo(true));
+            Assert.That(boolArr[3], Is.EqualTo(true));
+            Assert.That(boolArr[4], Is.EqualTo(false));
 
             BufferWriter.WriteUint8Arr(dst, new byte[4] { 3, 5, 6, 111 }, ref writeOffset);
             byte[] byteArr = BufferReader.ReadUInt8Arr(dst, ref readOffset);
@@ -164,7 +176,6 @@ namespace JackBuffer.Tests {
             HerModel herModel = BufferReader.ReadMessage(newDst, () => new HerModel(), ref readOffset);
             Assert.That(writeOffset, Is.EqualTo(readOffset));
             Assert.That(herModel.value, Is.EqualTo(1));
-            Assert.Pass(newDst.ToFullString());
 
         }
 

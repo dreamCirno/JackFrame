@@ -6,6 +6,10 @@ namespace JackBuffer {
 
     public static class BufferReader {
 
+        public static bool ReadBool(byte[] src, ref int offset) {
+            return ReadUInt8(src, ref offset) == 1;
+        }
+
         public static sbyte ReadInt8(byte[] src, ref int offset) {
             return (sbyte)ReadUInt8(src, ref offset);
         }
@@ -73,6 +77,14 @@ namespace JackBuffer {
             DoubleContent content = new DoubleContent();
             content.ulongValue = data;
             return content.doubleValue;
+        }
+
+        public static bool[] ReadBoolArr(byte[] src, ref int offset) {
+            ushort count = ReadUInt16(src, ref offset);
+            bool[] data = new bool[count];
+            Buffer.BlockCopy(src, offset, data, 0, count);
+            offset += count;
+            return data;
         }
 
         public static byte[] ReadUInt8Arr(byte[] src, ref int offset) {

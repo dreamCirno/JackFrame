@@ -8,6 +8,11 @@ namespace JackBuffer {
 
     public static class BufferWriter {
 
+        public static void WriteBool(byte[] dst, bool data, ref int offset) {
+            byte b = data ? (byte)1 : (byte)0;
+            WriteUInt8(dst, b, ref offset);
+        }
+
         public static void WriteInt8(byte[] dst, sbyte data, ref int offset) {
             WriteUInt8(dst, (byte)data, ref offset);
         }
@@ -88,6 +93,17 @@ namespace JackBuffer {
                 for (int i = 0; i < data.Length; i += 1) {
                     WriteUTF8String(dst, data[i], ref offset);
                 }
+            } else {
+                WriteUInt16(dst, 0, ref offset);
+            }
+        }
+
+        public static void WriteBoolArr(byte[] dst, bool[] data, ref int offset) {
+            if (data != null) {
+                ushort count = (ushort)data.Length;
+                WriteUInt16(dst, count, ref offset);
+                Buffer.BlockCopy(data, 0, dst, offset, count);
+                offset += count;
             } else {
                 WriteUInt16(dst, 0, ref offset);
             }
