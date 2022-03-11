@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using JackFrame;
 
 namespace JackBuffer {
 
@@ -222,6 +223,34 @@ namespace JackBuffer {
                 }
             }
             return arr as T[];
+        }
+
+        public static ulong ReadVarint(byte[] src, ref int offset) {
+            ulong data = 0;
+            byte b = 0;
+            for (int i = 0, j = 0; ; i += 1, j += 7) {
+                b = src[offset++];
+                if ((b & 0x80) != 0) {
+                    data |= (ulong)(b & 0x7F) << j;
+                } else {
+                    data |= (ulong)b << j;
+                    break;
+                }
+                if (i >= 9 && b > 0) {
+                    throw new Exception("overflow");
+                }
+            }
+            return data;
+        }
+
+        public static int ReadVarintWithZigZag(byte[] src, ref int offset) {
+            uint udata = (uint)ReadVarint(src, ref offset);
+            int data = ReadZigZag(udata);
+            return data;
+        }
+
+        static int ReadZigZag(uint value) {
+            return (int)((value >> 1) ^ -(value & 1));
         }
 
     }

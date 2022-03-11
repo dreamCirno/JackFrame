@@ -3,6 +3,7 @@ using System.IO;
 using System.Buffers;
 using System.Text;
 using System.Runtime.InteropServices;
+using JackFrame;
 
 namespace JackBuffer {
 
@@ -249,6 +250,23 @@ namespace JackBuffer {
             } else {
                 WriteUInt16(dst, 0, ref offset);
             }
+        }
+
+        public static void WriteVarint(byte[] dst, ulong data, ref int offset) {
+            while(data >= 0x80) {
+                dst[offset++] = (byte)(data | 0x80);
+                data >>= 7;
+            }
+            dst[offset++] = (byte)data;
+        }
+
+        public static void WriteVarintWithZigZag(byte[] dst, int data, ref int offset) {
+            uint udata = WriteZigZag(data);
+            WriteVarint(dst, udata, ref offset);
+        }
+
+        static uint WriteZigZag(int value) {
+            return (uint)((value << 1) ^ (value >> 31));
         }
 
     }
