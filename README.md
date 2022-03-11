@@ -17,18 +17,24 @@
 功能: 二进制序列化协议, 自动生成代码, C# 友好(不像某歌buf对C#不友好)
 ```
 
+# LICENSE
+[LICENSE](./Assets/com.jackwithtea.jackframe/LICENSE.md)
+
+# CHANGELOG
+[CHANGELOG](./Assets/com.jackwithtea.jackframe/CHANGELOG.md)
+
 # 环境
 支持Unity 2019.4.x ~ 2021.2.x
 
 # Unity PackageManager(UPM) 使用方式
 #### 第一步:  
 打开 Unity PackageManager, 并点击"Add package from git URL"  
-![JackFrame图](https://github.com/chenwansal/JackFrame/blob/master/Assets/com.jackwithtea.jackframe/Document~/1.png)  
+![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/1.png)  
 
 #### 第二步:  
 复制以下url, 然后点Add, UPM就会自动加载了  
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master
-![JackFrame图](https://github.com/chenwansal/JackFrame/blob/master/Assets/com.jackwithtea.jackframe/Document~/2.png)  
+![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/2.png)  
 
 #### 注
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master  
