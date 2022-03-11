@@ -33,3 +33,6 @@ ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackf
 #### 注
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#master  
 \#master 可改为 #1.1.0, 即可加载对应的版本
+
+# 依赖关系 / Dependancies
+![依赖关系图](./Assets/com.jackwithtea.jackframe/Document~/Dependancies.png)
