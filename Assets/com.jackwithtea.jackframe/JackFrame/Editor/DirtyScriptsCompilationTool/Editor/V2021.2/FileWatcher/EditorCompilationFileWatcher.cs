@@ -46,6 +46,9 @@ namespace JackFrame.EditorTool {
 
                 // 替代实现方案
                 string path = FindFileWithExt(watcher.Path, e.Name.Replace(".cs", ""), "*.cs");
+                if (string.IsNullOrEmpty(path)) {
+                    return;
+                }
                 int index = path.IndexOf("Assets");
                 if (index == -1) {
                     return;

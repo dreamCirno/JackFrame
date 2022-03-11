@@ -6,6 +6,7 @@ namespace JackBuffer.Sample
     [JackMessageObject]
     public struct MyModel : IJackMessage<MyModel>
     {
+        public bool boolValue;
         public char charValue;
         public byte byteValue;
         public sbyte sbyteValue;
@@ -17,6 +18,7 @@ namespace JackBuffer.Sample
         public ulong ulongValue;
         public float floatValue;
         public double doubleValue;
+        public bool[] boolArr;
         public byte[] byteArr;
         public sbyte[] sbyteArr;
         public short[] shortArr;
@@ -34,6 +36,7 @@ namespace JackBuffer.Sample
         public string otherStr;
         public void WriteTo(byte[] dst, ref int offset)
         {
+            BufferWriter.WriteBool(dst, boolValue, ref offset);
             BufferWriter.WriteChar(dst, charValue, ref offset);
             BufferWriter.WriteUInt8(dst, byteValue, ref offset);
             BufferWriter.WriteInt8(dst, sbyteValue, ref offset);
@@ -45,6 +48,7 @@ namespace JackBuffer.Sample
             BufferWriter.WriteUInt64(dst, ulongValue, ref offset);
             BufferWriter.WriteSingle(dst, floatValue, ref offset);
             BufferWriter.WriteDouble(dst, doubleValue, ref offset);
+            BufferWriter.WriteBoolArr(dst, boolArr, ref offset);
             BufferWriter.WriteUint8Arr(dst, byteArr, ref offset);
             BufferWriter.WriteInt8Arr(dst, sbyteArr, ref offset);
             BufferWriter.WriteInt16Arr(dst, shortArr, ref offset);
@@ -64,6 +68,7 @@ namespace JackBuffer.Sample
 
         public void FromBytes(byte[] src, ref int offset)
         {
+            boolValue = BufferReader.ReadBool(src, ref offset);
             charValue = BufferReader.ReadChar(src, ref offset);
             byteValue = BufferReader.ReadUInt8(src, ref offset);
             sbyteValue = BufferReader.ReadInt8(src, ref offset);
@@ -75,6 +80,7 @@ namespace JackBuffer.Sample
             ulongValue = BufferReader.ReadUInt64(src, ref offset);
             floatValue = BufferReader.ReadSingle(src, ref offset);
             doubleValue = BufferReader.ReadDouble(src, ref offset);
+            boolArr = BufferReader.ReadBoolArr(src, ref offset);
             byteArr = BufferReader.ReadUInt8Arr(src, ref offset);
             sbyteArr = BufferReader.ReadInt8Arr(src, ref offset);
             shortArr = BufferReader.ReadInt16Arr(src, ref offset);
@@ -94,8 +100,13 @@ namespace JackBuffer.Sample
 
         public int GetEvaluatedSize(out bool isCertain)
         {
-            int count = 74;
+            int count = 77;
             isCertain = false;
+            if (boolArr != null)
+            {
+                count += boolArr.Length;
+            }
+
             if (byteArr != null)
             {
                 count += byteArr.Length;

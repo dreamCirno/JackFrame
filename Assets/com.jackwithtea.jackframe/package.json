@@ -2,6 +2,7 @@
     "name": "com.jackwithtea.jackframe",
     "displayName": "JackFrame",
     "version": "1.2.0",
+    "preview": true,
     "unity": "2019.4",
     "unityRelease": "16f1",
     "documentationUrl": "https://github.com/chenwansal/JackFrame",
@@ -11,7 +12,7 @@
     "dependencies": {
         "com.unity.cinemachine": "2.6.11",
         "com.unity.addressables": "1.16.19",
-        "com.unity.ide.vscode": "1.2.3^",
+        "com.unity.ide.vscode": "1.2.5",
         "com.unity.nuget.newtonsoft-json": "2.0.0"
     },
     "repository": {

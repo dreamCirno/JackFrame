@@ -3,10 +3,16 @@ using System.IO;
 using System.Buffers;
 using System.Text;
 using System.Runtime.InteropServices;
+using JackFrame;
 
 namespace JackBuffer {
 
     public static class BufferWriter {
+
+        public static void WriteBool(byte[] dst, bool data, ref int offset) {
+            byte b = data ? (byte)1 : (byte)0;
+            WriteUInt8(dst, b, ref offset);
+        }
 
         public static void WriteInt8(byte[] dst, sbyte data, ref int offset) {
             WriteUInt8(dst, (byte)data, ref offset);
@@ -88,6 +94,17 @@ namespace JackBuffer {
                 for (int i = 0; i < data.Length; i += 1) {
                     WriteUTF8String(dst, data[i], ref offset);
                 }
+            } else {
+                WriteUInt16(dst, 0, ref offset);
+            }
+        }
+
+        public static void WriteBoolArr(byte[] dst, bool[] data, ref int offset) {
+            if (data != null) {
+                ushort count = (ushort)data.Length;
+                WriteUInt16(dst, count, ref offset);
+                Buffer.BlockCopy(data, 0, dst, offset, count);
+                offset += count;
             } else {
                 WriteUInt16(dst, 0, ref offset);
             }
@@ -233,6 +250,23 @@ namespace JackBuffer {
             } else {
                 WriteUInt16(dst, 0, ref offset);
             }
+        }
+
+        public static void WriteVarint(byte[] dst, ulong data, ref int offset) {
+            while(data >= 0x80) {
+                dst[offset++] = (byte)(data | 0x80);
+                data >>= 7;
+            }
+            dst[offset++] = (byte)data;
+        }
+
+        public static void WriteVarintWithZigZag(byte[] dst, int data, ref int offset) {
+            uint udata = WriteZigZag(data);
+            WriteVarint(dst, udata, ref offset);
+        }
+
+        static uint WriteZigZag(int value) {
+            return (uint)((value << 1) ^ (value >> 31));
         }
 
     }

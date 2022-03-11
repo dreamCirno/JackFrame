@@ -10,15 +10,15 @@ namespace JackBuffer.Tests {
     public class JackBufferTest {
 
         [Test]
-        public void TestRun() {
+        public void TestFixed() {
 
             byte[] dst = new byte[4096];
             int writeOffset = 0;
             int readOffset = 0;
 
-            ushort aa = 8;
-            ushort bb = (ushort)(aa << 0);
-            Assert.That(bb, Is.EqualTo(8));
+            BufferWriter.WriteBool(dst, true, ref writeOffset);
+            bool boolValue = BufferReader.ReadBool(dst, ref readOffset);
+            Assert.That(boolValue, Is.EqualTo(true));
 
             BufferWriter.WriteChar(dst, 'c', ref writeOffset);
             char charValue = BufferReader.ReadChar(dst, ref readOffset);
@@ -76,6 +76,14 @@ namespace JackBuffer.Tests {
             Assert.That(sbyteArr[0], Is.EqualTo(-1));
             Assert.That(sbyteArr[1], Is.EqualTo(-2));
             Assert.That(sbyteArr[2], Is.EqualTo(-3));
+
+            BufferWriter.WriteBoolArr(dst, new bool[5] { false, true, true, true, false }, ref writeOffset);
+            bool[] boolArr = BufferReader.ReadBoolArr(dst, ref readOffset);
+            Assert.That(boolArr[0], Is.EqualTo(false));
+            Assert.That(boolArr[1], Is.EqualTo(true));
+            Assert.That(boolArr[2], Is.EqualTo(true));
+            Assert.That(boolArr[3], Is.EqualTo(true));
+            Assert.That(boolArr[4], Is.EqualTo(false));
 
             BufferWriter.WriteUint8Arr(dst, new byte[4] { 3, 5, 6, 111 }, ref writeOffset);
             byte[] byteArr = BufferReader.ReadUInt8Arr(dst, ref readOffset);
@@ -164,8 +172,64 @@ namespace JackBuffer.Tests {
             HerModel herModel = BufferReader.ReadMessage(newDst, () => new HerModel(), ref readOffset);
             Assert.That(writeOffset, Is.EqualTo(readOffset));
             Assert.That(herModel.value, Is.EqualTo(1));
-            Assert.Pass(newDst.ToFullString());
 
+        }
+
+        [Test]
+        public void TestVarint() {
+
+            byte[] dst = new byte[1024];
+            int writeOffset = 0;
+            int readOffset = 0;
+
+            sbyte[] sbyteArr = new sbyte[5] { 1, -1, -8, -125, 126 };
+            for (int i = 0; i < sbyteArr.Length; i += 1) {
+                sbyte w = sbyteArr[i];
+                BufferWriter.WriteVarint(dst, (byte)w, ref writeOffset);
+                sbyte r = (sbyte)BufferReader.ReadVarint(dst, ref readOffset);
+                Assert.That(r, Is.EqualTo(w));
+            }
+
+            byte[] byteArr = new byte[5] { 1, 100, 127, 128, 254 };
+            for (int i = 0; i < byteArr.Length; i += 1) {
+                byte w = byteArr[i];
+                BufferWriter.WriteVarint(dst, w, ref writeOffset);
+                byte r = (byte)BufferReader.ReadVarint(dst, ref readOffset);
+                Assert.That(r, Is.EqualTo(w));
+            }
+
+            int before = writeOffset;
+            ulong maxw = 1 << 28 - 1;
+            BufferWriter.WriteVarint(dst, maxw, ref writeOffset);
+            ulong maxr = BufferReader.ReadVarint(dst, ref readOffset);
+            int after = writeOffset;
+            Assert.That(maxr, Is.EqualTo(maxw));
+            Assert.That(after - before, Is.EqualTo(5));
+
+            before = writeOffset;
+            maxw = 1 << 28;
+            BufferWriter.WriteVarint(dst, maxw, ref writeOffset);
+            maxr = BufferReader.ReadVarint(dst, ref readOffset);
+            after = writeOffset;
+            Assert.That(maxr, Is.EqualTo(maxw));
+            Assert.That(after - before, Is.EqualTo(10));
+
+        }
+
+    }
+
+    public static class RandomExtention {
+
+        public static long NextLong(this System.Random rd, long a, long b) {
+            long myResult = a;
+            long max = b, min = a;
+            if (a > b) {
+                max = a;
+                min = b;
+            }
+            double Key = rd.NextDouble();
+            myResult = min + (long)((max - min) * Key);
+            return myResult;
         }
 
     }

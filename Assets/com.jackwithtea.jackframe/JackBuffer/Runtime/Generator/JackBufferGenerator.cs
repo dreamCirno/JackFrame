@@ -69,6 +69,7 @@ namespace JackBuffer.Editor {
                 string paramStr = DST_PARAM_NAME + ", " + fieldName + ", " + "ref " + OFFSET_PARAM_NAME;
                 string writeSuffix = $"({paramStr});";
                 switch (fieldType) {
+                    case "bool": return WRITER + nameof(BufferWriter.WriteBool) + writeSuffix;
                     case "char": return WRITER + nameof(BufferWriter.WriteChar) + writeSuffix;
                     case "byte": return WRITER + nameof(BufferWriter.WriteUInt8) + writeSuffix;
                     case "sbyte": return WRITER + nameof(BufferWriter.WriteInt8) + writeSuffix;
@@ -80,6 +81,7 @@ namespace JackBuffer.Editor {
                     case "ulong": return WRITER + nameof(BufferWriter.WriteUInt64) + writeSuffix;
                     case "float": return WRITER + nameof(BufferWriter.WriteSingle) + writeSuffix;
                     case "double": return WRITER + nameof(BufferWriter.WriteDouble) + writeSuffix;
+                    case "bool[]": return WRITER + nameof(BufferWriter.WriteBoolArr) + writeSuffix;
                     case "byte[]": return WRITER + nameof(BufferWriter.WriteUint8Arr) + writeSuffix;
                     case "sbyte[]": return WRITER + nameof(BufferWriter.WriteInt8Arr) + writeSuffix;
                     case "short[]": return WRITER + nameof(BufferWriter.WriteInt16Arr) + writeSuffix;
@@ -143,6 +145,7 @@ namespace JackBuffer.Editor {
                 string readPrefix = fieldName + " = " + READER;
                 string readSuffix = $"({paramStr});";
                 switch (fieldType) {
+                    case "bool": return readPrefix + nameof(BufferReader.ReadBool) + readSuffix;
                     case "char": return readPrefix + nameof(BufferReader.ReadChar) + readSuffix;
                     case "byte": return readPrefix + nameof(BufferReader.ReadUInt8) + readSuffix;
                     case "sbyte": return readPrefix + nameof(BufferReader.ReadInt8) + readSuffix;
@@ -154,6 +157,7 @@ namespace JackBuffer.Editor {
                     case "ulong": return readPrefix + nameof(BufferReader.ReadUInt64) + readSuffix;
                     case "float": return readPrefix + nameof(BufferReader.ReadSingle) + readSuffix;
                     case "double": return readPrefix + nameof(BufferReader.ReadDouble) + readSuffix;
+                    case "bool[]": return readPrefix + nameof(BufferReader.ReadBoolArr) + readSuffix;
                     case "byte[]": return readPrefix + nameof(BufferReader.ReadUInt8Arr) + readSuffix;
                     case "sbyte[]": return readPrefix + nameof(BufferReader.ReadInt8Arr) + readSuffix;
                     case "short[]": return readPrefix + nameof(BufferReader.ReadInt16Arr) + readSuffix;
@@ -233,24 +237,21 @@ namespace JackBuffer.Editor {
 
                 switch (fieldType) {
 
-                    case "char": certainCount += 2; break;
-                    case "byte": certainCount += 1; break;
+                    case "bool":
+                    case "byte":
                     case "sbyte": certainCount += 1; break;
-                    case "short": certainCount += 2; break;
+                    case "char":
+                    case "short":
                     case "ushort": certainCount += 2; break;
-                    case "int": certainCount += 4; break;
-                    case "uint": certainCount += 4; break;
-                    case "long": certainCount += 8; break;
-                    case "ulong": certainCount += 8; break;
+                    case "int":
+                    case "uint":
                     case "float": certainCount += 4; break;
+                    case "long":
+                    case "ulong":
                     case "double": certainCount += 8; break;
 
+                    case "bool[]":
                     case "byte[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + ";");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
                     case "sbyte[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + ";");
@@ -258,11 +259,6 @@ namespace JackBuffer.Editor {
                         certainCount += 2;
                         break;
                     case "short[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + " * 2;");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
                     case "ushort[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 2;");
@@ -270,35 +266,15 @@ namespace JackBuffer.Editor {
                         certainCount += 2;
                         break;
                     case "int[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + " * 4;");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
                     case "uint[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + " * 4;");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
-                    case "long[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + " * 8;");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
-                    case "ulong[]":
-                        dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
-                        dealCertainLine.AppendLine(dealStr + " * 8;");
-                        dealCertainLine.AppendLine("}");
-                        certainCount += 2;
-                        break;
                     case "float[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 4;");
                         dealCertainLine.AppendLine("}");
                         certainCount += 2;
                         break;
+                    case "long[]":
+                    case "ulong[]":
                     case "double[]":
                         dealCertainLine.AppendLine($"if ({fieldName} != null) " + "{");
                         dealCertainLine.AppendLine(dealStr + " * 8;");
