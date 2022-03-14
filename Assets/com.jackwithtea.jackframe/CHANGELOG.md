@@ -4,11 +4,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Develop]
+## [1.2.3] - 2022-03-14
+### Fixed
+- 依赖NewtonSoft.Json的方式改为从UPM依赖
 ## [1.2.2] - 2022-03-14
 ### Added
 - 版本发布工具
-## [1.2.2] - 2022-03-14
-### Added
+
 - 版本发布工具
 ## [1.2.1] - 2022-03-11
 ### Changed
