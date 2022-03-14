@@ -1,38 +1,28 @@
 {
-    "name": "com.jackwithtea.jackframe",
-    "displayName": "JackFrame",
-    "version": "1.2.1",
-    "preview": true,
-    "unity": "2019.4",
-    "unityRelease": "16f1",
-    "documentationUrl": "https://github.com/chenwansal/JackFrame",
-    "changelogUrl": "https://github.com/chenwansal/JackFrame/CHANGELOG.md",
-    "licensesUrl": "https://github.com/chenwansal/JackFrame/LICENSE.md",
-    "readme": "https://github.com/chenwansal/JackFrame/README.md",
-    "dependencies": {
-        "com.unity.cinemachine": "2.6.11",
-        "com.unity.addressables": "1.16.19",
-        "com.unity.ide.vscode": "1.2.5",
-        "com.unity.nuget.newtonsoft-json": "2.0.0"
-    },
-    "repository": {
-        "url": "https://github.com/chenwansal/JackFrame",
-        "type": "git"
-    },
-    "keywords": [
-        "jackframe"
-    ],
-    "author": {
-        "name": "杰克有茶",
-        "email": "chenwansal1@163.com",
-        "url": "https://github.com/chenwansal/JackFrame"
-    },
-    "description": "网络通信 / 文件读取工具 / CSV 读表工具 / AST 工具 / UI框架 / C# 标准库扩展 / UnityEngine 标准库扩展 / UnityEditor 脏脚本编译......",
-    "samples":[
-        {
-            "displayName": "JackBuffer Sample",
-            "description": "How To Gen Model",
-            "path": "Samples"
-        }
-    ]
+  "name": "com.jackwithtea.jackframe",
+  "version": "1.2.2",
+  "description": "网络通信 / 文件读取工具 / CSV 读表工具 / AST 工具 / UI框架 / C# 标准库扩展 / UnityEngine 标准库扩展 / UnityEditor 脏脚本编译......",
+  "displayName": "JackFrame",
+  "unity": "2019.4",
+  "author": {
+    "name": "杰克有茶",
+    "email": "chenwansal1@163.com",
+    "url": "https://github.com/chenwansal/JackFrame"
+  },
+  "changelogUrl": "https://github.com/chenwansal/JackFrame/CHANGELOG.md",
+  "dependencies": {
+    "com.unity.cinemachine": "2.6.11",
+    "com.unity.addressables": "1.16.19",
+    "com.unity.ide.vscode": "1.2.5",
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  },
+  "documentationUrl": "https://github.com/chenwansal/JackFrame",
+  "hideInEditor": false,
+  "keywords": [
+    "jackframe"
+  ],
+  "license": "",
+  "licensesUrl": "https://github.com/chenwansal/JackFrame/LICENSE.md",
+  "samples": [],
+  "unityRelease": "16f1"
 }

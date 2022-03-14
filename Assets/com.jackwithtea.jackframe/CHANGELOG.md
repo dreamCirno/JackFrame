@@ -1,16 +1,20 @@
 # Changelog
-All notable changes to this project will be documented in this file.
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
 
-## [1.2.1a] - 2022-03-11
+## [Develop]
+## [1.2.2] - 2022-03-14
+### Added
+- 版本发布工具
+## [1.2.2] - 2022-03-14
+### Added
+- 版本发布工具
+## [1.2.1] - 2022-03-11
 ### Changed
 - JackBuffer: 支持 Varint 与 ZigZag
 
-## [1.2.0a] - 2022-03-03
+## [1.2.0] - 2022-03-03
 ### Added
 - NetworkWeaver.TCP: 网络通信集成
 
@@ -24,15 +28,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JackFrame: C#标准库扩展 / C#标准类 / Unity标准库扩展 / Unity UI框架
 - JackEditorTool: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具
 
-<!-- CHANGELOG SAMPLE
-## [0.0.0] - 1900-01-01
-### Added
-### Changed
-### Fixed
-### Removed
--->
-
-[Unreleased]: https://github.com/chenwansal/JackFrame
-[1.2.0-alpha]: https://github.com/chenwansal/JackFrame/tree/v1.2.0-alpha
-[1.1.0]: https://github.com/chenwansal/JackFrame/tree/1.1.0
-[1.0.1]: https://github.com/chenwansal/JackFrame/tree/1.0.1
+- [Develop]: https://github.com/chenwansal/JackFrame

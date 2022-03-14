@@ -119,7 +119,7 @@ namespace JackFrame {
         }
 
         public static MatchCollection GetMatchesLettersBetweenTwoChar(this string str, string startChar, string endChar) {
-            Regex reg = new Regex(@"[" + startChar + "]+[a-zA-Z]+[" + endChar + "]");
+            Regex reg = new Regex(@"[" + startChar + "]+[a-zA-Z0-9.]+[" + endChar + "]");
             return reg.Matches(str);
         }
 

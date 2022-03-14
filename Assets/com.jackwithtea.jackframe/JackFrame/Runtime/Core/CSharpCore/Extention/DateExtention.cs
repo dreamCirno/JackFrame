@@ -44,5 +44,9 @@ namespace JackFrame {
             return a;
         }
 
+        public static string ToYYYYMMDD(this DateTime t, char splitChar = '-') {
+            return t.Year.ToString() + splitChar + t.Month.ToString().PadLeft(2, '0') + splitChar + t.Day.ToString().PadLeft(2, '0');
+        }
+
     }
 }
