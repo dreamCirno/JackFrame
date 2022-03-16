@@ -252,21 +252,30 @@ namespace JackBuffer {
             }
         }
 
+        // ==== VARINT ====
         public static void WriteVarint(byte[] dst, ulong data, ref int offset) {
-            while(data >= 0x80) {
+            while (data >= 0x80) {
                 dst[offset++] = (byte)(data | 0x80);
                 data >>= 7;
             }
             dst[offset++] = (byte)data;
         }
 
-        public static void WriteVarintWithZigZag(byte[] dst, int data, ref int offset) {
-            uint udata = WriteZigZag(data);
+        public static void WriteVarintWithZigZag(byte[] dst, long data, ref int offset) {
+            ulong udata = WriteZigZag(data);
             WriteVarint(dst, udata, ref offset);
         }
 
-        static uint WriteZigZag(int value) {
-            return (uint)((value << 1) ^ (value >> 31));
+        static ulong WriteZigZag(long value) {
+            bool isNegative = value < 0;
+            ulong uv = (ulong)value;
+            unchecked {
+                if (isNegative) {
+                    return ((~uv + 1ul) << 1) + 1ul;
+                } else {
+                    return uv << 1;
+                }
+            }
         }
 
     }

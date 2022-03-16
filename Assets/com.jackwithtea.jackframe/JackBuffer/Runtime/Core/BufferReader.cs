@@ -225,6 +225,7 @@ namespace JackBuffer {
             return arr as T[];
         }
 
+        // ==== VARINT ====
         public static ulong ReadVarint(byte[] src, ref int offset) {
             ulong data = 0;
             byte b = 0;
@@ -243,14 +244,21 @@ namespace JackBuffer {
             return data;
         }
 
-        public static int ReadVarintWithZigZag(byte[] src, ref int offset) {
-            uint udata = (uint)ReadVarint(src, ref offset);
-            int data = ReadZigZag(udata);
+        public static ulong ReadVarintWithZigZag(byte[] src, ref int offset) {
+            ulong udata = (ulong)ReadVarint(src, ref offset);
+            ulong data = ReadZigZag(udata);
             return data;
         }
 
-        static int ReadZigZag(uint value) {
-            return (int)((value >> 1) ^ -(value & 1));
+        static ulong ReadZigZag(ulong value) {
+            bool isNegative = value % 2 != 0;
+            unchecked {
+                if (isNegative) {
+                    return (~(value >> 1) + 1ul) | 0x8000_0000_0000_0000ul;
+                } else {
+                    return value >> 1;
+                }
+            }
         }
 
     }
