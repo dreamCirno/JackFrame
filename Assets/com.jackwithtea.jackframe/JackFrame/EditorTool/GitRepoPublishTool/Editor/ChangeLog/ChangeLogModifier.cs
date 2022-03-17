@@ -58,7 +58,7 @@ namespace JackFrame.EditorTool {
                     isUseOldVersion = true;
                 } else {
                     isUseOldVersion = false;
-                    editingVersion = new VersionContainer(semanticVersion, ToFullVersionFormat(semanticVersion));
+                    editingVersion = new VersionContainer(semanticVersion, ToFullVersionFormat(semanticVersion), true);
                 }
             }
 
@@ -74,7 +74,7 @@ namespace JackFrame.EditorTool {
         }
 
         public void EndEdit() {
-            if (!isUseOldVersion) {
+            if (isUseOldVersion) {
                 return;
             }
             int lastVersionIndex = FindLastVersionIndex();
@@ -88,7 +88,7 @@ namespace JackFrame.EditorTool {
         VersionContainer GetOrAddVersion(string semanticVersion, string fullVersionLine) {
             int index = versionList.FindIndex(value => value.semanticVersion == semanticVersion);
             if (index == -1) {
-                var versionContainer = new VersionContainer(semanticVersion, fullVersionLine);
+                var versionContainer = new VersionContainer(semanticVersion, fullVersionLine, false);
                 versionList.Add(versionContainer);
                 return versionContainer;
             } else {
@@ -117,10 +117,22 @@ namespace JackFrame.EditorTool {
             versionList.ForEach(value => {
                 sb.AppendLine(value.fullVersion);
                 value.elementList.ForEach(ele => {
+                    if (!ele.HasContent()) {
+                        return;
+                    }
                     string tag = $"### {ele.tag}";
-                    sb.Append(tag);
-                    sb.Append(ele.content);
+                    sb.AppendLine(tag);
+                    ele.ForEach(content => {
+                        if (value.isNewVersion) {
+                            sb.AppendLine("- " + content + "  ");
+                        } else {
+                            sb.AppendLine(content);
+                        }
+                    });
                 });
+                if (value.isNewVersion) {
+                    sb.AppendLine();
+                }
             });
             return sb.ToString();
         }
@@ -130,10 +142,12 @@ namespace JackFrame.EditorTool {
             public string semanticVersion;
             public string fullVersion;
             public List<VersionElement> elementList;
+            public bool isNewVersion;
 
-            public VersionContainer(string semanticVersion, string srcLine) {
+            public VersionContainer(string semanticVersion, string srcLine, bool isNewVersion) {
                 this.semanticVersion = semanticVersion;
                 this.fullVersion = srcLine;
+                this.isNewVersion = isNewVersion;
                 this.elementList = new List<VersionElement>();
             }
 
@@ -149,10 +163,7 @@ namespace JackFrame.EditorTool {
 
             public VersionElement AddElement(string tag, string content) {
                 VersionElement ele = GetOrAddElementTag(tag);
-                if (!string.IsNullOrEmpty(content) && !content.StartsWith("- ")) {
-                    content = "- " + content;
-                }
-                ele.content += content + "\r\n";
+                ele.AddContent(content);
                 return ele;
             }
 
@@ -161,7 +172,23 @@ namespace JackFrame.EditorTool {
         class VersionElement {
 
             public string tag;
-            public string content;
+            List<string> contentList;
+
+            public VersionElement() {
+                this.contentList = new List<string>();
+            }
+
+            public void AddContent(string content) {
+                this.contentList.Add(content);
+            }
+
+            public bool HasContent() {
+                return contentList.Count > 0 && contentList[0].TrimEnd() != "";
+            }
+
+            public void ForEach(Action<string> action) {
+                contentList.ForEach(action);
+            }
 
         }
 
