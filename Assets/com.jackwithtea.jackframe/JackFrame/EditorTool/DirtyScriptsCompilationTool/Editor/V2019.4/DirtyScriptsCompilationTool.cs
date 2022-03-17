@@ -1,3 +1,4 @@
+#if JACK_FRAME_DEV
 #if UNITY_EDITOR
 #if UNITY_2019_4
 using System;
@@ -156,5 +157,6 @@ namespace JackFrame.EditorTool {
     }
 
 }
+#endif
 #endif
 #endif

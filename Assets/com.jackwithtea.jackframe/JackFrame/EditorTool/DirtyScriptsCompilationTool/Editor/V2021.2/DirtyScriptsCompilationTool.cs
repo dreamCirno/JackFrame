@@ -1,3 +1,4 @@
+#if JACK_FRAME_DEV
 #if UNITY_EDITOR
 #if UNITY_2021_2
 using System;
@@ -22,7 +23,7 @@ namespace JackFrame.EditorTool {
 
         static List<string> dirtyFiles;
 
-        [InitializeOnLoadMethod]
+        // [InitializeOnLoadMethod]
         static void Setup() {
 
             dirtyFiles = new List<string>();
@@ -140,5 +141,6 @@ namespace JackFrame.EditorTool {
 
 }
 
+#endif
 #endif
 #endif
