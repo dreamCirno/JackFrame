@@ -118,7 +118,7 @@ namespace JackFrame.EditorTool {
             string filePath;
             // SAVE VERSION
             //      COVER VERSION
-            filePath = Path.Combine(dir, config.versionFilePath);
+            filePath = Path.Combine(dir, config.versionFilePath.TrimStart('/'));
             if (!File.Exists(filePath)) {
                 EditorUtility.DisplayDialog("错误", $"文件不存在: {filePath}\r\n{NOTICE}", "确认");
                 return;
@@ -128,7 +128,7 @@ namespace JackFrame.EditorTool {
             // class PackageInfo
             // SAVE PACKAGEJSON:
             //      VERSION
-            filePath = Path.Combine(dir, config.packageJsonFilePath);
+            filePath = Path.Combine(dir, config.packageJsonFilePath.TrimStart('/'));
             if (!File.Exists(filePath)) {
                 EditorUtility.DisplayDialog("错误", $"文件不存在: {filePath}\r\n{NOTICE}", "确认");
                 return;
@@ -142,7 +142,7 @@ namespace JackFrame.EditorTool {
             // SAVE CHANGELOG:
             //      VERSION
             //      ADDED/CHANGED/REMOVED/FIXED/OTHER
-            filePath = Path.Combine(dir, config.changeLogFilePath);
+            filePath = Path.Combine(dir, config.changeLogFilePath.TrimStart('/'));
             if (!File.Exists(filePath)) {
                 EditorUtility.DisplayDialog("错误", $"文件不存在: {filePath}\r\n{NOTICE}", "确认");
                 return;
@@ -163,7 +163,7 @@ namespace JackFrame.EditorTool {
 
         string ReadCurrentVersion(GitRepoConfigModel configModel) {
             string dir = Application.dataPath;
-            var filePath = Path.Combine(dir, configModel.versionFilePath);
+            var filePath = Path.Combine(dir, configModel.versionFilePath.TrimStart('/'));
             if (!File.Exists(filePath)) {
                 return "unknown";
             }
