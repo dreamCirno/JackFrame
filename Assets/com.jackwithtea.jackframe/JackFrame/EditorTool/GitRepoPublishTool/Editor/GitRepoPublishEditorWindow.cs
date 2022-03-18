@@ -156,7 +156,7 @@ namespace JackFrame.EditorTool {
             changeLog.AddInfo(publishModel.semanticVersion, ChangeLogElementTag.TAG_OTHER, publishModel.changeLogOther);
             changeLog.EndEdit();
             FileHelper.SaveFileText(changeLog.ToString(), filePath);
-            
+
             publishModel.currentVersion = ReadCurrentVersion(configModel);
 
         }
@@ -164,6 +164,9 @@ namespace JackFrame.EditorTool {
         string ReadCurrentVersion(GitRepoConfigModel configModel) {
             string dir = Application.dataPath;
             var filePath = Path.Combine(dir, configModel.versionFilePath);
+            if (!File.Exists(filePath)) {
+                return "unknown";
+            }
             string version = FileHelper.LoadTextFromFile(filePath);
             return version;
         }
