@@ -1,0 +1,1 @@
+{"packageSourceDir":"com.jackwithtea.jackframe","packageOutputDir":"ReleaseUnityPackages","packageName":"JackFrame","isAutoVersion":true}

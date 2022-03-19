@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -7,8 +9,9 @@ namespace JackFrame.EditorTool {
 
     public class GitRepoPublishEditorWindow : EditorWindow {
 
-        GitRepoConfigModel configModel;
-        [SerializeField] PublishSo publishModel;
+        GitRepoConfigModel gitRepoConfigModel;
+        UnityPackageConfigModel unityPackageConfigModel;
+        [SerializeField] PublishSo publishSo;
         int toolbarIndex = 0;
 
         [MenuItem(MENU_CONTEXT_NAME.L1_TOOL + "/GitPublish")]
@@ -19,91 +22,139 @@ namespace JackFrame.EditorTool {
         }
 
         void OnEnable() {
-            if (configModel == null) {
-                configModel = ReadDataFile();
+            if (gitRepoConfigModel == null) {
+                gitRepoConfigModel = ReadGitRepoConfigFile();
             }
-            if (publishModel == null) {
-                publishModel = ScriptableObject.CreateInstance<PublishSo>();
-            }   
+            if (unityPackageConfigModel == null) {
+                unityPackageConfigModel = ReadUnityPackageConfigFile();
+            }
+            if (publishSo == null) {
+                publishSo = ScriptableObject.CreateInstance<PublishSo>();
+            }
         }
 
         void OnGUI() {
 
-            if (configModel == null) {
-                if (GUILayout.Button("创建配置文件")) {
-                    CreateDataFile();
-                }
-                if (GUILayout.Button("重试读取配置文件")) {
-                    configModel = ReadDataFile();
-                }
-                return;
-            }
-
-            if (publishModel.currentVersion == null) {
-                publishModel.currentVersion = ReadCurrentVersion(configModel);
-            }
-
-            toolbarIndex = GUILayout.Toolbar(toolbarIndex, new string[] { "基本配置", "准备发布" });
+            toolbarIndex = GUILayout.Toolbar(toolbarIndex, new string[] { "基本配置", "准备发布", "打包 UnityPackage" });
 
             if (toolbarIndex == 0) {
 
+                if (gitRepoConfigModel == null) {
+                    if (GUILayout.Button("创建 GitRepo 配置文件")) {
+                        CreateGitRepoConfigFile();
+                    }
+                    if (GUILayout.Button("重试 GitRepo 读取配置文件")) {
+                        gitRepoConfigModel = ReadGitRepoConfigFile();
+                    }
+                    return;
+                }
+
                 GUILayout.Label("CHANGELOG.md 所在路径");
-                configModel.changeLogFilePath = GUILayout.TextField(configModel.changeLogFilePath);
+                gitRepoConfigModel.changeLogFilePath = GUILayout.TextField(gitRepoConfigModel.changeLogFilePath);
 
                 GUILayout.Space(10);
                 GUILayout.Label("VERSION 所在路径");
-                configModel.versionFilePath = GUILayout.TextField(configModel.versionFilePath);
+                gitRepoConfigModel.versionFilePath = GUILayout.TextField(gitRepoConfigModel.versionFilePath);
 
                 GUILayout.Space(10);
                 GUILayout.Label("package.json 所在路径");
-                configModel.packageJsonFilePath = GUILayout.TextField(configModel.packageJsonFilePath);
+                gitRepoConfigModel.packageJsonFilePath = GUILayout.TextField(gitRepoConfigModel.packageJsonFilePath);
 
                 GUILayout.Space(10);
                 if (GUILayout.Button("保存")) {
-                    SaveDataFile(configModel);
+                    SaveGitRepoConfigFile(gitRepoConfigModel);
                 }
 
             } else if (toolbarIndex == 1) {
 
-                GUILayout.Label($"当前版本号: {publishModel.currentVersion}");
+                if (publishSo.currentVersion == null) {
+                    publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
+                }
+
+                GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
                 GUILayout.Space(10);
 
                 GUILayout.Label("待发布版本号(例1.1.0, 前后不加符号)");
-                publishModel.semanticVersion = GUILayout.TextField(publishModel.semanticVersion);
+                publishSo.semanticVersion = GUILayout.TextField(publishSo.semanticVersion);
 
                 GUILayout.Space(10);
                 GUILayout.Label("ChangeLog Added");
-                publishModel.changeLogAdded = GUILayout.TextArea(publishModel.changeLogAdded, GUILayout.MinHeight(50));
+                publishSo.changeLogAdded = GUILayout.TextArea(publishSo.changeLogAdded, GUILayout.MinHeight(50));
 
                 GUILayout.Space(10);
                 GUILayout.Label("ChangeLog Changed");
-                publishModel.changeLogChanged = GUILayout.TextArea(publishModel.changeLogChanged, GUILayout.MinHeight(50));
+                publishSo.changeLogChanged = GUILayout.TextArea(publishSo.changeLogChanged, GUILayout.MinHeight(50));
 
                 GUILayout.Space(10);
                 GUILayout.Label("ChangeLog Removed");
-                publishModel.changeLogRemoved = GUILayout.TextArea(publishModel.changeLogRemoved, GUILayout.MinHeight(50));
+                publishSo.changeLogRemoved = GUILayout.TextArea(publishSo.changeLogRemoved, GUILayout.MinHeight(50));
 
                 GUILayout.Space(10);
                 GUILayout.Label("ChangeLog Fixed");
-                publishModel.changeLogFixed = GUILayout.TextArea(publishModel.changeLogFixed, GUILayout.MinHeight(50));
+                publishSo.changeLogFixed = GUILayout.TextArea(publishSo.changeLogFixed, GUILayout.MinHeight(50));
 
                 GUILayout.Space(10);
                 GUILayout.Label("ChangeLog Other");
-                publishModel.changeLogOther = GUILayout.TextArea(publishModel.changeLogOther, GUILayout.MinHeight(50));
+                publishSo.changeLogOther = GUILayout.TextArea(publishSo.changeLogOther, GUILayout.MinHeight(50));
 
                 if (GUILayout.Button("保存发布")) {
                     string title = "发布确认";
                     string content = $"以下文件将会被修改:\r\n"
-                                    + $"  {configModel.changeLogFilePath}\r\n"
-                                    + $"  {configModel.versionFilePath}\r\n"
-                                    + $"  {configModel.packageJsonFilePath}\r\n"
+                                    + $"  {gitRepoConfigModel.changeLogFilePath}\r\n"
+                                    + $"  {gitRepoConfigModel.versionFilePath}\r\n"
+                                    + $"  {gitRepoConfigModel.packageJsonFilePath}\r\n"
                                     + $"是否确认保存?";
                     string ok = "确认";
                     string cancel = "取消";
                     if (EditorUtility.DisplayDialog(title, content, ok, cancel)) {
-                        SaveChange(configModel, publishModel);
+                        SaveChange(gitRepoConfigModel, publishSo);
                     }
-                } 
+                }
+
+            } else if (toolbarIndex == 2) {
+
+                if (unityPackageConfigModel == null) {
+                    if (GUILayout.Button("创建 UnityPackage 配置文件")) {
+                        unityPackageConfigModel = CreateUnityPackageConfigFile();
+                    }
+                    return;
+                }
+
+                GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
+
+                GUILayout.Space(10);
+                GUILayout.Label("源目录");
+                unityPackageConfigModel.packageSourceDir = GUILayout.TextField(unityPackageConfigModel.packageSourceDir);
+
+                GUILayout.Space(10);
+                GUILayout.Label("导出目录(注: 该地址基于Environment.CurrentDirectory)");
+                unityPackageConfigModel.packageOutputDir = GUILayout.TextField(unityPackageConfigModel.packageOutputDir);
+
+                GUILayout.Space(10);
+                GUILayout.Label("文件名");
+                unityPackageConfigModel.packageName = GUILayout.TextField(unityPackageConfigModel.packageName);
+
+                GUILayout.Space(10);
+                unityPackageConfigModel.isAutoVersion = GUILayout.Toggle(unityPackageConfigModel.isAutoVersion, "是否自动附加版本号");
+
+                GUILayout.Space(10);
+                if (GUILayout.Button("保存配置")) {
+                    SaveUnityPackageConfigFile(unityPackageConfigModel);
+                }
+
+                if (GUILayout.Button("打包")) {
+                    FileHelper.CreateDirIfNorExist(unityPackageConfigModel.packageOutputDir);
+                    string inputDir = Path.Combine("Assets", unityPackageConfigModel.packageSourceDir);
+                    UnityEngine.Object[] objs = AssetDatabase.LoadAllAssetsAtPath(inputDir);
+                    var list = new List<string>();
+                    for (int i = 0; i < objs.Length; i += 1) {
+                        var obj = objs[i];
+                        var path = AssetDatabase.GetAssetPath(obj);
+                        list.Add(path);
+                    }
+                    string outputFile = Path.Combine(unityPackageConfigModel.packageOutputDir, unityPackageConfigModel.packageName + ReadCurrentVersion(gitRepoConfigModel) + ".unitypackage");
+                    AssetDatabase.ExportPackage(list.ToArray(),  outputFile, ExportPackageOptions.Recurse);
+                }
 
             }
 
@@ -157,7 +208,7 @@ namespace JackFrame.EditorTool {
             changeLog.EndEdit();
             FileHelper.SaveFileText(changeLog.ToString(), filePath);
 
-            publishModel.currentVersion = ReadCurrentVersion(configModel);
+            publishModel.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
 
         }
 
@@ -172,30 +223,59 @@ namespace JackFrame.EditorTool {
         }
 
         // ==== 配置文件相关 ====
-        void CreateDataFile() {
+        // -- GIT REPO
+        void CreateGitRepoConfigFile() {
             GitRepoConfigModel model = new GitRepoConfigModel();
-            SaveDataFile(model);
+            SaveGitRepoConfigFile(model);
         }
 
-        void SaveDataFile(GitRepoConfigModel model) {
+        void SaveGitRepoConfigFile(GitRepoConfigModel model) {
             string jsonStr = JsonConvert.SerializeObject(model);
-            FileHelper.SaveFileText(jsonStr, GetFilePath());
-            configModel = model;
+            FileHelper.SaveFileText(jsonStr, GetGitRepoConfigFilePath());
+            gitRepoConfigModel = model;
             EditorUtility.DisplayDialog("保存结果", "成功", "确认");
             AssetDatabase.Refresh();
         }
 
-        string GetFilePath() {
+        string GetGitRepoConfigFilePath() {
             return Path.Combine(Application.dataPath, "GitPublishConfig.txt");
         }
 
-        GitRepoConfigModel ReadDataFile() {
-            if (!File.Exists(GetFilePath())) {
+        GitRepoConfigModel ReadGitRepoConfigFile() {
+            if (!File.Exists(GetGitRepoConfigFilePath())) {
                 return null;
             }
-            string jsonStr = FileHelper.LoadTextFromFile(GetFilePath());
+            string jsonStr = FileHelper.LoadTextFromFile(GetGitRepoConfigFilePath());
             GitRepoConfigModel model = JsonConvert.DeserializeObject<GitRepoConfigModel>(jsonStr);
             return model;
+        }
+
+        // -- UNITY PACKAGE
+        string GetUnityPackageConfigFile() {
+            return Path.Combine(Application.dataPath, "UnityPackageConfig.txt");
+        }
+
+        UnityPackageConfigModel CreateUnityPackageConfigFile() {
+            UnityPackageConfigModel model = new UnityPackageConfigModel();
+            SaveUnityPackageConfigFile(model);
+            return model;
+        }
+
+        UnityPackageConfigModel ReadUnityPackageConfigFile() {
+            if (!File.Exists(GetUnityPackageConfigFile())) {
+                return null;
+            }
+            string jsonStr = FileHelper.LoadTextFromFile(GetUnityPackageConfigFile());
+            UnityPackageConfigModel model = JsonConvert.DeserializeObject<UnityPackageConfigModel>(jsonStr);
+            return model;
+        }
+
+        void SaveUnityPackageConfigFile(UnityPackageConfigModel model) {
+            string jsonStr = JsonConvert.SerializeObject(model);
+            FileHelper.SaveFileText(jsonStr, GetUnityPackageConfigFile());
+            unityPackageConfigModel = model;
+            EditorUtility.DisplayDialog("保存结果", "成功", "确认");
+            AssetDatabase.Refresh();
         }
 
     }
