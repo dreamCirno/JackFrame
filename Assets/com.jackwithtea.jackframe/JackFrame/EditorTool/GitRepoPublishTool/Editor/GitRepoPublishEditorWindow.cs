@@ -71,9 +71,15 @@ namespace JackFrame.EditorTool {
                     publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
                 }
 
+                GUILayout.Space(5);
+                GUILayout.BeginHorizontal();
                 GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
-                GUILayout.Space(10);
+                if (GUILayout.Button("重新获取")) {
+                    publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
+                }
+                GUILayout.EndHorizontal();
 
+                GUILayout.Space(10);
                 GUILayout.Label("待发布版本号(例1.1.0, 前后不加符号)");
                 publishSo.semanticVersion = GUILayout.TextField(publishSo.semanticVersion);
 
