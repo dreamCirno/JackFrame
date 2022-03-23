@@ -129,7 +129,7 @@ namespace JackFrame {
             transform.position = screenPos;
         }
 
-        public void TearDown() {
+        public virtual void TearDown() {
             eventDic.Clear();
         }
 

@@ -137,14 +137,6 @@ namespace JackFrame {
 
         }
 
-        public void LateExecute() {
-
-        }
-
-        public void TearDown() {
-
-        }
-
         // UI 背景
         public Image GetBackground() => background;
         public void SetBackgroundImage(Sprite bg) {
