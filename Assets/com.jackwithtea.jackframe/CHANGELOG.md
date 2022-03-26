@@ -3,6 +3,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 
 ## [Develop]
+## [1.2.10] - 2022-03-26
+### Added
+- IntHelper::UIntCompress / Uncompress  
+
 ## [1.2.9] - 2022-03-23
 ### Changed
 - FrameUIPanelBase 新增 virtual 修饰  
