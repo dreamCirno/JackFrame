@@ -67,23 +67,23 @@ namespace JackFrame.DesignPattern {
 
         }
 
-        public void Execute() {
+        public void Execute(float deltaTime) {
 
             if (!isRunning) return;
 
             if (currentState == null) return;
 
-            currentState.Execute();
+            currentState.Execute(deltaTime);
 
         }
 
-        public void FixedExecute() {
+        public void FixedExecute(float fixedDeltaTime) {
 
             if (!isRunning) return;
 
             if (currentState == null) return;
 
-            currentState.FixedExecute();
+            currentState.FixedExecute(fixedDeltaTime);
 
         }
 

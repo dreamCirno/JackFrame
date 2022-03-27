@@ -27,8 +27,8 @@ namespace JackFrame.DesignPattern {
 
         public abstract int StateId { get; }
         public abstract void Enter();
-        public abstract void Execute();
-        public abstract void FixedExecute();
+        public abstract void Execute(float deltaTime);
+        public abstract void FixedExecute(float fixedDeltaTime);
         public abstract void Exit();
 
     }
