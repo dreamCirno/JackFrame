@@ -25,15 +25,15 @@ namespace JackFrame.DesignPattern {
         修改此类的风险非常大
         请与主程或架构负责人联系
     */
-    public abstract class FSMBase<T> {
+    public class FSM {
 
         public bool isRunning;
-        public FSMStateBase<T> currentState;
-        public FSMStateBase<T> lastState;
-        Dictionary<int, FSMStateBase<T>> stateDic;
+        public FSMStateBase currentState;
+        public FSMStateBase lastState;
+        Dictionary<int, FSMStateBase> stateDic;
 
-        public FSMBase() {
-            stateDic = new Dictionary<int, FSMStateBase<T>>();
+        public FSM() {
+            stateDic = new Dictionary<int, FSMStateBase>();
             isRunning = false;
         }
 
@@ -45,52 +45,52 @@ namespace JackFrame.DesignPattern {
             isRunning = false;
         }
 
-        public void RegisterState(FSMStateBase<T> state) {
+        public void RegisterState(FSMStateBase state) {
             stateDic.Add(state.StateId, state);
         }
 
-        public void EnterState(T actor, int stateId) {
+        public void EnterState(int stateId) {
 
             if (currentState != null && currentState.StateId == stateId) {
                 // 状态相同
                 return;
             }
 
-            FSMStateBase<T> targetState = stateDic.GetValue(stateId);
+            FSMStateBase targetState = stateDic.GetValue(stateId);
             if (currentState != null) {
-                currentState.Exit(actor);
+                currentState.Exit();
             }
             currentState = targetState;
-            currentState.Enter(actor);
+            currentState.Enter();
             // BUG 这里或许有BUG
             lastState = currentState;
 
         }
 
-        public void Execute(T actor) {
+        public void Execute() {
 
             if (!isRunning) return;
 
             if (currentState == null) return;
 
-            currentState.Execute(actor);
+            currentState.Execute();
 
         }
 
-        public void FixedExecute(T actor) {
+        public void FixedExecute() {
 
             if (!isRunning) return;
 
             if (currentState == null) return;
 
-            currentState.FixedExecute(actor);
+            currentState.FixedExecute();
 
         }
 
-        public void ExitCurrent(T actor) {
-            currentState.Exit(actor);
+        public void ExitCurrent() {
+            currentState.Exit();
             if (lastState != null) {
-                EnterState(actor, lastState.StateId);
+                EnterState(lastState.StateId);
             }
         }
 
