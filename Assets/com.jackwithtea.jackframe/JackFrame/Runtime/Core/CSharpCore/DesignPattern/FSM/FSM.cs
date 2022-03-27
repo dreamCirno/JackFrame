@@ -46,6 +46,7 @@ namespace JackFrame.DesignPattern {
         }
 
         public void RegisterState(FSMStateBase state) {
+            state.fsm = this;
             stateDic.Add(state.StateId, state);
         }
 

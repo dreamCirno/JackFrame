@@ -26,6 +26,7 @@ namespace JackFrame.DesignPattern {
     public abstract class FSMStateBase {
 
         public abstract int StateId { get; }
+        public FSM fsm { get; set; }
         public abstract void Enter();
         public abstract void Execute(float deltaTime);
         public abstract void FixedExecute(float fixedDeltaTime);
