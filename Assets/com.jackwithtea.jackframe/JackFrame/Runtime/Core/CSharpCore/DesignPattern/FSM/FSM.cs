@@ -25,7 +25,7 @@ namespace JackFrame.DesignPattern {
         修改此类的风险非常大
         请与主程或架构负责人联系
     */
-    public class FSM {
+    public class FSM : IFSM {
 
         public bool isRunning;
         public FSMStateBase currentState;
