@@ -73,6 +73,19 @@ namespace JackFrame {
             }
         }
 
+        public static float DistanceOf(this MonoBehaviour mono, MonoBehaviour target) {
+            Vector3 pos = mono.transform.position;
+            return Vector3.Distance(pos, target.transform.position);
+        }
+
+        public static float DistanceOfHorizontal(this MonoBehaviour mono, MonoBehaviour target) {
+            Vector3 pos = mono.transform.position;
+            pos.y = 0;
+            Vector3 targetPos = target.transform.position;
+            targetPos.y = 0;
+            return Vector3.Distance(pos, targetPos);
+        }
+
         public static void Show(this MonoBehaviour _mono) {
             _mono.gameObject.SetActive(true);
         }
