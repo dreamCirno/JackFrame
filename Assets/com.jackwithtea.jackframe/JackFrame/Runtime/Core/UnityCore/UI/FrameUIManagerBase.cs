@@ -49,7 +49,6 @@ namespace JackFrame {
     public abstract class FrameUIManagerBase {
 
         Canvas uiCanvas;
-        Camera mainCam;
         Image background;
 
         Transform[] rootArr;
@@ -72,14 +71,12 @@ namespace JackFrame {
 
         }
 
-        public void Inject(Camera mainCam,
-                           Canvas uiCanvas,
+        public void Inject(Canvas uiCanvas,
                            Image background,
                            Transform pageRoot,
                            Transform windowRoot,
                            Transform worldTipsRoot,
                            Transform uiTipsRoot) {
-            this.mainCam = mainCam;
             this.uiCanvas = uiCanvas;
             this.background = background;
 
@@ -146,7 +143,6 @@ namespace JackFrame {
             background.gameObject.SetActive(isShow);
         }
 
-        public Camera GetMainCam() => mainCam;
         public Canvas GetCanvas() => uiCanvas;
 
         // 注册 Prefab
