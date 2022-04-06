@@ -7,18 +7,18 @@ namespace JackFrame.EditorTool {
     public class PackageJsonObj {
 
         // REQUIRED PROPERTIES
-        public string name = "";
-        public string version = "";
+        public string name = "anonymous";
+        public string version = "0.0.0";
 
         // RECOMMANDED PROPERTIES
-        public string description = "";
-        public string displayName = "";
+        public string description = "anonymous";
+        public string displayName = "anonymous";
         public string unity = "";
 
         // OPTIONAL PROPERTIES
         public AutohrObj author = new AutohrObj();
         public string changelogUrl = "";
-        public Dictionary<string, string> dependencies;
+        public Dictionary<string, string> dependencies = new Dictionary<string, string>();
         public string documentationUrl = "";
         public bool hideInEditor = false;
         public string[] keywords = new string[0];
@@ -29,15 +29,15 @@ namespace JackFrame.EditorTool {
         public string unityRelease = "";
 
         public class AutohrObj {
-            public string name = "";
-            public string email = "";
-            public string url = "";
+            public string name = "anonymous";
+            public string email = "anonymous@anonymous.com";
+            public string url = "http://anonymous.com";
         }
 
         public class SampleObj {
-            public string displayName = "";
-            public string description = "";
-            public string path = "";
+            public string displayName = "anonymous";
+            public string description = "anonymous";
+            public string path = "/";
         }
 
     }

@@ -192,6 +192,9 @@ namespace JackFrame.EditorTool {
             }
             string jsonStr = FileHelper.LoadTextFromFile(filePath);
             PackageJsonObj json = JsonConvert.DeserializeObject<PackageJsonObj>(jsonStr);
+            if (json == null) {
+                json = new PackageJsonObj();
+            }
             json.version = publishModel.semanticVersion;
             jsonStr = JsonConvert.SerializeObject(json, Formatting.Indented);
             FileHelper.SaveFileText(jsonStr, filePath);
