@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
 
     // 必须和 Animator 挂在同一层级
     // 必须和 Animator 挂在同一层级
@@ -24,7 +24,7 @@ namespace AnymotionNS {
         // MIXER (FOR PLAYING ANIMATION CLIPS)
         List<AnymotionMixer> mixerList;
 
-        void Awake() {
+        public void Init() {
 
             this.clipDic = new SortedDictionary<int, AnymotionClip>();
             this.mixerList = new List<AnymotionMixer>();
@@ -57,16 +57,10 @@ namespace AnymotionNS {
             return clip;
         }
 
-        public AnymotionMixer AddMixer(int mixerID, int defaultClipID) {
-            var mixer = new AnymotionMixer(this, mixerID, graph, defaultClipID);
+        public void AddMixer(int mixerID, float weight) {
+            var mixer = new AnymotionMixer(this, mixerID);
             mixerList.Add(mixer);
-            defalutLayerMixer.AddMixer(mixer);
-            return mixer;
-        }
-
-        public void AddInputClip(int mixerID, int clipID) {
-            var mixer = mixerList.Find(value => value.ID == mixerID);
-            mixer.AddInputClip(clipID);
+            defalutLayerMixer.AddMixer(mixer, weight);
         }
 
         public void PlayClip(int mixerID, int clipID) {
@@ -77,6 +71,11 @@ namespace AnymotionNS {
         public void CrossfadeTo(int mixerID, int clipID, float duaration, int targetKeyFrame = 0) {
             var mixer = mixerList.Find(value => value.ID == mixerID);
             mixer.CrossfadeTo(clipID, duaration, targetKeyFrame);
+        }
+
+        public void SetInputWeight(int mixerID, int index, float weight) {
+            var mixer = mixerList.Find(value => value.ID == mixerID);
+            mixer.SetInputWeight(index, weight);
         }
 
         public AnymotionMixer GetMixer(int mixerID) {
@@ -90,6 +89,10 @@ namespace AnymotionNS {
 
         PlayableGraph IAnymotion.GetGraph() {
             return graph;
+        }
+
+        AnimationLayerMixerPlayable IAnymotion.GetAnimationLayerMixer() {
+            return defalutLayerMixer.GetLayerMixerPlayable();
         }
     }
 

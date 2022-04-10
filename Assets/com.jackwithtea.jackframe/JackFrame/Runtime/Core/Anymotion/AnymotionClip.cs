@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
 
     [Serializable]
     public class AnymotionClip {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
 
     public class AnymotionMixer {
 
@@ -13,35 +13,24 @@ namespace AnymotionNS {
         IAnymotion anymotion;
         AnimationMixerPlayable mixer;
 
-        SortedDictionary<int, int> idToIndexDic;
-        List<AnymotionTransitionInfo> blendingList;
-
         int currentClipID;
-        int defaultClipID;
+        float duaration;
+        bool isCrossfade;
 
         AnimationClipPlayable beforeClip;
         AnimationClipPlayable nowClip;
 
-        List<int> waitRemoveTempList;
-
-        public AnymotionMixer(IAnymotion anymotion, int id, PlayableGraph graph, int defaultClipID) {
-
-            this.idToIndexDic = new SortedDictionary<int, int>();
-            this.blendingList = new List<AnymotionTransitionInfo>();
-            this.waitRemoveTempList = new List<int>();
+        public AnymotionMixer(IAnymotion anymotion, int id) {
 
             this.ID = id;
             this.anymotion = anymotion;
-            this.defaultClipID = defaultClipID;
-            
-            this.mixer = AnimationMixerPlayable.Create(graph);
-            nowClip = AnimationClipPlayable.Create(graph, anymotion.GetClip(defaultClipID).Clip);
-            beforeClip = nowClip;
-            mixer.ConnectInput(0, beforeClip, 0);
-            mixer.ConnectInput(1, nowClip, 0);
-            mixer.SetInputWeight(1, 1);
-            
+
+            this.mixer = AnimationMixerPlayable.Create(anymotion.GetGraph());
+            mixer.AddInput(default(AnimationClipPlayable), 0, 0);
+            mixer.AddInput(default(AnimationClipPlayable), 1, 0);
+
             this.currentClipID = -1;
+            this.isCrossfade = false;
 
         }
 
@@ -54,17 +43,29 @@ namespace AnymotionNS {
         }
 
         public void ProcessCrossfade(float deltaTime) {
-            if (blendingList.Count == 0) {
+
+            if (!isCrossfade) {
                 return;
             }
 
-        }
-
-        public int GetIndex(int clipID) {
-            if (idToIndexDic.ContainsKey(clipID)) {
-                return idToIndexDic[clipID];
+            int inputCount = mixer.GetInputCount();
+            if (inputCount <= 1) {
+                return;
             }
-            return -1;
+
+            if (duaration == 0) {
+                duaration = 1f;
+            }
+            float increasement = deltaTime / duaration;
+            float nowWeight = mixer.GetInputWeight(0);
+            nowWeight += increasement;
+            if (nowWeight >= 1) {
+                nowWeight = 1f;
+                isCrossfade = false;
+            }
+            mixer.SetInputWeight(0, nowWeight);
+            mixer.SetInputWeight(1, 1f - nowWeight);
+
         }
 
         public void Enable() {
@@ -75,50 +76,39 @@ namespace AnymotionNS {
             mixer.Pause();
         }
 
-        int GetClipCount() {
-            return idToIndexDic.Count;
-        }
-
-        public void AddInputClip(int clipID) {
-
-            if (idToIndexDic.ContainsKey(clipID)) {
-                return;
-            }
-
-            var clip = anymotion.GetClip(clipID);
-            AnimationClipPlayable clipPa = AnimationClipPlayable.Create(anymotion.GetGraph(), clip.Clip);
-            int inputIndex = mixer.AddInput(clipPa, 0, 0);
-            idToIndexDic.Add(clip.ID, inputIndex);
-
-        }
-
         public void PlayClip(int clipID) {
 
             if (currentClipID == clipID) {
                 return;
             }
 
-            mixer.DisconnectInput(0);
-            mixer.DisconnectInput(1);
+            DisconnectAll();
 
-            if (beforeClip.IsValid()) {
-                beforeClip.Destroy();
+            if (nowClip.IsValid()) {
+                nowClip.Destroy();
             }
 
-            beforeClip = nowClip;
-            var clip = anymotion.GetClip(clipID);
-            nowClip = AnimationClipPlayable.Create(anymotion.GetGraph(), clip.Clip);
+            nowClip = CreateClip(clipID);
 
-            mixer.ConnectInput(1, beforeClip, 0);
-            mixer.ConnectInput(0, nowClip, 0);
-
-            nowClip.SetSpeed(1);
-
-            mixer.SetInputWeight(0, 1);
-            mixer.SetInputWeight(1, 0);
+            mixer.ConnectInput(0, nowClip, 0, 1);
 
             this.currentClipID = clipID;
 
+        }
+
+        AnimationClipPlayable CreateClip(int clipID) {
+            var clip = anymotion.GetClip(clipID);
+            var clipPa = AnimationClipPlayable.Create(anymotion.GetGraph(), clip.Clip);
+            clipPa.SetTime(0);
+            clipPa.SetSpeed(1);
+            return clipPa;
+        }
+
+        void DisconnectAll() {
+            int inputCount = mixer.GetInputCount();
+            for (int i = 0; i < inputCount; i += 1) {
+                mixer.DisconnectInput(i);
+            }
         }
 
         public void CrossfadeTo(int clipID, float duaration, int targetKeyFrame = 0) {
@@ -127,36 +117,43 @@ namespace AnymotionNS {
                 return;
             }
 
-            if (!idToIndexDic.ContainsKey(clipID)) {
+            int inputCount = mixer.GetInputCount();
+            if (inputCount == 0) {
                 return;
             }
 
-            // if transitionList contains clipID, do nothing
-            int targetIndex = blendingList.FindIndex(value => value.ClipID == clipID);
-            if (targetIndex != -1) {
+            float lastWeight = mixer.GetInputWeight(0);
+            if (inputCount == 2) {
+                // IF HAS TWO INPUTS
+                // REMOVE 1
+                if (beforeClip.IsValid()) {
+                    beforeClip.Destroy();
+                }
+            }
+
+            beforeClip = nowClip;
+
+            DisconnectAll();
+
+            // ONE INPUT
+            // INSERT NOW INDEX = 0
+            // SET BEFORE INDEX = 1
+            nowClip = CreateClip(clipID);
+            mixer.ConnectInput(0, nowClip, 0, 0);
+            mixer.ConnectInput(1, beforeClip, 0, 0);
+
+            this.duaration = duaration;
+            this.isCrossfade = true;
+            this.currentClipID = clipID;
+
+        }
+
+        public void SetInputWeight(int index, float weight) {
+            var input = mixer.GetInput(index);
+            if (!input.IsValid()) {
                 return;
             }
-
-            AnymotionTransitionInfo info = new AnymotionTransitionInfo();
-            info.Init(clipID, duaration, targetKeyFrame);
-            blendingList.Add(info);
-
-        }
-
-        public void RemoveAllClips() {
-            foreach (var kv in idToIndexDic) {
-                int index = kv.Value;
-                mixer.DisconnectInput(index);
-            }
-            idToIndexDic.Clear();
-        }
-
-        public void RemoveClip(int clipID) {
-            if (idToIndexDic.ContainsKey(clipID)) {
-                int index = idToIndexDic[clipID];
-                mixer.DisconnectInput(index);
-                idToIndexDic.Remove(clipID);
-            }
+            mixer.SetInputWeight(index, weight);
         }
 
     }
