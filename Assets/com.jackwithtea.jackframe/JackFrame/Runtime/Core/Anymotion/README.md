@@ -1,5 +1,0 @@
-RegisterClip
-AddMixer
-Tick
-
-Play
