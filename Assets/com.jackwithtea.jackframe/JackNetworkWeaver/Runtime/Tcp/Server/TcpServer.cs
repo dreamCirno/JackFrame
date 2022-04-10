@@ -15,7 +15,7 @@ namespace JackFrame.Network {
         public event Action<int> OnDisconnectedHandle;
 
         // 1. 构造
-        public TcpServer(int maxMessageSize = 1024) {
+        public TcpServer(int maxMessageSize = 4096) {
             server = new TcpLowLevelServer(maxMessageSize);
             dic = new Dictionary<ushort, Action<int, ArraySegment<byte>>>();
 
