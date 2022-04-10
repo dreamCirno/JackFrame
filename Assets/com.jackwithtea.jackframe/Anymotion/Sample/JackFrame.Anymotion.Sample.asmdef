@@ -1,8 +1,8 @@
 {
-    "name": "JackFrame.GamePlay.Runtime",
+    "name": "JackFrame.Anymotion.Sample",
     "rootNamespace": "",
     "references": [
-        "GUID:698de13ac41894b4faa41653eef13f2b"
+        "GUID:c0852749dd8326b4299ebdffb329569c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

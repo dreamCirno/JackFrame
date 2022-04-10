@@ -94,6 +94,7 @@ namespace JackFrame.Anymotions {
         AnimationLayerMixerPlayable IAnymotion.GetAnimationLayerMixer() {
             return defalutLayerMixer.GetLayerMixerPlayable();
         }
+
     }
 
 }
