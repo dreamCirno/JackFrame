@@ -15,7 +15,7 @@ namespace JackFrame.Network.Sample {
 
         void Awake() {
 
-            server = new TcpLowLevelServer();
+            server = new TcpLowLevelServer(1024);
             server.StartListen(PORT);
 
             client = new TcpLowLevelClient(1024);

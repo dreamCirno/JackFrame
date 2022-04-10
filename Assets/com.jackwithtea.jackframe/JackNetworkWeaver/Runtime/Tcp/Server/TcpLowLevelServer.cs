@@ -13,7 +13,7 @@ namespace JackFrame.Network {
         public event Action<int, ArraySegment<byte>> OnDataHandle;
         public event Action<int> OnDisconnectedHandle;
 
-        public TcpLowLevelServer(int maxMessageSize = 1024) {
+        public TcpLowLevelServer(int maxMessageSize) {
             server = new Server(maxMessageSize);
             server.OnConnected = OnConnected;
             server.OnDisconnected = OnDisconnected;
