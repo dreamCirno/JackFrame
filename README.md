@@ -2,7 +2,11 @@
 ```
 【JackFrame.Core】
 程序集: JackFrame.Runtime.dll
-功能: C#标准库扩展 / C#标准类 / Unity标准库扩展 / Unity UI框架
+功能: C#标准库扩展 / C#标准类 / Unity标准库扩展 / Unity UI框架  
+
+【JackFrame.Anymotion】
+程序集: JackFrame.Anymotion.dll
+功能: 使用U nity Playable(更底层的API) 作为动画方案, 取代 Animator Controller
 
 【JackFrame.EditorTool】
 程序集: JackFrame.EditorTool.dll
