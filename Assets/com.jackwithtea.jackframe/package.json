@@ -11,11 +11,11 @@
   },
   "changelogUrl": "https://github.com/chenwansal/JackFrame/CHANGELOG.md",
   "dependencies": {
-    "com.unity.cinemachine": "2.6.11^",
-    "com.unity.addressables": "1.16.19^",
-    "com.unity.ide.vscode": "1.2.5^",
-    "com.unity.nuget.newtonsoft-json": "2.0.0^",
-    "com.unity.playablegraph-visualizer": "0.2.1^"
+    "com.unity.cinemachine": "2.6.11",
+    "com.unity.addressables": "1.16.19",
+    "com.unity.ide.vscode": "1.2.5",
+    "com.unity.nuget.newtonsoft-json": "2.0.0",
+    "com.unity.playablegraph-visualizer": "0.2.1"
   },
   "documentationUrl": "https://github.com/chenwansal/JackFrame",
   "hideInEditor": false,
