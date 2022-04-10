@@ -2,9 +2,10 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 using System.Collections.Generic;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
     public interface IAnymotion {
         AnymotionClip GetClip(int clipID);
         PlayableGraph GetGraph();
+        AnimationLayerMixerPlayable GetAnimationLayerMixer();
     }
 }

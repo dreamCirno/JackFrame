@@ -1,6 +1,6 @@
 using System;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
 
     public class AnymotionTransitionInfo {
 

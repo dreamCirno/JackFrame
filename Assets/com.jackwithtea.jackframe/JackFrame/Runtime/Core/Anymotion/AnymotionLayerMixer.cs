@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-namespace AnymotionNS {
+namespace JackFrame.Anymotions {
 
     public class AnymotionLayerMixer {
 
@@ -21,11 +21,11 @@ namespace AnymotionNS {
             return layerMixer;
         }
 
-        public void AddMixer(AnymotionMixer mixer) {
+        public void AddMixer(AnymotionMixer mixer, float weight) {
             if (mixerDic.ContainsKey(mixer.ID)) {
                 return;
             }
-            int inputIndex = layerMixer.AddInput(mixer.GetMixerPlayable(), 0);
+            int inputIndex = layerMixer.AddInput(mixer.GetMixerPlayable(), 0, weight);
             mixerDic.Add(mixer.ID, inputIndex);
         }
 
