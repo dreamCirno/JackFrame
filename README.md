@@ -1,24 +1,24 @@
 # JackFrame 简介
 ```
 【JackFrame.Core】
-程序集: JackFrame.Runtime.dll
+程序集: JackFrame.Runtime.dll  
 功能: C#标准库扩展 / C#标准类 / Unity标准库扩展 / Unity UI框架  
 
 【JackFrame.Anymotion】
-程序集: JackFrame.Anymotion.dll
-功能: 使用U nity Playable(更底层的API) 作为动画方案, 取代 Animator Controller
+程序集: JackFrame.Anymotion.dll  
+功能: 使用 Unity Playable(更底层的API) 作为动画方案, 取代 Animator Controller  
 
-【JackFrame.EditorTool】
-程序集: JackFrame.EditorTool.dll
-功能: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具
+【JackFrame.EditorTool】  
+程序集: JackFrame.EditorTool.dll  
+功能: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具  
 
-【JackAST】
-程序集: JackAST.Runtime.dll
-功能: 集成 Roslyn 的代码生成工具
+【JackAST】  
+程序集: JackAST.Runtime.dll  
+功能: 集成 Roslyn 的代码生成工具  
 
-【JackBuffer】
-程序集: JackBuffer.Runtime
-功能: 二进制序列化协议, 自动生成代码, C# 友好(不像某歌buf对C#不友好)
+【JackBuffer】  
+程序集: JackBuffer.Runtime  
+功能: 二进制序列化协议, 自动生成代码, C# 友好(不像某歌buf对C#不友好)  
 ```
 
 # LICENSE
