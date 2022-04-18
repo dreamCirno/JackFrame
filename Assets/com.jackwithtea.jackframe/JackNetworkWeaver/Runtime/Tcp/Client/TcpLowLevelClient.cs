@@ -1,6 +1,5 @@
 using System;
 using Telepathy;
-using JackFrame;
 
 namespace JackFrame.Network {
 
@@ -9,6 +8,11 @@ namespace JackFrame.Network {
         Client client;
         string host;
         int port;
+        NetworkConnectionType connectionType;
+
+        public string Host => host;
+        public int Port => port;
+        public NetworkConnectionType ConnectionType => connectionType;
 
         public event Action OnConnectedHandle;
         public event Action<ArraySegment<byte>> OnDataHandle;
@@ -19,16 +23,18 @@ namespace JackFrame.Network {
             client.OnConnected += OnConnected;
             client.OnData += OnData;
             client.OnDisconnected += OnDisconnected;
+            connectionType = NetworkConnectionType.Disconnected;
         }
 
         public bool IsConnected() {
-            return client.Connected;
+            return connectionType == NetworkConnectionType.Connected;
         }
 
         public void Connect(string host, int port) {
             this.host = host;
             this.port = port;
             client.Connect(host, port);
+            connectionType = NetworkConnectionType.Connecting;
         }
 
         public void Reconnect() {
@@ -36,6 +42,7 @@ namespace JackFrame.Network {
                 client.Disconnect();
             }
             Connect(host, port);
+            connectionType = NetworkConnectionType.Reconnecting;
         }
 
         public void Disconnect() {
@@ -46,10 +53,6 @@ namespace JackFrame.Network {
             client.Tick(processLimit);
         }
 
-        public void TearDown() {
-
-        }
-
         public bool Send(ArraySegment<byte> data) {
             return client.Send(data);
         }
@@ -57,6 +60,7 @@ namespace JackFrame.Network {
         void OnConnected() {
             if (OnConnectedHandle != null) {
                 OnConnectedHandle.Invoke();
+                connectionType = NetworkConnectionType.Connected;
             } else {
                 PLog.ForceWarning("未注册: " + nameof(OnConnectedHandle));
             }
@@ -74,6 +78,11 @@ namespace JackFrame.Network {
         void OnDisconnected() {
             if (OnDisconnectedHandle != null) {
                 OnDisconnectedHandle.Invoke();
+                if (connectionType == NetworkConnectionType.Connecting) {
+                    connectionType = NetworkConnectionType.ConnectFailed;
+                } else if (connectionType == NetworkConnectionType.Reconnecting) {
+                    connectionType = NetworkConnectionType.ReconnectFailed;
+                }
             } else {
                 PLog.ForceWarning("未注册: " + nameof(OnDisconnectedHandle));
             }

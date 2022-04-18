@@ -8,6 +8,10 @@ namespace JackFrame.Network {
 
         TcpLowLevelClient client;
 
+        public string Host => client.Host;
+        public int Port => client.Port;
+        public NetworkConnectionType ConnectionType => client.ConnectionType;
+
         Dictionary<ushort, Action<ArraySegment<byte>>> dic;
 
         public event Action OnConnectedHandle;
