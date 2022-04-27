@@ -37,12 +37,16 @@ namespace JackFrame {
             All = Log | Warning | Error
         }
 
-        public static event Action<string> OnLog;
-        public static event Action<string> OnWarning;
-        public static event Action<string> OnError;
-        public static event Action<bool, string> OnAssert;
-        public static event Action<bool> OnAssertWithoutMessage;
-        public static event Action OnTearDown;
+        public static bool IsBindingLog;
+        public static bool IsBindingWarning;
+        public static bool IsBindingError;
+        public static bool IsBindingAssert;
+        public static Action<string> OnLog;
+        public static Action<string> OnWarning;
+        public static Action<string> OnError;
+        public static Action<bool, string> OnAssert;
+        public static Action<bool> OnAssertWithoutMessage;
+        public static Action OnTearDown;
 
         static List<string> cacheList = new List<string>();
 
