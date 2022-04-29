@@ -8,6 +8,7 @@ namespace JackFrame.Network {
     public class TcpServer {
 
         TcpLowLevelServer server;
+        int maxMessageSize;
 
         Dictionary<ushort, Action<int, ArraySegment<byte>>> dic;
 
@@ -16,6 +17,7 @@ namespace JackFrame.Network {
 
         // 1. 构造
         public TcpServer(int maxMessageSize = 4096) {
+            this.maxMessageSize = maxMessageSize;
             server = new TcpLowLevelServer(maxMessageSize);
             dic = new Dictionary<ushort, Action<int, ArraySegment<byte>>>();
 
@@ -42,6 +44,13 @@ namespace JackFrame.Network {
 
         public void Send<T>(byte serviceId, byte messageId, int connId, T msg) where T : IJackMessage<T> {
             byte[] data = msg.ToBytes();
+            if (data.Length >= maxMessageSize - 2) {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogError("Message is too long, max size is " + maxMessageSize);
+#else
+                throw new Exception("Message is too long");
+#endif
+            }
             byte[] dst = new byte[data.Length + 2];
             int offset = 0;
             dst[offset] = serviceId;
