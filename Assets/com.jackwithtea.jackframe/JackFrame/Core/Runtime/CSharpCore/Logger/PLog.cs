@@ -62,12 +62,6 @@ namespace JackFrame {
 
             if (OnLog != null) {
                 OnLog.Invoke(message);
-            } else {
-#if UNITY_EDITOR
-                UnityEngine.Debug.Log("OnLog 未注册");
-#else
-                System.Console.WriteLine("OnLog 未注册");
-#endif
             }
 
         }
@@ -85,12 +79,6 @@ namespace JackFrame {
 
             if (OnWarning != null) {
                 OnWarning.Invoke(message);
-            } else {
-#if UNITY_EDITOR
-                UnityEngine.Debug.Log("OnWarning 未注册");
-#else
-                System.Console.WriteLine("OnWarning 未注册");
-#endif
             }
 
         }
@@ -103,12 +91,6 @@ namespace JackFrame {
 
             if (OnError != null) {
                 OnError.Invoke(message);
-            } else {
-#if UNITY_EDITOR
-                UnityEngine.Debug.Log("OnError 未注册");
-#else
-                System.Console.WriteLine("OnError 未注册");
-#endif
             }
 
         }
@@ -116,29 +98,16 @@ namespace JackFrame {
         public static void Assert(bool isCondition) {
             if (OnAssertWithoutMessage != null) {
                 OnAssertWithoutMessage.Invoke(isCondition);
-            } else {
-#if UNITY_EDITOR
-                UnityEngine.Debug.Log("OnAssertWithoutMessage 未注册");
-#else
-                System.Console.WriteLine("OnAssertWithoutMessage 未注册");
-#endif
             }
         }
 
         public static void Assert(bool isCondition, string message) {
             if (OnAssert != null) {
                 OnAssert.Invoke(isCondition, message);
-            } else {
-#if UNITY_EDITOR
-                UnityEngine.Debug.Log("OnAssert 未注册");
-#else
-                System.Console.WriteLine("OnAssert 未注册");
-#endif
             }
         }
 
         public static void ForceLog(string message) {
-
 #if UNITY_EDITOR
             UnityEngine.Debug.Log(message);
 #else
@@ -147,7 +116,6 @@ namespace JackFrame {
         }
 
         public static void ForceWarning(string message) {
-
 #if UNITY_EDITOR
             UnityEngine.Debug.LogWarning(message);
 #else
@@ -156,7 +124,6 @@ namespace JackFrame {
         }
 
         public static void ForceError(string message) {
-
 #if UNITY_EDITOR
             UnityEngine.Debug.LogError(message);
 #else
