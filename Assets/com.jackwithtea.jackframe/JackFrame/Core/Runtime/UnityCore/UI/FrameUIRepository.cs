@@ -35,8 +35,12 @@ namespace JackFrame {
             return openedStack.Last();
         }
 
-        public FrameUIPanelBase Get(int id) {
+        public FrameUIPanelBase GetByID(int id) {
             return openedList.Find(value => value.Id == id);
+        }
+
+        public FrameUIPanelBase GetByType(Type type) {
+            return openedList.Find(value => value.GetType() == type);
         }
 
         public FrameUIPanelBase Pop() {

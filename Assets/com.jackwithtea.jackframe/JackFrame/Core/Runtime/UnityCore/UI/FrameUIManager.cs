@@ -153,9 +153,46 @@ namespace JackFrame {
         }
 
         // 获取页面
-        public FrameUIPanelBase GetOpened(UIRootLevel root, int id) {
+        public FrameUIPanelBase GetOpenedByID(UIRootLevel root, int id) {
             var repo = GetRepository(root);
-            return repo.Get(id);
+            return repo.GetByID(id);
+        }
+
+        public FrameUIPanelBase GetOpenedByType<T>(UIRootLevel root) where T : FrameUIPanelBase {
+            var repo = GetRepository(root);
+            return repo.GetByType(typeof(T));
+        }
+
+        public FrameUIPanelBase GetOpenedPageByID(int pageId) {
+            return GetOpenedByID(UIRootLevel.Page, pageId);
+        }
+
+        public FrameUIPanelBase GetOpenedPageByType<T>() where T : FrameUIPanelBase {
+            return GetOpenedByType<T>(UIRootLevel.Page);
+        }
+
+        public FrameUIPanelBase GetOpenedWindowByID(int windowId) {
+            return GetOpenedByID(UIRootLevel.Window, windowId);
+        }
+
+        public FrameUIPanelBase GetOpenedWindowByType<T>() where T : FrameUIPanelBase {
+            return GetOpenedByType<T>(UIRootLevel.Window);
+        }
+
+        public FrameUIPanelBase GetOpenedWorldTipsByID(int tipsId) {
+            return GetOpenedByID(UIRootLevel.WorldTips, tipsId);
+        }
+
+        public FrameUIPanelBase GetOpenedWorldTipsByType<T>() where T : FrameUIPanelBase {
+            return GetOpenedByType<T>(UIRootLevel.WorldTips);
+        }
+
+        public FrameUIPanelBase GetOpenedUITipsByID(int tipsId) {
+            return GetOpenedByID(UIRootLevel.UITips, tipsId);
+        }
+
+        public FrameUIPanelBase GetOpenedUITipsByType<T>() where T : FrameUIPanelBase {
+            return GetOpenedByType<T>(UIRootLevel.UITips);
         }
 
         FrameUIAssets GetAssets(UIRootLevel rootLevel) {
@@ -197,7 +234,7 @@ namespace JackFrame {
             var rootLevel = p.RootLevel;
             var id = p.Id;
             if (p.IsUnique) {
-                var existPanel = GetOpened(rootLevel, id);
+                var existPanel = GetOpenedByID(rootLevel, id);
                 if (existPanel != null) {
                     PLog.Warning("Panel is unique, don't open twice.");
                     return existPanel as T;
@@ -279,22 +316,6 @@ namespace JackFrame {
                 repo.Pop().CloseAndDestroy();
             }
             repo.Clear();
-        }
-
-        public FrameUIPanelBase GetPage(int pageId) {
-            return GetOpened(UIRootLevel.Page, pageId);
-        }
-
-        public FrameUIPanelBase GetWindow(int windowId) {
-            return GetOpened(UIRootLevel.Window, windowId);
-        }
-
-        public FrameUIPanelBase GetWorldTips(int tipsId) {
-            return GetOpened(UIRootLevel.WorldTips, tipsId);
-        }
-
-        public FrameUIPanelBase GetUITips(int tipsId) {
-            return GetOpened(UIRootLevel.UITips, tipsId);
         }
 
     }
