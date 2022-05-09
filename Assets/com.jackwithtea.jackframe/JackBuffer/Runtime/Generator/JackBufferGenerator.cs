@@ -103,13 +103,13 @@ namespace JackBuffer.Editor {
                         if (fieldType.Contains("[]")) {
                             string trueType = fieldType.Replace("[]", "");
                             if (IsJackBufferObject(inputDir, trueType)) {
-                                return WRITER + nameof(BufferWriter.WriteMessageArr) + writeSuffix;
+                                return WRITER + nameof(BufferWriterExtra.WriteMessageArr) + writeSuffix;
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }
                         } else {
                             if (IsJackBufferObject(inputDir, fieldType)) {
-                                return WRITER + nameof(BufferWriter.WriteMessage) + writeSuffix;
+                                return WRITER + nameof(BufferWriterExtra.WriteMessage) + writeSuffix;
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }
@@ -180,14 +180,14 @@ namespace JackBuffer.Editor {
                             // 处理自定义类型数组
                             string trueType = fieldType.Replace("[]", "");
                             if (IsJackBufferObject(inputDir, trueType)) {
-                                return $"{fieldName} = " + READER + nameof(BufferReader.ReadMessageArr) + $"({SRC_PARAM_NAME}, () => new {trueType}(), ref {OFFSET_PARAM_NAME});";
+                                return $"{fieldName} = " + READER + nameof(BufferReaderExtra.ReadMessageArr) + $"({SRC_PARAM_NAME}, () => new {trueType}(), ref {OFFSET_PARAM_NAME});";
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }
                         } else {
                             // 处理单自定义类型
                             if (IsJackBufferObject(inputDir, fieldType)) {
-                                return $"{fieldName} = " + READER + nameof(BufferReader.ReadMessage) + $"({SRC_PARAM_NAME}, () => new {fieldType}(), ref {OFFSET_PARAM_NAME});";
+                                return $"{fieldName} = " + READER + nameof(BufferReaderExtra.ReadMessage) + $"({SRC_PARAM_NAME}, () => new {fieldType}(), ref {OFFSET_PARAM_NAME});";
                             } else {
                                 throw new Exception($"未处理该类型: {fieldType}");
                             }

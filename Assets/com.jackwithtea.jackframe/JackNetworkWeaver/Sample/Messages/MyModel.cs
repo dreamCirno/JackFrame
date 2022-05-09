@@ -57,8 +57,8 @@ namespace JackFrame.Network.Sample
             BufferWriter.WriteDoubleArr(dst, doubleArr, ref offset);
             BufferWriter.WriteUTF8String(dst, strValue, ref offset);
             BufferWriter.WriteUTF8StringArr(dst, strArr, ref offset);
-            BufferWriter.WriteMessage(dst, herModel, ref offset);
-            BufferWriter.WriteMessageArr(dst, herModelArr, ref offset);
+            BufferWriterExtra.WriteMessage(dst, herModel, ref offset);
+            BufferWriterExtra.WriteMessageArr(dst, herModelArr, ref offset);
             BufferWriter.WriteUTF8String(dst, otherStr, ref offset);
         }
 
@@ -87,8 +87,8 @@ namespace JackFrame.Network.Sample
             doubleArr = BufferReader.ReadDoubleArr(src, ref offset);
             strValue = BufferReader.ReadUTF8String(src, ref offset);
             strArr = BufferReader.ReadUTF8StringArr(src, ref offset);
-            herModel = BufferReader.ReadMessage(src, () => new HerModel(), ref offset);
-            herModelArr = BufferReader.ReadMessageArr(src, () => new HerModel(), ref offset);
+            herModel = BufferReaderExtra.ReadMessage(src, () => new HerModel(), ref offset);
+            herModelArr = BufferReaderExtra.ReadMessageArr(src, () => new HerModel(), ref offset);
             otherStr = BufferReader.ReadUTF8String(src, ref offset);
         }
 

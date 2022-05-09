@@ -1,5 +1,6 @@
 using System;
 using JackBuffer;
+using JackFrame;
 
 namespace JackBuffer.Sample
 {
