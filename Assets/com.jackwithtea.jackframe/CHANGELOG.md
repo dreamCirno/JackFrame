@@ -3,6 +3,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 
 ## [Develop]
+## [1.5.1] - 2022-05-09
+### Added
+- FrameUIManager 增加 OpenByType 接口  
+### Changed
+- FrameUIManagerBase 去掉 Base  
+- FrameUIManager 修改Open为OpenByID  
+
 ## [1.5.0] - 2022-05-09
 ### Added
 - FrameUIManagerBase 改为挂载的形式  
