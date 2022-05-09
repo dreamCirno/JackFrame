@@ -46,7 +46,7 @@ namespace JackFrame {
         请与主程或架构负责人联系
     */
     [Serializable]
-    public class FrameUIManagerBase : MonoBehaviour {
+    public class FrameUIManager : MonoBehaviour {
 
         Canvas uiCanvas;
         Image background;
@@ -166,16 +166,36 @@ namespace JackFrame {
             return rootArr[(int)rootLevel];
         }
 
+        FrameUIPanelBase GetUIPanelByID(UIRootLevel rootLevel, int id) {
+            var assets = GetAssets(rootLevel);
+            return assets.GetByID(id);
+        }
+
+        FrameUIPanelBase GetUIPanelByType(UIRootLevel rootLevel, Type type) {
+            var assets = GetAssets(rootLevel);
+            return assets.GetByType(type);
+        }
+
         // 打开页面
-        public T Open<T>(UIRootLevel rootLevel, int id) where T : FrameUIPanelBase {
-
-            FrameUIAssets assets = GetAssets(rootLevel);
-            FrameUIPanelBase p = assets.Get(id);
-            if (p == null) {
-                PLog.Error("未注册: " + rootLevel.ToString() + ", id: " + id.ToString());
-                return null;
+        public T OpenByType<T>(UIRootLevel rootLevel) where T : FrameUIPanelBase {
+            var panel = GetUIPanelByType(rootLevel, typeof(T));
+            if (panel == null) {
+                PLog.Error("FrameUIManagerBase.OpenByType() -> panel is null");
             }
+            return Open<T>(panel);
+        }
 
+        public T OpenByID<T>(UIRootLevel rootLevel, int id) where T : FrameUIPanelBase {
+            var panel = GetUIPanelByID(rootLevel, id);
+            if (panel == null) {
+                PLog.Error("FrameUIManagerBase.OpenByID() -> panel is null");
+            }
+            return Open<T>(panel);
+        }
+
+        public T Open<T>(FrameUIPanelBase p) where T : FrameUIPanelBase {
+            var rootLevel = p.RootLevel;
+            var id = p.Id;
             if (p.IsUnique) {
                 var existPanel = GetOpened(rootLevel, id);
                 if (existPanel != null) {
@@ -213,20 +233,36 @@ namespace JackFrame {
             repo.Remove(panel);
         }
 
-        public T OpenPage<T>(int pageId) where T : FrameUIPanelBase {
-            return Open<T>(UIRootLevel.Page, pageId);
+        public T OpenPageByID<T>(int pageId) where T : FrameUIPanelBase {
+            return OpenByID<T>(UIRootLevel.Page, pageId);
         }
 
-        public T OpenWindow<T>(int windowId) where T : FrameUIPanelBase {
-            return Open<T>(UIRootLevel.Window, windowId);
+        public T OpenPageByType<T>() where T : FrameUIPanelBase {
+            return OpenByType<T>(UIRootLevel.Page);
         }
 
-        public T OpenWorldTips<T>(int tipsId) where T : FrameUIPanelBase {
-            return Open<T>(UIRootLevel.WorldTips, tipsId);
+        public T OpenWindowByID<T>(int windowId) where T : FrameUIPanelBase {
+            return OpenByID<T>(UIRootLevel.Window, windowId);
         }
 
-        public T OpenUITips<T>(int tipsId) where T : FrameUIPanelBase {
-            return Open<T>(UIRootLevel.UITips, tipsId);
+        public T OpenWindowByType<T>() where T : FrameUIPanelBase {
+            return OpenByType<T>(UIRootLevel.Window);
+        }
+
+        public T OpenWorldTipsByID<T>(int tipsId) where T : FrameUIPanelBase {
+            return OpenByID<T>(UIRootLevel.WorldTips, tipsId);
+        }
+
+        public T OpenWorldTipsByType<T>() where T : FrameUIPanelBase {
+            return OpenByType<T>(UIRootLevel.WorldTips);
+        }
+
+        public T OpenUITipsByID<T>(int tipsId) where T : FrameUIPanelBase {
+            return OpenByID<T>(UIRootLevel.UITips, tipsId);
+        }
+
+        public T OpenUITipsByType<T>() where T : FrameUIPanelBase {
+            return OpenByType<T>(UIRootLevel.UITips);
         }
 
         public void CloseAndDestroyAllPage() {

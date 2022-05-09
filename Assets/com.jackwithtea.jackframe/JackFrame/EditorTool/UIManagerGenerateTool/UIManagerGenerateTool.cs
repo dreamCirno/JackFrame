@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 namespace JackFrame.EditorTool {
 
@@ -8,9 +9,9 @@ namespace JackFrame.EditorTool {
 
         [UnityEditor.MenuItem("GameObject/" + MENU_CONTEXT_NAME.L1 + "/UI/Generate UIManager")]
         public static void Generate() {
+            var selected = Selection.activeGameObject;
             var prefab = Resources.Load("UI_CANVAS") as GameObject;
-            var selected = UnityEditor.Selection.activeGameObject;
-            prefab = GameObject.Instantiate(prefab, selected?.transform);
+            prefab = PrefabUtility.InstantiatePrefab(prefab, selected?.transform) as GameObject;
             prefab.name = prefab.name.Replace("(Clone)", "");
         }
     }
