@@ -46,7 +46,7 @@ namespace JackFrame {
         请与主程或架构负责人联系
     */
     [Serializable]
-    public abstract class FrameUIManagerBase {
+    public class FrameUIManagerBase : MonoBehaviour {
 
         Canvas uiCanvas;
         Image background;
@@ -55,9 +55,20 @@ namespace JackFrame {
         FrameUIAssets[] assetsArr;
         FrameUIRepository[] openedRepoArr;
 
-        protected FrameUIManagerBase() {
+        protected virtual void Awake() {
+
+            uiCanvas = GetComponent<Canvas>();
+            background = uiCanvas.transform.Find("UI_BG").GetComponent<Image>();
+            PLog.ForceAssert(background != null, "FrameUIManagerBase.Awake() -> background is null");
 
             this.rootArr = new Transform[4];
+            this.rootArr[(int)UIRootLevel.WorldTips] = transform.Find("UI_WORLD_TIPS_ROOT");
+            this.rootArr[(int)UIRootLevel.Page] = transform.Find("UI_PAGE_ROOT");
+            this.rootArr[(int)UIRootLevel.Window] = transform.Find("UI_WINDOW_ROOT");
+            this.rootArr[(int)UIRootLevel.UITips] = transform.Find("UI_UI_TIPS_ROOT");
+            for (int i = 0; i < rootArr.Length; i += 1) {
+                PLog.ForceAssert(rootArr[i] != null, "FrameUIManagerBase.Awake() -> rootArr[" + i + "] is null");
+            }
 
             this.assetsArr = new FrameUIAssets[4];
             for (int i = 0; i < assetsArr.Length; i += 1) {
@@ -69,21 +80,7 @@ namespace JackFrame {
                 openedRepoArr[i] = new FrameUIRepository();
             }
 
-        }
-
-        public void Inject(Canvas uiCanvas,
-                           Image background,
-                           Transform pageRoot,
-                           Transform windowRoot,
-                           Transform worldTipsRoot,
-                           Transform uiTipsRoot) {
-            this.uiCanvas = uiCanvas;
-            this.background = background;
-
-            this.rootArr[(int)UIRootLevel.WorldTips] = worldTipsRoot;
-            this.rootArr[(int)UIRootLevel.Page] = pageRoot;
-            this.rootArr[(int)UIRootLevel.Window] = windowRoot;
-            this.rootArr[(int)UIRootLevel.UITips] = uiTipsRoot;
+            PLog.ForceAssert(EventSystem.current != null, "FrameUIManagerBase.Awake() -> EventSystem is null");
 
         }
 
