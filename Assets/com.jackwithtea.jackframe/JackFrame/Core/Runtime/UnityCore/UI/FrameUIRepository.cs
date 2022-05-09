@@ -39,8 +39,8 @@ namespace JackFrame {
             return openedList.Find(value => value.Id == id);
         }
 
-        public FrameUIPanelBase GetByType(Type type) {
-            return openedList.Find(value => value.GetType() == type);
+        public T GetByType<T>() where T : FrameUIPanelBase {
+            return openedList.Find(value => value.GetType() == typeof(T)) as T;
         }
 
         public FrameUIPanelBase Pop() {

@@ -158,16 +158,16 @@ namespace JackFrame {
             return repo.GetByID(id);
         }
 
-        public FrameUIPanelBase GetOpenedByType<T>(UIRootLevel root) where T : FrameUIPanelBase {
+        public T GetOpenedByType<T>(UIRootLevel root) where T : FrameUIPanelBase {
             var repo = GetRepository(root);
-            return repo.GetByType(typeof(T));
+            return repo.GetByType<T>();
         }
 
         public FrameUIPanelBase GetOpenedPageByID(int pageId) {
             return GetOpenedByID(UIRootLevel.Page, pageId);
         }
 
-        public FrameUIPanelBase GetOpenedPageByType<T>() where T : FrameUIPanelBase {
+        public T GetOpenedPageByType<T>() where T : FrameUIPanelBase {
             return GetOpenedByType<T>(UIRootLevel.Page);
         }
 
@@ -175,7 +175,7 @@ namespace JackFrame {
             return GetOpenedByID(UIRootLevel.Window, windowId);
         }
 
-        public FrameUIPanelBase GetOpenedWindowByType<T>() where T : FrameUIPanelBase {
+        public T GetOpenedWindowByType<T>() where T : FrameUIPanelBase {
             return GetOpenedByType<T>(UIRootLevel.Window);
         }
 
@@ -183,7 +183,7 @@ namespace JackFrame {
             return GetOpenedByID(UIRootLevel.WorldTips, tipsId);
         }
 
-        public FrameUIPanelBase GetOpenedWorldTipsByType<T>() where T : FrameUIPanelBase {
+        public T GetOpenedWorldTipsByType<T>() where T : FrameUIPanelBase {
             return GetOpenedByType<T>(UIRootLevel.WorldTips);
         }
 
@@ -191,7 +191,7 @@ namespace JackFrame {
             return GetOpenedByID(UIRootLevel.UITips, tipsId);
         }
 
-        public FrameUIPanelBase GetOpenedUITipsByType<T>() where T : FrameUIPanelBase {
+        public T GetOpenedUITipsByType<T>() where T : FrameUIPanelBase {
             return GetOpenedByType<T>(UIRootLevel.UITips);
         }
 
