@@ -33,7 +33,12 @@ namespace JackFrame {
 
         static Renderer lastHitRenderer;
         static Material lastMat;
- 
+
+        public static Vector3 HUDLookAtCameraPoint(this Camera cam, Vector3 hudPos) {
+            Vector3 dir = hudPos - cam.transform.position;
+            return Vector3.ProjectOnPlane(dir, cam.transform.forward);
+        }
+
         public static void FocusOn(this Camera _camera, Vector3 _targetPos) {
             _camera.transform.position = _camera.transform.position.SetKeepZ(_targetPos);
             camVec = 0;

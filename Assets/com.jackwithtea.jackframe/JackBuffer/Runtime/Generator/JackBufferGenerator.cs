@@ -48,8 +48,9 @@ namespace JackBuffer.Editor {
                 classEditor.RemoveInherit($"IJackMessage<{classEditor.GetClassName()}>");
                 classEditor.InheritInterface($"IJackMessage<{classEditor.GetClassName()}>");
 
-                classEditor.AddUsing("System");
-                classEditor.AddUsing("JackBuffer");
+                classEditor.AddUsing(nameof(System));
+                classEditor.AddUsing(nameof(JackBuffer));
+                classEditor.AddUsing(nameof(JackFrame));
 
                 FileHelper.SaveFileText(classEditor.Generate(), value);
 
