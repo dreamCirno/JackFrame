@@ -54,7 +54,7 @@ namespace JackFrame {
             string path = ConvertPath(filePath);
             PLog.Log(path);
 
-            CorutineHelper.StartCoroutine(GetText(path, action));
+            CoroutineHelper.StartCoroutine(GetText(path, action));
         }
         static IEnumerator GetText(string path, Action<string> action) {
             using (UnityWebRequest www = UnityWebRequest.Get(path)) {
@@ -76,7 +76,7 @@ namespace JackFrame {
             string path = ConvertPath(filePath);
             PLog.Log(path);
 
-            CorutineHelper.StartCoroutine(GetText(path, action));
+            CoroutineHelper.StartCoroutine(GetText(path, action));
         }
         static IEnumerator GetText(string path, Action<byte[]> action) {
             using (UnityWebRequest www = UnityWebRequest.Get(path)) {
