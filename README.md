@@ -1,8 +1,26 @@
 # JackFrame 简介
-```
-根目录: Assets/com.jackwithtea.jackframe/
+游戏开发库的集合    
+    
+根目录:    
+Assets/com.jackwithtea.jackframe/   
 
->> 独立(低层)程序集 <<
+## 环境
+支持Unity 2019.4.x ~ 2021.3.x
+
+## 使用方式 Unity PackageManager(UPM) 
+第一步:    
+打开 Unity PackageManager, 并点击"Add package from git URL"  
+![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/1.png)  
+
+第二步:    
+复制以下url, 然后点Add, UPM就会自动加载了  
+ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop
+![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/2.png)  
+
+## 使用方式 - 自定义
+亦可直接拷贝代码到你自己的目录下使用  
+
+## >> 独立(低层)程序集 <<
 【Core】
 目录: Runtime/Independence/JackFrame
 程序集: JackFrame.Runtime.dll  
@@ -47,24 +65,9 @@
 目录: Editor
 程序集: JackFrame.EditorTool.dll  
 功能: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具  
-```
 
-# 环境
-支持Unity 2019.4.x ~ 2021.3.x
 
-# Unity PackageManager(UPM) 使用方式
-#### 第一步:  
-打开 Unity PackageManager, 并点击"Add package from git URL"  
-![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/1.png)  
-
-#### 第二步:  
-复制以下url, 然后点Add, UPM就会自动加载了  
-ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop
-![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/2.png)  
 
 #### 注
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop  
 \#develop 可改为 #1.1.0, 即可加载对应的版本
-
-# 依赖关系 / Dependancies
-![依赖关系图](./Assets/com.jackwithtea.jackframe/Document~/Dependancies.png)
