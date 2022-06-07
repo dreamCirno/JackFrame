@@ -1,23 +1,20 @@
 {
-    "name": "JackBuffer.Tests",
+    "name": "JackBuffer.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:72e53efc3db839d40ab26cd2f7fe819d",
+        "GUID:1c4f517fe4e2f1144a9af5434b1fe0e2",
         "GUID:698de13ac41894b4faa41653eef13f2b",
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:e265d67c03feb3243bf7d85067f9df99",
-        "GUID:b6c66767d066a2a48a290315aaa79115"
+        "GUID:e265d67c03feb3243bf7d85067f9df99"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": true,
-    "precompiledReferences": [
-        "nunit.framework.dll"
-    ],
+    "overrideReferences": false,
+    "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
+        "UNITY_EDITOR"
     ],
     "versionDefines": [],
     "noEngineReferences": false
