@@ -1,1 +1,0 @@
-{"changeLogFilePath":"com.jackwithtea.jackframe/CHANGELOG.md","versionFilePath":"com.jackwithtea.jackframe/VERSION","packageJsonFilePath":"com.jackwithtea.jackframe/package.json","semanticVersion":"1.0.0","changeLogAdded":"","changeLogChanged":"","changeLogRemoved":"","changeLogFixed":"","changeLogOther":""}

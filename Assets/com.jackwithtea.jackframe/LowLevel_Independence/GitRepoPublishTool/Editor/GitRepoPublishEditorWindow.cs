@@ -225,6 +225,7 @@ namespace JackFrame.EditorTool {
             string dir = Application.dataPath;
             var filePath = Path.Combine(dir, configModel.versionFilePath.TrimStart('/'));
             if (!File.Exists(filePath)) {
+                Debug.LogWarning($"文件不存在: {filePath}");
                 return "unknown";
             }
             string version = FileHelper.LoadTextFromFile(filePath);
@@ -235,6 +236,8 @@ namespace JackFrame.EditorTool {
         // -- GIT REPO
         void CreateGitRepoConfigFile() {
             GitRepoConfigModel model = new GitRepoConfigModel();
+            FileHelper.CreateDirIfNorExist(Path.Combine(Application.dataPath, "Config"));
+            FileHelper.CreateDirIfNorExist(Path.Combine(Application.dataPath, "Config", "JackFrame"));
             SaveGitRepoConfigFile(model);
         }
 
@@ -247,11 +250,12 @@ namespace JackFrame.EditorTool {
         }
 
         string GetGitRepoConfigFilePath() {
-            return Path.Combine(Application.dataPath, "GitPublishConfig.txt");
+            return Path.Combine(Application.dataPath, "Config", "JackFrame", "GitPublishConfig.txt");
         }
 
         GitRepoConfigModel ReadGitRepoConfigFile() {
             if (!File.Exists(GetGitRepoConfigFilePath())) {
+                Debug.LogWarning("找不到配置文件: " + GetGitRepoConfigFilePath());
                 return null;
             }
             string jsonStr = FileHelper.LoadTextFromFile(GetGitRepoConfigFilePath());

@@ -6,30 +6,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters;
 
-namespace JackFrame {
+namespace JackFrame.EditorTool {
 
-    /*
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-
-        修改此类的风险非常大
-        请与主程或架构负责人联系
-    */
     public static class FileHelper {
 
         // 找到某个文件

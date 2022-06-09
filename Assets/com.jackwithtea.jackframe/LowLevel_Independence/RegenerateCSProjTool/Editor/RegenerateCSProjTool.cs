@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 using Unity.CodeEditor;
 using VSCodeEditor;
-using JackFrame; 
+using JackFrame;
 
 namespace JackFrame.EditorTool {
 
@@ -16,7 +16,7 @@ namespace JackFrame.EditorTool {
         [MenuItem(nameof(JackFrame) + "/RegenerateCSProj")]
         public static void CleanCSProj() {
 
-            List<string> files = FileHelper.FindAllFileWithExt(Environment.CurrentDirectory, "*.csproj");
+            List<string> files = FindAllFileWithExt(Environment.CurrentDirectory, "*.csproj");
             foreach (var file in files) {
                 File.Delete(file);
             }
@@ -31,6 +31,27 @@ namespace JackFrame.EditorTool {
             generator.Sync();
 
             Debug.Log("重新生成了 CSProj");
+        }
+
+        static List<string> FindAllFileWithExt(string rootPath, string ext) {
+
+            List<string> fileList = new List<string>();
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(rootPath);
+            FileInfo[] allFiles = directoryInfo.GetFiles(ext);
+            for (int i = 0; i < allFiles.Length; i += 1) {
+                var file = allFiles[i];
+                fileList.Add(file.FullName);
+            }
+
+            DirectoryInfo[] childrenDirs = directoryInfo.GetDirectories();
+            for (int i = 0; i < childrenDirs.Length; i += 1) {
+                var dir = childrenDirs[i];
+                fileList.AddRange(FindAllFileWithExt(dir.FullName, ext));
+            }
+
+            return fileList;
+
         }
 
     }
