@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Linq;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace JackFrame.EditorTool {
             for (int i = 0; i < changeLogTxtLines.Length; i += 1) {
                 string line = changeLogTxtLines[i];
                 if (line.StartsWith(VERSION_LINE_STRATS_WITH)) {
-                    string semanticVersion = line.GetMatchesLettersBetweenTwoChar("[", "]")[0].Value;
+                    string semanticVersion = GetMatchesLettersBetweenTwoChar(line, "[", "]")[0].Value;
                     if (curContainer == null || curContainer.semanticVersion != semanticVersion) {
                         curContainer = GetOrAddVersion(semanticVersion, line);
                     }
@@ -106,7 +107,16 @@ namespace JackFrame.EditorTool {
         }
 
         string ToDateFormat() {
-            return DateTime.Now.ToYYYYMMDD();
+            return ToYYYYMMDD(DateTime.Now);
+        }
+
+        string ToYYYYMMDD(DateTime t, char splitChar = '-') {
+            return t.Year.ToString() + splitChar + t.Month.ToString().PadLeft(2, '0') + splitChar + t.Day.ToString().PadLeft(2, '0');
+        }
+
+        MatchCollection GetMatchesLettersBetweenTwoChar(string str, string startChar, string endChar) {
+            Regex reg = new Regex(@"[" + startChar + "]+[a-zA-Z0-9.]+[" + endChar + "]");
+            return reg.Matches(str);
         }
 
         public override string ToString() {
@@ -191,6 +201,7 @@ namespace JackFrame.EditorTool {
             }
 
         }
+        
 
     }
 

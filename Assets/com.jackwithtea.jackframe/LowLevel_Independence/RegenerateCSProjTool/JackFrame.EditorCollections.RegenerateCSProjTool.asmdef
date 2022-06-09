@@ -1,21 +1,16 @@
 {
-    "name": "JackFrame.EditorTool",
+    "name": "JackFrame.EditorCollections.RegenerateCSProjTool",
     "rootNamespace": "",
     "references": [
-        "GUID:698de13ac41894b4faa41653eef13f2b",
         "GUID:8b845b123ab418448a8be2935fa804e0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": true,
-    "precompiledReferences": [
-        "Newtonsoft.Json.dll"
-    ],
+    "overrideReferences": false,
+    "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "UNITY_EDITOR"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }
