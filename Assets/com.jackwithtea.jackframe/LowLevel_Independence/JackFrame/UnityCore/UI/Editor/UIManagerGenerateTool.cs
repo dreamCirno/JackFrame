@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,3 +18,4 @@ namespace JackFrame.EditorTool {
     }
 
 }
+#endif
