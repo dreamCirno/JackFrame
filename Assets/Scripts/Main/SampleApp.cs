@@ -12,6 +12,16 @@ namespace MySampleApp {
 
         }
 
+        void Awake() {
+
+        }
+
+        void Update() {
+            if (Input.GetKeyUp(KeyCode.Space)) {
+                Physics.Simulate(0.01f);
+            }
+        }
+
     }
 
 }
