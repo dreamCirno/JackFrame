@@ -17,6 +17,8 @@ Assets/com.jackwithtea.jackframe/
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop
 ![JackFrame图](./Assets/com.jackwithtea.jackframe/Document~/2.png)  
 
+注：\#develop 可改为 #1.1.0, 即可加载对应的版本
+
 ## 使用方式 - 自定义
 亦可直接拷贝代码到你自己的目录下使用  
 
@@ -66,6 +68,4 @@ ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackf
 程序集: JackFrame.EditorTool.dll  
 功能: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具  
 
-#### 注
-ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop  
-\#develop 可改为 #1.1.0, 即可加载对应的版本
+####
