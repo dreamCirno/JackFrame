@@ -44,7 +44,7 @@ ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackf
 功能: 二进制序列化/反序列化，例如将 int 序列化成 byte[4]
 实现方式: 基础的位运算操作
 
->> 中层程序集 <<
+## >> 中层程序集 <<
 【JackBuffer】  
 目录: Runtime/JackBuffer
 程序集: JackBuffer.Runtime  
@@ -52,7 +52,7 @@ ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackf
 功能: 自动生成代码工具，将一个数据结构类(或结构体)生成 ToBytes 与 FromBytes 方法
 实现方式: 利用 AST 读取代码文本，利用 BufferIO 进行序列化与反序列化
 
->> 高层程序集 <<
+## >> 高层程序集 <<
 【NetworkWeaver.Tcp】
 目录: Runtime/JackNetworkWeaver/Tcp
 程序集: JackFrame.NetworkWeaver.Tcp
@@ -60,13 +60,11 @@ ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackf
 功能: 集成 TCP 网络通信 + 消息序列化
 实现方式: Telepathy 作为 TCP 通道，JackBuffer 作为序列化协议
 
->> 工具程序集 <<
+## >> 工具程序集 <<
 【EditorTool】  
 目录: Editor
 程序集: JackFrame.EditorTool.dll  
 功能: 脏脚本编译工具 / CSProj清理与再生成工具 / 图片切割导出工具  
-
-
 
 #### 注
 ssh://git@github.com/chenwansal/JackFrame.git?path=/Assets/com.jackwithtea.jackframe#develop  
