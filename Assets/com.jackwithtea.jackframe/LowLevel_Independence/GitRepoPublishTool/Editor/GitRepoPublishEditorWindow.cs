@@ -38,132 +38,139 @@ namespace JackFrame.EditorTool {
             toolbarIndex = GUILayout.Toolbar(toolbarIndex, new string[] { "基本配置", "准备发布", "打包 UnityPackage" });
 
             if (toolbarIndex == 0) {
-
-                if (gitRepoConfigModel == null) {
-                    if (GUILayout.Button("创建 GitRepo 配置文件")) {
-                        CreateGitRepoConfigFile();
-                    }
-                    if (GUILayout.Button("重试 GitRepo 读取配置文件")) {
-                        gitRepoConfigModel = ReadGitRepoConfigFile();
-                    }
-                    return;
-                }
-
-                GUILayout.Label("CHANGELOG.md 所在路径");
-                gitRepoConfigModel.changeLogFilePath = GUILayout.TextField(gitRepoConfigModel.changeLogFilePath);
-
-                GUILayout.Space(10);
-                GUILayout.Label("VERSION 所在路径");
-                gitRepoConfigModel.versionFilePath = GUILayout.TextField(gitRepoConfigModel.versionFilePath);
-
-                GUILayout.Space(10);
-                GUILayout.Label("package.json 所在路径");
-                gitRepoConfigModel.packageJsonFilePath = GUILayout.TextField(gitRepoConfigModel.packageJsonFilePath);
-
-                GUILayout.Space(10);
-                if (GUILayout.Button("保存")) {
-                    SaveGitRepoConfigFile(gitRepoConfigModel);
-                }
-
+                GUIToolBarConfig();
             } else if (toolbarIndex == 1) {
-
-                if (publishSo.currentVersion == null) {
-                    publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
-                }
-
-                GUILayout.Space(5);
-                GUILayout.BeginHorizontal();
-                GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
-                if (GUILayout.Button("重新获取")) {
-                    publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
-                }
-                GUILayout.EndHorizontal();
-
-                GUILayout.Space(10);
-                GUILayout.Label("待发布版本号(例1.1.0, 前后不加符号)");
-                publishSo.semanticVersion = GUILayout.TextField(publishSo.semanticVersion);
-
-                GUILayout.Space(10);
-                GUILayout.Label("ChangeLog Added");
-                publishSo.changeLogAdded = GUILayout.TextArea(publishSo.changeLogAdded, GUILayout.MinHeight(50));
-
-                GUILayout.Space(10);
-                GUILayout.Label("ChangeLog Changed");
-                publishSo.changeLogChanged = GUILayout.TextArea(publishSo.changeLogChanged, GUILayout.MinHeight(50));
-
-                GUILayout.Space(10);
-                GUILayout.Label("ChangeLog Removed");
-                publishSo.changeLogRemoved = GUILayout.TextArea(publishSo.changeLogRemoved, GUILayout.MinHeight(50));
-
-                GUILayout.Space(10);
-                GUILayout.Label("ChangeLog Fixed");
-                publishSo.changeLogFixed = GUILayout.TextArea(publishSo.changeLogFixed, GUILayout.MinHeight(50));
-
-                GUILayout.Space(10);
-                GUILayout.Label("ChangeLog Other");
-                publishSo.changeLogOther = GUILayout.TextArea(publishSo.changeLogOther, GUILayout.MinHeight(50));
-
-                if (GUILayout.Button("保存发布")) {
-                    string title = "发布确认";
-                    string content = $"以下文件将会被修改:\r\n"
-                                    + $"  {gitRepoConfigModel.changeLogFilePath}\r\n"
-                                    + $"  {gitRepoConfigModel.versionFilePath}\r\n"
-                                    + $"  {gitRepoConfigModel.packageJsonFilePath}\r\n"
-                                    + $"是否确认保存?";
-                    string ok = "确认";
-                    string cancel = "取消";
-                    if (EditorUtility.DisplayDialog(title, content, ok, cancel)) {
-                        SaveChange(gitRepoConfigModel, publishSo);
-                    }
-                }
-
+                GUIToolBarPublish();
             } else if (toolbarIndex == 2) {
-
-                if (unityPackageConfigModel == null) {
-                    if (GUILayout.Button("创建 UnityPackage 配置文件")) {
-                        unityPackageConfigModel = CreateUnityPackageConfigFile();
-                    }
-                    return;
-                }
-
-                GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
-
-                GUILayout.Space(10);
-                GUILayout.Label("源目录");
-                unityPackageConfigModel.packageSourceDir = GUILayout.TextField(unityPackageConfigModel.packageSourceDir);
-
-                GUILayout.Space(10);
-                GUILayout.Label("导出目录(注: 该地址基于Environment.CurrentDirectory)");
-                unityPackageConfigModel.packageOutputDir = GUILayout.TextField(unityPackageConfigModel.packageOutputDir);
-
-                GUILayout.Space(10);
-                GUILayout.Label("文件名");
-                unityPackageConfigModel.packageName = GUILayout.TextField(unityPackageConfigModel.packageName);
-
-                GUILayout.Space(10);
-                unityPackageConfigModel.isAutoVersion = GUILayout.Toggle(unityPackageConfigModel.isAutoVersion, "是否自动附加版本号");
-
-                GUILayout.Space(10);
-                if (GUILayout.Button("保存配置")) {
-                    SaveUnityPackageConfigFile(unityPackageConfigModel);
-                }
-
-                if (GUILayout.Button("打包")) {
-                    FileHelper.CreateDirIfNorExist(unityPackageConfigModel.packageOutputDir);
-                    string inputDir = Path.Combine("Assets", unityPackageConfigModel.packageSourceDir);
-                    UnityEngine.Object[] objs = AssetDatabase.LoadAllAssetsAtPath(inputDir);
-                    var list = new List<string>();
-                    for (int i = 0; i < objs.Length; i += 1) {
-                        var obj = objs[i];
-                        var path = AssetDatabase.GetAssetPath(obj);
-                        list.Add(path);
-                    }
-                    string outputFile = Path.Combine(unityPackageConfigModel.packageOutputDir, unityPackageConfigModel.packageName + ReadCurrentVersion(gitRepoConfigModel) + ".unitypackage");
-                    AssetDatabase.ExportPackage(list.ToArray(),  outputFile, ExportPackageOptions.Recurse);
-                }
-
+                GUIToolBarUnityPackage();
             }
 
+        }
+
+        void GUIToolBarConfig() {
+            if (gitRepoConfigModel == null) {
+                if (GUILayout.Button("创建 GitRepo 配置文件")) {
+                    CreateGitRepoConfigFile();
+                }
+                if (GUILayout.Button("重试 GitRepo 读取配置文件")) {
+                    gitRepoConfigModel = ReadGitRepoConfigFile();
+                }
+                return;
+            }
+
+            GUILayout.Label("CHANGELOG.md 所在路径");
+            gitRepoConfigModel.changeLogFilePath = GUILayout.TextField(gitRepoConfigModel.changeLogFilePath);
+
+            GUILayout.Space(10);
+            GUILayout.Label("VERSION 所在路径");
+            gitRepoConfigModel.versionFilePath = GUILayout.TextField(gitRepoConfigModel.versionFilePath);
+
+            GUILayout.Space(10);
+            GUILayout.Label("package.json 所在路径");
+            gitRepoConfigModel.packageJsonFilePath = GUILayout.TextField(gitRepoConfigModel.packageJsonFilePath);
+
+            GUILayout.Space(10);
+            if (GUILayout.Button("保存")) {
+                SaveGitRepoConfigFile(gitRepoConfigModel);
+            }
+        }
+
+        void GUIToolBarPublish() {
+            if (publishSo.currentVersion == null) {
+                publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
+            }
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
+            if (GUILayout.Button("重新获取")) {
+                publishSo.currentVersion = ReadCurrentVersion(gitRepoConfigModel);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10);
+            GUILayout.Label("待发布版本号(例1.1.0, 前后不加符号)");
+            publishSo.semanticVersion = GUILayout.TextField(publishSo.semanticVersion);
+
+            GUILayout.Space(10);
+            GUILayout.Label("ChangeLog Added");
+            publishSo.changeLogAdded = GUILayout.TextArea(publishSo.changeLogAdded, GUILayout.MinHeight(50));
+
+            GUILayout.Space(10);
+            GUILayout.Label("ChangeLog Changed");
+            publishSo.changeLogChanged = GUILayout.TextArea(publishSo.changeLogChanged, GUILayout.MinHeight(50));
+
+            GUILayout.Space(10);
+            GUILayout.Label("ChangeLog Removed");
+            publishSo.changeLogRemoved = GUILayout.TextArea(publishSo.changeLogRemoved, GUILayout.MinHeight(50));
+
+            GUILayout.Space(10);
+            GUILayout.Label("ChangeLog Fixed");
+            publishSo.changeLogFixed = GUILayout.TextArea(publishSo.changeLogFixed, GUILayout.MinHeight(50));
+
+            GUILayout.Space(10);
+            GUILayout.Label("ChangeLog Other");
+            publishSo.changeLogOther = GUILayout.TextArea(publishSo.changeLogOther, GUILayout.MinHeight(50));
+
+            if (GUILayout.Button("保存发布")) {
+                string title = "发布确认";
+                string content = $"以下文件将会被修改:\r\n"
+                                + $"  {gitRepoConfigModel.changeLogFilePath}\r\n"
+                                + $"  {gitRepoConfigModel.versionFilePath}\r\n"
+                                + $"  {gitRepoConfigModel.packageJsonFilePath}\r\n"
+                                + $"是否确认保存?";
+                string ok = "确认";
+                string cancel = "取消";
+                if (EditorUtility.DisplayDialog(title, content, ok, cancel)) {
+                    SaveChange(gitRepoConfigModel, publishSo);
+                    PlayerSettings.bundleVersion = publishSo.semanticVersion;
+                }
+            }
+        }
+
+        void GUIToolBarUnityPackage() {
+            if (unityPackageConfigModel == null) {
+                if (GUILayout.Button("创建 UnityPackage 配置文件")) {
+                    unityPackageConfigModel = CreateUnityPackageConfigFile();
+                }
+                return;
+            }
+
+            GUILayout.Label($"当前版本号: {publishSo.currentVersion}");
+
+            GUILayout.Space(10);
+            GUILayout.Label("源目录");
+            unityPackageConfigModel.packageSourceDir = GUILayout.TextField(unityPackageConfigModel.packageSourceDir);
+
+            GUILayout.Space(10);
+            GUILayout.Label("导出目录(注: 该地址基于Environment.CurrentDirectory)");
+            unityPackageConfigModel.packageOutputDir = GUILayout.TextField(unityPackageConfigModel.packageOutputDir);
+
+            GUILayout.Space(10);
+            GUILayout.Label("文件名");
+            unityPackageConfigModel.packageName = GUILayout.TextField(unityPackageConfigModel.packageName);
+
+            GUILayout.Space(10);
+            unityPackageConfigModel.isAutoVersion = GUILayout.Toggle(unityPackageConfigModel.isAutoVersion, "是否自动附加版本号");
+
+            GUILayout.Space(10);
+            if (GUILayout.Button("保存配置")) {
+                SaveUnityPackageConfigFile(unityPackageConfigModel);
+            }
+
+            if (GUILayout.Button("打包")) {
+                FileHelper.CreateDirIfNorExist(unityPackageConfigModel.packageOutputDir);
+                string inputDir = Path.Combine("Assets", unityPackageConfigModel.packageSourceDir);
+                UnityEngine.Object[] objs = AssetDatabase.LoadAllAssetsAtPath(inputDir);
+                var list = new List<string>();
+                for (int i = 0; i < objs.Length; i += 1) {
+                    var obj = objs[i];
+                    var path = AssetDatabase.GetAssetPath(obj);
+                    list.Add(path);
+                }
+                string outputFile = Path.Combine(unityPackageConfigModel.packageOutputDir, unityPackageConfigModel.packageName + ReadCurrentVersion(gitRepoConfigModel) + ".unitypackage");
+                AssetDatabase.ExportPackage(list.ToArray(), outputFile, ExportPackageOptions.Recurse);
+            }
         }
 
         // ==== 保存发布信息到文件 ====
