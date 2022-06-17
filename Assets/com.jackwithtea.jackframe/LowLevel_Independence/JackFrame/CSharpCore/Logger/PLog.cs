@@ -37,10 +37,7 @@ namespace JackFrame {
             All = Log | Warning | Error
         }
 
-        public static bool IsBindingLog;
-        public static bool IsBindingWarning;
-        public static bool IsBindingError;
-        public static bool IsBindingAssert;
+        // EVENT
         public static Action<string> OnLog;
         public static Action<string> OnWarning;
         public static Action<string> OnError;
@@ -48,10 +45,12 @@ namespace JackFrame {
         public static Action<bool> OnAssertWithoutMessage;
         public static Action OnTearDown;
 
+        // CACHE
+        public static bool AllowCache = false;
         static List<string> cacheList = new List<string>();
+        public static List<string> CacheList => cacheList;
 
-        static bool isFirstFileLog = false;
-
+        // LEVEL
         public static LogLevel Level { get; set; } = LogLevel.All;
 
         public static void Log(string message) {
@@ -64,11 +63,10 @@ namespace JackFrame {
                 OnLog.Invoke(message);
             }
 
-        }
+            if (AllowCache) {
+                AddToCache(LogLevel.Log, message);
+            }
 
-        public static void LogUnregisterHandle(string nameofHandle) {
-            const string PREFIX = "未注册";
-            Log(PREFIX + " " + nameofHandle);
         }
 
         public static void Warning(string message) {
@@ -81,6 +79,10 @@ namespace JackFrame {
                 OnWarning.Invoke(message);
             }
 
+            if (AllowCache) {
+                AddToCache(LogLevel.Warning, message);
+            }
+
         }
 
         public static void Error(string message) {
@@ -91,6 +93,10 @@ namespace JackFrame {
 
             if (OnError != null) {
                 OnError.Invoke(message);
+            }
+
+            if (AllowCache) {
+                AddToCache(LogLevel.Error, message);
             }
 
         }
@@ -147,18 +153,25 @@ namespace JackFrame {
 #endif
         }
 
-        public static void AddToFile(string log, string filePath = "DefaultLog.log", LogLevel logLevel = LogLevel.Log) {
-            if (!isFirstFileLog) {
-                string hr = "======================================== 新的片段 ========================================";
-                IniHelper.AddAndSave(filePath, DateTime.Now.ToLocalTime().ToString(), hr);
-                isFirstFileLog = true;
+        public static void AddToCache(LogLevel level, string log) {
+            string prefix;
+            switch(level) {
+                case LogLevel.Log:
+                    prefix = "[log]";
+                    break;
+                case LogLevel.Warning:
+                    prefix = "[warn]";
+                    break;
+                case LogLevel.Error:
+                    prefix = "[err]";
+                    break;
+                default:
+                    prefix = "";
+                    break;
             }
-            IniHelper.AddAndSave(filePath, DateTime.Now.ToLocalTime().ToString(), "[" + logLevel.ToString() + "]" + log);
-        }
 
-        public static void AddToCache(string log) {
             string str = DateTime.Now.ToLocalTime().ToString() + ": " + log;
-            cacheList.Add(str);
+            cacheList.Add(prefix + str);
         }
 
         public static void SaveCacheToFile(string filePath = "DefaultLog.log") {

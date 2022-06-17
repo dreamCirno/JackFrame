@@ -3,6 +3,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 
 ## [Develop]
+## [1.9.3] - 2022-06-17
+### Fixed
+- GitRepoTool 改版本时刷新ProjectSetting  
+
+## [1.9.3] - 2022-06-17
+### Fixed
+- GitRepoTool 改版本时刷新ProjectSetting  
+
+## [1.9.2] - 2022-06-17
+### Added
+- PLog 支持缓存  
+
 ## [1.9.1] - 2022-06-16
 ### Added
 - GitPublishRepo同时改变PlayerSetting里的版本  

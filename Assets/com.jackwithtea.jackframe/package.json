@@ -1,6 +1,6 @@
 {
   "name": "com.jackwithtea.jackframe",
-  "version": "1.9.1",
+  "version": "1.9.3",
   "description": "网络通信 / 文件读取工具 / CSV 读表工具 / AST 工具 / UI框架 / C# 标准库扩展 / UnityEngine 标准库扩展 / UnityEditor 脏脚本编译......",
   "displayName": "JackFrame",
   "unity": "2019.4",
