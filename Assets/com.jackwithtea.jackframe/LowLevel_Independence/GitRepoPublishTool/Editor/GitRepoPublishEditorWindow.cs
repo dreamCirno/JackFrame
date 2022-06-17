@@ -122,8 +122,9 @@ namespace JackFrame.EditorTool {
                 string ok = "确认";
                 string cancel = "取消";
                 if (EditorUtility.DisplayDialog(title, content, ok, cancel)) {
-                    SaveChange(gitRepoConfigModel, publishSo);
                     PlayerSettings.bundleVersion = publishSo.semanticVersion;
+                    UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+                    SaveChange(gitRepoConfigModel, publishSo);
                 }
             }
         }
