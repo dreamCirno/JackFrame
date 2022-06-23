@@ -47,6 +47,14 @@ namespace JackFrame {
 
         }
 
+        public static TDst[] PickOneFieldToArray<TSrc, TDst>(this TSrc[] arr, Func<TSrc, TDst> func) {
+            TDst[] dst = new TDst[arr.Length];
+            for (int i = 0; i < arr.Length; i += 1) {
+                dst[i] = func.Invoke(arr[i]);
+            }
+            return dst;
+        }
+
         public static bool TryGetEmptySlotIndex<T>(this T[] arr, out int index) {
 
             for (int i = 0; i < arr.Length; i += 1) {
