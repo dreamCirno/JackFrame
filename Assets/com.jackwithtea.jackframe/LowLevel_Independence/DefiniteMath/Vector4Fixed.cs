@@ -23,5 +23,38 @@ namespace JackFrame.DefiniteMath {
             this.w = other.w;
         }
 
+        public override bool Equals(object obj) {
+            var other = (Vector4Fixed)obj;
+            return other == this;
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+
+        public static Vector4Fixed operator +(Vector4Fixed a, Vector4Fixed b) {
+            a.x += b.x;
+            a.y += b.y;
+            a.z += b.z;
+            a.w += b.w;
+            return a;
+        }
+
+        public static Vector4Fixed operator -(Vector4Fixed lhs, Vector4Fixed rhs) {
+            lhs.x -= rhs.x;
+            lhs.y -= rhs.y;
+            lhs.z -= rhs.z;
+            lhs.w -= rhs.w;
+            return lhs;
+        }
+
+        public static bool operator ==(Vector4Fixed a, Vector4Fixed b) {
+            return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
+        }
+
+        public static bool operator !=(Vector4Fixed a, Vector4Fixed b) {
+            return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
+        }
+
     }
 }
