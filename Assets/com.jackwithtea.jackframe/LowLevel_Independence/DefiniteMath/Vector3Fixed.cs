@@ -27,5 +27,12 @@ namespace JackFrame.DefiniteMath {
             return a;
         }
 
+        public static Vector3Fixed operator -(Vector3Fixed a, Vector3Fixed b) {
+            a.x -= b.x;
+            a.y -= b.y;
+            a.z -= b.z;
+            return a;
+        }
+
     }
 }
