@@ -3,7 +3,7 @@ using System;
 namespace JackFrame.DefiniteMath {
 
     public struct Vector3Fixed {
-        
+
         public Fixed64 x;
         public Fixed64 y;
         public Fixed64 z;
@@ -18,6 +18,13 @@ namespace JackFrame.DefiniteMath {
             this.x = other.x;
             this.y = other.y;
             this.z = other.z;
+        }
+
+        public static Vector3Fixed operator +(Vector3Fixed a, Vector3Fixed b) {
+            a.x += b.x;
+            a.y += b.y;
+            a.z += b.z;
+            return a;
         }
 
     }
