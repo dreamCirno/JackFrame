@@ -17,6 +17,15 @@ namespace JackFrame.DefiniteMath {
             this.y = other.y;
         }
 
+        public override bool Equals(object obj) {
+            var other = (Vector2Fixed)obj;
+            return other == this;
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+
         public static Vector2Fixed operator +(Vector2Fixed a, Vector2Fixed b) {
             a.x += b.x;
             a.y += b.y;
@@ -27,6 +36,14 @@ namespace JackFrame.DefiniteMath {
             lhs.x -= rhs.x;
             lhs.y -= rhs.y;
             return lhs;
+        }
+
+        public static bool operator ==(Vector2Fixed a, Vector2Fixed b) {
+            return a.x == b.x && a.y == b.y;
+        }
+
+        public static bool operator !=(Vector2Fixed a, Vector2Fixed b) {
+            return a.x != b.x || a.y != b.y;
         }
 
     }

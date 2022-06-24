@@ -20,6 +20,15 @@ namespace JackFrame.DefiniteMath {
             this.z = other.z;
         }
 
+        public override bool Equals(object obj) {
+            var other = (Vector3Fixed)obj;
+            return other == this;
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+
         public static Vector3Fixed operator +(Vector3Fixed a, Vector3Fixed b) {
             a.x += b.x;
             a.y += b.y;
@@ -32,6 +41,14 @@ namespace JackFrame.DefiniteMath {
             lhs.y -= rhs.y;
             lhs.z -= rhs.z;
             return lhs;
+        }
+
+        public static bool operator ==(Vector3Fixed a, Vector3Fixed b) {
+            return a.x == b.x && a.y == b.y && a.z == b.z;
+        }
+
+        public static bool operator !=(Vector3Fixed a, Vector3Fixed b) {
+            return a.x != b.x || a.y != b.y || a.z != b.z;
         }
 
     }
