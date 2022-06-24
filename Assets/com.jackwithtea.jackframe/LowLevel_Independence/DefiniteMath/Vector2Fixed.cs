@@ -23,10 +23,10 @@ namespace JackFrame.DefiniteMath {
             return a;
         }
 
-        public static Vector2Fixed operator -(Vector2Fixed a, Vector2Fixed b) {
-            a.x -= b.x;
-            a.y -= b.y;
-            return a;
+        public static Vector2Fixed operator -(Vector2Fixed lhs, Vector2Fixed rhs) {
+            lhs.x -= rhs.x;
+            lhs.y -= rhs.y;
+            return lhs;
         }
 
     }

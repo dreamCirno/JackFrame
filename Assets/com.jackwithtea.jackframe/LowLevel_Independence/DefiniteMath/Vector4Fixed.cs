@@ -23,5 +23,21 @@ namespace JackFrame.DefiniteMath {
             this.w = other.w;
         }
 
+        public static Vector4Fixed operator +(Vector4Fixed a, Vector4Fixed b) {
+            a.x += b.x;
+            a.y += b.y;
+            a.z += b.z;
+            a.w += b.w;
+            return a;
+        }
+
+        public static Vector4Fixed operator -(Vector4Fixed lhs, Vector4Fixed rhs) {
+            lhs.x -= rhs.x;
+            lhs.y -= rhs.y;
+            lhs.z -= rhs.z;
+            lhs.w -= rhs.w;
+            return lhs;
+        }
+
     }
 }
