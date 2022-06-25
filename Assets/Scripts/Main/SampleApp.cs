@@ -1,5 +1,6 @@
 using UnityEngine;
 using JackFrame;
+using JackFrame.DefiniteMath;
 
 namespace MySampleApp {
 
@@ -13,6 +14,19 @@ namespace MySampleApp {
         }
 
         void Awake() {
+
+            Fixed64 fp = 3;
+
+            var a = new Vector3Fixed(3, 4, 5);
+            var b = new Vector3Fixed(8, 9, 10);
+            Fixed64 d = Vector3Fixed.Dot(a, b);
+            Debug.Log(d);
+            Debug.Log(a * b);
+            Debug.Log(a.x.ToString());
+            Debug.Log(fp.ToString());
+
+            float dot = Vector3.Dot(new Vector3(3, 4, 5), new Vector3(8, 9, 10));
+            Debug.Log(dot);
 
             Matrix4x4 m = new Matrix4x4(
                 new Vector4(1, 2, 3, 4),

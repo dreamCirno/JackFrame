@@ -2,7 +2,8 @@
     "name": "SampleApp",
     "rootNamespace": "",
     "references": [
-        "GUID:698de13ac41894b4faa41653eef13f2b"
+        "GUID:698de13ac41894b4faa41653eef13f2b",
+        "GUID:f462c37a2818df14bbc086038c6d2fe2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

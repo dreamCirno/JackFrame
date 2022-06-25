@@ -184,7 +184,7 @@ namespace JackFrame.DefiniteMath {
         }
 
         public static implicit operator Fixed64(int value) {
-            return M_FromRaw(value);
+            return M_FromRaw(value * ONE);
         }
 
         // - float
@@ -225,6 +225,10 @@ namespace JackFrame.DefiniteMath {
         // ==== EXTENTION ====
 
         // ==== OVERRIDE ====
+        public override string ToString() {
+            return ((decimal)this).ToString();
+        }
+
         public override bool Equals(object obj) {
             if (obj is Fixed64) {
                 return this.raw == ((Fixed64)obj).raw;

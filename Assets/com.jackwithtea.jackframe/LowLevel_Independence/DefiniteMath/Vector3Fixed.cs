@@ -20,6 +20,10 @@ namespace JackFrame.DefiniteMath {
             this.z = other.z;
         }
 
+        public override string ToString() {
+            return $"({x.ToString()}, {y.ToString()}, {z.ToString()})";
+        }
+
         public override bool Equals(object obj) {
             var other = (Vector3Fixed)obj;
             return other == this;
@@ -27,6 +31,14 @@ namespace JackFrame.DefiniteMath {
 
         public override int GetHashCode() {
             return base.GetHashCode();
+        }
+
+        public static Fixed64 Dot(Vector3Fixed lhs, Vector3Fixed rhs) {
+            return lhs * rhs;
+        }
+
+        public static Fixed64 operator *(Vector3Fixed lhs, Vector3Fixed rhs) {
+            return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
         }
 
         public static Vector3Fixed operator +(Vector3Fixed a, Vector3Fixed b) {
