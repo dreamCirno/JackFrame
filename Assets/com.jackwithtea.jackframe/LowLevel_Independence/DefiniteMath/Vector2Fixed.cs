@@ -1,13 +1,14 @@
 using System;
+using FixMath.NET;
 
 namespace JackFrame.DefiniteMath {
 
     public struct Vector2Fixed {
         
-        public Fixed64 x;
-        public Fixed64 y;
+        public Fix64 x;
+        public Fix64 y;
 
-        public Vector2Fixed(Fixed64 x, Fixed64 y) {
+        public Vector2Fixed(Fix64 x, Fix64 y) {
             this.x = x;
             this.y = y;
         }

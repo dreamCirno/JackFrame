@@ -1,13 +1,14 @@
 using System;
+using FixMath.NET;
 
 namespace JackFrame.DefiniteMath {
 
     public struct Matrix4x4Fixed {
 
-        public Fixed64 m11, m12, m13, m14;
-        public Fixed64 m21, m22, m23, m24;
-        public Fixed64 m31, m32, m33, m34;
-        public Fixed64 m41, m42, m43, m44;
+        public Fix64 m11, m12, m13, m14;
+        public Fix64 m21, m22, m23, m24;
+        public Fix64 m31, m32, m33, m34;
+        public Fix64 m41, m42, m43, m44;
 
         public readonly static Matrix4x4Fixed identity = new Matrix4x4Fixed(
             1, 0, 0, 0,
@@ -24,10 +25,10 @@ namespace JackFrame.DefiniteMath {
         }
 
         public Matrix4x4Fixed(
-            Fixed64 m11, Fixed64 m12, Fixed64 m13, Fixed64 m14,
-            Fixed64 m21, Fixed64 m22, Fixed64 m23, Fixed64 m24,
-            Fixed64 m31, Fixed64 m32, Fixed64 m33, Fixed64 m34,
-            Fixed64 m41, Fixed64 m42, Fixed64 m43, Fixed64 m44
+            Fix64 m11, Fix64 m12, Fix64 m13, Fix64 m14,
+            Fix64 m21, Fix64 m22, Fix64 m23, Fix64 m24,
+            Fix64 m31, Fix64 m32, Fix64 m33, Fix64 m34,
+            Fix64 m41, Fix64 m42, Fix64 m43, Fix64 m44
         ) {
             this.m11 = m11; this.m12 = m12; this.m13 = m13; this.m14 = m14;
             this.m21 = m21; this.m22 = m22; this.m23 = m23; this.m24 = m24;
@@ -37,16 +38,16 @@ namespace JackFrame.DefiniteMath {
 
         public override string ToString() {
             return $"{m11} {m12} {m13} {m14}\r\n"
-                  + $"{m21} {m22} {m23} {m24}\r\n"
-                  + $"{m31} {m32} {m33} {m34}\r\n"
-                  + $"{m41} {m42} {m43} {m44}";
+                 + $"{m21} {m22} {m23} {m24}\r\n"
+                 + $"{m31} {m32} {m33} {m34}\r\n"
+                 + $"{m41} {m42} {m43} {m44}";
         }
 
         public static Matrix4x4Fixed ScaleByVector(Vector3Fixed scales) {
             return Scale(scales.x, scales.y, scales.z);
         }
 
-        public static Matrix4x4Fixed Scale(Fixed64 x, Fixed64 y, Fixed64 z) {
+        public static Matrix4x4Fixed Scale(Fix64 x, Fix64 y, Fix64 z) {
             Matrix4x4Fixed mt = new Matrix4x4Fixed(
                 new Vector4Fixed(x, 0, 0, 0),
                 new Vector4Fixed(0, y, 0, 0),
@@ -57,7 +58,7 @@ namespace JackFrame.DefiniteMath {
         }
 
         public static Matrix4x4Fixed Transpose(Matrix4x4Fixed value) {
-            Fixed64 tmp = value.m12;
+            Fix64 tmp = value.m12;
             value.m12 = value.m21;
             value.m21 = tmp;
 
@@ -88,7 +89,7 @@ namespace JackFrame.DefiniteMath {
             return Translate(translation.x, translation.y, translation.z);
         }
 
-        public static Matrix4x4Fixed Translate(Fixed64 x, Fixed64 y, Fixed64 z) {
+        public static Matrix4x4Fixed Translate(Fix64 x, Fix64 y, Fix64 z) {
             Matrix4x4Fixed mt = new Matrix4x4Fixed(
                 new Vector4Fixed(1, 0, 0, x),
                 new Vector4Fixed(0, 1, 0, y),
