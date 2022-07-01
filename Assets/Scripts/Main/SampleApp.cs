@@ -23,9 +23,9 @@ namespace MySampleApp {
 
         void FixedTest() {
 
-            Matrix4x4Fixed lhs = Matrix4x4Fixed.ScaleByVector(new Vector3Fixed(1, 2, 1)) * Matrix4x4Fixed.TranslateByVector(new Vector3Fixed(1, 1, 1));
+            Matrix4x4Fixed lhs = Matrix4x4Fixed.Multiply(Matrix4x4Fixed.ScaleByVector(new Vector3Fixed(1, 2, 1)), Matrix4x4Fixed.TranslateByVector(new Vector3Fixed(1, 1, 1)));
             Matrix4x4Fixed rhs = Matrix4x4Fixed.TranslateByVector(new Vector3Fixed(2, 3, 4));
-            Matrix4x4Fixed mt = lhs * rhs;
+            Matrix4x4Fixed mt = Matrix4x4Fixed.Multiply(lhs, rhs);
             Debug.Log(lhs);
             Debug.Log(mt);
 
