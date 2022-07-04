@@ -1,14 +1,15 @@
 using System;
+using FixMath.NET;
 
 namespace JackFrame.DefiniteMath {
 
     public struct Vector3Fixed {
 
-        public Fixed64 x;
-        public Fixed64 y;
-        public Fixed64 z;
+        public Fix64 x;
+        public Fix64 y;
+        public Fix64 z;
 
-        public Vector3Fixed(Fixed64 x, Fixed64 y, Fixed64 z) {
+        public Vector3Fixed(Fix64 x, Fix64 y, Fix64 z) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -33,11 +34,11 @@ namespace JackFrame.DefiniteMath {
             return base.GetHashCode();
         }
 
-        public static Fixed64 Dot(Vector3Fixed lhs, Vector3Fixed rhs) {
+        public static Fix64 Dot(Vector3Fixed lhs, Vector3Fixed rhs) {
             return lhs * rhs;
         }
 
-        public static Fixed64 operator *(Vector3Fixed lhs, Vector3Fixed rhs) {
+        public static Fix64 operator *(Vector3Fixed lhs, Vector3Fixed rhs) {
             return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
         }
 
