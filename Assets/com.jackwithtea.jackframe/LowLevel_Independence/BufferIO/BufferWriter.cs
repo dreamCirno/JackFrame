@@ -77,7 +77,7 @@ namespace JackFrame {
         public static void WriteUTF8String(byte[] dst, string data, ref int offset) {
             if (data != null) {
                 byte[] d = Encoding.UTF8.GetBytes(data);
-                ushort count = (ushort)data.Length;
+                ushort count = (ushort)d.Length;
                 WriteUInt16(dst, count, ref offset);
                 Buffer.BlockCopy(d, 0, dst, offset, count);
                 offset += count;
