@@ -55,7 +55,7 @@ namespace JackFrame {
         FrameUIAssets[] assetsArr;
         FrameUIRepository[] openedRepoArr;
 
-        protected virtual void Awake() {
+        public void Ctor() {
 
             uiCanvas = GetComponent<Canvas>();
             background = uiCanvas.transform.Find("UI_BG").GetComponent<Image>();
