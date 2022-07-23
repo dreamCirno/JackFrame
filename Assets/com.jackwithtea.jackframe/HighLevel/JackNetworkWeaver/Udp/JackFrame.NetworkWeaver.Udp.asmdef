@@ -1,10 +1,10 @@
 {
-    "name": "SampleApp",
+    "name": "JackFrame.NetworkWeaver.Udp",
     "rootNamespace": "",
     "references": [
+        "GUID:72e53efc3db839d40ab26cd2f7fe819d",
         "GUID:698de13ac41894b4faa41653eef13f2b",
-        "GUID:f462c37a2818df14bbc086038c6d2fe2",
-        "GUID:8ff5ce94eee56c04ebcb355a439cea96"
+        "GUID:f08795f36e20308479c1fdb62d2b4fb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

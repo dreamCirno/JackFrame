@@ -2,6 +2,7 @@ using UnityEngine;
 using JackFrame;
 using JackFrame.DefiniteMath;
 using FixMath.NET;
+using JackFrame.Network;
 
 namespace MySampleApp {
 
