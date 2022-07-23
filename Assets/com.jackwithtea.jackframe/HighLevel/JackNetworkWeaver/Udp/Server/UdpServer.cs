@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using JackFrame;
 using JackBuffer;
 
 namespace JackFrame.Network {
 
-    public class TcpServer {
+    public class UdpServer {
 
-        TcpLowLevelServer server;
-        int maxMessageSize;
+        UdpLowLevelServer server;
 
         SortedDictionary<ushort, Action<int, ArraySegment<byte>>> dic;
 
@@ -16,14 +14,13 @@ namespace JackFrame.Network {
         public event Action<int> OnDisconnectedHandle;
 
         // 1. 构造
-        public TcpServer(int maxMessageSize = 4096) {
-            this.maxMessageSize = maxMessageSize;
-            server = new TcpLowLevelServer(maxMessageSize);
+        public UdpServer() {
+            server = new UdpLowLevelServer();
             dic = new SortedDictionary<ushort, Action<int, ArraySegment<byte>>>();
 
             server.OnConnectedHandle += OnConnected;
             server.OnDisconnectedHandle += OnDisconnected;
-            server.OnDataHandle += OnRecvData;
+            server.OnRecvDataHandle += OnRecvData;
         }
 
         public void Tick() {
@@ -34,19 +31,12 @@ namespace JackFrame.Network {
             server.StartListen(port);
         }
 
-        public void RestartListen() {
-            server.RestartListen();
-        }
-
         public void StopListen() {
-            server.StopListen();
+            server.Stop();
         }
 
         public void Send<T>(byte serviceId, byte messageId, int connId, T msg) where T : IJackMessage<T> {
             byte[] data = msg.ToBytes();
-            if (data.Length >= maxMessageSize - 2) {
-                throw new Exception("Message is too long");
-            }
             byte[] dst = new byte[data.Length + 2];
             int offset = 0;
             dst[offset] = serviceId;
@@ -96,15 +86,14 @@ namespace JackFrame.Network {
             }
         }
 
-        void OnRecvData(int connId, ArraySegment<byte> data) {
-            var arr = data.Array;
-            if (arr.Length < 2) {
-                PLog.ForceError($"消息长度过短: {arr.Length}");
+        void OnRecvData(int connId, byte[] data) {
+            if (data.Length < 2) {
+                PLog.ForceError($"消息长度过短: {data.Length}");
                 return;
             }
 
-            byte serviceId = arr[0];
-            byte messageId = arr[1];
+            byte serviceId = data[0];
+            byte messageId = data[1];
             ushort key = (ushort)serviceId;
             key |= (ushort)(messageId << 8);
             dic.TryGetValue(key, out var handle);
