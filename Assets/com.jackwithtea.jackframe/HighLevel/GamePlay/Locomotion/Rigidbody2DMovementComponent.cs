@@ -1,7 +1,6 @@
 using UnityEngine;
-using JackFrame;
 
-namespace NJM.WorldBusiness {
+namespace JackFrame.GamePlay {
 
     public class Rigidbody2DMovementComponent {
 
