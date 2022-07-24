@@ -28,8 +28,21 @@ namespace JackFrame.GamePlay {
         public void SetIsGround(bool value) => this.isGround = value;
 
         public Rigidbody2DMovementComponent() {
+
             this.isJump = false;
             this.isGround = false;
+
+            this.moveSpeed = 6.5f;
+            this.moveAccelerateTime = 0.016f;
+            this.moveDecelerateTime = 0.008f;
+
+            this.jumpSpeed = 15.8f;
+            this.gravity = -24f;
+            this.fallingSpeed = 12f;
+            this.fallingSpeedMax = 30f;
+            this.fallingMultipleSpeed = 2.5f;
+            this.raiseSpeed = 2f;
+
         }
 
         public void Ctor(Rigidbody2D rb) {
