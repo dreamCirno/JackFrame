@@ -15,7 +15,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
     {
         private readonly Action<int> subfunction;
         private IList<Entity> affectedEntities;
-        private Fix64 currentTimestep;
+        private Fixed64 currentTimestep;
         private ForceFieldShape shape;
 
 
@@ -86,7 +86,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
         /// Called automatically when needed by the owning Space.
         /// </summary>
         /// <param name="dt">Time since the last frame in simulation seconds.</param>
-        void IDuringForcesUpdateable.Update(Fix64 dt)
+        void IDuringForcesUpdateable.Update(Fixed64 dt)
         {
             PreUpdate();
             affectedEntities = Shape.GetPossiblyAffectedEntities();
@@ -113,7 +113,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
         /// <param name="e">Affected entity.</param>
         /// <param name="dt">Duration between simulation updates.</param>
         /// <param name="impulse">Impulse to apply to the entity.</param>
-        protected abstract void CalculateImpulse(Entity e, Fix64 dt, out Vector3 impulse);
+        protected abstract void CalculateImpulse(Entity e, Fixed64 dt, out Vector3 impulse);
 
         private void CalculateImpulsesSubfunction(int index)
         {
@@ -132,7 +132,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
         /// Called after the object is added to a space.
         /// </summary>
         /// <param name="newSpace">Space to which the field has been added.</param>
-        public override void OnAdditionToSpace(Space newSpace)
+        public override void OnAdditionToSpace(BEPUSpace newSpace)
         {
             base.OnAdditionToSpace(newSpace);
             var space = newSpace;
@@ -147,7 +147,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
         /// Called before an object is removed from its space.
         /// </summary>
         /// <param name="oldSpace">Space from which the object has been removed.</param>
-        public override void OnRemovalFromSpace(Space oldSpace)
+        public override void OnRemovalFromSpace(BEPUSpace oldSpace)
         {
             base.OnRemovalFromSpace(oldSpace);
             ParallelLooper = null;

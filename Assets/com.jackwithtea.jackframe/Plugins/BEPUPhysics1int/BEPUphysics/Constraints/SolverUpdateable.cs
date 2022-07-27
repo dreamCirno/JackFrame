@@ -223,7 +223,7 @@ namespace BEPUphysics.Constraints
         /// Performs the frame's configuration step.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public abstract void Update(Fix64 dt);
+        public abstract void Update(Fixed64 dt);
 
         //Will be locked by the solver during multithreaded updates.
         /// <summary>
@@ -238,7 +238,7 @@ namespace BEPUphysics.Constraints
         /// Computes one iteration of the constraint to meet the solver updateable's goal.
         /// </summary>
         /// <returns>The rough applied impulse magnitude.</returns>
-        public abstract Fix64 SolveIteration();
+        public abstract Fixed64 SolveIteration();
 
 
         /// <summary>
@@ -395,8 +395,8 @@ namespace BEPUphysics.Constraints
 
 
 
-        protected internal Space space;
-        Space ISpaceObject.Space
+        protected internal BEPUSpace space;
+        BEPUSpace ISpaceObject.Space
         {
             get
             {
@@ -418,14 +418,14 @@ namespace BEPUphysics.Constraints
         /// Called after the object is added to a space.
         /// </summary>
         /// <param name="newSpace">Space to which this object was added.</param>
-        public virtual void OnAdditionToSpace(Space newSpace)
+        public virtual void OnAdditionToSpace(BEPUSpace newSpace)
         {
         }
 
         /// <summary>
         /// Called before an object is removed from its space.
         /// </summary>
-        public virtual void OnRemovalFromSpace(Space oldSpace)
+        public virtual void OnRemovalFromSpace(BEPUSpace oldSpace)
         {
         }
 

@@ -14,7 +14,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         internal abstract void GetOverlaps(ref BoundingBox boundingBox, IList<BroadPhaseEntry> outputOverlappedElements);
         internal abstract void GetOverlaps(ref BoundingSphere boundingSphere, IList<BroadPhaseEntry> outputOverlappedElements);
         //internal abstract void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<BroadPhaseEntry> outputOverlappedElements);
-        internal abstract void GetOverlaps(ref Ray ray, Fix64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements);
+        internal abstract void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements);
         internal abstract void GetOverlaps(Node node, DynamicHierarchy owner);
 
         internal abstract bool IsLeaf { get; }
@@ -42,7 +42,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         internal abstract bool Remove(BroadPhaseEntry entry, out LeafNode leafNode, out Node replacementNode);
         internal abstract bool RemoveFast(BroadPhaseEntry entry, out LeafNode leafNode, out Node replacementNode);
 
-        internal abstract Fix64 MeasureSubtreeCost();
+        internal abstract Fixed64 MeasureSubtreeCost();
     }
 
     internal sealed class InternalNode : Node
@@ -50,10 +50,10 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         internal Node childA;
         internal Node childB;
 
-        internal Fix64 currentVolume;
-        internal Fix64 maximumVolume;
+        internal Fixed64 currentVolume;
+        internal Fixed64 maximumVolume;
 
-        internal static Fix64 MaximumVolumeScale = (Fix64)1.4m;
+        internal static Fixed64 MaximumVolumeScale = (Fixed64)1.4m;
 
         internal override Node ChildA
         {
@@ -119,9 +119,9 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         //        childB.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
         //}
 
-        internal override void GetOverlaps(ref Ray ray, Fix64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements)
+        internal override void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements)
         {
-            Fix64 result;
+            Fixed64 result;
             if (ray.Intersects(ref childA.BoundingBox, out result) && result < maximumLength)
                 childA.GetOverlaps(ref ray, maximumLength, outputOverlappedElements);
             if (ray.Intersects(ref childB.BoundingBox, out result) && result < maximumLength)
@@ -201,17 +201,17 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             BoundingBox.CreateMerged(ref childB.BoundingBox, ref node.BoundingBox, out mergedB);
 
             Vector3 offset;
-            Fix64 originalAVolume, originalBVolume;
+            Fixed64 originalAVolume, originalBVolume;
             Vector3.Subtract(ref childA.BoundingBox.Max, ref childA.BoundingBox.Min, out offset);
-            originalAVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            originalAVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
             Vector3.Subtract(ref childB.BoundingBox.Max, ref childB.BoundingBox.Min, out offset);
-            originalBVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            originalBVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
 
-            Fix64 mergedAVolume, mergedBVolume;
+            Fixed64 mergedAVolume, mergedBVolume;
             Vector3.Subtract(ref mergedA.Max, ref mergedA.Min, out offset);
-            mergedAVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            mergedAVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
             Vector3.Subtract(ref mergedB.Max, ref mergedB.Min, out offset);
-            mergedBVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            mergedBVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
 
             //Could use factor increase or absolute difference
             if (mergedAVolume - originalAVolume < mergedBVolume - originalBVolume)
@@ -294,7 +294,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             childB.Refit();
             BoundingBox.CreateMerged(ref childA.BoundingBox, ref childB.BoundingBox, out BoundingBox);
             //Fix64 DEBUGlastVolume = currentVolume;
-            currentVolume = Fix64.SafeMul(Fix64.SafeMul(BoundingBox.Max.X - BoundingBox.Min.X, BoundingBox.Max.Y - BoundingBox.Min.Y), BoundingBox.Max.Z - BoundingBox.Min.Z);
+            currentVolume = Fixed64.SafeMul(Fixed64.SafeMul(BoundingBox.Max.X - BoundingBox.Min.X, BoundingBox.Max.Y - BoundingBox.Min.Y), BoundingBox.Max.Z - BoundingBox.Min.Z);
             //if (Math.Abs(currentVolume - DEBUGlastVolume) > .000001 * (DEBUGlastVolume + currentVolume))
             //    Debug.WriteLine(":Break>:)");
         }
@@ -336,8 +336,8 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             }
             Vector3 offset;
             Vector3.Subtract(ref BoundingBox.Max, ref BoundingBox.Min, out offset);
-            currentVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
-            maximumVolume = Fix64.SafeMul(currentVolume, MaximumVolumeScale);
+            currentVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
+            maximumVolume = Fixed64.SafeMul(currentVolume, MaximumVolumeScale);
 
             //Pick an axis and sort along it.
             if (offset.X > offset.Y && offset.X > offset.Z)
@@ -433,7 +433,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
                 childB.PostRefit(splitDepth, currentDepth + 1);
             }
             BoundingBox.CreateMerged(ref childA.BoundingBox, ref childB.BoundingBox, out BoundingBox);
-            currentVolume = Fix64.SafeMul(Fix64.SafeMul(BoundingBox.Max.X - BoundingBox.Min.X, BoundingBox.Max.Y - BoundingBox.Min.Y), BoundingBox.Max.Z - BoundingBox.Min.Z);
+            currentVolume = Fixed64.SafeMul(Fixed64.SafeMul(BoundingBox.Max.X - BoundingBox.Min.X, BoundingBox.Max.Y - BoundingBox.Min.Y), BoundingBox.Max.Z - BoundingBox.Min.Z);
         }
 
         internal override void GetMultithreadedOverlaps(Node opposingNode, int splitDepth, int currentDepth, DynamicHierarchy owner, RawList<DynamicHierarchy.NodePair> multithreadingSourceOverlaps)
@@ -614,11 +614,11 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             return false;
         }
 
-        internal override Fix64 MeasureSubtreeCost()
+        internal override Fixed64 MeasureSubtreeCost()
         {
             Vector3 offset;
             Vector3.Subtract(ref BoundingBox.Max, ref BoundingBox.Min, out offset);
-            return Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z) + ChildA.MeasureSubtreeCost() + childB.MeasureSubtreeCost();
+            return Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z) + ChildA.MeasureSubtreeCost() + childB.MeasureSubtreeCost();
         }
 
 
@@ -710,7 +710,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         //    outputOverlappedElements.Add(element);
         //}
 
-        internal override void GetOverlaps(ref Ray ray, Fix64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements)
+        internal override void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<BroadPhaseEntry> outputOverlappedElements)
         {
             outputOverlappedElements.Add(element);
         }
@@ -745,7 +745,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             BoundingBox.CreateMerged(ref BoundingBox, ref node.BoundingBox, out newTreeNode.BoundingBox);
             Vector3 offset;
             Vector3.Subtract(ref newTreeNode.BoundingBox.Max, ref newTreeNode.BoundingBox.Min, out offset);
-            newTreeNode.currentVolume = Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            newTreeNode.currentVolume = Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
             //newTreeNode.maximumVolume = newTreeNode.currentVolume * InternalNode.MaximumVolumeScale;
             newTreeNode.childA = this;
             newTreeNode.childB = node;
@@ -847,12 +847,12 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
             return false;
         }
 
-        internal override Fix64 MeasureSubtreeCost()
+        internal override Fixed64 MeasureSubtreeCost()
         {
             //Not much value in attempting to assign variable cost to leaves vs internal nodes for this diagnostic.
             Vector3 offset;
             Vector3.Subtract(ref BoundingBox.Max, ref BoundingBox.Min, out offset);
-            return Fix64.SafeMul(Fix64.SafeMul(offset.X, offset.Y), offset.Z);
+            return Fixed64.SafeMul(Fixed64.SafeMul(offset.X, offset.Y), offset.Z);
         }
     }
 }

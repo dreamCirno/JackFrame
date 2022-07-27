@@ -54,7 +54,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
         /// Updates the manifold.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
             ContactData contactData;
             bool colliding = false;

@@ -16,13 +16,13 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<summary>
         /// Gets or sets the radius of the sphere.
         ///</summary>
-        public Fix64 Radius { get { return collisionMargin; } set { CollisionMargin = value; } }
+        public Fixed64 Radius { get { return collisionMargin; } set { CollisionMargin = value; } }
 
         ///<summary>
         /// Constructs a new sphere shape.
         ///</summary>
         ///<param name="radius">Radius of the sphere.</param>
-        public SphereShape(Fix64 radius)
+        public SphereShape(Fixed64 radius)
         {
             Radius = radius;
 
@@ -50,12 +50,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// </summary>
         ///<param name="radius">Radius of the sphere.</param>
         /// <returns>Description required to define a convex shape.</returns>
-        public static ConvexShapeDescription ComputeDescription(Fix64 radius)
+        public static ConvexShapeDescription ComputeDescription(Fixed64 radius)
         {
             ConvexShapeDescription description;
             description.EntityShapeVolume.Volume = F64.FourThirds * MathHelper.Pi * radius * radius * radius;
             description.EntityShapeVolume.VolumeDistribution = new Matrix3x3();
-            Fix64 diagValue = ((F64.TwoFifths) * radius * radius);
+            Fixed64 diagValue = ((F64.TwoFifths) * radius * radius);
             description.EntityShapeVolume.VolumeDistribution.M11 = diagValue;
             description.EntityShapeVolume.VolumeDistribution.M22 = diagValue;
             description.EntityShapeVolume.VolumeDistribution.M33 = diagValue;
@@ -107,7 +107,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="maximumLength">Maximum distance to travel in units of the ray direction's length.</param>
         /// <param name="hit">Ray hit data, if any.</param>
         /// <returns>Whether or not the ray hit the target.</returns>
-        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fix64 maximumLength, out RayHit hit)
+        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
         {
             return Toolbox.RayCastSphere(ref ray, ref transform.Position, collisionMargin, maximumLength, out hit);
         }

@@ -299,7 +299,7 @@ namespace BEPUphysics.Vehicle
         }
 
 
-        internal void PreStep(Fix64 dt)
+        internal void PreStep(Fixed64 dt)
         {
             Matrix.CreateFromAxisAngle(ref suspension.localDirection, shape.steeringAngle, out shape.steeringTransform);
             Matrix.TransformNormal(ref localForwardDirection, ref shape.steeringTransform, out worldForwardDirection);
@@ -369,7 +369,7 @@ namespace BEPUphysics.Vehicle
             if (suspension.isActive)
             {
                 if (++suspension.solverSettings.currentIterations <= suspension.solverSettings.maximumIterationCount)
-                    if (Fix64.Abs(suspension.ApplyImpulse()) < suspension.solverSettings.minimumImpulse)
+                    if (Fixed64.Abs(suspension.ApplyImpulse()) < suspension.solverSettings.minimumImpulse)
                     {
                         suspension.numIterationsAtZeroImpulse++;
                         if (suspension.numIterationsAtZeroImpulse > suspension.solverSettings.minimumIterationCount)
@@ -391,7 +391,7 @@ namespace BEPUphysics.Vehicle
             if (slidingFriction.isActive)
             {
                 if (++slidingFriction.solverSettings.currentIterations <= suspension.solverSettings.maximumIterationCount)
-                    if (Fix64.Abs(slidingFriction.ApplyImpulse()) < slidingFriction.solverSettings.minimumImpulse)
+                    if (Fixed64.Abs(slidingFriction.ApplyImpulse()) < slidingFriction.solverSettings.minimumImpulse)
                     {
                         slidingFriction.numIterationsAtZeroImpulse++;
                         if (slidingFriction.numIterationsAtZeroImpulse > slidingFriction.solverSettings.minimumIterationCount)
@@ -413,7 +413,7 @@ namespace BEPUphysics.Vehicle
             if (drivingMotor.isActive)
             {
                 if (++drivingMotor.solverSettings.currentIterations <= suspension.solverSettings.maximumIterationCount)
-                    if (Fix64.Abs(drivingMotor.ApplyImpulse()) < drivingMotor.solverSettings.minimumImpulse)
+                    if (Fixed64.Abs(drivingMotor.ApplyImpulse()) < drivingMotor.solverSettings.minimumImpulse)
                     {
                         drivingMotor.numIterationsAtZeroImpulse++;
                         if (drivingMotor.numIterationsAtZeroImpulse > drivingMotor.solverSettings.minimumIterationCount)
@@ -435,7 +435,7 @@ namespace BEPUphysics.Vehicle
             if (brake.isActive)
             {
                 if (++brake.solverSettings.currentIterations <= suspension.solverSettings.maximumIterationCount)
-                    if (Fix64.Abs(brake.ApplyImpulse()) < brake.solverSettings.minimumImpulse)
+                    if (Fixed64.Abs(brake.ApplyImpulse()) < brake.solverSettings.minimumImpulse)
                     {
                         brake.numIterationsAtZeroImpulse++;
                         if (brake.numIterationsAtZeroImpulse > brake.solverSettings.minimumIterationCount)
@@ -464,7 +464,7 @@ namespace BEPUphysics.Vehicle
                 suspension.currentLength = suspension.restLength;
         }
 
-        internal void OnAdditionToSpace(Space space)
+        internal void OnAdditionToSpace(BEPUSpace space)
         {
             //Make sure it doesn't collide with anything.
 
@@ -474,7 +474,7 @@ namespace BEPUphysics.Vehicle
 
 
 
-        internal void OnRemovalFromSpace(Space space)
+        internal void OnRemovalFromSpace(BEPUSpace space)
         {
             shape.OnRemovalFromSpace(space);
         }
@@ -482,7 +482,7 @@ namespace BEPUphysics.Vehicle
         internal void OnAddedToVehicle(Vehicle vehicle)
         {
             this.vehicle = vehicle;
-            Space space = (vehicle as ISpaceUpdateable).Space;
+            BEPUSpace space = (vehicle as ISpaceUpdateable).Space;
             if (space != null)
             {
                 OnAdditionToSpace(space);
@@ -493,7 +493,7 @@ namespace BEPUphysics.Vehicle
 
         internal void OnRemovedFromVehicle()
         {
-            Space space = (vehicle as ISpaceUpdateable).Space;
+            BEPUSpace space = (vehicle as ISpaceUpdateable).Space;
             if (space != null)
             {
                 OnRemovalFromSpace(space);
@@ -502,17 +502,17 @@ namespace BEPUphysics.Vehicle
         }
 
 
-        internal void UpdateAtEndOfFrame(Fix64 dt)
+        internal void UpdateAtEndOfFrame(Fixed64 dt)
         {
             shape.UpdateWorldTransform();
         }
 
-        internal void UpdateAtEndOfUpdate(Fix64 dt)
+        internal void UpdateAtEndOfUpdate(Fixed64 dt)
         {
             shape.UpdateSpin(dt);
         }
 
-        internal void UpdateDuringForces(Fix64 dt)
+        internal void UpdateDuringForces(Fixed64 dt)
         {
             suspension.ComputeWorldSpaceData();
             shape.UpdateDetectorPosition();

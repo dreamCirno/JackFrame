@@ -12,16 +12,16 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
     public class EllipseSwingLimit : JointLimit, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
         private readonly JointBasis3D basis = new JointBasis3D();
-        private Fix64 accumulatedImpulse;
-        private Fix64 biasVelocity;
+        private Fixed64 accumulatedImpulse;
+        private Fixed64 biasVelocity;
         private Vector3 jacobianA, jacobianB;
-        private Fix64 error;
+        private Fixed64 error;
 
         private Vector3 localTwistAxisB;
-        private Fix64 maximumAngleX;
-        private Fix64 maximumAngleY;
+        private Fixed64 maximumAngleX;
+        private Fixed64 maximumAngleY;
         private Vector3 worldTwistAxisB;
-        private Fix64 velocityToImpulse;
+        private Fixed64 velocityToImpulse;
 
         /// <summary>
         /// Constructs a new swing limit.
@@ -47,7 +47,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// The basis's x and y axis are automatically created from the twist axis.</param>
         /// <param name="maximumAngleX">Maximum angle of rotation around the basis X axis.</param>
         /// <param name="maximumAngleY">Maximum angle of rotation around the basis Y axis.</param>
-        public EllipseSwingLimit(Entity connectionA, Entity connectionB, Vector3 twistAxis, Fix64 maximumAngleX, Fix64 maximumAngleY)
+        public EllipseSwingLimit(Entity connectionA, Entity connectionB, Vector3 twistAxis, Fixed64 maximumAngleX, Fixed64 maximumAngleY)
         {
             ConnectionA = connectionA;
             ConnectionB = connectionB;
@@ -98,7 +98,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// Gets or sets the maximum angle of rotation around the x axis.
         /// This can be thought of as the major radius of the swing limit's ellipse.
         /// </summary>
-        public Fix64 MaximumAngleX
+        public Fixed64 MaximumAngleX
         {
             get { return maximumAngleX; }
             set { maximumAngleX = MathHelper.Clamp(value, Toolbox.BigEpsilon, MathHelper.Pi); }
@@ -108,7 +108,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// Gets or sets the maximum angle of rotation around the y axis.
         /// This can be thought of as the minor radius of the swing limit's ellipse.
         /// </summary>
-        public Fix64 MaximumAngleY
+        public Fixed64 MaximumAngleY
         {
             get { return maximumAngleY; }
             set { maximumAngleY = MathHelper.Clamp(value, Toolbox.BigEpsilon, MathHelper.Pi); }
@@ -133,13 +133,13 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// <summary>
         /// Gets the current relative velocity between the connected entities with respect to the constraint.
         /// </summary>
-        public Fix64 RelativeVelocity
+        public Fixed64 RelativeVelocity
         {
             get
             {
                 if (isLimitActive)
                 {
-                    Fix64 velocityA, velocityB;
+                    Fixed64 velocityA, velocityB;
                     Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
                     Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
                     return velocityA + velocityB;
@@ -152,7 +152,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// <summary>
         /// Gets the total impulse applied by this constraint.
         /// </summary>
-        public Fix64 TotalImpulse
+        public Fixed64 TotalImpulse
         {
             get { return accumulatedImpulse; }
         }
@@ -160,7 +160,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// <summary>
         /// Gets the current constraint error.
         /// </summary>
-        public Fix64 Error
+        public Fixed64 Error
         {
             get { return error; }
         }
@@ -209,7 +209,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// Gets the mass matrix of the constraint.
         /// </summary>
         /// <param name="outputMassMatrix">Constraint's mass matrix.</param>
-        public void GetMassMatrix(out Fix64 outputMassMatrix)
+        public void GetMassMatrix(out Fixed64 outputMassMatrix)
         {
             outputMassMatrix = velocityToImpulse;
         }
@@ -225,7 +225,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
             //Compute a vector which is perpendicular to the axis.  It'll be added in local space to both connections.
             Vector3 xAxis;
             Vector3.Cross(ref twistAxis, ref Toolbox.UpVector, out xAxis);
-            Fix64 length = xAxis.LengthSquared();
+            Fixed64 length = xAxis.LengthSquared();
             if (length < Toolbox.Epsilon)
             {
                 Vector3.Cross(ref twistAxis, ref Toolbox.RightVector, out xAxis);
@@ -248,7 +248,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// Performs the frame's configuration step.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
             //Transform the axes into world space.
             basis.rotationMatrix = connectionA.orientationMatrix;
@@ -259,7 +259,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
             Quaternion relativeRotation;
             Quaternion.GetQuaternionBetweenNormalizedVectors(ref worldTwistAxisB, ref basis.primaryAxis, out relativeRotation);
             Vector3 axis;
-            Fix64 angle;
+            Fixed64 angle;
             Quaternion.GetAxisAngleFromQuaternion(ref relativeRotation, out axis, out angle);
 
 #if !WINDOWS
@@ -275,15 +275,15 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
             axisAngle.Y = axis.Y * angle;
             axisAngle.Z = axis.Z * angle;
 
-            Fix64 angleX;
+            Fixed64 angleX;
             Vector3.Dot(ref axisAngle, ref basis.xAxis, out angleX);
-            Fix64 angleY;
+            Fixed64 angleY;
             Vector3.Dot(ref axisAngle, ref basis.yAxis, out angleY);
 
 
             //The position constraint states that the angles must be within an ellipse. The following is just a reorganization of the x^2 / a^2 + y^2 / b^2 <= 1 definition of an ellipse's area.
-            Fix64 maxAngleXSquared = maximumAngleX * maximumAngleX;
-            Fix64 maxAngleYSquared = maximumAngleY * maximumAngleY;
+            Fixed64 maxAngleXSquared = maximumAngleX * maximumAngleX;
+            Fixed64 maxAngleYSquared = maximumAngleY * maximumAngleY;
             error = angleX * angleX * maxAngleYSquared + angleY * angleY * maxAngleXSquared - maxAngleXSquared * maxAngleYSquared;
 
             if (error < F64.C0)
@@ -338,8 +338,8 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
             jacobianB.Z = -jacobianA.Z;
 
 
-            Fix64 errorReduction;
-            Fix64 inverseDt = F64.C1 / dt;
+            Fixed64 errorReduction;
+            Fixed64 inverseDt = F64.C1 / dt;
             springSettings.ComputeErrorReductionAndSoftness(dt, inverseDt, out errorReduction, out softness);
 
             //Compute the error correcting velocity
@@ -349,8 +349,8 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
 
             if (bounciness > F64.C0)
             {
-                Fix64 relativeVelocity;
-                Fix64 dot;
+                Fixed64 relativeVelocity;
+                Fixed64 dot;
                 //Find the velocity contribution from each connection
                 Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out relativeVelocity);
                 Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out dot);
@@ -363,7 +363,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
 
             //****** EFFECTIVE MASS MATRIX ******//
             //Connection A's contribution to the mass matrix
-            Fix64 entryA;
+            Fixed64 entryA;
             Vector3 transformedAxis;
             if (connectionA.isDynamic)
             {
@@ -374,7 +374,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
                 entryA = F64.C0;
 
             //Connection B's contribution to the mass matrix
-            Fix64 entryB;
+            Fixed64 entryB;
             if (connectionB.isDynamic)
             {
                 Matrix3x3.Transform(ref jacobianB, ref connectionB.inertiaTensorInverse, out transformedAxis);
@@ -416,20 +416,20 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
         /// Computes one iteration of the constraint to meet the solver updateable's goal.
         /// </summary>
         /// <returns>The rough applied impulse magnitude.</returns>
-        public override Fix64 SolveIteration()
+        public override Fixed64 SolveIteration()
         {
-            Fix64 velocityA, velocityB;
+            Fixed64 velocityA, velocityB;
             //Find the velocity contribution from each connection
             Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
             Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
             //Add in the constraint space bias velocity
-            Fix64 lambda = (-velocityA - velocityB) - biasVelocity - softness * accumulatedImpulse;
+            Fixed64 lambda = (-velocityA - velocityB) - biasVelocity - softness * accumulatedImpulse;
 
             //Transform to an impulse
             lambda *= velocityToImpulse;
 
             //Clamp accumulated impulse (can't go negative)
-            Fix64 previousAccumulatedImpulse = accumulatedImpulse;
+            Fixed64 previousAccumulatedImpulse = accumulatedImpulse;
             accumulatedImpulse = MathHelper.Min(accumulatedImpulse + lambda, F64.C0);
             lambda = accumulatedImpulse - previousAccumulatedImpulse;
 
@@ -446,7 +446,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
 
-            return (Fix64.Abs(lambda));
+            return (Fixed64.Abs(lambda));
         }
 
     }

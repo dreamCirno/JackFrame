@@ -20,7 +20,7 @@ namespace BEPUphysics.Settings
         /// to perform CCD are, and more collisions are missed.
         /// Defaults to .8f.
         ///</summary>
-        public static Fix64 CoreShapeScaling
+        public static Fixed64 CoreShapeScaling
         {
             get
             {
@@ -32,7 +32,7 @@ namespace BEPUphysics.Settings
                 coreShapeScaling = MathHelper.Clamp(value, F64.C0, F64.C0p99);
             }
         }
-        static Fix64 coreShapeScaling = (Fix64).8m;
+        static Fixed64 coreShapeScaling = (Fixed64).8m;
         /// <summary>
         /// The default position updating mode used by position updateables.
         /// Defaults to Discrete.

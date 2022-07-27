@@ -123,11 +123,11 @@ namespace BEPUphysics.CollisionTests.Manifolds
             }
         }
 #else
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
 
             //Now, generate a contact between the two shapes.
-            Fix64 distance;
+            Fixed64 distance;
             Vector3 axis;
             var manifold = new TinyStructList<BoxContactData>();
             if (BoxBoxCollider.AreBoxesColliding(boxA.Shape, boxB.Shape, ref boxA.worldTransform, ref boxB.worldTransform, out distance, out axis, out manifold))

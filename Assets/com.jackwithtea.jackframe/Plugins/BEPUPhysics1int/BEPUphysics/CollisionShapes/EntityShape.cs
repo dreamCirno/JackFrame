@@ -20,7 +20,7 @@ namespace BEPUphysics.CollisionShapes
         /// <summary>
         /// Gets the volume of the shape.
         /// </summary>
-        public Fix64 Volume { get; internal set; }
+        public Fixed64 Volume { get; internal set; }
 
         internal Matrix3x3 volumeDistribution;
         /// <summary>

@@ -45,7 +45,7 @@ namespace BEPUphysics.UpdateableSystems
         ///<summary>
         /// Gets or sets the owning space.
         ///</summary>
-        public Space Space { get; set; }
+        public BEPUSpace Space { get; set; }
     }
 
     ///<summary>

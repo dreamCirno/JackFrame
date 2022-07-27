@@ -138,8 +138,8 @@ namespace BEPUphysics.BroadPhaseEntries
 
 
 
-        private Space space;
-        Space ISpaceObject.Space
+        private BEPUSpace space;
+        BEPUSpace ISpaceObject.Space
         {
             get
             {
@@ -154,7 +154,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///<summary>
         /// Space that owns the detector volume.
         ///</summary>
-        public Space Space
+        public BEPUSpace Space
         {
             get
             {
@@ -192,7 +192,7 @@ namespace BEPUphysics.BroadPhaseEntries
             var ray = new Ray(point, rayDirection);
             triangleMesh.Tree.GetOverlaps(ray, triangles);
 
-            Fix64 minimumT = Fix64.MaxValue;
+            Fixed64 minimumT = Fixed64.MaxValue;
             bool minimumIsClockwise = false;
 
             for (int i = 0; i < triangles.Count; i++)
@@ -202,7 +202,7 @@ namespace BEPUphysics.BroadPhaseEntries
 
                 RayHit hit;
                 bool hitClockwise;
-                if (Toolbox.FindRayTriangleIntersection(ref ray, Fix64.MaxValue, ref a, ref b, ref c, out hitClockwise, out hit))
+                if (Toolbox.FindRayTriangleIntersection(ref ray, Fixed64.MaxValue, ref a, ref b, ref c, out hitClockwise, out hit))
                 {
                     if (hit.T < minimumT)
                     {
@@ -215,7 +215,7 @@ namespace BEPUphysics.BroadPhaseEntries
             triangles.Clear();
 
             //If the first hit is on the inner surface, then the ray started inside the mesh.
-            return minimumT < Fix64.MaxValue && minimumIsClockwise == innerFacingIsClockwise;
+            return minimumT < Fixed64.MaxValue && minimumIsClockwise == innerFacingIsClockwise;
         }
 
         protected override void CollisionRulesUpdated()
@@ -233,7 +233,7 @@ namespace BEPUphysics.BroadPhaseEntries
             get { return false; }
         }
 
-        public override bool RayCast(Ray ray, Fix64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             return triangleMesh.RayCast(ray, maximumLength, TriangleSidedness.DoubleSided, out rayHit);
         }
@@ -247,7 +247,7 @@ namespace BEPUphysics.BroadPhaseEntries
             var hitElements = CommonResources.GetIntList();
             if (triangleMesh.Tree.GetOverlaps(boundingBox, hitElements))
             {
-                hit.T = Fix64.MaxValue;
+                hit.T = Fixed64.MaxValue;
                 for (int i = 0; i < hitElements.Count; i++)
                 {
                     triangleMesh.Data.GetTriangle(hitElements[i], out tri.vA, out tri.vB, out tri.vC);
@@ -259,13 +259,13 @@ namespace BEPUphysics.BroadPhaseEntries
                     Vector3.Subtract(ref tri.vB, ref center, out tri.vB);
                     Vector3.Subtract(ref tri.vC, ref center, out tri.vC);
                     tri.MaximumRadius = tri.vA.LengthSquared();
-					Fix64 radius = tri.vB.LengthSquared();
+					Fixed64 radius = tri.vB.LengthSquared();
                     if (tri.MaximumRadius < radius)
                         tri.MaximumRadius = radius;
                     radius = tri.vC.LengthSquared();
                     if (tri.MaximumRadius < radius)
                         tri.MaximumRadius = radius;
-                    tri.MaximumRadius = Fix64.Sqrt(tri.MaximumRadius);
+                    tri.MaximumRadius = Fixed64.Sqrt(tri.MaximumRadius);
                     tri.collisionMargin = F64.C0;
                     var triangleTransform = new RigidTransform { Orientation = Quaternion.Identity, Position = center };
                     RayHit tempHit;
@@ -277,7 +277,7 @@ namespace BEPUphysics.BroadPhaseEntries
                 tri.MaximumRadius = F64.C0;
                 PhysicsThreadResources.GiveBack(tri);
                 CommonResources.GiveBack(hitElements);
-                return hit.T != Fix64.MaxValue;
+                return hit.T != Fixed64.MaxValue;
             }
             PhysicsThreadResources.GiveBack(tri);
             CommonResources.GiveBack(hitElements);
@@ -309,7 +309,7 @@ namespace BEPUphysics.BroadPhaseEntries
             var triangles = CommonResources.GetIntList();
             triangleMesh.Tree.GetOverlaps(ray, triangles);
 
-			Fix64 minimumT = Fix64.MaxValue;
+			Fixed64 minimumT = Fixed64.MaxValue;
 
             for (int i = 0; i < triangles.Count; i++)
             {
@@ -317,7 +317,7 @@ namespace BEPUphysics.BroadPhaseEntries
 
                 RayHit hit;
                 bool hitClockwise;
-                if (Toolbox.FindRayTriangleIntersection(ref ray, Fix64.MaxValue, ref a, ref b, ref c, out hitClockwise, out hit))
+                if (Toolbox.FindRayTriangleIntersection(ref ray, Fixed64.MaxValue, ref a, ref b, ref c, out hitClockwise, out hit))
                 {
                     if (hit.T < minimumT)
                     {
@@ -330,12 +330,12 @@ namespace BEPUphysics.BroadPhaseEntries
         }
 
 
-        void ISpaceObject.OnAdditionToSpace(Space newSpace)
+        void ISpaceObject.OnAdditionToSpace(BEPUSpace newSpace)
         {
 
         }
 
-        void ISpaceObject.OnRemovalFromSpace(Space oldSpace)
+        void ISpaceObject.OnRemovalFromSpace(BEPUSpace oldSpace)
         {
 
         }

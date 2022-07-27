@@ -35,7 +35,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///</summary>
         ///<param name="requester">Collidable requesting the update.</param>
         ///<param name="dt">Timestep duration.</param>
-        public override void UpdateTimeOfImpact(Collidable requester, Fix64 dt)
+        public override void UpdateTimeOfImpact(Collidable requester, Fixed64 dt)
         {
             var collidableA = CollidableA as ConvexCollidable;
             var collidableB = CollidableB as ConvexCollidable;
@@ -78,7 +78,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                     Vector3.Subtract(ref collidableB.entity.linearVelocity, ref collidableA.entity.linearVelocity, out velocity);
                 }
                 Vector3.Multiply(ref velocity, dt, out velocity);
-                Fix64 velocitySquared = velocity.LengthSquared();
+                Fixed64 velocitySquared = velocity.LengthSquared();
 
                 var minimumRadiusA = collidableA.Shape.MinimumRadius * MotionSettings.CoreShapeScaling;
                 timeOfImpact = F64.C1;

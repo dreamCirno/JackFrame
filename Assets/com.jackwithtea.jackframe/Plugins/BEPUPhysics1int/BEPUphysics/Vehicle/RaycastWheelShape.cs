@@ -16,7 +16,7 @@ namespace BEPUphysics.Vehicle
     /// </summary>
     public class RaycastWheelShape : WheelShape
     {
-        private Fix64 graphicalRadius;
+        private Fixed64 graphicalRadius;
 
         /// <summary>
         /// Creates a new raycast based wheel shape.
@@ -27,7 +27,7 @@ namespace BEPUphysics.Vehicle
         /// like position and orientation.</param>
         /// <param name="localGraphicTransform">Local graphic transform of the wheel shape.
         /// This transform is applied first when creating the shape's worldTransform.</param>
-        public RaycastWheelShape(Fix64 graphicalRadius, Matrix localGraphicTransform)
+        public RaycastWheelShape(Fixed64 graphicalRadius, Matrix localGraphicTransform)
         {
             Radius = graphicalRadius;
             LocalGraphicTransform = localGraphicTransform;
@@ -39,7 +39,7 @@ namespace BEPUphysics.Vehicle
         /// determining aesthetic properties of a vehicle wheel,
         /// like position and orientation.
         /// </summary>
-        public override sealed Fix64 Radius
+        public override sealed Fixed64 Radius
         {
             get { return graphicalRadius; }
             set
@@ -73,7 +73,7 @@ namespace BEPUphysics.Vehicle
             Vector3 worldDirection;
             Matrix.Transform(ref wheel.suspension.localDirection, ref worldTransform, out worldDirection);
 
-            Fix64 length = wheel.suspension.currentLength - graphicalRadius;
+            Fixed64 length = wheel.suspension.currentLength - graphicalRadius;
             newPosition.X = worldAttachmentPoint.X + worldDirection.X * length;
             newPosition.Y = worldAttachmentPoint.Y + worldDirection.Y * length;
             newPosition.Z = worldAttachmentPoint.Z + worldDirection.Z * length;
@@ -103,9 +103,9 @@ namespace BEPUphysics.Vehicle
         /// <param name="entity">Supporting object.</param>
         /// <param name="material">Material of the wheel.</param>
         /// <returns>Whether or not any support was found.</returns>
-        protected internal override bool FindSupport(out Vector3 location, out Vector3 normal, out Fix64 suspensionLength, out Collidable supportingCollidable, out Entity entity, out Material material)
+        protected internal override bool FindSupport(out Vector3 location, out Vector3 normal, out Fixed64 suspensionLength, out Collidable supportingCollidable, out Entity entity, out Material material)
         {
-            suspensionLength = Fix64.MaxValue;
+            suspensionLength = Fixed64.MaxValue;
             location = Toolbox.NoVector;
             supportingCollidable = null;
             entity = null;

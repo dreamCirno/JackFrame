@@ -48,13 +48,13 @@ namespace BEPUik
         /// <summary>
         /// Gets or sets the maximum impulse the controls will try to push bones with when AutoscaleControlImpulses is enabled.
         /// </summary>
-        public Fix64 AutoscaleControlMaximumForce { get; set; }
+        public Fixed64 AutoscaleControlMaximumForce { get; set; }
 
-        private Fix64 timeStepDuration = F64.C1;
+        private Fixed64 timeStepDuration = F64.C1;
         /// <summary>
         /// Gets or sets the time step duration elapsed by each position iteration.
         /// </summary>
-        public Fix64 TimeStepDuration
+        public Fixed64 TimeStepDuration
         {
             get { return timeStepDuration; }
             set
@@ -92,7 +92,7 @@ namespace BEPUik
             //Reset the permutation index; every solve should proceed in exactly the same order.
             permutationMapper.PermutationIndex = 0;
 
-            Fix64 updateRate = F64.C1 / TimeStepDuration;
+            Fixed64 updateRate = F64.C1 / TimeStepDuration;
             foreach (var joint in ActiveSet.joints)
             {
                 joint.Preupdate(TimeStepDuration, updateRate);
@@ -162,7 +162,7 @@ namespace BEPUik
             //Reset the permutation index; every solve should proceed in exactly the same order.
             permutationMapper.PermutationIndex = 0;
 
-            Fix64 updateRate = F64.C1 / TimeStepDuration;
+            Fixed64 updateRate = F64.C1 / TimeStepDuration;
             foreach (var joint in ActiveSet.joints)
             {
                 joint.Preupdate(TimeStepDuration, updateRate);

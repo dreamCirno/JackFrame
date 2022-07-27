@@ -69,7 +69,7 @@ namespace BEPUphysics.Constraints.SolverGroups
             }
         }
 
-        protected void UpdateUpdateable(SolverUpdateable item, Fix64 dt)
+        protected void UpdateUpdateable(SolverUpdateable item, Fixed64 dt)
         {
             item.SolverSettings.currentIterations = 0;
             item.SolverSettings.iterationsAtZeroImpulse = 0;
@@ -87,7 +87,7 @@ namespace BEPUphysics.Constraints.SolverGroups
         /// Performs the frame's configuration step.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
             for (int i = 0; i < solverUpdateables.Count; i++)
             {
@@ -155,7 +155,7 @@ namespace BEPUphysics.Constraints.SolverGroups
         /// Computes one iteration of the constraint to meet the solver updateable's goal.
         /// </summary>
         /// <returns>The rough applied impulse magnitude.</returns>
-        public override Fix64 SolveIteration()
+        public override Fixed64 SolveIteration()
         {
             int activeConstraints = 0;
             for (int i = 0; i < solverUpdateables.Count; i++)
@@ -218,7 +218,7 @@ namespace BEPUphysics.Constraints.SolverGroups
         /// Called after the object is added to a space.
         /// </summary>
         /// <param name="newSpace"></param>
-        public override void OnAdditionToSpace(Space newSpace)
+        public override void OnAdditionToSpace(BEPUSpace newSpace)
         {
             for (int i = 0; i < solverUpdateables.Count; i++)
             {
@@ -229,7 +229,7 @@ namespace BEPUphysics.Constraints.SolverGroups
         /// <summary>
         /// Called before an object is removed from its space.
         /// </summary>
-        public override void OnRemovalFromSpace(Space oldSpace)
+        public override void OnRemovalFromSpace(BEPUSpace oldSpace)
         {
             for (int i = 0; i < solverUpdateables.Count; i++)
             {

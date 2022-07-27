@@ -10,14 +10,14 @@ namespace BEPUphysics.Materials
         ///<summary>
         /// Kinetic friction between the pair of objects.
         ///</summary>
-        public Fix64 KineticFriction;
+        public Fixed64 KineticFriction;
         ///<summary>
         /// Static friction between the pair of objects.
         ///</summary>
-        public Fix64 StaticFriction;
+        public Fixed64 StaticFriction;
         ///<summary>
         /// Bounciness between the pair of objects.
         ///</summary>
-        public Fix64 Bounciness;
+        public Fixed64 Bounciness;
     }
 }

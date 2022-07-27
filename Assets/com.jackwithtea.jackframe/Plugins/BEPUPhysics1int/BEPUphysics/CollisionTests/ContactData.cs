@@ -13,7 +13,7 @@ namespace BEPUphysics.CollisionTests
         /// <summary>
         /// Amount of penetration between the two objects.
         /// </summary>
-        public Fix64 PenetrationDepth;
+        public Fixed64 PenetrationDepth;
 
         /// <summary>
         /// Feature-based id used to match contacts from the previous frame to their current versions.

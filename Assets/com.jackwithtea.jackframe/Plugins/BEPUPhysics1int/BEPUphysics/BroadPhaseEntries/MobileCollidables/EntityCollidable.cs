@@ -138,7 +138,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// UpdateBoundingBoxForTransform instead.
         ///</summary>
         ///<param name="dt">Timestep with which to update the bounding box.</param>
-        public override void UpdateBoundingBox(Fix64 dt)
+        public override void UpdateBoundingBox(Fixed64 dt)
         {
             //The world transform update isn't strictly required for uninterrupted simulation.
             //The entity update method manages the world transforms.
@@ -172,7 +172,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="dt">Duration of the simulation time step.  Used to expand the
         /// bounding box using the owning entity's velocity.  If the collidable
         /// does not have an owning entity, this must be zero.</param>
-        public void UpdateBoundingBoxForTransform(ref RigidTransform transform, Fix64 dt)
+        public void UpdateBoundingBoxForTransform(ref RigidTransform transform, Fixed64 dt)
         {
             UpdateWorldTransform(ref transform.Position, ref transform.Orientation);
             UpdateBoundingBoxInternal(dt);
@@ -190,16 +190,16 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         }
 
 
-        protected internal abstract void UpdateBoundingBoxInternal(Fix64 dt);
+        protected internal abstract void UpdateBoundingBoxInternal(Fixed64 dt);
 
         //Helper method for mobile collidables.
-        internal void ExpandBoundingBox(ref BoundingBox boundingBox, Fix64 dt)
+        internal void ExpandBoundingBox(ref BoundingBox boundingBox, Fixed64 dt)
         {
             //Expand bounding box with velocity.
             if (dt > F64.C0)
             {
                 bool useExtraExpansion = MotionSettings.UseExtraExpansionForContinuousBoundingBoxes && entity.PositionUpdateMode == PositionUpdateMode.Continuous;
-                Fix64 velocityScaling = useExtraExpansion ? 2 : 1;
+                Fixed64 velocityScaling = useExtraExpansion ? 2 : 1;
                 if (entity.linearVelocity.X > F64.C0)
                     boundingBox.Max.X += entity.linearVelocity.X * dt * velocityScaling;
                 else
@@ -220,7 +220,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
 
                 if (useExtraExpansion)
                 {
-                    Fix64 expansion = F64.C0;
+                    Fixed64 expansion = F64.C0;
                     //It's possible that an object could have a small bounding box since its own
                     //velocity is low, but then a collision with a high velocity object sends
                     //it way out of its bounding box.  By taking into account high velocity objects
@@ -229,11 +229,11 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                     foreach (var e in OverlappedEntities)
                     {
 
-                        Fix64 velocity = e.linearVelocity.LengthSquared();
+                        Fixed64 velocity = e.linearVelocity.LengthSquared();
                         if (velocity > expansion)
                             expansion = velocity;
                     }
-                    expansion = Fix64.Sqrt(expansion) * dt;
+                    expansion = Fixed64.Sqrt(expansion) * dt;
 
 
                     boundingBox.Min.X -= expansion;

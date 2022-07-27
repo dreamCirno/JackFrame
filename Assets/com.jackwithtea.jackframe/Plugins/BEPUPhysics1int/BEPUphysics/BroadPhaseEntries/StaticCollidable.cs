@@ -76,8 +76,8 @@ namespace BEPUphysics.BroadPhaseEntries
 
 
 
-        Space space;
-        Space ISpaceObject.Space
+        BEPUSpace space;
+        BEPUSpace ISpaceObject.Space
         {
             get
             {
@@ -91,7 +91,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///<summary>
         /// Gets the space that owns the mesh.
         ///</summary>
-        public Space Space
+        public BEPUSpace Space
         {
             get
             {
@@ -99,11 +99,11 @@ namespace BEPUphysics.BroadPhaseEntries
             }
         }
 
-        void ISpaceObject.OnAdditionToSpace(Space newSpace)
+        void ISpaceObject.OnAdditionToSpace(BEPUSpace newSpace)
         {
         }
 
-        void ISpaceObject.OnRemovalFromSpace(Space oldSpace)
+        void ISpaceObject.OnRemovalFromSpace(BEPUSpace oldSpace)
         {
         }
 

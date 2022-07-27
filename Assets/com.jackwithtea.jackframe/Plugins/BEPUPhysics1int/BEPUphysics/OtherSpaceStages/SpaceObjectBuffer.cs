@@ -25,11 +25,11 @@ namespace BEPUphysics.OtherSpaceStages
         }
         private ConcurrentDeque<SpaceObjectChange> objectsToChange = new ConcurrentDeque<SpaceObjectChange>();
 
-        private Space space;
+        private BEPUSpace space;
         ///<summary>
         /// Gets the space which owns this buffer.
         ///</summary>
-        public Space Space
+        public BEPUSpace Space
         {
             get { return space; }
         }
@@ -38,7 +38,7 @@ namespace BEPUphysics.OtherSpaceStages
         /// Constructs the buffer.
         ///</summary>
         ///<param name="space">Space that owns the buffer.</param>
-        public SpaceObjectBuffer(Space space)
+        public SpaceObjectBuffer(BEPUSpace space)
         {
             Enabled = true;
             this.space = space;

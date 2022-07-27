@@ -100,7 +100,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///</summary>
         ///<param name="requester">Collidable requesting the update.</param>
         ///<param name="dt">Timestep duration.</param>
-        public override void UpdateTimeOfImpact(Collidable requester, Fix64 dt)
+        public override void UpdateTimeOfImpact(Collidable requester, Fixed64 dt)
         {
             var overlap = BroadPhaseOverlap;
             var triangleMode = triangle.entity == null ? PositionUpdateMode.Discrete : triangle.entity.PositionUpdateMode;
@@ -140,7 +140,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                     Vector3.Subtract(ref triangle.entity.linearVelocity, ref convex.entity.linearVelocity, out velocity);
                 }
                 Vector3.Multiply(ref velocity, dt, out velocity);
-                Fix64 velocitySquared = velocity.LengthSquared();
+                Fixed64 velocitySquared = velocity.LengthSquared();
 
                 var minimumRadiusA = convex.Shape.MinimumRadius * MotionSettings.CoreShapeScaling;
                 timeOfImpact = F64.C1;
@@ -160,7 +160,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                             Vector3 normal;
                             Vector3.Cross(ref AB, ref AC, out normal);
 
-                            Fix64 dot;
+                            Fixed64 dot;
                             Vector3.Dot(ref rayHit.Normal, ref normal, out dot);
                             if (triangle.Shape.sidedness == TriangleSidedness.Counterclockwise && dot < F64.C0 ||
                                 triangle.Shape.sidedness == TriangleSidedness.Clockwise && dot > F64.C0)

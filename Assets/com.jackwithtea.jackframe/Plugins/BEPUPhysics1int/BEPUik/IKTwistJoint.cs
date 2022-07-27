@@ -85,10 +85,10 @@ namespace BEPUik
             //Pick an axis perpendicular to axisA to use as the measurement axis.
             Vector3 worldMeasurementAxisA;
             Vector3.Cross(ref Toolbox.UpVector, ref axisA, out worldMeasurementAxisA);
-            Fix64 lengthSquared = worldMeasurementAxisA.LengthSquared();
+            Fixed64 lengthSquared = worldMeasurementAxisA.LengthSquared();
             if (lengthSquared > Toolbox.Epsilon)
             {
-                Vector3.Divide(ref worldMeasurementAxisA, Fix64.Sqrt(lengthSquared), out worldMeasurementAxisA);
+                Vector3.Divide(ref worldMeasurementAxisA, Fixed64.Sqrt(lengthSquared), out worldMeasurementAxisA);
             }
             else
             {
@@ -148,12 +148,12 @@ namespace BEPUik
             Quaternion.Transform(ref twistMeasureAxisB, ref alignmentRotation, out twistMeasureAxisB);
 
             //We can now compare the angle between the twist axes.
-            Fix64 error;
+            Fixed64 error;
             Vector3.Dot(ref twistMeasureAxisA, ref twistMeasureAxisB, out error);
-            error = Fix64.Acos(MathHelper.Clamp(error, -1, F64.C1));
+            error = Fixed64.Acos(MathHelper.Clamp(error, -1, F64.C1));
             Vector3 cross;
             Vector3.Cross(ref twistMeasureAxisA, ref twistMeasureAxisB, out cross);
-            Fix64 dot;
+            Fixed64 dot;
             Vector3.Dot(ref cross, ref axisA, out dot);
             if (dot < F64.C0)
                 error = -error;
@@ -164,10 +164,10 @@ namespace BEPUik
             //We can't just use the axes directly as jacobians. Consider 'cranking' one object around the other.
             Vector3 jacobian;
             Vector3.Add(ref axisA, ref axisB, out jacobian);
-            Fix64 lengthSquared = jacobian.LengthSquared();
+            Fixed64 lengthSquared = jacobian.LengthSquared();
             if (lengthSquared > Toolbox.Epsilon)
             {
-                Vector3.Divide(ref jacobian, Fix64.Sqrt(lengthSquared), out jacobian);
+                Vector3.Divide(ref jacobian, Fixed64.Sqrt(lengthSquared), out jacobian);
             }
             else
             {

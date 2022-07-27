@@ -18,7 +18,7 @@ namespace BEPUphysics.Paths
         /// </summary>
         /// <param name="speedCurve">Curve defining speeds to use.</param>
         /// <param name="curve">Curve to wrap.</param>
-        public VariableLinearSpeedCurve(Path<Fix64> speedCurve, Curve<Vector3> curve)
+        public VariableLinearSpeedCurve(Path<Fixed64> speedCurve, Curve<Vector3> curve)
             : base(speedCurve, curve)
         {
         }
@@ -30,14 +30,14 @@ namespace BEPUphysics.Paths
         /// <param name="curve">Curve to wrap.</param>
         /// <param name="sampleCount">Number of samples to use when constructing the wrapper curve.
         /// More samples increases the accuracy of the speed requirement at the cost of performance.</param>
-        public VariableLinearSpeedCurve(Path<Fix64> speedCurve, Curve<Vector3> curve, int sampleCount)
+        public VariableLinearSpeedCurve(Path<Fixed64> speedCurve, Curve<Vector3> curve, int sampleCount)
             : base(speedCurve, curve, sampleCount)
         {
         }
 
-        protected override Fix64 GetDistance(Vector3 start, Vector3 end)
+        protected override Fixed64 GetDistance(Vector3 start, Vector3 end)
         {
-            Fix64 distance;
+            Fixed64 distance;
             Vector3.Distance(ref start, ref end, out distance);
             return distance;
         }

@@ -142,7 +142,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
             
             Vector3 displacement;
             Vector3.Subtract(ref closestB, ref closestA, out displacement);
-            Fix64 distanceSquared = displacement.LengthSquared();
+            Fixed64 distanceSquared = displacement.LengthSquared();
 
             if (distanceSquared < Toolbox.Epsilon)
             {
@@ -151,7 +151,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
             }
 
             localDirection = displacement; //Use this as the direction for future deep contacts.
-            Fix64 margin = collidableA.Shape.collisionMargin + collidableB.Shape.collisionMargin;
+            Fixed64 margin = collidableA.Shape.collisionMargin + collidableB.Shape.collisionMargin;
 
 
             if (distanceSquared < margin * margin)
@@ -167,7 +167,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
                 Vector3.Add(ref closestA, ref contact.Position, out contact.Position); //A + t * AB.
 
                 contact.Normal = displacement;
-                Fix64 distance = Fix64.Sqrt(distanceSquared);
+                Fixed64 distance = Fixed64.Sqrt(distanceSquared);
                 Vector3.Divide(ref contact.Normal, distance, out contact.Normal);
                 contact.PenetrationDepth = margin - distance;
                 return true;

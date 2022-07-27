@@ -71,7 +71,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
 
         protected abstract void UpdateContainedPairs();
 
-        public override void UpdateCollision(Fix64 dt)
+        public override void UpdateCollision(Fixed64 dt)
         {
             WasContaining = Containing;
             WasTouching = Touching;

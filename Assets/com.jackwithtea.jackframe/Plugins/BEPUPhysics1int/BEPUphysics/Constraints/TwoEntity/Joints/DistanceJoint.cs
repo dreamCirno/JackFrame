@@ -11,20 +11,20 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// </summary>
     public class DistanceJoint : Joint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
-        private Fix64 accumulatedImpulse;
+        private Fixed64 accumulatedImpulse;
         private Vector3 anchorA;
 
         private Vector3 anchorB;
-        private Fix64 biasVelocity;
+        private Fixed64 biasVelocity;
         private Vector3 jAngularA, jAngularB;
         private Vector3 jLinearA, jLinearB;
 
         /// <summary>
         /// Distance maintained between the anchors.
         /// </summary>
-        protected Fix64 distance;
+        protected Fixed64 distance;
 
-        private Fix64 error;
+        private Fixed64 error;
 
         private Vector3 localAnchorA;
 
@@ -32,7 +32,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
 
 
         private Vector3 offsetA, offsetB;
-        private Fix64 velocityToImpulse;
+        private Fixed64 velocityToImpulse;
 
         /// <summary>
         /// Constructs a distance joint.
@@ -74,7 +74,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the distance maintained between the anchors.
         /// </summary>
-        public Fix64 Distance
+        public Fixed64 Distance
         {
             get { return distance; }
             set { distance = MathHelper.Max(F64.C0, value); }
@@ -139,11 +139,11 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets the current relative velocity between the connected entities with respect to the constraint.
         /// </summary>
-        public Fix64 RelativeVelocity
+        public Fixed64 RelativeVelocity
         {
             get
             {
-                Fix64 lambda, dot;
+                Fixed64 lambda, dot;
                 Vector3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
                 Vector3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
                 lambda += dot;
@@ -159,7 +159,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets the total impulse applied by this constraint.
         /// </summary>
-        public Fix64 TotalImpulse
+        public Fixed64 TotalImpulse
         {
             get { return accumulatedImpulse; }
         }
@@ -167,7 +167,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets the current constraint error.
         /// </summary>
-        public Fix64 Error
+        public Fixed64 Error
         {
             get { return error; }
         }
@@ -216,7 +216,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the mass matrix of the constraint.
         /// </summary>
         /// <param name="outputMassMatrix">Constraint's mass matrix.</param>
-        public void GetMassMatrix(out Fix64 outputMassMatrix)
+        public void GetMassMatrix(out Fixed64 outputMassMatrix)
         {
             outputMassMatrix = velocityToImpulse;
         }
@@ -227,10 +227,10 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Calculates and applies corrective impulses.
         /// Called automatically by space.
         /// </summary>
-        public override Fix64 SolveIteration()
+        public override Fixed64 SolveIteration()
         {
             //Compute the current relative velocity.
-            Fix64 lambda, dot;
+            Fixed64 lambda, dot;
             Vector3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
             Vector3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
             lambda += dot;
@@ -265,14 +265,14 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
 
-            return (Fix64.Abs(lambda));
+            return (Fixed64.Abs(lambda));
         }
 
         /// <summary>
         /// Calculates necessary information for velocity solving.
         /// </summary>
         /// <param name="dt">Time in seconds since the last update.</param>
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
             //Transform the anchors and offsets into world space.
             Matrix3x3.Transform(ref localAnchorA, ref connectionA.orientationMatrix, out offsetA);
@@ -283,7 +283,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             //Compute the distance.
             Vector3 separation;
             Vector3.Subtract(ref anchorB, ref anchorA, out separation);
-            Fix64 currentDistance = separation.Length();
+            Fixed64 currentDistance = separation.Length();
 
             //Compute jacobians
             if (currentDistance > Toolbox.Epsilon)
@@ -341,7 +341,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
                 return;
             }
 
-            Fix64 errorReduction;
+            Fixed64 errorReduction;
             springSettings.ComputeErrorReductionAndSoftness(dt, F64.C1 / dt, out errorReduction, out softness);
 
             velocityToImpulse = F64.C1 / (softness + velocityToImpulse);

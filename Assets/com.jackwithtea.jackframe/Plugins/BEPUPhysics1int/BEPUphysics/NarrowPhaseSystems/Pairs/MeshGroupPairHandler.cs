@@ -192,7 +192,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         /// </summary>
         /// <param name="entry">Entry to configure.</param>
         /// <param name="dt">Time step duration.</param>
-        protected abstract void ConfigureCollidable(TriangleEntry entry, Fix64 dt);
+        protected abstract void ConfigureCollidable(TriangleEntry entry, Fixed64 dt);
 
         /// <summary>
         /// Cleans up the collidable.
@@ -203,14 +203,14 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             PhysicsResources.GiveBack(collidable);
         }
 
-        protected abstract void UpdateContainedPairs(Fix64 dt);
+        protected abstract void UpdateContainedPairs(Fixed64 dt);
 
 
         ///<summary>
         /// Updates the pair handler's contacts.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        protected virtual void UpdateContacts(Fix64 dt)
+        protected virtual void UpdateContacts(Fixed64 dt)
         {
 
             UpdateContainedPairs(dt);
@@ -254,7 +254,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         /// Updates the pair handler.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public override void UpdateCollision(Fix64 dt)
+        public override void UpdateCollision(Fixed64 dt)
         {
 
             if (!suppressEvents)
@@ -300,7 +300,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///</summary>
         ///<param name="requester">Collidable requesting the update.</param>
         ///<param name="dt">Timestep duration.</param>
-        public override void UpdateTimeOfImpact(Collidable requester, Fix64 dt)
+        public override void UpdateTimeOfImpact(Collidable requester, Fixed64 dt)
         {
             timeOfImpact = F64.C1;
             foreach (var pair in subPairs.Values)

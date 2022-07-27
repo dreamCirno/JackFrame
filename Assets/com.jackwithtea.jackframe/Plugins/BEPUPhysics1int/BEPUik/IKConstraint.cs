@@ -6,9 +6,9 @@ namespace BEPUik
 {
     public abstract class IKConstraint
     {
-        protected Fix64 softness;
+        protected Fixed64 softness;
 
-        protected Fix64 errorCorrectionFactor;
+        protected Fixed64 errorCorrectionFactor;
 
 
         /// <summary>
@@ -17,9 +17,9 @@ namespace BEPUik
         /// <remarks>
         /// This is used over independent coefficients because IK usages of the constraints don't really vary in behavior, just strength.
         /// </remarks>
-        private readonly Fix64 StiffnessOverDamping = (Fix64)0.25m;
+        private readonly Fixed64 StiffnessOverDamping = (Fixed64)0.25m;
 
-        private Fix64 rigidity = F64.C16;
+        private Fixed64 rigidity = F64.C16;
         /// <summary>
         /// Gets the rigidity of the constraint. Higher values correspond to more rigid constraints, lower values to less rigid constraints. Must be positive.
         /// </summary>
@@ -29,7 +29,7 @@ namespace BEPUik
         /// In other words, modifying rigidity without modifying the effective mass of the system results in a variable damping ratio. 
         /// This isn't a huge problem in practice- there is a massive ultra-damping hack in IK bone position integration that make a little physical deviation or underdamping irrelevant.
         /// </remarks>
-        public Fix64 Rigidity
+        public Fixed64 Rigidity
         {
             get
             {
@@ -43,14 +43,14 @@ namespace BEPUik
             }
         }
 
-        protected Fix64 maximumImpulse;
-        protected Fix64 maximumImpulseSquared;
-        protected Fix64 maximumForce = Fix64.MaxValue;
+        protected Fixed64 maximumImpulse;
+        protected Fixed64 maximumImpulseSquared;
+        protected Fixed64 maximumForce = Fixed64.MaxValue;
 
         /// <summary>
         /// Gets or sets the maximum force that the constraint can apply.
         /// </summary>
-        public Fix64 MaximumForce
+        public Fixed64 MaximumForce
         {
             get { return maximumForce; }
             set
@@ -64,15 +64,15 @@ namespace BEPUik
         /// </summary>
         /// <param name="dt">Time step duration.</param>
         /// <param name="updateRate">Inverse time step duration.</param>
-        protected internal void Preupdate(Fix64 dt, Fix64 updateRate)
+        protected internal void Preupdate(Fixed64 dt, Fixed64 updateRate)
         {
-            Fix64 stiffness = StiffnessOverDamping * rigidity;
-            Fix64 damping = rigidity;
-            Fix64 multiplier = F64.C1 / (dt * stiffness + damping);
+            Fixed64 stiffness = StiffnessOverDamping * rigidity;
+            Fixed64 damping = rigidity;
+            Fixed64 multiplier = F64.C1 / (dt * stiffness + damping);
             errorCorrectionFactor = stiffness * multiplier;
             softness = updateRate * multiplier;
             maximumImpulse = maximumForce * dt;
-            maximumImpulseSquared = Fix64.SafeMul(maximumImpulse, maximumImpulse);
+            maximumImpulseSquared = Fixed64.SafeMul(maximumImpulse, maximumImpulse);
 
         }
 

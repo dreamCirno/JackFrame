@@ -18,7 +18,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// Larger tensors (above 1) improve stiffness of constraints and contacts, while smaller values (towards 1) are closer to 'realistic' behavior.
         /// Defaults to 2.5.
         /// </summary>
-        public static Fix64 InertiaTensorScale = (Fix64)2.5m;
+        public static Fixed64 InertiaTensorScale = (Fixed64)2.5m;
 
         ///<summary>
         /// Number of samples the system takes along a side of an object's AABB when voxelizing it.
@@ -34,12 +34,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="center">Location to use as the center for the purposes of computing the contribution.</param>
         ///<param name="point">Point to compute the contribution of.</param>
         ///<param name="contribution">Contribution of the point.</param>
-        public static void GetPointContribution(Fix64 pointWeight, ref Vector3 center, ref Vector3 point, out Matrix3x3 contribution)
+        public static void GetPointContribution(Fixed64 pointWeight, ref Vector3 center, ref Vector3 point, out Matrix3x3 contribution)
         {
             Vector3.Subtract(ref point, ref center, out point);
-			Fix64 xx = pointWeight * point.X * point.X;
-			Fix64 yy = pointWeight * point.Y * point.Y;
-			Fix64 zz = pointWeight * point.Z * point.Z;
+			Fixed64 xx = pointWeight * point.X * point.X;
+			Fixed64 yy = pointWeight * point.Y * point.Y;
+			Fixed64 zz = pointWeight * point.Z * point.Z;
             contribution.M11 = yy + zz;
             contribution.M22 = xx + zz;
             contribution.M33 = xx + yy;
@@ -144,9 +144,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
 			//Create the regular icosahedron vertices.
 			//Vector3[] vertices = new Vector3[12];
 			var goldenRatio = F64.GoldenRatio;
-			Fix64 length = Fix64.Sqrt(F64.C1 + goldenRatio * goldenRatio);
-			Fix64 x = F64.C1 / length;
-			Fix64 y = goldenRatio / length;
+			Fixed64 length = Fixed64.Sqrt(F64.C1 + goldenRatio * goldenRatio);
+			Fixed64 x = F64.C1 / length;
+			Fixed64 y = goldenRatio / length;
             vertices[0] = new Vector3(F64.C0, x, y);
             vertices[1] = new Vector3(F64.C0, -x, y);
             vertices[2] = new Vector3(F64.C0, x, -y);
@@ -344,7 +344,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="triangleIndices">Groups of 3 indices into the vertices array which represent the triangles of the mesh.</param>
         /// <param name="volume">Volume of the shape.</param>
         /// <param name="volumeDistribution">Distribution of the volume as measured from the computed center.</param>
-        public static void ComputeShapeDistribution(IList<Vector3> vertices, IList<int> triangleIndices, out Fix64 volume, out Matrix3x3 volumeDistribution)
+        public static void ComputeShapeDistribution(IList<Vector3> vertices, IList<int> triangleIndices, out Fixed64 volume, out Matrix3x3 volumeDistribution)
         {
             //TODO: Whole bunch of repeat code here. If you ever need to change this, refactor the two methods to share.
             //Explanation for the tetrahedral integration bits: Explicit Exact Formulas for the 3-D Tetrahedron Inertia Tensor in Terms of its Vertex Coordinates
@@ -354,9 +354,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             // [  a  -b' -c' ]
             // [ -b'  b  -a' ]
             // [ -c' -a'  c  ]
-            Fix64 a = F64.C0, b = F64.C0, c = F64.C0, ao = F64.C0, bo = F64.C0, co = F64.C0;
+            Fixed64 a = F64.C0, b = F64.C0, c = F64.C0, ao = F64.C0, bo = F64.C0, co = F64.C0;
 
-            Fix64 scaledVolume = F64.C0;
+            Fixed64 scaledVolume = F64.C0;
             for (int i = 0; i < triangleIndices.Count; i += 3)
             {
                 Vector3 v2 = vertices[triangleIndices[i]];
@@ -364,7 +364,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 Vector3 v4 = vertices[triangleIndices[i + 2]];
 
                 //Determinant is 6 * volume.  It's signed, though; the mesh isn't necessarily convex and the origin isn't necessarily in the mesh even if it is convex.
-                Fix64 scaledTetrahedronVolume = v2.X * (v3.Z * v4.Y - v3.Y * v4.Z) -
+                Fixed64 scaledTetrahedronVolume = v2.X * (v3.Z * v4.Y - v3.Y * v4.Z) -
                                                 v3.X * (v2.Z * v4.Y - v2.Y * v4.Z) +
                                                 v4.X * (v2.Z * v3.Y - v2.Y * v3.Z);
 
@@ -381,9 +381,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 co += scaledTetrahedronVolume * (F64.C2 * v2.X * v2.Y + v3.X * v2.Y + v4.X * v2.Y + v2.X * v3.Y + F64.C2 * v3.X * v3.Y + v4.X * v3.Y + v2.X * v4.Y + v3.X * v4.Y + F64.C2 * v4.X * v4.Y);
             }
             volume = scaledVolume / F64.C6;
-            Fix64 scaledDensity = F64.C1 / volume;
-            Fix64 diagonalFactor = scaledDensity / F64.C60;
-            Fix64 offFactor = -scaledDensity / F64.C120;
+            Fixed64 scaledDensity = F64.C1 / volume;
+            Fixed64 diagonalFactor = scaledDensity / F64.C60;
+            Fixed64 offFactor = -scaledDensity / F64.C120;
             a *= diagonalFactor;
             b *= diagonalFactor;
             c *= diagonalFactor;
@@ -405,7 +405,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="center">Computed center of the shape's volume.</param>
         /// <param name="volume">Volume of the shape.</param>
         /// <param name="volumeDistribution">Distribution of the volume as measured from the computed center.</param>
-        public static void ComputeShapeDistribution(IList<Vector3> vertices, IList<int> triangleIndices, out Vector3 center, out Fix64 volume, out Matrix3x3 volumeDistribution)
+        public static void ComputeShapeDistribution(IList<Vector3> vertices, IList<int> triangleIndices, out Vector3 center, out Fixed64 volume, out Matrix3x3 volumeDistribution)
         {
             //Explanation for the tetrahedral integration bits: Explicit Exact Formulas for the 3-D Tetrahedron Inertia Tensor in Terms of its Vertex Coordinates
             //http://www.scipub.org/fulltext/jms2/jms2118-11.pdf
@@ -414,10 +414,10 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             // [  a  -b' -c' ]
             // [ -b'  b  -a' ]
             // [ -c' -a'  c  ]
-            Fix64 a = F64.C0, b = F64.C0, c = F64.C0, ao = F64.C0, bo = F64.C0, co = F64.C0;
+            Fixed64 a = F64.C0, b = F64.C0, c = F64.C0, ao = F64.C0, bo = F64.C0, co = F64.C0;
 
             Vector3 summedCenter = new Vector3();
-            Fix64 scaledVolume = F64.C0;
+            Fixed64 scaledVolume = F64.C0;
             for (int i = 0; i < triangleIndices.Count; i += 3)
             {
                 Vector3 v2 = vertices[triangleIndices[i]];
@@ -425,7 +425,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 Vector3 v4 = vertices[triangleIndices[i + 2]];
 
                 //Determinant is 6 * volume.  It's signed, though; the mesh isn't necessarily convex and the origin isn't necessarily in the mesh even if it is convex.
-                Fix64 scaledTetrahedronVolume = v2.X * (v3.Z * v4.Y - v3.Y * v4.Z) -
+                Fixed64 scaledTetrahedronVolume = v2.X * (v3.Z * v4.Y - v3.Y * v4.Z) -
                                                 v3.X * (v2.Z * v4.Y - v2.Y * v4.Z) +
                                                 v4.X * (v2.Z * v3.Y - v2.Y * v3.Z);
 
@@ -462,9 +462,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             {
                 Vector3.Multiply(ref summedCenter, F64.C0p25 / scaledVolume, out center);
                 volume = scaledVolume / F64.C6;
-                Fix64 scaledDensity = F64.C1 / volume;
-                Fix64 diagonalFactor = scaledDensity / F64.C60;
-                Fix64 offFactor = -scaledDensity / F64.C120;
+                Fixed64 scaledDensity = F64.C1 / volume;
+                Fixed64 diagonalFactor = scaledDensity / F64.C60;
+                Fixed64 offFactor = -scaledDensity / F64.C120;
                 a *= diagonalFactor;
                 b *= diagonalFactor;
                 c *= diagonalFactor;
@@ -527,7 +527,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="vertices">Vertices of the convex mesh.</param>
         /// <param name="triangleIndices">Groups of 3 indices into the vertices array which represent the triangles of the convex mesh.</param>
         /// <param name="center">Center of the convex shape.</param>
-        public static Fix64 ComputeMinimumRadius(IList<Vector3> vertices, IList<int> triangleIndices, ref Vector3 center)
+        public static Fixed64 ComputeMinimumRadius(IList<Vector3> vertices, IList<int> triangleIndices, ref Vector3 center)
         {
             //Walk through all of the triangles. Treat them as a bunch of planes which bound the shape.
             //The closest distance on any of those planes to the center is the radius of the largest sphere,
@@ -535,7 +535,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
 
             //While this shares a lot of math with the volume distribution computation (volume of a parallelepiped),
             //it requires that a center be available. So, it's a separate calculation.
-            Fix64 minimumDistance = Fix64.MaxValue;
+            Fixed64 minimumDistance = Fixed64.MaxValue;
             for (int i = 0; i < triangleIndices.Count; i += 3)
             {
                 Vector3 v2 = vertices[triangleIndices[i]];
@@ -552,16 +552,16 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 Vector3.Cross(ref v2v4, ref v2v3, out normal);
 
                 //Watch out: this could very easily be a degenerate triangle; the sampling approach tends to create them.
-                Fix64 lengthSquared = normal.LengthSquared();
+                Fixed64 lengthSquared = normal.LengthSquared();
                 if (lengthSquared > F64.C1em10)
-                    Vector3.Divide(ref normal, Fix64.Sqrt(lengthSquared), out normal);
+                    Vector3.Divide(ref normal, Fixed64.Sqrt(lengthSquared), out normal);
                 else
                     continue;
 
                 Vector3 fromCenterToPlane;
                 Vector3.Subtract(ref v2, ref center, out fromCenterToPlane);
 
-                Fix64 distance;
+                Fixed64 distance;
                 Vector3.Dot(ref normal, ref fromCenterToPlane, out distance);
                 if (distance < F64.C0)
                     throw new ArgumentException("Invalid distance. Ensure the mesh is convex, has consistent winding, and contains the passed-in center.");

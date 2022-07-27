@@ -40,7 +40,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
 
         //Expand the convex's bounding box to include the mobile mesh's movement.
 
-        protected internal override int FindOverlappingTriangles(Fix64 dt)
+        protected internal override int FindOverlappingTriangles(Fixed64 dt)
         {
             BoundingBox boundingBox;
             AffineTransform transform = new AffineTransform(mesh.worldTransform.Orientation, mesh.worldTransform.Position);
@@ -151,7 +151,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
             get { return mesh.improveBoundaryBehavior; }
         }
 
-        Fix64 previousDepth;
+        Fixed64 previousDepth;
         Vector3 lastValidConvexPosition;
         protected override void ProcessCandidates(ref QuickList<ContactData> candidates)
         {
@@ -175,7 +175,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
 
                 //Cast from the current position back to the previous position.
                 Vector3.Subtract(ref lastValidConvexPosition, ref ray.Position, out ray.Direction);
-                Fix64 rayDirectionLength = ray.Direction.LengthSquared();
+                Fixed64 rayDirectionLength = ray.Direction.LengthSquared();
                 if (rayDirectionLength < Toolbox.Epsilon)
                 {
                     //The object may not have moved enough to normalize properly.  If so, choose something arbitrary.
@@ -189,7 +189,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
                         rayDirectionLength = F64.C1;
                     }
                 }
-                Vector3.Divide(ref ray.Direction, Fix64.Sqrt(rayDirectionLength), out ray.Direction);
+                Vector3.Divide(ref ray.Direction, Fixed64.Sqrt(rayDirectionLength), out ray.Direction);
 
 
                 RayHit hit;
@@ -203,7 +203,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
                     newContact.Normal = hit.Normal;
                     newContact.Normal.Normalize();
 
-                    Fix64 factor;
+                    Fixed64 factor;
                     Vector3.Dot(ref ray.Direction, ref newContact.Normal, out factor);
                     newContact.PenetrationDepth = -factor * hit.T + convex.Shape.MinimumRadius;
 

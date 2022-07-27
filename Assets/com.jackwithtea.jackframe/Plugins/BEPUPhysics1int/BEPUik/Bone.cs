@@ -36,14 +36,14 @@ namespace BEPUik
         internal Vector3 linearVelocity;
 
 
-        internal Fix64 inverseMass;
+        internal Fixed64 inverseMass;
 
         /// <summary>
         /// Gets or sets the mass of the bone.
         /// High mass bones resist motion more than those of small mass.
         /// Setting the mass updates the inertia tensor of the bone.
         /// </summary>
-        public Fix64 Mass
+        public Fixed64 Mass
         {
             get { return F64.C1 / inverseMass; }
             set
@@ -54,7 +54,7 @@ namespace BEPUik
                 if (value > Toolbox.Epsilon)
                     inverseMass = F64.C1 / value;
                 else
-                    inverseMass = (Fix64)1e7m;
+                    inverseMass = (Fixed64)1e7m;
                 ComputeLocalInertiaTensor();
             }
         }
@@ -65,7 +65,7 @@ namespace BEPUik
         /// <summary>
         /// An arbitrary scaling factor is applied to the inertia tensor. This tends to improve stability.
         /// </summary>
-        public static Fix64 InertiaTensorScaling = (Fix64)2.5m;
+        public static Fixed64 InertiaTensorScaling = (Fixed64)2.5m;
 
         /// <summary>
         /// Gets the list of joints affecting this bone.
@@ -86,12 +86,12 @@ namespace BEPUik
         /// </summary>
         public bool IsActive { get; internal set; }
 
-        private Fix64 radius;
+        private Fixed64 radius;
         /// <summary>
         /// Gets or sets the radius of the bone.
         /// Setting the radius changes the inertia tensor of the bone.
         /// </summary>
-        public Fix64 Radius
+        public Fixed64 Radius
         {
             get
             { return radius; }
@@ -102,13 +102,13 @@ namespace BEPUik
             }
         }
 
-        private Fix64 halfHeight;
+        private Fixed64 halfHeight;
         /// <summary>
         /// Gets or sets the height, divided by two, of the bone.
         /// The half height extends both ways from the center position of the bone.
         /// Setting the half height changes the inertia tensor of the bone.
         /// </summary>
-        public Fix64 HalfHeight
+        public Fixed64 HalfHeight
         {
             get { return halfHeight; }
             set
@@ -122,7 +122,7 @@ namespace BEPUik
         /// Gets or sets the height of the bone.
         /// Setting the height changes the inertia tensor of the bone.
         /// </summary>
-        public Fix64 Height
+        public Fixed64 Height
         {
             get { return halfHeight * F64.C2; }
             set
@@ -140,7 +140,7 @@ namespace BEPUik
         /// <param name="radius">Radius of the bone.</param>
         /// <param name="height">Height of the bone.</param>
         /// <param name="mass">Mass of the bone.</param>
-        public Bone(Vector3 position, Quaternion orientation, Fix64 radius, Fix64 height, Fix64 mass)
+        public Bone(Vector3 position, Quaternion orientation, Fixed64 radius, Fixed64 height, Fixed64 mass)
             :this(position, orientation, radius, height)
         {
             Mass = mass;
@@ -153,7 +153,7 @@ namespace BEPUik
         /// <param name="orientation">Initial orientation of the bone.</param>
         /// <param name="radius">Radius of the bone.</param>
         /// <param name="height">Height of the bone.</param>
-        public Bone(Vector3 position, Quaternion orientation, Fix64 radius, Fix64 height)
+        public Bone(Vector3 position, Quaternion orientation, Fixed64 radius, Fixed64 height)
         {
             Mass = F64.C1;
             Position = position;
@@ -167,7 +167,7 @@ namespace BEPUik
         {
             var localInertiaTensor = new Matrix3x3();
             var multiplier = Mass * InertiaTensorScaling;
-            Fix64 diagValue = (F64.C0p0833333333 * Height * Height + F64.C0p25 * Radius * Radius) * multiplier;
+            Fixed64 diagValue = (F64.C0p0833333333 * Height * Height + F64.C0p25 * Radius * Radius) * multiplier;
             localInertiaTensor.M11 = diagValue;
             localInertiaTensor.M22 = F64.C0p5 * Radius * Radius * multiplier;
             localInertiaTensor.M33 = diagValue;

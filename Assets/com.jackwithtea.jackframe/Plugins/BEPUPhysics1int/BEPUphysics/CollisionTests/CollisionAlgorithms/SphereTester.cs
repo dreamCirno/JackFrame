@@ -25,10 +25,10 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         {
             contact = new ContactData();
 
-            Fix64 radiusSum = a.collisionMargin + b.collisionMargin;
+            Fixed64 radiusSum = a.collisionMargin + b.collisionMargin;
             Vector3 centerDifference;
             Vector3.Subtract(ref positionB, ref positionA, out centerDifference);
-            Fix64 centerDistance = centerDifference.LengthSquared();
+            Fixed64 centerDistance = centerDifference.LengthSquared();
 
             if (centerDistance < (radiusSum + CollisionDetectionSettings.maximumContactDistance) * (radiusSum + CollisionDetectionSettings.maximumContactDistance))
             {
@@ -39,7 +39,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
                 else contact.Position = new Vector3();
                 Vector3.Add(ref contact.Position, ref positionA, out contact.Position);
 
-                centerDistance = Fix64.Sqrt(centerDistance);
+                centerDistance = Fixed64.Sqrt(centerDistance);
                 if (centerDistance > Toolbox.BigEpsilon)
                 {
                     Vector3.Divide(ref centerDifference, centerDistance, out contact.Normal);

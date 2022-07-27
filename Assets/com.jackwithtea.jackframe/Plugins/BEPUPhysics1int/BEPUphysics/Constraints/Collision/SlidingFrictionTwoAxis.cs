@@ -27,7 +27,7 @@ namespace BEPUphysics.Constraints.Collision
         internal Vector2 accumulatedImpulse;
         internal Matrix2x3 angularA, angularB;
         private int contactCount;
-        private Fix64 friction;
+        private Fixed64 friction;
         internal Matrix2x3 linearA;
         private Entity entityA, entityB;
         private bool entityADynamic, entityBDynamic;
@@ -93,7 +93,7 @@ namespace BEPUphysics.Constraints.Collision
 
                 //Re-using information version:
                 //TODO: va + wa x ra - vb - wb x rb, dotted against each axis, is it faster?
-                Fix64 dvx = F64.C0, dvy = F64.C0, dvz = F64.C0;
+                Fixed64 dvx = F64.C0, dvy = F64.C0, dvz = F64.C0;
                 if (entityA != null)
                 {
                     dvx = entityA.linearVelocity.X + (entityA.angularVelocity.Y * ra.Z) - (entityA.angularVelocity.Z * ra.Y);
@@ -153,14 +153,14 @@ namespace BEPUphysics.Constraints.Collision
         /// Computes one iteration of the constraint to meet the solver updateable's goal.
         /// </summary>
         /// <returns>The rough applied impulse magnitude.</returns>
-        public override Fix64 SolveIteration()
+        public override Fixed64 SolveIteration()
         {
 
             Vector2 lambda = RelativeVelocity;
 
             //Convert to impulse
             //Matrix2x2.Transform(ref lambda, ref velocityToImpulse, out lambda);
-            Fix64 x = lambda.X;
+            Fixed64 x = lambda.X;
             lambda.X = x * velocityToImpulse.M11 + lambda.Y * velocityToImpulse.M21;
             lambda.Y = x * velocityToImpulse.M12 + lambda.Y * velocityToImpulse.M22;
 
@@ -168,8 +168,8 @@ namespace BEPUphysics.Constraints.Collision
             Vector2 previousAccumulatedImpulse = accumulatedImpulse;
             accumulatedImpulse.X += lambda.X;
             accumulatedImpulse.Y += lambda.Y;
-            Fix64 length = accumulatedImpulse.LengthSquared();
-            Fix64 maximumFrictionForce = F64.C0;
+            Fixed64 length = accumulatedImpulse.LengthSquared();
+            Fixed64 maximumFrictionForce = F64.C0;
             for (int i = 0; i < contactCount; i++)
             {
                 maximumFrictionForce += contactManifoldConstraint.penetrationConstraints.Elements[i].accumulatedImpulse;
@@ -177,7 +177,7 @@ namespace BEPUphysics.Constraints.Collision
             maximumFrictionForce *= friction;
             if (length > maximumFrictionForce * maximumFrictionForce)
             {
-                length = maximumFrictionForce / Fix64.Sqrt(length);
+                length = maximumFrictionForce / Fixed64.Sqrt(length);
                 accumulatedImpulse.X *= length;
                 accumulatedImpulse.Y *= length;
             }
@@ -231,7 +231,7 @@ namespace BEPUphysics.Constraints.Collision
             }
 
 
-            return Fix64.Abs(lambda.X) + Fix64.Abs(lambda.Y);
+            return Fixed64.Abs(lambda.X) + Fixed64.Abs(lambda.Y);
         }
 
         internal Vector3 manifoldCenter, relativeVelocity;
@@ -240,7 +240,7 @@ namespace BEPUphysics.Constraints.Collision
         /// Performs the frame's configuration step.
         ///</summary>
         ///<param name="dt">Timestep duration.</param>
-        public override void Update(Fix64 dt)
+        public override void Update(Fixed64 dt)
         {
 
             entityADynamic = entityA != null && entityA.isDynamic;
@@ -315,17 +315,17 @@ namespace BEPUphysics.Constraints.Collision
 
             //Get rid of the normal velocity.
             Vector3 normal = contactManifoldConstraint.penetrationConstraints.Elements[0].contact.Normal;
-            Fix64 normalVelocityScalar = normal.X * relativeVelocity.X + normal.Y * relativeVelocity.Y + normal.Z * relativeVelocity.Z;
+            Fixed64 normalVelocityScalar = normal.X * relativeVelocity.X + normal.Y * relativeVelocity.Y + normal.Z * relativeVelocity.Z;
             relativeVelocity.X -= normalVelocityScalar * normal.X;
             relativeVelocity.Y -= normalVelocityScalar * normal.Y;
             relativeVelocity.Z -= normalVelocityScalar * normal.Z;
 
             //Create the jacobian entry and decide the friction coefficient.
-            Fix64 length = relativeVelocity.LengthSquared();
+            Fixed64 length = relativeVelocity.LengthSquared();
             if (length > Toolbox.Epsilon)
             {
-                length = Fix64.Sqrt(length);
-                Fix64 inverseLength = F64.C1 / length;
+                length = Fixed64.Sqrt(length);
+                Fixed64 inverseLength = F64.C1 / length;
                 linearA.M11 = relativeVelocity.X * inverseLength;
                 linearA.M12 = relativeVelocity.Y * inverseLength;
                 linearA.M13 = relativeVelocity.Z * inverseLength;
@@ -350,8 +350,8 @@ namespace BEPUphysics.Constraints.Collision
                     length = axis1.LengthSquared();
                     if (length > Toolbox.Epsilon)
                     {
-                        length = Fix64.Sqrt(length);
-                        Fix64 inverseLength = F64.C1 / length;
+                        length = Fixed64.Sqrt(length);
+                        Fixed64 inverseLength = F64.C1 / length;
                         linearA.M11 = axis1.X * inverseLength;
                         linearA.M12 = axis1.Y * inverseLength;
                         linearA.M13 = axis1.Z * inverseLength;
