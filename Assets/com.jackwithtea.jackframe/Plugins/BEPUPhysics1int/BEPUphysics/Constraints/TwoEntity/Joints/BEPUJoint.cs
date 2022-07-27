@@ -7,7 +7,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Superclass of position-based constraints.
     /// </summary>
-    public abstract class Joint : TwoEntityConstraint, ISpringSettings
+    public abstract class BEPUJoint : TwoEntityConstraint, ISpringSettings
     {
         /// <summary>
         /// Maximum extra velocity that the constraint will apply in an effort to correct constraint error.

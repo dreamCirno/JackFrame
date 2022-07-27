@@ -13,14 +13,14 @@ namespace BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public abstract class TerrainContactManifold : TriangleMeshConvexContactManifold
     {
-        protected Terrain terrain;
+        protected BEPUTerrain terrain;
 
         internal RawList<int> overlappedTriangles = new RawList<int>(4);
 
         ///<summary>
         /// Gets the terrain associated with this pair.
         ///</summary>
-        public Terrain Terrain
+        public BEPUTerrain Terrain
         {
             get
             {
@@ -170,13 +170,13 @@ namespace BEPUphysics.CollisionTests.Manifolds
         public override void Initialize(Collidable newCollidableA, Collidable newCollidableB)
         {
             convex = newCollidableA as ConvexCollidable;
-            terrain = newCollidableB as Terrain;
+            terrain = newCollidableB as BEPUTerrain;
 
 
             if (convex == null || terrain == null)
             {
                 convex = newCollidableB as ConvexCollidable;
-                terrain = newCollidableA as Terrain;
+                terrain = newCollidableA as BEPUTerrain;
                 if (convex == null || terrain == null)
                     throw new ArgumentException("Inappropriate types used to initialize contact manifold.");
             }

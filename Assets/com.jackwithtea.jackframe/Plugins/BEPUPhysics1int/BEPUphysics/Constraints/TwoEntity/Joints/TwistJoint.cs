@@ -10,7 +10,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// Prevents the connected entities from twisting relative to each other.
     /// Acts like the angular part of a universal joint.
     /// </summary>
-    public class TwistJoint : Joint, I1DImpulseConstraintWithError, I1DJacobianConstraint
+    public class TwistJoint : BEPUJoint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
         private Vector3 aLocalAxisY, aLocalAxisZ;
         private Fixed64 accumulatedImpulse;

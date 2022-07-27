@@ -16,7 +16,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class TerrainPairHandler : StandardPairHandler
     {
-        Terrain terrain;
+        BEPUTerrain terrain;
         ConvexCollidable convex;
 
         private NonConvexContactManifoldConstraint contactConstraint;
@@ -71,12 +71,12 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         public override void Initialize(BroadPhaseEntry entryA, BroadPhaseEntry entryB)
         {
 
-            terrain = entryA as Terrain;
+            terrain = entryA as BEPUTerrain;
             convex = entryB as ConvexCollidable;
 
             if (terrain == null || convex == null)
             {
-                terrain = entryB as Terrain;
+                terrain = entryB as BEPUTerrain;
                 convex = entryA as ConvexCollidable;
 
                 if (terrain == null || convex == null)

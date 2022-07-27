@@ -17,7 +17,7 @@ namespace BEPUphysics.Character
     /// <summary>
     /// Gives a physical object FPS-like control, including stepping and jumping.
     /// </summary>
-    public class CharacterController : Updateable, IBeforeSolverUpdateable
+    public class BEPUCharacterController : Updateable, IBeforeSolverUpdateable
     {
         /// <summary>
         /// Gets the physical body of the character.  Do not use this reference to modify the character's height and radius.  Instead, use the BodyRadius property and the StanceManager's StandingHeight and CrouchingHeight properties.
@@ -398,7 +398,7 @@ namespace BEPUphysics.Character
 		/// <param name="jumpSpeed">Speed at which the character leaves the ground when it jumps</param>
 		/// <param name="slidingJumpSpeed">Speed at which the character leaves the ground when it jumps without traction</param>
 		/// <param name="maximumGlueForce">Maximum force the vertical motion constraint is allowed to apply in an attempt to keep the character on the ground.</param>
-		public CharacterController(
+		public BEPUCharacterController(
 			// Fix64 cannot be used for default parameters. As a workaround, make all parameters nullable and assign default values inside the constructor
 			Vector3 position = new Vector3(),
 			Fixed64? height = null, Fixed64? crouchingHeight = null, Fixed64? proneHeight = null, Fixed64? radius = null, Fixed64? margin = null, Fixed64? mass = null,

@@ -10,7 +10,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// Constrains two bodies so that they can rotate relative to each other like a modified door hinge.
     /// Instead of removing two degrees of freedom, only one is removed so that the second connection to the constraint can twist.
     /// </summary>
-    public class SwivelHingeAngularJoint : Joint, I1DImpulseConstraintWithError, I1DJacobianConstraint
+    public class SwivelHingeAngularJoint : BEPUJoint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
         private Fixed64 accumulatedImpulse;
         private Fixed64 biasVelocity;

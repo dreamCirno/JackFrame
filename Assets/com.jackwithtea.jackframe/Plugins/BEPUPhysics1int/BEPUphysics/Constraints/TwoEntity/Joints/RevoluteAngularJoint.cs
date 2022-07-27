@@ -9,7 +9,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// Constrains two entities to rotate only around a single axis.
     /// Acts like the angular portion of a hinge joint.
     /// </summary>
-    public class RevoluteAngularJoint : Joint, I2DImpulseConstraintWithError, I2DJacobianConstraint
+    public class RevoluteAngularJoint : BEPUJoint, I2DImpulseConstraintWithError, I2DJacobianConstraint
     {
         private Vector2 accumulatedImpulse;
         private Vector2 biasVelocity;

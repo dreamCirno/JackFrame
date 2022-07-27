@@ -9,7 +9,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Constraint which tries to maintain the distance between points on two entities.
     /// </summary>
-    public class DistanceJoint : Joint, I1DImpulseConstraintWithError, I1DJacobianConstraint
+    public class DistanceJoint : BEPUJoint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
         private Fixed64 accumulatedImpulse;
         private Vector3 anchorA;

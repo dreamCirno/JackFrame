@@ -8,7 +8,7 @@ namespace BEPUphysics.Constraints.TwoEntity.JointLimits
     /// <summary>
     /// Superclass of constraints which have a limited area of free movement.
     /// </summary>
-    public abstract class JointLimit : Joint
+    public abstract class JointLimit : BEPUJoint
     {
         /// <summary>
         /// Minimum velocity necessary for a bounce to occur at a joint limit.

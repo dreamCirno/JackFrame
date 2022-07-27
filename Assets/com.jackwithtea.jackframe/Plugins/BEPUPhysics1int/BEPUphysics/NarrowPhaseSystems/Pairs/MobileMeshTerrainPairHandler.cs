@@ -15,7 +15,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
     {
 
 
-        Terrain mesh;
+        BEPUTerrain mesh;
 
         public override Collidable CollidableB
         {
@@ -81,10 +81,10 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///<param name="entryB">Second entry in the pair.</param>
         public override void Initialize(BroadPhaseEntry entryA, BroadPhaseEntry entryB)
         {
-            mesh = entryA as Terrain;
+            mesh = entryA as BEPUTerrain;
             if (mesh == null)
             {
-                mesh = entryB as Terrain;
+                mesh = entryB as BEPUTerrain;
                 if (mesh == null)
                 {
                     throw new ArgumentException("Inappropriate types used to initialize pair.");

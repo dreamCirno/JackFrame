@@ -8,7 +8,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Constrains two entities so that they cannot rotate relative to each other.
     /// </summary>
-    public class NoRotationJoint : Joint, I3DImpulseConstraintWithError, I3DJacobianConstraint
+    public class NoRotationJoint : BEPUJoint, I3DImpulseConstraintWithError, I3DJacobianConstraint
     {
         private Vector3 accumulatedImpulse;
         private Vector3 biasVelocity;

@@ -13,7 +13,7 @@ namespace BEPUphysics.BroadPhaseEntries
     ///<summary>
     /// Heightfield-based unmovable collidable object.
     ///</summary>
-    public class Terrain : StaticCollidable
+    public class BEPUTerrain : StaticCollidable
     {
         ///<summary>
         /// Gets the shape of this collidable.
@@ -91,11 +91,11 @@ namespace BEPUphysics.BroadPhaseEntries
             }
         }
 
-        protected internal ContactEventManager<Terrain> events;
+        protected internal ContactEventManager<BEPUTerrain> events;
         ///<summary>
         /// Gets the event manager used by the Terrain.
         ///</summary>
-        public ContactEventManager<Terrain> Events
+        public ContactEventManager<BEPUTerrain> Events
         {
             get
             {
@@ -170,12 +170,12 @@ namespace BEPUphysics.BroadPhaseEntries
         ///</summary>
         ///<param name="shape">Shape to use for the terrain.</param>
         ///<param name="worldTransform">Transform to use for the terrain.</param>
-        public Terrain(TerrainShape shape, AffineTransform worldTransform)
+        public BEPUTerrain(TerrainShape shape, AffineTransform worldTransform)
         {
             WorldTransform = worldTransform;
             Shape = shape;
 
-            Events = new ContactEventManager<Terrain>();
+            Events = new ContactEventManager<BEPUTerrain>();
         }
 
 
@@ -184,7 +184,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///</summary>
         ///<param name="heights">Height data to use to create the TerrainShape.</param>
         ///<param name="worldTransform">Transform to use for the terrain.</param>
-        public Terrain(Fixed64[,] heights, AffineTransform worldTransform)
+        public BEPUTerrain(Fixed64[,] heights, AffineTransform worldTransform)
             : this(new TerrainShape(heights), worldTransform)
         {
         }

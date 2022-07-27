@@ -10,7 +10,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Connects two entities with a spherical joint.  Acts like an unrestricted shoulder joint.
     /// </summary>
-    public class BallSocketJoint : Joint, I3DImpulseConstraintWithError, I3DJacobianConstraint
+    public class BallSocketJoint : BEPUJoint, I3DImpulseConstraintWithError, I3DJacobianConstraint
     {
         private Vector3 accumulatedImpulse;
         private Vector3 biasVelocity;

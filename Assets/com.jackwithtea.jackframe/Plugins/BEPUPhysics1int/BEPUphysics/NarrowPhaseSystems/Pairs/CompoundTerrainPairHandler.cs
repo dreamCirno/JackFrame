@@ -9,7 +9,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
     public class CompoundTerrainPairHandler : CompoundGroupPairHandler
     {
 
-        Terrain terrain;
+        BEPUTerrain terrain;
 
         public override Collidable CollidableB
         {
@@ -27,11 +27,11 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///<param name="entryB">Second entry in the pair.</param>
         public override void Initialize(BroadPhaseEntry entryA, BroadPhaseEntry entryB)
         {
-            terrain = entryA as Terrain;
+            terrain = entryA as BEPUTerrain;
             if (terrain == null)
             {
 
-                terrain = entryB as Terrain;
+                terrain = entryB as BEPUTerrain;
                 if (terrain == null)
                 {
                     throw new ArgumentException("Inappropriate types used to initialize pair.");

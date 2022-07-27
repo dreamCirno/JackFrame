@@ -8,7 +8,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Constrains a point on one body to be on a plane defined by another body.
     /// </summary>
-    public class PointOnPlaneJoint : Joint, I1DImpulseConstraintWithError, I1DJacobianConstraint
+    public class PointOnPlaneJoint : BEPUJoint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
         private Fixed64 accumulatedImpulse;
         private Fixed64 biasVelocity;

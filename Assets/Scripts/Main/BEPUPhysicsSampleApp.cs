@@ -14,7 +14,7 @@ namespace BEPUPhysicsSample {
         }
 
         void Update() {
-            space.Update(Fixed64.EN2 * 16);
+            space.Update(Fixed64.EN3 * 16);
         }
 
     }

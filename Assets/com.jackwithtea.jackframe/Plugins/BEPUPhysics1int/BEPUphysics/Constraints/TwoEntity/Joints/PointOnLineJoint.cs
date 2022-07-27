@@ -8,7 +8,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// <summary>
     /// Constrains two entities so that one has a point that stays on a line defined by the other.
     /// </summary>
-    public class PointOnLineJoint : Joint, I2DImpulseConstraintWithError, I2DJacobianConstraint
+    public class PointOnLineJoint : BEPUJoint, I2DImpulseConstraintWithError, I2DJacobianConstraint
     {
         private Vector2 accumulatedImpulse;
         private Vector3 angularA1;
