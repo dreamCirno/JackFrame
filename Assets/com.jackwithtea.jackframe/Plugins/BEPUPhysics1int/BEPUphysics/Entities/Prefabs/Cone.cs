@@ -62,7 +62,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="height">Height of the cone.</param>
         /// <param name="radius">Radius of the cone.</param>
         /// <param name="mass">Mass of the object.</param>
-        public Cone(Vector3 position, Fixed64 height, Fixed64 radius, Fixed64 mass)
+        public Cone(FixedV3 position, Fixed64 height, Fixed64 radius, Fixed64 mass)
             : this(height, radius, mass)
         {
             Position = position;
@@ -74,7 +74,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="position">Position of the cone.</param>
         /// <param name="height">Height of the cone.</param>
         /// <param name="radius">Radius of the cone.</param>
-        public Cone(Vector3 position, Fixed64 height, Fixed64 radius)
+        public Cone(FixedV3 position, Fixed64 height, Fixed64 radius)
             : this(height, radius)
         {
             Position = position;

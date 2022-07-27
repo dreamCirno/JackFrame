@@ -13,19 +13,19 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         ///<summary>
         /// First vertex of the simplex.
         ///</summary>
-        public Vector3 A;
+        public FixedV3 A;
         ///<summary>
         /// Second vertex of the simplex.
         ///</summary>
-        public Vector3 B;
+        public FixedV3 B;
         ///<summary>
         /// Third vertex of the simplex.
         ///</summary>
-        public Vector3 C;
+        public FixedV3 C;
         ///<summary>
         /// Fourth vertex of the simplex.
         ///</summary>
-        public Vector3 D;
+        public FixedV3 D;
         ///<summary>
         /// Current state of the simplex.
         ///</summary>
@@ -36,7 +36,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         ///</summary>
         ///<param name="point">Closest point to the origin.</param>
         ///<returns>Whether or not the simplex encloses the origin.</returns>
-        public bool GetPointClosestToOrigin(out Vector3 point)
+        public bool GetPointClosestToOrigin(out FixedV3 point)
         {
             //This method finds the closest point on the simplex to the origin.
             //Barycentric coordinates are assigned to the MinimumNormCoordinates as necessary to perform the inclusion calculation.
@@ -70,18 +70,18 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         /// Gets the closest point on the segment to the origin.
         ///</summary>
         ///<param name="point">Closest point.</param>
-        public void GetPointOnSegmentClosestToOrigin(out Vector3 point)
+        public void GetPointOnSegmentClosestToOrigin(out FixedV3 point)
         {
-            Vector3 segmentDisplacement;
-            Vector3.Subtract(ref B, ref A, out segmentDisplacement);
+            FixedV3 segmentDisplacement;
+            FixedV3.Subtract(ref B, ref A, out segmentDisplacement);
             Fixed64 dotA;
-            Vector3.Dot(ref segmentDisplacement, ref A, out dotA);
+            FixedV3.Dot(ref segmentDisplacement, ref A, out dotA);
 
             //Inside segment.
             Fixed64 V = -dotA / segmentDisplacement.LengthSquared();
 
-            Vector3.Multiply(ref segmentDisplacement, V, out point);
-            Vector3.Add(ref point, ref A, out point);
+            FixedV3.Multiply(ref segmentDisplacement, V, out point);
+            FixedV3.Add(ref point, ref A, out point);
 
             //if (dotB > 0)
             //{
@@ -105,11 +105,11 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         /// Gets the closest point on the triangle to the origin.
         ///</summary>
         ///<param name="point">Closest point.</param>
-        public void GetPointOnTriangleClosestToOrigin(out Vector3 point)
+        public void GetPointOnTriangleClosestToOrigin(out FixedV3 point)
         {
-            Vector3 ab, ac;
-            Vector3.Subtract(ref B, ref A, out ab);
-            Vector3.Subtract(ref C, ref A, out ac);
+            FixedV3 ab, ac;
+            FixedV3.Subtract(ref B, ref A, out ab);
+            FixedV3.Subtract(ref C, ref A, out ac);
             //The point we are comparing against the triangle is 0,0,0, so instead of storing an "A->P" vector,
             //just use -A.
             //Same for B->, C->P...
@@ -123,8 +123,8 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             //Check to see if it's outside C.
             //TODO: Note that in a boolean-style GJK, it shouldn't be possible to be outside C.
             Fixed64 d5, d6;
-            Vector3.Dot(ref ab, ref C, out d5);
-            Vector3.Dot(ref ac, ref C, out d6);
+            FixedV3.Dot(ref ab, ref C, out d5);
+            FixedV3.Dot(ref ac, ref C, out d6);
             d5 = -d5;
             d6 = -d6;
             if (d6 >= F64.C0 && d5 <= d6)
@@ -138,8 +138,8 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
 
             //Check if it's outside AC.            
             Fixed64 d1, d2;
-            Vector3.Dot(ref ab, ref A, out d1);
-            Vector3.Dot(ref ac, ref A, out d2);
+            FixedV3.Dot(ref ab, ref A, out d1);
+            FixedV3.Dot(ref ac, ref A, out d2);
             d1 = -d1;
             d2 = -d2;
             Fixed64 vb = d5 * d2 - d1 * d6;
@@ -149,15 +149,15 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 State = SimplexState.Segment;
                 B = C;
                 Fixed64 V = d2 / (d2 - d6);
-                Vector3.Multiply(ref ac, V, out point);
-                Vector3.Add(ref point, ref A, out point);
+                FixedV3.Multiply(ref ac, V, out point);
+                FixedV3.Add(ref point, ref A, out point);
                 return;
             }
 
             //Check if it's outside BC.
             Fixed64 d3, d4;
-            Vector3.Dot(ref ab, ref B, out d3);
-            Vector3.Dot(ref ac, ref B, out d4);
+            FixedV3.Dot(ref ab, ref B, out d3);
+            FixedV3.Dot(ref ac, ref B, out d4);
             d3 = -d3;
             d4 = -d4;
             Fixed64 va = d3 * d6 - d5 * d4;
@@ -171,10 +171,10 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 A = C;
                 Fixed64 U = d3d4 / (d3d4 + d6d5);
 
-                Vector3 bc;
-                Vector3.Subtract(ref C, ref B, out bc);
-                Vector3.Multiply(ref bc, U, out point);
-                Vector3.Add(ref point, ref B, out point);
+                FixedV3 bc;
+                FixedV3.Subtract(ref C, ref B, out bc);
+                FixedV3.Multiply(ref bc, U, out point);
+                FixedV3.Add(ref point, ref B, out point);
                 return;
             }
 
@@ -185,11 +185,11 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             Fixed64 v = vb * denom;
             Fixed64 w = vc * denom;
 
-            Vector3.Multiply(ref ab, v, out point);
-            Vector3 acw;
-            Vector3.Multiply(ref ac, w, out acw);
-            Vector3.Add(ref A, ref point, out point);
-            Vector3.Add(ref point, ref acw, out point);
+            FixedV3.Multiply(ref ab, v, out point);
+            FixedV3 acw;
+            FixedV3.Multiply(ref ac, w, out acw);
+            FixedV3.Add(ref A, ref point, out point);
+            FixedV3.Add(ref point, ref acw, out point);
 
 
 
@@ -201,7 +201,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         ///</summary>
         ///<param name="point">Closest point.</param>
         ///<returns>Whether or not the simplex encloses the origin.</returns>
-        public bool GetPointOnTetrahedronClosestToOrigin(out Vector3 point)
+        public bool GetPointOnTetrahedronClosestToOrigin(out FixedV3 point)
         {
             //Thanks to the fact that D is new and that we know that the origin is within the extruded
             //triangular prism of ABC (and on the "D" side of ABC),
@@ -213,13 +213,13 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             //There is some overlap of calculations in this method, since DAC, DCB, and DBA are tested fully.
 
             SimpleSimplex minimumSimplex = new SimpleSimplex();
-            point = new Vector3();
+            point = new FixedV3();
             Fixed64 minimumDistance = Fixed64.MaxValue;
 
 
             SimpleSimplex candidate;
             Fixed64 candidateDistance;
-            Vector3 candidatePoint;
+            FixedV3 candidatePoint;
             if (TryTetrahedronTriangle(ref A, ref C, ref D, ref B, out candidate, out candidatePoint))
             {
                 point = candidatePoint;
@@ -251,27 +251,27 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             return true;
         }
 
-        private static bool TryTetrahedronTriangle(ref Vector3 A, ref Vector3 B, ref Vector3 C, 
-                                                   ref Vector3 otherPoint, out SimpleSimplex simplex, out Vector3 point)
+        private static bool TryTetrahedronTriangle(ref FixedV3 A, ref FixedV3 B, ref FixedV3 C, 
+                                                   ref FixedV3 otherPoint, out SimpleSimplex simplex, out FixedV3 point)
         {
             //Note that there may be some extra terms that can be removed from this process.
             //Some conditions could use less parameters, since it is known that the origin
             //is not 'behind' BC or AC.
 
             simplex = new SimpleSimplex();
-            point = new Vector3();
+            point = new FixedV3();
 
 
-            Vector3 ab, ac;
-            Vector3.Subtract(ref B, ref A, out ab);
-            Vector3.Subtract(ref C, ref A, out ac);
-            Vector3 normal;
-            Vector3.Cross(ref ab, ref ac, out normal);
+            FixedV3 ab, ac;
+            FixedV3.Subtract(ref B, ref A, out ab);
+            FixedV3.Subtract(ref C, ref A, out ac);
+            FixedV3 normal;
+            FixedV3.Cross(ref ab, ref ac, out normal);
             Fixed64 AdotN, ADdotN;
-            Vector3 AD;
-            Vector3.Subtract(ref otherPoint, ref A, out AD);
-            Vector3.Dot(ref A, ref normal, out AdotN);
-            Vector3.Dot(ref AD, ref normal, out ADdotN);
+            FixedV3 AD;
+            FixedV3.Subtract(ref otherPoint, ref A, out AD);
+            FixedV3.Dot(ref A, ref normal, out AdotN);
+            FixedV3.Dot(ref AD, ref normal, out ADdotN);
 
             //If (-A * N) * (AD * N) < 0, D and O are on opposite sides of the triangle.
             if (AdotN * ADdotN > F64.C0)
@@ -289,8 +289,8 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 //Check to see if it's outside C.
                 //TODO: Note that in a boolean-style GJK, it shouldn't be possible to be outside C.
                 Fixed64 CdotAB, CdotAC;
-                Vector3.Dot(ref ab, ref C, out CdotAB);
-                Vector3.Dot(ref ac, ref C, out CdotAC);
+                FixedV3.Dot(ref ab, ref C, out CdotAB);
+                FixedV3.Dot(ref ac, ref C, out CdotAC);
                 CdotAB = -CdotAB;
                 CdotAC = -CdotAC;
                 if (CdotAC >= F64.C0 && CdotAB <= CdotAC)
@@ -304,8 +304,8 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
 
                 //Check if it's outside AC.            
                 Fixed64 AdotAB, AdotAC;
-                Vector3.Dot(ref ab, ref A, out AdotAB);
-                Vector3.Dot(ref ac, ref A, out AdotAC);
+                FixedV3.Dot(ref ab, ref A, out AdotAB);
+                FixedV3.Dot(ref ac, ref A, out AdotAC);
                 AdotAB = -AdotAB;
                 AdotAC = -AdotAC;
                 Fixed64 vb = CdotAB * AdotAC - AdotAB * CdotAC;
@@ -316,15 +316,15 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                     simplex.B = C;
                     Fixed64 V = AdotAC / (AdotAC - CdotAC);
 
-                    Vector3.Multiply(ref ac, V, out point);
-                    Vector3.Add(ref point, ref A, out point);
+                    FixedV3.Multiply(ref ac, V, out point);
+                    FixedV3.Add(ref point, ref A, out point);
                     return true;
                 }
 
                 //Check if it's outside BC.
                 Fixed64 BdotAB, BdotAC;
-                Vector3.Dot(ref ab, ref B, out BdotAB);
-                Vector3.Dot(ref ac, ref B, out BdotAC);
+                FixedV3.Dot(ref ab, ref B, out BdotAB);
+                FixedV3.Dot(ref ac, ref B, out BdotAC);
                 BdotAB = -BdotAB;
                 BdotAC = -BdotAC;
                 Fixed64 va = BdotAB * CdotAC - CdotAB * BdotAC;
@@ -337,10 +337,10 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                     simplex.B = C;
                     Fixed64 V = d3d4 / (d3d4 + d6d5);
 
-                    Vector3 bc;
-                    Vector3.Subtract(ref C, ref B, out bc);
-                    Vector3.Multiply(ref bc, V, out point);
-                    Vector3.Add(ref point, ref B, out point);
+                    FixedV3 bc;
+                    FixedV3.Subtract(ref C, ref B, out bc);
+                    FixedV3.Multiply(ref bc, V, out point);
+                    FixedV3.Add(ref point, ref B, out point);
                     return true;
                 }
 
@@ -355,11 +355,11 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 Fixed64 w = vc * denom;
                 Fixed64 v = vb * denom;
 
-                Vector3.Multiply(ref ab, v, out point);
-                Vector3 acw;
-                Vector3.Multiply(ref ac, w, out acw);
-                Vector3.Add(ref A, ref point, out point);
-                Vector3.Add(ref point, ref acw, out point);
+                FixedV3.Multiply(ref ab, v, out point);
+                FixedV3 acw;
+                FixedV3.Multiply(ref ac, w, out acw);
+                FixedV3.Add(ref A, ref point, out point);
+                FixedV3.Add(ref point, ref acw, out point);
                 return true;
             }
             return false;
@@ -373,7 +373,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
         /// Adds a new point to the simplex.
         ///</summary>
         ///<param name="point">Point to add.</param>
-        public void AddNewSimplexPoint(ref Vector3 point)
+        public void AddNewSimplexPoint(ref FixedV3 point)
         {
             switch (State)
             {

@@ -182,7 +182,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="ray">Shape to query against the tree.</param>
         /// <param name="outputOverlappedElements">Indices of triangles in the index buffer with bounding boxes which are overlapped by the query.</param>
         /// <returns>Whether or not any elements were overlapped.</returns>
-        public bool GetOverlaps(Ray ray, IList<int> outputOverlappedElements)
+        public bool GetOverlaps(BEPURay ray, IList<int> outputOverlappedElements)
         {
             if (root != null)
             {
@@ -199,7 +199,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="maximumLength">Maximum length of the ray in units of the ray's length.</param>
         /// <param name="outputOverlappedElements">Indices of triangles in the index buffer with bounding boxes which are overlapped by the query.</param>
         /// <returns>Whether or not any elements were overlapped.</returns>
-        public bool GetOverlaps(Ray ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
+        public bool GetOverlaps(BEPURay ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
         {
             if (root != null)
             {
@@ -216,7 +216,7 @@ namespace BEPUphysics.DataStructures
             internal abstract void GetOverlaps(ref BoundingBox boundingBox, IList<int> outputOverlappedElements);
             internal abstract void GetOverlaps(ref BoundingSphere boundingSphere, IList<int> outputOverlappedElements);
             //internal abstract void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<int> outputOverlappedElements);
-            internal abstract void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<int> outputOverlappedElements);
+            internal abstract void GetOverlaps(ref BEPURay ray, Fixed64 maximumLength, IList<int> outputOverlappedElements);
 
             internal abstract bool IsLeaf { get; }
 
@@ -277,7 +277,7 @@ namespace BEPUphysics.DataStructures
             //        ChildB.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
             //}
 
-            internal override void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
+            internal override void GetOverlaps(ref BEPURay ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
             {
                 Fixed64 result;
                 if (ray.Intersects(ref ChildA.BoundingBox, out result) && result < maximumLength)
@@ -320,17 +320,17 @@ namespace BEPUphysics.DataStructures
                 BoundingBox.CreateMerged(ref ChildA.BoundingBox, ref node.BoundingBox, out mergedA);
                 BoundingBox.CreateMerged(ref ChildB.BoundingBox, ref node.BoundingBox, out mergedB);
 
-                Vector3 offset;
+                FixedV3 offset;
                 Fixed64 originalAVolume, originalBVolume;
-                Vector3.Subtract(ref ChildA.BoundingBox.Max, ref ChildA.BoundingBox.Min, out offset);
+                FixedV3.Subtract(ref ChildA.BoundingBox.Max, ref ChildA.BoundingBox.Min, out offset);
                 originalAVolume = offset.X * offset.Y * offset.Z;
-                Vector3.Subtract(ref ChildB.BoundingBox.Max, ref ChildB.BoundingBox.Min, out offset);
+                FixedV3.Subtract(ref ChildB.BoundingBox.Max, ref ChildB.BoundingBox.Min, out offset);
                 originalBVolume = offset.X * offset.Y * offset.Z;
 
                 Fixed64 mergedAVolume, mergedBVolume;
-                Vector3.Subtract(ref mergedA.Max, ref mergedA.Min, out offset);
+                FixedV3.Subtract(ref mergedA.Max, ref mergedA.Min, out offset);
                 mergedAVolume = offset.X * offset.Y * offset.Z;
-                Vector3.Subtract(ref mergedB.Max, ref mergedB.Min, out offset);
+                FixedV3.Subtract(ref mergedB.Max, ref mergedB.Min, out offset);
                 mergedBVolume = offset.X * offset.Y * offset.Z;
 
                 //Could use factor increase or absolute difference
@@ -435,7 +435,7 @@ namespace BEPUphysics.DataStructures
             //    outputOverlappedElements.Add(LeafIndex);
             //}
 
-            internal override void GetOverlaps(ref Ray ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
+            internal override void GetOverlaps(ref BEPURay ray, Fixed64 maximumLength, IList<int> outputOverlappedElements)
             {
                 outputOverlappedElements.Add(LeafIndex);
             }

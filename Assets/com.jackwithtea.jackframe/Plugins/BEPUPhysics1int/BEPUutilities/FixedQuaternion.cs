@@ -6,7 +6,7 @@ namespace BEPUutilities
     /// <summary>
     /// Provides XNA-like quaternion support.
     /// </summary>
-    public struct Quaternion : IEquatable<Quaternion>
+    public struct FixedQuaternion : IEquatable<FixedQuaternion>
     {
         /// <summary>
         /// X component of the quaternion.
@@ -35,7 +35,7 @@ namespace BEPUutilities
         /// <param name="y">Y component of the quaternion.</param>
         /// <param name="z">Z component of the quaternion.</param>
         /// <param name="w">W component of the quaternion.</param>
-        public Quaternion(Fixed64 x, Fixed64 y, Fixed64 z, Fixed64 w)
+        public FixedQuaternion(Fixed64 x, Fixed64 y, Fixed64 z, Fixed64 w)
         {
             this.X = x;
             this.Y = y;
@@ -49,7 +49,7 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to add.</param>
         /// <param name="b">Second quaternion to add.</param>
         /// <param name="result">Sum of the addition.</param>
-        public static void Add(ref Quaternion a, ref Quaternion b, out Quaternion result)
+        public static void Add(ref FixedQuaternion a, ref FixedQuaternion b, out FixedQuaternion result)
         {
             result.X = a.X + b.X;
             result.Y = a.Y + b.Y;
@@ -63,7 +63,7 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to multiply.</param>
         /// <param name="b">Second quaternion to multiply.</param>
         /// <param name="result">Product of the multiplication.</param>
-        public static void Multiply(ref Quaternion a, ref Quaternion b, out Quaternion result)
+        public static void Multiply(ref FixedQuaternion a, ref FixedQuaternion b, out FixedQuaternion result)
         {
             Fixed64 x = a.X;
             Fixed64 y = a.Y;
@@ -85,7 +85,7 @@ namespace BEPUutilities
         /// <param name="q">Quaternion to multiply.</param>
         /// <param name="scale">Amount to multiply each component of the quaternion by.</param>
         /// <param name="result">Scaled quaternion.</param>
-        public static void Multiply(ref Quaternion q, Fixed64 scale, out Quaternion result)
+        public static void Multiply(ref FixedQuaternion q, Fixed64 scale, out FixedQuaternion result)
         {
             result.X = q.X * scale;
             result.Y = q.Y * scale;
@@ -99,7 +99,7 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to multiply.</param>
         /// <param name="b">Second quaternion to multiply.</param>
         /// <param name="result">Product of the multiplication.</param>
-        public static void Concatenate(ref Quaternion a, ref Quaternion b, out Quaternion result)
+        public static void Concatenate(ref FixedQuaternion a, ref FixedQuaternion b, out FixedQuaternion result)
         {
             Fixed64 aX = a.X;
             Fixed64 aY = a.Y;
@@ -124,9 +124,9 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to multiply.</param>
         /// <param name="b">Second quaternion to multiply.</param>
         /// <returns>Product of the multiplication.</returns>
-        public static Quaternion Concatenate(Quaternion a, Quaternion b)
+        public static FixedQuaternion Concatenate(FixedQuaternion a, FixedQuaternion b)
         {
-            Quaternion result;
+            FixedQuaternion result;
             Concatenate(ref a, ref b, out result);
             return result;
         }
@@ -134,11 +134,11 @@ namespace BEPUutilities
         /// <summary>
         /// Quaternion representing the identity transform.
         /// </summary>
-        public static Quaternion Identity
+        public static FixedQuaternion Identity
         {
             get
             {
-                return new Quaternion(F64.C0, F64.C0, F64.C0, F64.C1);
+                return new FixedQuaternion(F64.C0, F64.C0, F64.C0, F64.C1);
             }
         }
 
@@ -150,11 +150,11 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="r">Rotation matrix to create the quaternion from.</param>
         /// <param name="q">Quaternion based on the rotation matrix.</param>
-        public static void CreateFromRotationMatrix(ref Matrix3x3 r, out Quaternion q)
+        public static void CreateFromRotationMatrix(ref BEPUMatrix3x3 r, out FixedQuaternion q)
         {
             Fixed64 trace = r.M11 + r.M22 + r.M33;
 #if !WINDOWS
-            q = new Quaternion();
+            q = new FixedQuaternion();
 #endif
             if (trace >= F64.C0)
             {
@@ -199,9 +199,9 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="r">Rotation matrix used to create a new quaternion.</param>
         /// <returns>Quaternion representing the same rotation as the matrix.</returns>
-        public static Quaternion CreateFromRotationMatrix(Matrix3x3 r)
+        public static FixedQuaternion CreateFromRotationMatrix(BEPUMatrix3x3 r)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             CreateFromRotationMatrix(ref r, out toReturn);
             return toReturn;
         }
@@ -211,10 +211,10 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="r">Rotation matrix to create the quaternion from.</param>
         /// <param name="q">Quaternion based on the rotation matrix.</param>
-        public static void CreateFromRotationMatrix(ref Matrix r, out Quaternion q)
+        public static void CreateFromRotationMatrix(ref BEPUMatrix r, out FixedQuaternion q)
         {
-            Matrix3x3 downsizedMatrix;
-            Matrix3x3.CreateFromMatrix(ref r, out downsizedMatrix);
+            BEPUMatrix3x3 downsizedMatrix;
+            BEPUMatrix3x3.CreateFromMatrix(ref r, out downsizedMatrix);
             CreateFromRotationMatrix(ref downsizedMatrix, out q);
         }
 
@@ -223,9 +223,9 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="r">Rotation matrix used to create a new quaternion.</param>
         /// <returns>Quaternion representing the same rotation as the matrix.</returns>
-        public static Quaternion CreateFromRotationMatrix(Matrix r)
+        public static FixedQuaternion CreateFromRotationMatrix(BEPUMatrix r)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             CreateFromRotationMatrix(ref r, out toReturn);
             return toReturn;
         }
@@ -236,9 +236,9 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to normalize.</param>
         /// <returns>Normalized quaternion.</returns>
-        public static Quaternion Normalize(Quaternion quaternion)
+        public static FixedQuaternion Normalize(FixedQuaternion quaternion)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             Normalize(ref quaternion, out toReturn);
             return toReturn;
         }
@@ -248,7 +248,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to normalize.</param>
         /// <param name="toReturn">Normalized quaternion.</param>
-        public static void Normalize(ref Quaternion quaternion, out Quaternion toReturn)
+        public static void Normalize(ref FixedQuaternion quaternion, out FixedQuaternion toReturn)
         {
             Fixed64 inverse = F64.C1 / Fixed64.Sqrt(quaternion.X * quaternion.X + quaternion.Y * quaternion.Y + quaternion.Z * quaternion.Z + quaternion.W * quaternion.W);
             toReturn.X = quaternion.X * inverse;
@@ -295,7 +295,7 @@ namespace BEPUutilities
         /// <param name="end">Ending point of the interpolation.</param>
         /// <param name="interpolationAmount">Amount of the end point to use.</param>
         /// <param name="result">Interpolated intermediate quaternion.</param>
-        public static void Slerp(ref Quaternion start, ref Quaternion end, Fixed64 interpolationAmount, out Quaternion result)
+        public static void Slerp(ref FixedQuaternion start, ref FixedQuaternion end, Fixed64 interpolationAmount, out FixedQuaternion result)
         {
 			Fixed64 cosHalfTheta = start.W * end.W + start.X * end.X + start.Y * end.Y + start.Z * end.Z;
             if (cosHalfTheta < F64.C0)
@@ -342,9 +342,9 @@ namespace BEPUutilities
         /// <param name="end">Ending point of the interpolation.</param>
         /// <param name="interpolationAmount">Amount of the end point to use.</param>
         /// <returns>Interpolated intermediate quaternion.</returns>
-        public static Quaternion Slerp(Quaternion start, Quaternion end, Fixed64 interpolationAmount)
+        public static FixedQuaternion Slerp(FixedQuaternion start, FixedQuaternion end, Fixed64 interpolationAmount)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             Slerp(ref start, ref end, interpolationAmount, out toReturn);
             return toReturn;
         }
@@ -355,7 +355,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to conjugate.</param>
         /// <param name="result">Conjugated quaternion.</param>
-        public static void Conjugate(ref Quaternion quaternion, out Quaternion result)
+        public static void Conjugate(ref FixedQuaternion quaternion, out FixedQuaternion result)
         {
             result.X = -quaternion.X;
             result.Y = -quaternion.Y;
@@ -368,9 +368,9 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to conjugate.</param>
         /// <returns>Conjugated quaternion.</returns>
-        public static Quaternion Conjugate(Quaternion quaternion)
+        public static FixedQuaternion Conjugate(FixedQuaternion quaternion)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             Conjugate(ref quaternion, out toReturn);
             return toReturn;
         }
@@ -382,7 +382,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to invert.</param>
         /// <param name="result">Result of the inversion.</param>
-        public static void Inverse(ref Quaternion quaternion, out Quaternion result)
+        public static void Inverse(ref FixedQuaternion quaternion, out FixedQuaternion result)
         {
             Fixed64 inverseSquaredNorm = quaternion.X * quaternion.X + quaternion.Y * quaternion.Y + quaternion.Z * quaternion.Z + quaternion.W * quaternion.W;
             result.X = -quaternion.X * inverseSquaredNorm;
@@ -396,9 +396,9 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="quaternion">Quaternion to invert.</param>
         /// <returns>Result of the inversion.</returns>
-        public static Quaternion Inverse(Quaternion quaternion)
+        public static FixedQuaternion Inverse(FixedQuaternion quaternion)
         {
-            Quaternion result;
+            FixedQuaternion result;
             Inverse(ref quaternion, out result);
             return result;
 
@@ -410,7 +410,7 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to test for equivalence.</param>
         /// <param name="b">Second quaternion to test for equivalence.</param>
         /// <returns>Whether or not the quaternions' components were equal.</returns>
-        public static bool operator ==(Quaternion a, Quaternion b)
+        public static bool operator ==(FixedQuaternion a, FixedQuaternion b)
         {
             return a.X == b.X && a.Y == b.Y && a.Z == b.Z && a.W == b.W;
         }
@@ -421,7 +421,7 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to test for equivalence.</param>
         /// <param name="b">Second quaternion to test for equivalence.</param>
         /// <returns>Whether the quaternions' components were not equal.</returns>
-        public static bool operator !=(Quaternion a, Quaternion b)
+        public static bool operator !=(FixedQuaternion a, FixedQuaternion b)
         {
             return a.X != b.X || a.Y != b.Y || a.Z != b.Z || a.W != b.W;
         }
@@ -431,7 +431,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="a">Quaternion to negate.</param>
         /// <param name="b">Negated result.</param>
-        public static void Negate(ref Quaternion a, out Quaternion b)
+        public static void Negate(ref FixedQuaternion a, out FixedQuaternion b)
         {
             b.X = -a.X;
             b.Y = -a.Y;
@@ -444,7 +444,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="q">Quaternion to negate.</param>
         /// <returns>Negated result.</returns>
-        public static Quaternion Negate(Quaternion q)
+        public static FixedQuaternion Negate(FixedQuaternion q)
         {
             Negate(ref q, out var result);
             return result;
@@ -455,7 +455,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="q">Quaternion to negate.</param>
         /// <returns>Negated result.</returns>
-        public static Quaternion operator -(Quaternion q)
+        public static FixedQuaternion operator -(FixedQuaternion q)
         {
             Negate(ref q, out var result);
             return result;
@@ -468,7 +468,7 @@ namespace BEPUutilities
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(Quaternion other)
+        public bool Equals(FixedQuaternion other)
         {
             return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
         }
@@ -482,9 +482,9 @@ namespace BEPUutilities
         /// <param name="obj">Another object to compare to. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (obj is Quaternion)
+            if (obj is FixedQuaternion)
             {
-                return Equals((Quaternion)obj);
+                return Equals((FixedQuaternion)obj);
             }
             return false;
         }
@@ -507,7 +507,7 @@ namespace BEPUutilities
         /// <param name="v">Vector to transform.</param>
         /// <param name="rotation">Rotation to apply to the vector.</param>
         /// <param name="result">Transformed vector.</param>
-        public static void Transform(ref Vector3 v, ref Quaternion rotation, out Vector3 result)
+        public static void Transform(ref FixedV3 v, ref FixedQuaternion rotation, out FixedV3 result)
         {
             //This operation is an optimized-down version of v' = q * v * q^-1.
             //The expanded form would be to treat v as an 'axis only' quaternion
@@ -541,9 +541,9 @@ namespace BEPUutilities
         /// <param name="v">Vector to transform.</param>
         /// <param name="rotation">Rotation to apply to the vector.</param>
         /// <returns>Transformed vector.</returns>
-        public static Vector3 Transform(Vector3 v, Quaternion rotation)
+        public static FixedV3 Transform(FixedV3 v, FixedQuaternion rotation)
         {
-            Vector3 toReturn;
+            FixedV3 toReturn;
             Transform(ref v, ref rotation, out toReturn);
             return toReturn;
         }
@@ -554,7 +554,7 @@ namespace BEPUutilities
         /// <param name="x">X component of the vector to transform.</param>
         /// <param name="rotation">Rotation to apply to the vector.</param>
         /// <param name="result">Transformed vector.</param>
-        public static void TransformX(Fixed64 x, ref Quaternion rotation, out Vector3 result)
+        public static void TransformX(Fixed64 x, ref FixedQuaternion rotation, out FixedV3 result)
         {
             //This operation is an optimized-down version of v' = q * v * q^-1.
             //The expanded form would be to treat v as an 'axis only' quaternion
@@ -584,7 +584,7 @@ namespace BEPUutilities
         /// <param name="y">Y component of the vector to transform.</param>
         /// <param name="rotation">Rotation to apply to the vector.</param>
         /// <param name="result">Transformed vector.</param>
-        public static void TransformY(Fixed64 y, ref Quaternion rotation, out Vector3 result)
+        public static void TransformY(Fixed64 y, ref FixedQuaternion rotation, out FixedV3 result)
         {
             //This operation is an optimized-down version of v' = q * v * q^-1.
             //The expanded form would be to treat v as an 'axis only' quaternion
@@ -615,7 +615,7 @@ namespace BEPUutilities
         /// <param name="z">Z component of the vector to transform.</param>
         /// <param name="rotation">Rotation to apply to the vector.</param>
         /// <param name="result">Transformed vector.</param>
-        public static void TransformZ(Fixed64 z, ref Quaternion rotation, out Vector3 result)
+        public static void TransformZ(Fixed64 z, ref FixedQuaternion rotation, out FixedV3 result)
         {
             //This operation is an optimized-down version of v' = q * v * q^-1.
             //The expanded form would be to treat v as an 'axis only' quaternion
@@ -647,9 +647,9 @@ namespace BEPUutilities
         /// <param name="a">First quaternion to multiply.</param>
         /// <param name="b">Second quaternion to multiply.</param>
         /// <returns>Product of the multiplication.</returns>
-        public static Quaternion operator *(Quaternion a, Quaternion b)
+        public static FixedQuaternion operator *(FixedQuaternion a, FixedQuaternion b)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             Multiply(ref a, ref b, out toReturn);
             return toReturn;
         }
@@ -660,11 +660,11 @@ namespace BEPUutilities
         /// <param name="axis">Axis of rotation.</param>
         /// <param name="angle">Angle to rotate around the axis.</param>
         /// <returns>Quaternion representing the axis and angle rotation.</returns>
-        public static Quaternion CreateFromAxisAngle(Vector3 axis, Fixed64 angle)
+        public static FixedQuaternion CreateFromAxisAngle(FixedV3 axis, Fixed64 angle)
         {
 			Fixed64 halfAngle = angle * F64.C0p5;
 			Fixed64 s = Fixed64.Sin(halfAngle);
-            Quaternion q;
+            FixedQuaternion q;
             q.X = axis.X * s;
             q.Y = axis.Y * s;
             q.Z = axis.Z * s;
@@ -678,7 +678,7 @@ namespace BEPUutilities
         /// <param name="axis">Axis of rotation.</param>
         /// <param name="angle">Angle to rotate around the axis.</param>
         /// <param name="q">Quaternion representing the axis and angle rotation.</param>
-        public static void CreateFromAxisAngle(ref Vector3 axis, Fixed64 angle, out Quaternion q)
+        public static void CreateFromAxisAngle(ref FixedV3 axis, Fixed64 angle, out FixedQuaternion q)
         {
 			Fixed64 halfAngle = angle * F64.C0p5;
 			Fixed64 s = Fixed64.Sin(halfAngle);
@@ -695,9 +695,9 @@ namespace BEPUutilities
         /// <param name="pitch">Pitch of the rotation.</param>
         /// <param name="roll">Roll of the rotation.</param>
         /// <returns>Quaternion representing the yaw, pitch, and roll.</returns>
-        public static Quaternion CreateFromYawPitchRoll(Fixed64 yaw, Fixed64 pitch, Fixed64 roll)
+        public static FixedQuaternion CreateFromYawPitchRoll(Fixed64 yaw, Fixed64 pitch, Fixed64 roll)
         {
-            Quaternion toReturn;
+            FixedQuaternion toReturn;
             CreateFromYawPitchRoll(yaw, pitch, roll, out toReturn);
             return toReturn;
         }
@@ -709,7 +709,7 @@ namespace BEPUutilities
         /// <param name="pitch">Pitch of the rotation.</param>
         /// <param name="roll">Roll of the rotation.</param>
         /// <param name="q">Quaternion representing the yaw, pitch, and roll.</param>
-        public static void CreateFromYawPitchRoll(Fixed64 yaw, Fixed64 pitch, Fixed64 roll, out Quaternion q)
+        public static void CreateFromYawPitchRoll(Fixed64 yaw, Fixed64 pitch, Fixed64 roll, out FixedQuaternion q)
         {
 			Fixed64 halfRoll = roll * F64.C0p5;
 			Fixed64 halfPitch = pitch * F64.C0p5;
@@ -740,7 +740,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="q">Quaternion to be converted.</param>
         /// <returns>Angle around the axis represented by the quaternion.</returns>
-        public static Fixed64 GetAngleFromQuaternion(ref Quaternion q)
+        public static Fixed64 GetAngleFromQuaternion(ref FixedQuaternion q)
         {
             Fixed64 qw = Fixed64.Abs(q.W);
             if (qw > F64.C1)
@@ -754,10 +754,10 @@ namespace BEPUutilities
         /// <param name="q">Quaternion to be converted.</param>
         /// <param name="axis">Axis represented by the quaternion.</param>
         /// <param name="angle">Angle around the axis represented by the quaternion.</param>
-        public static void GetAxisAngleFromQuaternion(ref Quaternion q, out Vector3 axis, out Fixed64 angle)
+        public static void GetAxisAngleFromQuaternion(ref FixedQuaternion q, out FixedV3 axis, out Fixed64 angle)
         {
 #if !WINDOWS
-            axis = new Vector3();
+            axis = new FixedV3();
 #endif
             Fixed64 qw = q.W;
             if (qw > F64.C0)
@@ -777,7 +777,7 @@ namespace BEPUutilities
             Fixed64 lengthSquared = axis.LengthSquared();
             if (lengthSquared > F64.C1em14)
             {
-                Vector3.Divide(ref axis, Fixed64.Sqrt(lengthSquared), out axis);
+                FixedV3.Divide(ref axis, Fixed64.Sqrt(lengthSquared), out axis);
                 angle = F64.C2 * Fixed64.Acos(MathHelper.Clamp(qw, -1, F64.C1));
             }
             else
@@ -793,10 +793,10 @@ namespace BEPUutilities
         /// <param name="v1">First unit-length vector.</param>
         /// <param name="v2">Second unit-length vector.</param>
         /// <param name="q">Quaternion representing the rotation from v1 to v2.</param>
-        public static void GetQuaternionBetweenNormalizedVectors(ref Vector3 v1, ref Vector3 v2, out Quaternion q)
+        public static void GetQuaternionBetweenNormalizedVectors(ref FixedV3 v1, ref FixedV3 v2, out FixedQuaternion q)
         {
             Fixed64 dot;
-            Vector3.Dot(ref v1, ref v2, out dot);
+            FixedV3.Dot(ref v1, ref v2, out dot);
             //For non-normal vectors, the multiplying the axes length squared would be necessary:
             //Fix64 w = dot + (Fix64)Math.Sqrt(v1.LengthSquared() * v2.LengthSquared());
             if (dot < F64.Cm0p9999) //parallel, opposing direction
@@ -810,17 +810,17 @@ namespace BEPUutilities
                 Fixed64 absY = Fixed64.Abs(v1.Y);
                 Fixed64 absZ = Fixed64.Abs(v1.Z);
                 if (absX < absY && absX < absZ)
-                    q = new Quaternion(F64.C0, -v1.Z, v1.Y, F64.C0);
+                    q = new FixedQuaternion(F64.C0, -v1.Z, v1.Y, F64.C0);
                 else if (absY < absZ)
-                    q = new Quaternion(-v1.Z, F64.C0, v1.X, F64.C0);
+                    q = new FixedQuaternion(-v1.Z, F64.C0, v1.X, F64.C0);
                 else
-                    q = new Quaternion(-v1.Y, v1.X, F64.C0, F64.C0);
+                    q = new FixedQuaternion(-v1.Y, v1.X, F64.C0, F64.C0);
             }
             else
             {
-                Vector3 axis;
-                Vector3.Cross(ref v1, ref v2, out axis);
-                q = new Quaternion(axis.X, axis.Y, axis.Z, dot + F64.C1);
+                FixedV3 axis;
+                FixedV3.Cross(ref v1, ref v2, out axis);
+                q = new FixedQuaternion(axis.X, axis.Y, axis.Z, dot + F64.C1);
             }
             q.Normalize();
         }
@@ -834,9 +834,9 @@ namespace BEPUutilities
         /// <param name="start">Starting orientation.</param>
         /// <param name="end">Ending orientation.</param>
         /// <param name="relative">Relative rotation from the start to the end orientation.</param>
-        public static void GetRelativeRotation(ref Quaternion start, ref Quaternion end, out Quaternion relative)
+        public static void GetRelativeRotation(ref FixedQuaternion start, ref FixedQuaternion end, out FixedQuaternion relative)
         {
-            Quaternion startInverse;
+            FixedQuaternion startInverse;
             Conjugate(ref start, out startInverse);
             Concatenate(ref startInverse, ref end, out relative);
         }
@@ -848,9 +848,9 @@ namespace BEPUutilities
         /// <param name="rotation">Rotation in the original frame of reference.</param>
         /// <param name="targetBasis">Basis in the original frame of reference to transform the rotation into.</param>
         /// <param name="localRotation">Rotation in the local space of the target basis.</param>
-        public static void GetLocalRotation(ref Quaternion rotation, ref Quaternion targetBasis, out Quaternion localRotation)
+        public static void GetLocalRotation(ref FixedQuaternion rotation, ref FixedQuaternion targetBasis, out FixedQuaternion localRotation)
         {
-            Quaternion basisInverse;
+            FixedQuaternion basisInverse;
             Conjugate(ref targetBasis, out basisInverse);
             Concatenate(ref rotation, ref basisInverse, out localRotation);
         }

@@ -123,7 +123,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
 
 
                 //Only perform the test if the minimum radii are small enough relative to the size of the velocity.
-                Vector3 velocity;
+                FixedV3 velocity;
                 if (convexMode == PositionUpdateMode.Discrete)
                 {
                     //Triangle is static for the purposes of this continuous test.
@@ -132,14 +132,14 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 else if (triangleMode == PositionUpdateMode.Discrete)
                 {
                     //Convex is static for the purposes of this continuous test.
-                    Vector3.Negate(ref convex.entity.linearVelocity, out velocity);
+                    FixedV3.Negate(ref convex.entity.linearVelocity, out velocity);
                 }
                 else
                 {
                     //Both objects are moving.
-                    Vector3.Subtract(ref triangle.entity.linearVelocity, ref convex.entity.linearVelocity, out velocity);
+                    FixedV3.Subtract(ref triangle.entity.linearVelocity, ref convex.entity.linearVelocity, out velocity);
                 }
-                Vector3.Multiply(ref velocity, dt, out velocity);
+                FixedV3.Multiply(ref velocity, dt, out velocity);
                 Fixed64 velocitySquared = velocity.LengthSquared();
 
                 var minimumRadiusA = convex.Shape.MinimumRadius * MotionSettings.CoreShapeScaling;
@@ -148,20 +148,20 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 {
                     //Spherecast A against B.
                     RayHit rayHit;
-                    if (GJKToolbox.CCDSphereCast(new Ray(convex.worldTransform.Position, -velocity), minimumRadiusA, triangle.Shape, ref triangle.worldTransform, timeOfImpact, out rayHit))
+                    if (GJKToolbox.CCDSphereCast(new BEPURay(convex.worldTransform.Position, -velocity), minimumRadiusA, triangle.Shape, ref triangle.worldTransform, timeOfImpact, out rayHit))
                     {
                         if (triangle.Shape.sidedness != TriangleSidedness.DoubleSided)
                         {                
                             //Only perform sweep if the object is in danger of hitting the object.
                             //Triangles can be one sided, so check the impact normal against the triangle normal.
-                            Vector3 AB, AC;
-                            Vector3.Subtract(ref triangle.Shape.vB, ref triangle.Shape.vA, out AB);
-                            Vector3.Subtract(ref triangle.Shape.vC, ref triangle.Shape.vA, out AC);
-                            Vector3 normal;
-                            Vector3.Cross(ref AB, ref AC, out normal);
+                            FixedV3 AB, AC;
+                            FixedV3.Subtract(ref triangle.Shape.vB, ref triangle.Shape.vA, out AB);
+                            FixedV3.Subtract(ref triangle.Shape.vC, ref triangle.Shape.vA, out AC);
+                            FixedV3 normal;
+                            FixedV3.Cross(ref AB, ref AC, out normal);
 
                             Fixed64 dot;
-                            Vector3.Dot(ref rayHit.Normal, ref normal, out dot);
+                            FixedV3.Dot(ref rayHit.Normal, ref normal, out dot);
                             if (triangle.Shape.sidedness == TriangleSidedness.Counterclockwise && dot < F64.C0 ||
                                 triangle.Shape.sidedness == TriangleSidedness.Clockwise && dot > F64.C0)
                             {

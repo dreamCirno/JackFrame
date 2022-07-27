@@ -61,18 +61,18 @@ namespace BEPUphysics.Entities.Prefabs
         ///<param name="end">Endpoint of the line segment.</param>
         ///<param name="orientation">Orientation of a line that fits the line segment.</param>
         ///<param name="length">Length of the line segment.</param>
-        public static void GetCapsuleInformation(ref Vector3 start, ref Vector3 end, out Quaternion orientation, out Fixed64 length)
+        public static void GetCapsuleInformation(ref FixedV3 start, ref FixedV3 end, out FixedQuaternion orientation, out Fixed64 length)
         {
-            Vector3 segmentDirection;
-            Vector3.Subtract(ref end, ref start, out segmentDirection);
+            FixedV3 segmentDirection;
+            FixedV3.Subtract(ref end, ref start, out segmentDirection);
             length = segmentDirection.Length();
             if (length > F64.C0)
             {
-                Vector3.Divide(ref segmentDirection, length, out segmentDirection);
-                Quaternion.GetQuaternionBetweenNormalizedVectors(ref Toolbox.UpVector, ref segmentDirection, out orientation);
+                FixedV3.Divide(ref segmentDirection, length, out segmentDirection);
+                FixedQuaternion.GetQuaternionBetweenNormalizedVectors(ref Toolbox.UpVector, ref segmentDirection, out orientation);
             }
             else
-                orientation = Quaternion.Identity;
+                orientation = FixedQuaternion.Identity;
         }
 
         ///<summary>
@@ -81,16 +81,16 @@ namespace BEPUphysics.Entities.Prefabs
         ///<param name="start">Line segment start point.</param>
         ///<param name="end">Line segment end point.</param>
         ///<param name="radius">Radius of the capsule to expand the line segment by.</param>
-        public Capsule(Vector3 start, Vector3 end, Fixed64 radius)
+        public Capsule(FixedV3 start, FixedV3 end, Fixed64 radius)
             : this((end - start).Length(), radius)
         {
             Fixed64 length;
-            Quaternion orientation;
+            FixedQuaternion orientation;
             GetCapsuleInformation(ref start, ref end, out orientation, out length);
             this.Orientation = orientation;
-            Vector3 position;
-            Vector3.Add(ref start, ref end, out position);
-            Vector3.Multiply(ref position, F64.C0p5, out position);
+            FixedV3 position;
+            FixedV3.Add(ref start, ref end, out position);
+            FixedV3.Multiply(ref position, F64.C0p5, out position);
             this.Position = position;
         }
 
@@ -102,16 +102,16 @@ namespace BEPUphysics.Entities.Prefabs
         ///<param name="end">Line segment end point.</param>
         ///<param name="radius">Radius of the capsule to expand the line segment by.</param>
         /// <param name="mass">Mass of the entity.</param>
-        public Capsule(Vector3 start, Vector3 end, Fixed64 radius, Fixed64 mass)
+        public Capsule(FixedV3 start, FixedV3 end, Fixed64 radius, Fixed64 mass)
             : this((end - start).Length(), radius, mass)
         {
             Fixed64 length;
-            Quaternion orientation;
+            FixedQuaternion orientation;
             GetCapsuleInformation(ref start, ref end, out orientation, out length);
             this.Orientation = orientation;
-            Vector3 position;
-            Vector3.Add(ref start, ref end, out position);
-            Vector3.Multiply(ref position, F64.C0p5, out position);
+            FixedV3 position;
+            FixedV3.Add(ref start, ref end, out position);
+            FixedV3.Multiply(ref position, F64.C0p5, out position);
             this.Position = position;
         }
 
@@ -122,7 +122,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="length">Length of the capsule.</param>
         /// <param name="radius">Radius of the capsule.</param>
         /// <param name="mass">Mass of the object.</param>
-        public Capsule(Vector3 position, Fixed64 length, Fixed64 radius, Fixed64 mass)
+        public Capsule(FixedV3 position, Fixed64 length, Fixed64 radius, Fixed64 mass)
             : this(length, radius, mass)
         {
             Position = position;
@@ -134,7 +134,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="position">Position of the capsule.</param>
         /// <param name="length">Length of the capsule.</param>
         /// <param name="radius">Radius of the capsule.</param>
-        public Capsule(Vector3 position, Fixed64 length, Fixed64 radius)
+        public Capsule(FixedV3 position, Fixed64 length, Fixed64 radius)
             : this(length, radius)
         {
             Position = position;

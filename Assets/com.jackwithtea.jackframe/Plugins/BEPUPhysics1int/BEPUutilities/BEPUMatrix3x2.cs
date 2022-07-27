@@ -8,7 +8,7 @@ namespace BEPUutilities
     /// <summary>
     /// 3 row, 2 column matrix.
     /// </summary>
-    public struct Matrix3x2
+    public struct BEPUMatrix3x2
     {
         /// <summary>
         /// Value at row 1, column 1 of the matrix.
@@ -50,7 +50,7 @@ namespace BEPUutilities
         /// <param name="m22">Value at row 2, column 2 of the matrix.</param>
         /// <param name="m31">Value at row 2, column 1 of the matrix.</param>
         /// <param name="m32">Value at row 2, column 2 of the matrix.</param>
-        public Matrix3x2(Fixed64 m11, Fixed64 m12, Fixed64 m21, Fixed64 m22, Fixed64 m31, Fixed64 m32)
+        public BEPUMatrix3x2(Fixed64 m11, Fixed64 m12, Fixed64 m21, Fixed64 m22, Fixed64 m31, Fixed64 m32)
         {
             M11 = m11;
             M12 = m12;
@@ -67,7 +67,7 @@ namespace BEPUutilities
         /// <param name="a">First matrix to add.</param>
         /// <param name="b">Second matrix to add.</param>
         /// <param name="result">Sum of the two matrices.</param>
-        public static void Add(ref Matrix3x2 a, ref Matrix3x2 b, out Matrix3x2 result)
+        public static void Add(ref BEPUMatrix3x2 a, ref BEPUMatrix3x2 b, out BEPUMatrix3x2 result)
         {
             Fixed64 m11 = a.M11 + b.M11;
             Fixed64 m12 = a.M12 + b.M12;
@@ -94,7 +94,7 @@ namespace BEPUutilities
         /// <param name="a">First matrix to multiply.</param>
         /// <param name="b">Second matrix to multiply.</param>
         /// <param name="result">Product of the multiplication.</param>
-        public static void Multiply(ref Matrix3x3 a, ref Matrix3x2 b, out Matrix3x2 result)
+        public static void Multiply(ref BEPUMatrix3x3 a, ref BEPUMatrix3x2 b, out BEPUMatrix3x2 result)
         {
             Fixed64 resultM11 = a.M11 * b.M11 + a.M12 * b.M21 + a.M13 * b.M31;
             Fixed64 resultM12 = a.M11 * b.M12 + a.M12 * b.M22 + a.M13 * b.M32;
@@ -121,7 +121,7 @@ namespace BEPUutilities
         /// <param name="a">First matrix to multiply.</param>
         /// <param name="b">Second matrix to multiply.</param>
         /// <param name="result">Product of the multiplication.</param>
-        public static void Multiply(ref Matrix a, ref Matrix3x2 b, out Matrix3x2 result)
+        public static void Multiply(ref BEPUMatrix a, ref BEPUMatrix3x2 b, out BEPUMatrix3x2 result)
         {
             Fixed64 resultM11 = a.M11 * b.M11 + a.M12 * b.M21 + a.M13 * b.M31;
             Fixed64 resultM12 = a.M11 * b.M12 + a.M12 * b.M22 + a.M13 * b.M32;
@@ -147,7 +147,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="matrix">Matrix to negate.</param>
         /// <param name="result">Negated matrix.</param>
-        public static void Negate(ref Matrix3x2 matrix, out Matrix3x2 result)
+        public static void Negate(ref BEPUMatrix3x2 matrix, out BEPUMatrix3x2 result)
         {
             Fixed64 m11 = -matrix.M11;
             Fixed64 m12 = -matrix.M12;
@@ -174,7 +174,7 @@ namespace BEPUutilities
         /// <param name="a">First matrix to subtract.</param>
         /// <param name="b">Second matrix to subtract.</param>
         /// <param name="result">Difference of the two matrices.</param>
-        public static void Subtract(ref Matrix3x2 a, ref Matrix3x2 b, out Matrix3x2 result)
+        public static void Subtract(ref BEPUMatrix3x2 a, ref BEPUMatrix3x2 b, out BEPUMatrix3x2 result)
         {
             Fixed64 m11 = a.M11 - b.M11;
             Fixed64 m12 = a.M12 - b.M12;
@@ -201,10 +201,10 @@ namespace BEPUutilities
         /// <param name="v">Vector2 to transform.  Considered to be a column vector for purposes of multiplication.</param>
         /// <param name="matrix">Matrix to use as the transformation.</param>
         /// <param name="result">Column vector product of the transformation.</param>
-        public static void Transform(ref Vector2 v, ref Matrix3x2 matrix, out Vector3 result)
+        public static void Transform(ref FixedV2 v, ref BEPUMatrix3x2 matrix, out FixedV3 result)
         {
 #if !WINDOWS
-            result = new Vector3();
+            result = new FixedV3();
 #endif
             result.X = matrix.M11 * v.X + matrix.M12 * v.Y;
             result.Y = matrix.M21 * v.X + matrix.M22 * v.Y;
@@ -217,10 +217,10 @@ namespace BEPUutilities
         /// <param name="v">Vector2 to transform.  Considered to be a row vector for purposes of multiplication.</param>
         /// <param name="matrix">Matrix to use as the transformation.</param>
         /// <param name="result">Row vector product of the transformation.</param>
-        public static void Transform(ref Vector3 v, ref Matrix3x2 matrix, out Vector2 result)
+        public static void Transform(ref FixedV3 v, ref BEPUMatrix3x2 matrix, out FixedV2 result)
         {
 #if !WINDOWS
-            result = new Vector2();
+            result = new FixedV2();
 #endif
             result.X = v.X * matrix.M11 + v.Y * matrix.M21 + v.Z * matrix.M31;
             result.Y = v.X * matrix.M12 + v.Y * matrix.M22 + v.Z * matrix.M32;
@@ -232,7 +232,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="matrix">Matrix to transpose.</param>
         /// <param name="result">Transposed matrix.</param>
-        public static void Transpose(ref Matrix3x2 matrix, out Matrix2x3 result)
+        public static void Transpose(ref BEPUMatrix3x2 matrix, out BEPUMatrix2x3 result)
         {
             result.M11 = matrix.M11;
             result.M12 = matrix.M21;

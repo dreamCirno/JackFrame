@@ -92,20 +92,20 @@ namespace BEPUphysics.CollisionShapes
             Fixed64 minX = Fixed64.MaxValue, maxX = -Fixed64.MaxValue,
                   minY = Fixed64.MaxValue, maxY = -Fixed64.MaxValue,
                   minZ = Fixed64.MaxValue, maxZ = -Fixed64.MaxValue;
-            Vector3 minXvertex = new Vector3(),
-                    maxXvertex = new Vector3(),
-                    minYvertex = new Vector3(),
-                    maxYvertex = new Vector3(),
-                    minZvertex = new Vector3(),
-                    maxZvertex = new Vector3();
+            FixedV3 minXvertex = new FixedV3(),
+                    maxXvertex = new FixedV3(),
+                    minYvertex = new FixedV3(),
+                    maxYvertex = new FixedV3(),
+                    minZvertex = new FixedV3(),
+                    maxZvertex = new FixedV3();
 
             //Find the extreme locations.
             for (int i = 0; i < heights.GetLength(0); i++)
             {
                 for (int j = 0; j < heights.GetLength(1); j++)
                 {
-                    var vertex = new Vector3(i, heights[i, j], j);
-                    Matrix3x3.Transform(ref vertex, ref transform.LinearTransform, out vertex);
+                    var vertex = new FixedV3(i, heights[i, j], j);
+                    BEPUMatrix3x3.Transform(ref vertex, ref transform.LinearTransform, out vertex);
                     if (vertex.X < minX)
                     {
                         minX = vertex.X;
@@ -158,7 +158,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="transform">Transform to apply to the terrain shape during the test.</param>
         ///<param name="hit">Hit data of the ray cast, if any.</param>
         ///<returns>Whether or not the ray hit the transformed terrain shape.</returns>
-        public bool RayCast(ref Ray ray, Fixed64 maximumLength, ref AffineTransform transform, out RayHit hit)
+        public bool RayCast(ref BEPURay ray, Fixed64 maximumLength, ref AffineTransform transform, out RayHit hit)
         {
             return RayCast(ref ray, maximumLength, ref transform, TriangleSidedness.Counterclockwise, out hit);
         }
@@ -171,14 +171,14 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="sidedness">Sidedness of the triangles to use when raycasting.</param>
         ///<param name="hit">Hit data of the ray cast, if any.</param>
         ///<returns>Whether or not the ray hit the transformed terrain shape.</returns>
-        public bool RayCast(ref Ray ray, Fixed64 maximumLength, ref AffineTransform transform, TriangleSidedness sidedness, out RayHit hit)
+        public bool RayCast(ref BEPURay ray, Fixed64 maximumLength, ref AffineTransform transform, TriangleSidedness sidedness, out RayHit hit)
         {
             hit = new RayHit();
             //Put the ray into local space.
-            Ray localRay;
+            BEPURay localRay;
             AffineTransform inverse;
             AffineTransform.Invert(ref transform, out inverse);
-            Matrix3x3.Transform(ref ray.Direction, ref inverse.LinearTransform, out localRay.Direction);
+            BEPUMatrix3x3.Transform(ref ray.Direction, ref inverse.LinearTransform, out localRay.Direction);
             AffineTransform.Transform(ref ray.Position, ref inverse, out localRay.Position);
 
             //Use rasterizey traversal.
@@ -187,7 +187,7 @@ namespace BEPUphysics.CollisionShapes
             Fixed64 maxX = heights.GetLength(0) - 1;
             Fixed64 maxZ = heights.GetLength(1) - 1;
 
-            Vector3 progressingOrigin = localRay.Position;
+            FixedV3 progressingOrigin = localRay.Position;
             Fixed64 distance = F64.C0;
             //Check the outside cases first.
             if (progressingOrigin.X < F64.C0)
@@ -197,9 +197,9 @@ namespace BEPUphysics.CollisionShapes
                     //Off the left side.
                     Fixed64 timeToMinX = -progressingOrigin.X / localRay.Direction.X;
                     distance += timeToMinX;
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToMinX, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToMinX, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
                 else
                     return false; //Outside and pointing away from the terrain.
@@ -211,9 +211,9 @@ namespace BEPUphysics.CollisionShapes
                     //Off the left side.
                     Fixed64 timeToMinX = -(progressingOrigin.X - maxX) / localRay.Direction.X;
                     distance += timeToMinX;
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToMinX, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToMinX, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
                 else
                     return false; //Outside and pointing away from the terrain.
@@ -225,9 +225,9 @@ namespace BEPUphysics.CollisionShapes
                 {
                     Fixed64 timeToMinZ = -progressingOrigin.Z / localRay.Direction.Z;
                     distance += timeToMinZ;
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToMinZ, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToMinZ, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
                 else
                     return false;
@@ -238,9 +238,9 @@ namespace BEPUphysics.CollisionShapes
                 {
                     Fixed64 timeToMinZ = -(progressingOrigin.Z - maxZ) / localRay.Direction.Z;
                     distance += timeToMinZ;
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToMinZ, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToMinZ, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
                 else
                     return false;
@@ -273,7 +273,7 @@ namespace BEPUphysics.CollisionShapes
                     return false;
 
                 //Test the triangles of this cell.
-                Vector3 v1, v2, v3, v4;
+                FixedV3 v1, v2, v3, v4;
                 // v3 v4
                 // v1 v2
                 GetLocalPosition(xCell, zCell, out v1);
@@ -322,31 +322,31 @@ namespace BEPUphysics.CollisionShapes
                     {
                         if (hit1.T < hit2.T)
                         {
-                            Vector3.Multiply(ref ray.Direction, hit1.T, out hit.Location);
-                            Vector3.Add(ref hit.Location, ref ray.Position, out hit.Location);
-                            Matrix3x3.TransformTranspose(ref hit1.Normal, ref inverse.LinearTransform, out hit.Normal);
+                            FixedV3.Multiply(ref ray.Direction, hit1.T, out hit.Location);
+                            FixedV3.Add(ref hit.Location, ref ray.Position, out hit.Location);
+                            BEPUMatrix3x3.TransformTranspose(ref hit1.Normal, ref inverse.LinearTransform, out hit.Normal);
                             hit.T = hit1.T;
                             return true;
                         }
-                        Vector3.Multiply(ref ray.Direction, hit2.T, out hit.Location);
-                        Vector3.Add(ref hit.Location, ref ray.Position, out hit.Location);
-                        Matrix3x3.TransformTranspose(ref hit2.Normal, ref inverse.LinearTransform, out hit.Normal);
+                        FixedV3.Multiply(ref ray.Direction, hit2.T, out hit.Location);
+                        FixedV3.Add(ref hit.Location, ref ray.Position, out hit.Location);
+                        BEPUMatrix3x3.TransformTranspose(ref hit2.Normal, ref inverse.LinearTransform, out hit.Normal);
                         hit.T = hit2.T;
                         return true;
                     }
                     else if (didHit1)
                     {
-                        Vector3.Multiply(ref ray.Direction, hit1.T, out hit.Location);
-                        Vector3.Add(ref hit.Location, ref ray.Position, out hit.Location);
-                        Matrix3x3.TransformTranspose(ref hit1.Normal, ref inverse.LinearTransform, out hit.Normal);
+                        FixedV3.Multiply(ref ray.Direction, hit1.T, out hit.Location);
+                        FixedV3.Add(ref hit.Location, ref ray.Position, out hit.Location);
+                        BEPUMatrix3x3.TransformTranspose(ref hit1.Normal, ref inverse.LinearTransform, out hit.Normal);
                         hit.T = hit1.T;
                         return true;
                     }
                     else if (didHit2)
                     {
-                        Vector3.Multiply(ref ray.Direction, hit2.T, out hit.Location);
-                        Vector3.Add(ref hit.Location, ref ray.Position, out hit.Location);
-                        Matrix3x3.TransformTranspose(ref hit2.Normal, ref inverse.LinearTransform, out hit.Normal);
+                        FixedV3.Multiply(ref ray.Direction, hit2.T, out hit.Location);
+                        FixedV3.Add(ref hit.Location, ref ray.Position, out hit.Location);
+                        BEPUMatrix3x3.TransformTranspose(ref hit2.Normal, ref inverse.LinearTransform, out hit.Normal);
                         hit.T = hit2.T;
                         return true;
                     }
@@ -382,9 +382,9 @@ namespace BEPUphysics.CollisionShapes
                     if (distance > maximumLength)
                         return false;
 
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToX, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToX, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
                 else
                 {
@@ -397,9 +397,9 @@ namespace BEPUphysics.CollisionShapes
                     if (distance > maximumLength)
                         return false;
 
-                    Vector3 increment;
-                    Vector3.Multiply(ref localRay.Direction, timeToZ, out increment);
-                    Vector3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
+                    FixedV3 increment;
+                    FixedV3.Multiply(ref localRay.Direction, timeToZ, out increment);
+                    FixedV3.Add(ref increment, ref progressingOrigin, out progressingOrigin);
                 }
 
             }
@@ -413,10 +413,10 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="columnIndex">Index in the first dimension.</param>
         ///<param name="rowIndex">Index in the second dimension.</param>
         ///<param name="v">Local space position at the given vertice.s</param>
-        public void GetLocalPosition(int columnIndex, int rowIndex, out Vector3 v)
+        public void GetLocalPosition(int columnIndex, int rowIndex, out FixedV3 v)
         {
 #if !WINDOWS
-            v = new Vector3();
+            v = new FixedV3();
 #endif
             v.X = columnIndex;
             v.Y = heights[columnIndex, rowIndex];
@@ -430,7 +430,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="rowIndex">Index in the second dimension.</param>
         /// <param name="transform">Transform to apply to the vertex.</param>
         /// <param name="position">Transformed position of the vertex at the given indices.</param>
-        public void GetPosition(int columnIndex, int rowIndex, ref AffineTransform transform, out Vector3 position)
+        public void GetPosition(int columnIndex, int rowIndex, ref AffineTransform transform, out FixedV3 position)
         {
             if (columnIndex <= 0)
                 columnIndex = 0;
@@ -441,7 +441,7 @@ namespace BEPUphysics.CollisionShapes
             else if (rowIndex >= heights.GetLength(1))
                 rowIndex = heights.GetLength(1) - 1;
 #if !WINDOWS
-            position = new Vector3();
+            position = new FixedV3();
 #endif
             position.X = columnIndex;
             position.Y = heights[columnIndex, rowIndex];
@@ -458,7 +458,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="columnIndex">Vertex index in the first dimension.</param>
         ///<param name="rowIndex">Vertex index in the second dimension.</param>
         /// <param name="normal">Non-normalized local space normal at the given indices.</param>
-        public void GetLocalNormal(int columnIndex, int rowIndex, out Vector3 normal)
+        public void GetLocalNormal(int columnIndex, int rowIndex, out FixedV3 normal)
         {
 
             Fixed64 topHeight = heights[columnIndex, Math.Min(rowIndex + 1, heights.GetLength(1) - 1)];
@@ -555,7 +555,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="a">First vertex of the triangle.</param>
         ///<param name="b">Second vertex of the triangle.</param>
         ///<param name="c">Third vertex of the triangle.</param>
-        public void GetFirstTriangle(int columnIndex, int rowIndex, ref AffineTransform transform, out Vector3 a, out Vector3 b, out Vector3 c)
+        public void GetFirstTriangle(int columnIndex, int rowIndex, ref AffineTransform transform, out FixedV3 a, out FixedV3 b, out FixedV3 c)
         {
             if (quadTriangleOrganization == QuadTriangleOrganization.BottomLeftUpperRight)
             {
@@ -580,7 +580,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="a">First vertex of the triangle.</param>
         ///<param name="b">Second vertex of the triangle.</param>
         ///<param name="c">Third vertex of the triangle.</param>
-        public void GetSecondTriangle(int columnIndex, int rowIndex, ref AffineTransform transform, out Vector3 a, out Vector3 b, out Vector3 c)
+        public void GetSecondTriangle(int columnIndex, int rowIndex, ref AffineTransform transform, out FixedV3 a, out FixedV3 b, out FixedV3 c)
         {
             if (quadTriangleOrganization == QuadTriangleOrganization.BottomLeftUpperRight)
             {
@@ -605,7 +605,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="a">First vertex of the triangle.</param>
         ///<param name="b">Second vertex of the triangle.</param>
         ///<param name="c">Third vertex of the triangle.</param>
-        public void GetTriangle(int index, ref AffineTransform transform, out Vector3 a, out Vector3 b, out Vector3 c)
+        public void GetTriangle(int index, ref AffineTransform transform, out FixedV3 a, out FixedV3 b, out FixedV3 c)
         {
             //Find the quad.
             int quadIndex = index / 2;

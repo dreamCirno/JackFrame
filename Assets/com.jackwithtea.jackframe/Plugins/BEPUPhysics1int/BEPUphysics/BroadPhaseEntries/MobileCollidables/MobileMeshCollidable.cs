@@ -75,15 +75,15 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit location of the ray on the entry, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             //Put the ray into local space.
-            Ray localRay;
-            Matrix3x3 orientation;
-            Matrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out orientation);
-            Matrix3x3.TransformTranspose(ref ray.Direction, ref orientation, out localRay.Direction);
-            Vector3.Subtract(ref ray.Position, ref worldTransform.Position, out localRay.Position);
-            Matrix3x3.TransformTranspose(ref localRay.Position, ref orientation, out localRay.Position);
+            BEPURay localRay;
+            BEPUMatrix3x3 orientation;
+            BEPUMatrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out orientation);
+            BEPUMatrix3x3.TransformTranspose(ref ray.Direction, ref orientation, out localRay.Direction);
+            FixedV3.Subtract(ref ray.Position, ref worldTransform.Position, out localRay.Position);
+            BEPUMatrix3x3.TransformTranspose(ref localRay.Position, ref orientation, out localRay.Position);
 
 
             if (Shape.solidity == MobileMeshSolidity.Solid)
@@ -95,7 +95,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 if (Shape.IsLocalRayOriginInMesh(ref localRay, out rayHit))
                 {
                     //It was inside!
-                    rayHit = new RayHit() { Location = ray.Position, Normal = Vector3.Zero, T = F64.C0 };
+                    rayHit = new RayHit() { Location = ray.Position, Normal = FixedV3.Zero, T = F64.C0 };
                     return true;
 
                 }
@@ -104,9 +104,9 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                     if (rayHit.T < maximumLength)
                     {
                         //Transform the hit into world space.
-                        Vector3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
-                        Vector3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
-                        Matrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
+                        FixedV3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
+                        FixedV3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
+                        BEPUMatrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
                     }
                     else
                     {
@@ -135,9 +135,9 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 if (Shape.TriangleMesh.RayCast(localRay, maximumLength, sidedness, out rayHit))
                 {
                     //Transform the hit into world space.
-                    Vector3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
-                    Vector3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
-                    Matrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
+                    FixedV3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
+                    FixedV3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
+                    BEPUMatrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
                     return true;
                 }
             }
@@ -153,22 +153,22 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         ///<param name="sidedness">Sidedness to use during the ray cast.  This does not have to be the same as the mesh's sidedness.</param>
         ///<param name="rayHit">The hit location of the ray on the mesh, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
         {
             //Put the ray into local space.
-            Ray localRay;
-            Matrix3x3 orientation;
-            Matrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out orientation);
-            Matrix3x3.TransformTranspose(ref ray.Direction, ref orientation, out localRay.Direction);
-            Vector3.Subtract(ref ray.Position, ref worldTransform.Position, out localRay.Position);
-            Matrix3x3.TransformTranspose(ref localRay.Position, ref orientation, out localRay.Position);
+            BEPURay localRay;
+            BEPUMatrix3x3 orientation;
+            BEPUMatrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out orientation);
+            BEPUMatrix3x3.TransformTranspose(ref ray.Direction, ref orientation, out localRay.Direction);
+            FixedV3.Subtract(ref ray.Position, ref worldTransform.Position, out localRay.Position);
+            BEPUMatrix3x3.TransformTranspose(ref localRay.Position, ref orientation, out localRay.Position);
 
             if (Shape.TriangleMesh.RayCast(localRay, maximumLength, sidedness, out rayHit))
             {
                 //Transform the hit into world space.
-                Vector3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
-                Vector3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
-                Matrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
+                FixedV3.Multiply(ref ray.Direction, rayHit.T, out rayHit.Location);
+                FixedV3.Add(ref rayHit.Location, ref ray.Position, out rayHit.Location);
+                BEPUMatrix3x3.Transform(ref rayHit.Normal, ref orientation, out rayHit.Normal);
                 return true;
             }
             rayHit = new RayHit();
@@ -183,23 +183,23 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="sweep">Sweep to apply to the shape.</param>
         /// <param name="hit">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit)
+        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit)
         {
             if (Shape.solidity == MobileMeshSolidity.Solid)
             {
                 //If the convex cast is inside the mesh and the mesh is solid, it should return t = 0.
-                var ray = new Ray() { Position = startingTransform.Position, Direction = Toolbox.UpVector };
+                var ray = new BEPURay() { Position = startingTransform.Position, Direction = Toolbox.UpVector };
                 if (Shape.IsLocalRayOriginInMesh(ref ray, out hit))
                 {
 
-                    hit = new RayHit() { Location = startingTransform.Position, Normal = new Vector3(), T = F64.C0 };
+                    hit = new RayHit() { Location = startingTransform.Position, Normal = new FixedV3(), T = F64.C0 };
                     return true;
                 }
             }
             hit = new RayHit();
             BoundingBox boundingBox;
             var transform = new AffineTransform {Translation = worldTransform.Position};
-            Matrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out transform.LinearTransform);
+            BEPUMatrix3x3.CreateFromQuaternion(ref worldTransform.Orientation, out transform.LinearTransform);
             castShape.GetSweptLocalBoundingBox(ref startingTransform, ref transform, ref sweep, out boundingBox);
             var tri = PhysicsThreadResources.GetTriangle();
             var hitElements = CommonResources.GetIntList();
@@ -212,13 +212,13 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                     AffineTransform.Transform(ref tri.vA, ref transform, out tri.vA);
                     AffineTransform.Transform(ref tri.vB, ref transform, out tri.vB);
                     AffineTransform.Transform(ref tri.vC, ref transform, out tri.vC);
-                    Vector3 center;
-                    Vector3.Add(ref tri.vA, ref tri.vB, out center);
-                    Vector3.Add(ref center, ref tri.vC, out center);
-                    Vector3.Multiply(ref center, F64.OneThird, out center);
-                    Vector3.Subtract(ref tri.vA, ref center, out tri.vA);
-                    Vector3.Subtract(ref tri.vB, ref center, out tri.vB);
-                    Vector3.Subtract(ref tri.vC, ref center, out tri.vC);
+                    FixedV3 center;
+                    FixedV3.Add(ref tri.vA, ref tri.vB, out center);
+                    FixedV3.Add(ref center, ref tri.vC, out center);
+                    FixedV3.Multiply(ref center, F64.OneThird, out center);
+                    FixedV3.Subtract(ref tri.vA, ref center, out tri.vA);
+                    FixedV3.Subtract(ref tri.vB, ref center, out tri.vB);
+                    FixedV3.Subtract(ref tri.vC, ref center, out tri.vC);
                     tri.MaximumRadius = tri.vA.LengthSquared();
                     Fixed64 radius = tri.vB.LengthSquared();
                     if (tri.MaximumRadius < radius)
@@ -228,7 +228,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                         tri.MaximumRadius = radius;
                     tri.MaximumRadius = Fixed64.Sqrt(tri.MaximumRadius);
                     tri.collisionMargin = F64.C0;
-                    var triangleTransform = new RigidTransform {Orientation = Quaternion.Identity, Position = center};
+                    var triangleTransform = new RigidTransform {Orientation = FixedQuaternion.Identity, Position = center};
                     RayHit tempHit;
                     if (MPRToolbox.Sweep(castShape, tri, ref sweep, ref Toolbox.ZeroVector, ref startingTransform, ref triangleTransform, out tempHit) && tempHit.T < hit.T)
                     {

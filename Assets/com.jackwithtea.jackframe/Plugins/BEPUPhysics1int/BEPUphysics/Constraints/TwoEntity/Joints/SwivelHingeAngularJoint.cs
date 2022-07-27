@@ -14,12 +14,12 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     {
         private Fixed64 accumulatedImpulse;
         private Fixed64 biasVelocity;
-        private Vector3 jacobianA, jacobianB;
+        private FixedV3 jacobianA, jacobianB;
         private Fixed64 error;
-        private Vector3 localHingeAxis;
-        private Vector3 localTwistAxis;
-        private Vector3 worldHingeAxis;
-        private Vector3 worldTwistAxis;
+        private FixedV3 localHingeAxis;
+        private FixedV3 localTwistAxis;
+        private FixedV3 worldHingeAxis;
+        private FixedV3 worldTwistAxis;
         private Fixed64 velocityToImpulse;
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// The connected entities will be able to rotate around this axis relative to each other.</param>
         /// <param name="worldTwistAxis">Twist axis attached to connectionB.
         /// The connected entities will be able to rotate around this axis relative to each other.</param>
-        public SwivelHingeAngularJoint(Entity connectionA, Entity connectionB, Vector3 worldHingeAxis, Vector3 worldTwistAxis)
+        public SwivelHingeAngularJoint(Entity connectionA, Entity connectionB, FixedV3 worldHingeAxis, FixedV3 worldTwistAxis)
         {
             ConnectionA = connectionA;
             ConnectionB = connectionB;
@@ -53,56 +53,56 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the hinge axis attached to entity A in its local space.
         /// </summary>
-        public Vector3 LocalHingeAxis
+        public FixedV3 LocalHingeAxis
         {
             get { return localHingeAxis; }
             set
             {
-                localHingeAxis = Vector3.Normalize(value);
-                Matrix3x3.Transform(ref localHingeAxis, ref connectionA.orientationMatrix, out worldHingeAxis);
+                localHingeAxis = FixedV3.Normalize(value);
+                BEPUMatrix3x3.Transform(ref localHingeAxis, ref connectionA.orientationMatrix, out worldHingeAxis);
             }
         }
 
         /// <summary>
         /// Gets or sets the twist axis attached to entity B in its local space.
         /// </summary>
-        public Vector3 LocalTwistAxis
+        public FixedV3 LocalTwistAxis
         {
             get { return localTwistAxis; }
             set
             {
-                localTwistAxis = Vector3.Normalize(value);
-                Matrix3x3.Transform(ref localTwistAxis, ref connectionB.orientationMatrix, out worldTwistAxis);
+                localTwistAxis = FixedV3.Normalize(value);
+                BEPUMatrix3x3.Transform(ref localTwistAxis, ref connectionB.orientationMatrix, out worldTwistAxis);
             }
         }
 
         /// <summary>
         /// Gets or sets the hinge axis attached to entity A in world space.
         /// </summary>
-        public Vector3 WorldHingeAxis
+        public FixedV3 WorldHingeAxis
         {
             get { return worldHingeAxis; }
             set
             {
-                worldHingeAxis = Vector3.Normalize(value);
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref connectionA.orientation, out conjugate);
-                Quaternion.Transform(ref worldHingeAxis, ref conjugate, out localHingeAxis);
+                worldHingeAxis = FixedV3.Normalize(value);
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref connectionA.orientation, out conjugate);
+                FixedQuaternion.Transform(ref worldHingeAxis, ref conjugate, out localHingeAxis);
             }
         }
 
         /// <summary>
         /// Gets or sets the axis attached to the first connected entity in world space.
         /// </summary>
-        public Vector3 WorldTwistAxis
+        public FixedV3 WorldTwistAxis
         {
             get { return worldTwistAxis; }
             set
             {
-                worldTwistAxis = Vector3.Normalize(value);
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref connectionB.orientation, out conjugate);
-                Quaternion.Transform(ref worldTwistAxis, ref conjugate, out localTwistAxis);
+                worldTwistAxis = FixedV3.Normalize(value);
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref connectionB.orientation, out conjugate);
+                FixedQuaternion.Transform(ref worldTwistAxis, ref conjugate, out localTwistAxis);
             }
         }
 
@@ -117,8 +117,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             {
                 Fixed64 velocityA, velocityB;
                 //Find the velocity contribution from each connection
-                Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
-                Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
+                FixedV3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
+                FixedV3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
                 return velocityA + velocityB;
             }
         }
@@ -147,7 +147,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the linear jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the first connected entity.</param>
-        public void GetLinearJacobianA(out Vector3 jacobian)
+        public void GetLinearJacobianA(out FixedV3 jacobian)
         {
             jacobian = Toolbox.ZeroVector;
         }
@@ -156,7 +156,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the linear jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the second connected entity.</param>
-        public void GetLinearJacobianB(out Vector3 jacobian)
+        public void GetLinearJacobianB(out FixedV3 jacobian)
         {
             jacobian = Toolbox.ZeroVector;
         }
@@ -165,7 +165,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the angular jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the first connected entity.</param>
-        public void GetAngularJacobianA(out Vector3 jacobian)
+        public void GetAngularJacobianA(out FixedV3 jacobian)
         {
             jacobian = jacobianA;
         }
@@ -174,7 +174,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the angular jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the second connected entity.</param>
-        public void GetAngularJacobianB(out Vector3 jacobian)
+        public void GetAngularJacobianB(out FixedV3 jacobian)
         {
             jacobian = jacobianB;
         }
@@ -197,8 +197,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         {
             Fixed64 velocityA, velocityB;
             //Find the velocity contribution from each connection
-            Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
-            Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
+            FixedV3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
+            FixedV3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
             //Add in the constraint space bias velocity
             Fixed64 lambda = -(velocityA + velocityB) - biasVelocity - softness * accumulatedImpulse;
 
@@ -209,15 +209,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             accumulatedImpulse += lambda;
 
             //Apply the impulse
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jacobianA, lambda, out impulse);
+                FixedV3.Multiply(ref jacobianA, lambda, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jacobianB, lambda, out impulse);
+                FixedV3.Multiply(ref jacobianB, lambda, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
 
@@ -231,11 +231,11 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         public override void Update(Fixed64 dt)
         {
             //Transform the axes into world space.
-            Matrix3x3.Transform(ref localHingeAxis, ref connectionA.orientationMatrix, out worldHingeAxis);
-            Matrix3x3.Transform(ref localTwistAxis, ref connectionB.orientationMatrix, out worldTwistAxis);
+            BEPUMatrix3x3.Transform(ref localHingeAxis, ref connectionA.orientationMatrix, out worldHingeAxis);
+            BEPUMatrix3x3.Transform(ref localTwistAxis, ref connectionB.orientationMatrix, out worldTwistAxis);
 
             //****** VELOCITY BIAS ******//
-            Vector3.Dot(ref worldHingeAxis, ref worldTwistAxis, out error);
+            FixedV3.Dot(ref worldHingeAxis, ref worldTwistAxis, out error);
             //Compute the correction velocity.
 
             Fixed64 errorReduction;
@@ -244,12 +244,12 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             biasVelocity = MathHelper.Clamp(error * errorReduction, -maxCorrectiveVelocity, maxCorrectiveVelocity);
 
             //Compute the jacobian
-            Vector3.Cross(ref worldHingeAxis, ref worldTwistAxis, out jacobianA);
+            FixedV3.Cross(ref worldHingeAxis, ref worldTwistAxis, out jacobianA);
             Fixed64 length = jacobianA.LengthSquared();
             if (length > Toolbox.Epsilon)
-                Vector3.Divide(ref jacobianA, Fixed64.Sqrt(length), out jacobianA);
+                FixedV3.Divide(ref jacobianA, Fixed64.Sqrt(length), out jacobianA);
             else
-                jacobianA = new Vector3();
+                jacobianA = new FixedV3();
             jacobianB.X = -jacobianA.X;
             jacobianB.Y = -jacobianA.Y;
             jacobianB.Z = -jacobianA.Z;
@@ -258,11 +258,11 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             //****** EFFECTIVE MASS MATRIX ******//
             //Connection A's contribution to the mass matrix
             Fixed64 entryA;
-            Vector3 transformedAxis;
+            FixedV3 transformedAxis;
             if (connectionA.isDynamic)
             {
-                Matrix3x3.Transform(ref jacobianA, ref connectionA.inertiaTensorInverse, out transformedAxis);
-                Vector3.Dot(ref transformedAxis, ref jacobianA, out entryA);
+                BEPUMatrix3x3.Transform(ref jacobianA, ref connectionA.inertiaTensorInverse, out transformedAxis);
+                FixedV3.Dot(ref transformedAxis, ref jacobianA, out entryA);
             }
             else
                 entryA = F64.C0;
@@ -271,8 +271,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             Fixed64 entryB;
             if (connectionB.isDynamic)
             {
-                Matrix3x3.Transform(ref jacobianB, ref connectionB.inertiaTensorInverse, out transformedAxis);
-                Vector3.Dot(ref transformedAxis, ref jacobianB, out entryB);
+                BEPUMatrix3x3.Transform(ref jacobianB, ref connectionB.inertiaTensorInverse, out transformedAxis);
+                FixedV3.Dot(ref transformedAxis, ref jacobianB, out entryB);
             }
             else
                 entryB = F64.C0;
@@ -292,15 +292,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         {
             //****** WARM STARTING ******//
             //Apply accumulated impulse
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jacobianA, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jacobianA, accumulatedImpulse, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jacobianB, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jacobianB, accumulatedImpulse, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
         }

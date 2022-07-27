@@ -3,11 +3,11 @@ using System;
 
 namespace BEPUutilities
 {
-	static class Matrix4x8
+	static class BEPUMatrix4x8
 	{
 		[ThreadStatic] private static Fixed64[,] Matrix;
 
-		public static bool Invert(ref Matrix m, out Matrix r)
+		public static bool Invert(ref BEPUMatrix m, out BEPUMatrix r)
 		{
 			if (Matrix == null)
 				Matrix = new Fixed64[4, 8];
@@ -48,12 +48,12 @@ namespace BEPUutilities
 			M[3, 7] = Fixed64.One;
 
 
-			if (!Matrix3x6.Gauss(M, 4, 8))
+			if (!BEPUMatrix3x6.Gauss(M, 4, 8))
 			{
-				r = new Matrix();
+				r = new BEPUMatrix();
 				return false;
 			}
-			r = new Matrix(
+			r = new BEPUMatrix(
 				// m11...m14
 				M[0, 4],
 				M[0, 5],

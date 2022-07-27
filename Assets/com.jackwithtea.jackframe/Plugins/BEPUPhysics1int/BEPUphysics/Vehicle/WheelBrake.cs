@@ -107,7 +107,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets the axis along which rolling friction is applied.
         /// </summary>
-        public Vector3 FrictionAxis
+        public FixedV3 FrictionAxis
         {
             get { return wheel.drivingMotor.ForceAxis; }
         }
@@ -226,8 +226,8 @@ namespace BEPUphysics.Vehicle
 
             //Apply the impulse
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif
@@ -295,8 +295,8 @@ namespace BEPUphysics.Vehicle
 
             //Warm starting
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif

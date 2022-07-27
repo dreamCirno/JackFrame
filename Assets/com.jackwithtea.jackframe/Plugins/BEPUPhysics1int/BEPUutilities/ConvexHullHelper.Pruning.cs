@@ -46,7 +46,7 @@ namespace BEPUutilities
         /// Removes redundant points.  Two points are redundant if they occupy the same hash grid cell of size 0.001.
         /// </summary>
         /// <param name="points">List of points to prune.</param>
-        public static void RemoveRedundantPoints(IList<Vector3> points)
+        public static void RemoveRedundantPoints(IList<FixedV3> points)
         {
             RemoveRedundantPoints(points, F64.C0p001);
         }
@@ -56,7 +56,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="points">List of points to prune.</param>
         /// <param name="cellSize">Size of cells to determine redundancy.</param>
-        public static void RemoveRedundantPoints(IList<Vector3> points, Fixed64 cellSize)
+        public static void RemoveRedundantPoints(IList<FixedV3> points, Fixed64 cellSize)
         {
             var rawPoints = CommonResources.GetVectorList();
             rawPoints.AddRange(points);
@@ -73,7 +73,7 @@ namespace BEPUutilities
         /// Removes redundant points.  Two points are redundant if they occupy the same hash grid cell of size 0.001.
         /// </summary>
         /// <param name="points">List of points to prune.</param>
-        public static void RemoveRedundantPoints(RawList<Vector3> points)
+        public static void RemoveRedundantPoints(RawList<FixedV3> points)
         {
             RemoveRedundantPoints(points, F64.C0p001);
         }
@@ -83,7 +83,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="points">List of points to prune.</param>
         /// <param name="cellSize">Size of cells to determine redundancy.</param>
-        public static void RemoveRedundantPoints(RawList<Vector3> points, Fixed64 cellSize)
+        public static void RemoveRedundantPoints(RawList<FixedV3> points, Fixed64 cellSize)
         {
             var set = BlockedCellSets.Take();
             for (int i = points.Count - 1; i >= 0; --i)

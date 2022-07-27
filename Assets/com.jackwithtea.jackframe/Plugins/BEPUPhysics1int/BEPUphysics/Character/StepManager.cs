@@ -104,37 +104,37 @@ namespace BEPUphysics.Character
         /// </summary>
         /// <param name="newPosition">New position the character should teleport to if the down step is accepted.</param>
         /// <returns>Whether or not the character should attempt to step down.</returns>
-        public bool TryToStepDown(out Vector3 newPosition)
+        public bool TryToStepDown(out FixedV3 newPosition)
         {
             //Don't bother trying to step down if we already have a support contact or if the support ray doesn't have traction.
             if (!(SupportFinder.Supports.Count == 0 && SupportFinder.SupportRayData != null && SupportFinder.SupportRayData.Value.HasTraction))
             {
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
             if (!(SupportFinder.SupportRayData.Value.HitData.T - SupportFinder.BottomDistance > minimumDownStepHeight)) //Don't do expensive stuff if it's, at most, a super tiny step that gravity will take care of.
             {
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
             //Predict a hit location based on the time of impact and the normal at the intersection.
             //Take into account the radius of the character (don't forget the collision margin!)
-            Vector3 normal = SupportFinder.SupportRayData.Value.HitData.Normal;
+            FixedV3 normal = SupportFinder.SupportRayData.Value.HitData.Normal;
 
-            Vector3 down = characterBody.orientationMatrix.Down;
+            FixedV3 down = characterBody.orientationMatrix.Down;
 
             RigidTransform transform = characterBody.CollisionInformation.WorldTransform;
 
             //We know that the closest point to the plane will be the extreme point in the plane's direction.
             //Use it as the ray origin.
-            Ray ray;
+            BEPURay ray;
             characterBody.CollisionInformation.Shape.GetExtremePoint(normal, ref transform, out ray.Position);
             ray.Direction = down;
 
             //Intersect the ray against the plane defined by the support hit.
-            Vector3 intersection;
-            Plane plane = new Plane(normal, Vector3.Dot(SupportFinder.SupportRayData.Value.HitData.Location, normal));
-            Vector3 candidatePosition;
+            FixedV3 intersection;
+            BEPUPlane plane = new BEPUPlane(normal, FixedV3.Dot(SupportFinder.SupportRayData.Value.HitData.Location, normal));
+            FixedV3 candidatePosition;
 
             //Define the interval bounds to be used later.
 
@@ -175,7 +175,7 @@ namespace BEPUphysics.Character
                             }
                             else
                             {
-                                newPosition = new Vector3();
+                                newPosition = new FixedV3();
                                 return false;
                             }
                         case CharacterContactPositionState.NoHit:
@@ -221,7 +221,7 @@ namespace BEPUphysics.Character
                             }
                             else
                             {
-                                newPosition = new Vector3();
+                                newPosition = new FixedV3();
                                 return false;
                             }
                         case CharacterContactPositionState.NoHit:
@@ -239,7 +239,7 @@ namespace BEPUphysics.Character
                     }
                 }
                 //Couldn't find a candidate.
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
             finally
@@ -253,7 +253,7 @@ namespace BEPUphysics.Character
 
         }
 
-        CharacterContactPositionState TryDownStepPosition(ref Vector3 position, ref Vector3 down,
+        CharacterContactPositionState TryDownStepPosition(ref FixedV3 position, ref FixedV3 down,
             ref QuickList<CharacterContact> tractionContacts, ref QuickList<CharacterContact> supportContacts, ref QuickList<CharacterContact> sideContacts, ref QuickList<CharacterContact> headContacts,
             out Fixed64 hintOffset)
         {
@@ -275,13 +275,13 @@ namespace BEPUphysics.Character
                     //We're done! The guess found a good spot to stand on.
                     //The final state doesn't need to actually create contacts, so shove it up 
                     //just barely to the surface.
-                    hintOffset = -Vector3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
+                    hintOffset = -FixedV3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
                     return CharacterContactPositionState.Accepted;
                 }
                 else if (supportState == CharacterContactPositionState.TooDeep)
                 {
                     //Looks like we have to keep trying, but at least we found a good hint.
-                    hintOffset = MathHelper.Min(F64.C0, F64.C0p001 - Vector3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth);
+                    hintOffset = MathHelper.Min(F64.C0, F64.C0p001 - FixedV3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth);
                     return CharacterContactPositionState.TooDeep;
                 }
                 else //if (supportState == SupportState.Separated)
@@ -289,7 +289,7 @@ namespace BEPUphysics.Character
                     //It's not obstructed, but the support isn't quite right.
                     //It's got a negative penetration depth.
                     //We can use that as a hint.
-                    hintOffset = -F64.C0p001 - Vector3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
+                    hintOffset = -F64.C0p001 - FixedV3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
                     return CharacterContactPositionState.NoHit;
                 }
             }
@@ -304,7 +304,7 @@ namespace BEPUphysics.Character
         /// </summary>
         /// <param name="newPosition">New position the character should teleport to if the up step is accepted.</param>
         /// <returns>Whether or not the character should attempt to step up.</returns>
-        public bool TryToStepUp(out Vector3 newPosition)
+        public bool TryToStepUp(out FixedV3 newPosition)
         {
             //Can't step up if we don't have traction to begin with.
             var down = characterBody.orientationMatrix.Down;
@@ -323,25 +323,25 @@ namespace BEPUphysics.Character
                 }
 
             }
-            newPosition = new Vector3();
+            newPosition = new FixedV3();
             return false;
         }
 
         Fixed64 upStepMargin = F64.C0p1;  //There's a little extra space above the maximum step height to start the obstruction and downcast test rays.  Helps when a step is very close to the max step height.
-        void FindUpStepCandidates(RawList<ContactData> outputStepCandidates, ref Vector3 down)
+        void FindUpStepCandidates(RawList<ContactData> outputStepCandidates, ref FixedV3 down)
         {
-            Vector3 movementDirection = HorizontalMotionConstraint.MovementDirection3d;
+            FixedV3 movementDirection = HorizontalMotionConstraint.MovementDirection3d;
             foreach (var c in SupportFinder.SideContacts)
             {
                 //Check to see if the contact is sufficiently aligned with the movement direction to be considered for stepping.
                 //TODO: This could behave a bit odd when encountering steps or slopes near the base of rounded collision margin.
                 var contact = c.Contact;
                 Fixed64 dot;
-                Vector3.Dot(ref contact.Normal, ref movementDirection, out dot);
+                FixedV3.Dot(ref contact.Normal, ref movementDirection, out dot);
                 if (dot > F64.C0)
                 {
                     //It is! But is it low enough?
-                    dot = Vector3.Dot(down, c.Contact.Position - characterBody.Position);
+                    dot = FixedV3.Dot(down, c.Contact.Position - characterBody.Position);
                     //It must be between the bottom of the character and the maximum step height.
                     if (dot < characterBody.Height * F64.C0p5 && dot > characterBody.Height * F64.C0p5 - maximumStepHeight - upStepMargin)
                     {
@@ -350,7 +350,7 @@ namespace BEPUphysics.Character
                         bool shouldAdd = true;
                         for (int i = 0; i < outputStepCandidates.Count; i++)
                         {
-                            Vector3.Dot(ref outputStepCandidates.Elements[i].Normal, ref contact.Normal, out dot);
+                            FixedV3.Dot(ref outputStepCandidates.Elements[i].Normal, ref contact.Normal, out dot);
                             if (dot > F64.C0p99)
                             {
                                 shouldAdd = false; //Woops! This direction is already covered.  Don't bother.
@@ -365,27 +365,27 @@ namespace BEPUphysics.Character
 
         }
 
-        bool TryToStepUsingContact(ref ContactData contact, ref Vector3 down, out Vector3 newPosition)
+        bool TryToStepUsingContact(ref ContactData contact, ref FixedV3 down, out FixedV3 newPosition)
         {
-            Vector3 position = characterBody.Position;
+            FixedV3 position = characterBody.Position;
             //The normal of the contact may not be facing perfectly out to the side.
             //The detection process allows a bit of slop.
             //Correct it by removing any component of the normal along the local up vector.
-            Vector3 normal = contact.Normal;
+            FixedV3 normal = contact.Normal;
             Fixed64 dot;
-            Vector3.Dot(ref normal, ref down, out dot);
-            Vector3 error;
-            Vector3.Multiply(ref down, dot, out error);
-            Vector3.Subtract(ref normal, ref error, out normal);
+            FixedV3.Dot(ref normal, ref down, out dot);
+            FixedV3 error;
+            FixedV3.Multiply(ref down, dot, out error);
+            FixedV3.Subtract(ref normal, ref error, out normal);
             normal.Normalize();
 
             //Now we need to ray cast out from the center of the character in the direction of this normal to check for obstructions.
             //Compute the ray origin location.  Fire it out of the top of the character; if we're stepping, this must be a valid location.
             //Putting it as high as possible helps to reject more invalid step geometry.
-            Ray ray;
+            BEPURay ray;
             Fixed64 downRayLength = characterBody.Height;// MaximumStepHeight + upStepMargin;
-            Vector3.Multiply(ref down, characterBody.Height * F64.C0p5 - downRayLength, out ray.Position);
-            Vector3.Add(ref ray.Position, ref position, out ray.Position);
+            FixedV3.Multiply(ref down, characterBody.Height * F64.C0p5 - downRayLength, out ray.Position);
+            FixedV3.Add(ref ray.Position, ref position, out ray.Position);
             ray.Direction = normal;
             //Include a little margin in the length.
             //Technically, the character only needs to teleport horizontally by the complicated commented expression.
@@ -399,15 +399,15 @@ namespace BEPUphysics.Character
             if (QueryManager.RayCastHitAnything(ray, length))
             {
                 //The step is obstructed!
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
 
             //The down-cast ray origin has been verified by the previous ray cast.
             //Let's look for a support!
-            Vector3 horizontalOffset;
-            Vector3.Multiply(ref normal, length, out horizontalOffset);
-            Vector3.Add(ref ray.Position, ref horizontalOffset, out ray.Position);
+            FixedV3 horizontalOffset;
+            FixedV3.Multiply(ref normal, length, out horizontalOffset);
+            FixedV3.Add(ref ray.Position, ref horizontalOffset, out ray.Position);
             ray.Direction = down;
 
             //Find the earliest hit, if any.
@@ -418,32 +418,32 @@ namespace BEPUphysics.Character
                 earliestHit.T - downRayLength < -maximumStepHeight - upStepMargin) //Can't do anything if the step is too tall.
             {
                 //No valid hit was detected.
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
 
             //Ensure the candidate surface supports traction.
-            Vector3 supportNormal;
-            Vector3.Normalize(ref earliestHit.Normal, out supportNormal);
+            FixedV3 supportNormal;
+            FixedV3.Normalize(ref earliestHit.Normal, out supportNormal);
             //Calibrate the normal to face in the same direction as the down vector for consistency.
-            Vector3.Dot(ref supportNormal, ref down, out dot);
+            FixedV3.Dot(ref supportNormal, ref down, out dot);
             if (dot < F64.C0)
             {
-                Vector3.Negate(ref supportNormal, out supportNormal);
+                FixedV3.Negate(ref supportNormal, out supportNormal);
                 dot = -dot;
             }
 
             //If the new surface does not have traction, do not attempt to step up.
             if (dot < ContactCategorizer.TractionThreshold)
             {
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
 
             //Since contact queries are frequently expensive compared to ray cast tests,
             //do one more ray cast test.  This time, starting from the same position, cast upwards.
             //In order to step up, the previous down-ray hit must be at least a character height away from the result of the up-ray.
-            Vector3.Negate(ref down, out ray.Direction);
+            FixedV3.Negate(ref down, out ray.Direction);
             //Find the earliest hit, if any.
             //RayHit earliestHitUp = new RayHit();
             //earliestHitUp.T = Fix64.MaxValue;
@@ -452,7 +452,7 @@ namespace BEPUphysics.Character
             //If the sum of the up and down distances is less than the height, the character can't fit.
             if (QueryManager.RayCastHitAnything(ray, upLength))
             {
-                newPosition = new Vector3();
+                newPosition = new FixedV3();
                 return false;
             }
 
@@ -468,23 +468,23 @@ namespace BEPUphysics.Character
             RigidTransform transform = characterBody.CollisionInformation.WorldTransform;
             //The transform must be modified to position the query body at the right location.
             //The horizontal offset of the queries ensures that a tractionable part of the character will be put onto the new support.
-            Vector3.Multiply(ref normal, horizontalOffsetAmount, out horizontalOffset);
-            Vector3.Add(ref transform.Position, ref horizontalOffset, out transform.Position);
-            Vector3 verticalOffset;
-            Vector3.Multiply(ref down, -downRayLength, out verticalOffset);
-            Vector3.Add(ref transform.Position, ref verticalOffset, out transform.Position);
+            FixedV3.Multiply(ref normal, horizontalOffsetAmount, out horizontalOffset);
+            FixedV3.Add(ref transform.Position, ref horizontalOffset, out transform.Position);
+            FixedV3 verticalOffset;
+            FixedV3.Multiply(ref down, -downRayLength, out verticalOffset);
+            FixedV3.Add(ref transform.Position, ref verticalOffset, out transform.Position);
 
             //We know that the closest point to the plane will be the extreme point in the plane's direction.
             //Use it as the ray origin.
-            Ray downRay;
+            BEPURay downRay;
             characterBody.CollisionInformation.Shape.GetExtremePoint(supportNormal, ref transform, out downRay.Position);
             downRay.Direction = down;
 
             //Intersect the ray against the plane defined by the support hit.
-            Vector3 intersection;
-            Vector3.Dot(ref earliestHit.Location, ref supportNormal, out dot);
-            Plane plane = new Plane(supportNormal, dot);
-            Vector3 candidatePosition;
+            FixedV3 intersection;
+            FixedV3.Dot(ref earliestHit.Location, ref supportNormal, out dot);
+            BEPUPlane plane = new BEPUPlane(supportNormal, dot);
+            FixedV3 candidatePosition;
 
             //Define the interval bounds to be used later.
 
@@ -531,11 +531,11 @@ namespace BEPUphysics.Character
                             }
                             else
                             {
-                                newPosition = new Vector3();
+                                newPosition = new FixedV3();
                                 return false;
                             }
                         case CharacterContactPositionState.Rejected:
-                            newPosition = new Vector3();
+                            newPosition = new FixedV3();
                             return false;
                         case CharacterContactPositionState.NoHit:
                             highestBound = currentOffset + hintOffset;
@@ -589,11 +589,11 @@ namespace BEPUphysics.Character
                             }
                             else
                             {
-                                newPosition = new Vector3();
+                                newPosition = new FixedV3();
                                 return false;
                             }
                         case CharacterContactPositionState.Rejected:
-                            newPosition = new Vector3();
+                            newPosition = new FixedV3();
                             return false;
                         case CharacterContactPositionState.NoHit:
                             highestBound = currentOffset + hintOffset;
@@ -622,14 +622,14 @@ namespace BEPUphysics.Character
                 headContacts.Dispose();
             }
             //Couldn't find a candidate.
-            newPosition = new Vector3();
+            newPosition = new FixedV3();
             return false;
 
 
 
         }
 
-        private void PrepareQueryObject(ref Vector3 position)
+        private void PrepareQueryObject(ref FixedV3 position)
         {
             RigidTransform transform;
             transform.Position = position;
@@ -637,7 +637,7 @@ namespace BEPUphysics.Character
             currentQueryObject.UpdateBoundingBoxForTransform(ref transform, F64.C0);
         }
 
-        CharacterContactPositionState TryUpStepPosition(ref Vector3 sideNormal, ref Vector3 position, ref Vector3 down,
+        CharacterContactPositionState TryUpStepPosition(ref FixedV3 sideNormal, ref FixedV3 position, ref FixedV3 down,
             ref QuickList<CharacterContact> tractionContacts, ref QuickList<CharacterContact> supportContacts, ref QuickList<CharacterContact> sideContacts, ref QuickList<CharacterContact> headContacts,
             out Fixed64 hintOffset)
         {
@@ -649,11 +649,11 @@ namespace BEPUphysics.Character
                 //The head is obstructed.  This will define a maximum bound.
                 //Find the deepest contact on the head and use it to provide a hint.
                 Fixed64 dot;
-                Vector3.Dot(ref down, ref headContacts.Elements[0].Contact.Normal, out dot);
+                FixedV3.Dot(ref down, ref headContacts.Elements[0].Contact.Normal, out dot);
                 hintOffset = -dot * headContacts.Elements[0].Contact.PenetrationDepth;
                 for (int i = 1; i < headContacts.Count; i++)
                 {
-                    Vector3.Dot(ref down, ref headContacts.Elements[i].Contact.Normal, out dot);
+                    FixedV3.Dot(ref down, ref headContacts.Elements[i].Contact.Normal, out dot);
                     dot *= -headContacts.Elements[i].Contact.PenetrationDepth;
                     if (dot > hintOffset)
                     {
@@ -678,7 +678,7 @@ namespace BEPUphysics.Character
                         //Putting it into the middle of the allowed penetration makes it very likely that it will properly generate contacts.
                         //Choosing something smaller than allowed penetration ensures that the search makes meaningful progress forward when the sizes get really tiny;
                         //we wouldn't want it edging every closer to AllowedPenetration and then exit because too many queries were made.
-                        hintOffset = MathHelper.Min(F64.C0, Vector3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
+                        hintOffset = MathHelper.Min(F64.C0, FixedV3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
                         return CharacterContactPositionState.Accepted;
                     }
                     else
@@ -693,16 +693,16 @@ namespace BEPUphysics.Character
                         //This one is based on the QUERY state and the QUERY's contact position.
 
                         //Find the down test ray's position.
-                        Ray downRay;
+                        BEPURay downRay;
                         downRay.Position = supportContact.Contact.Position + sideNormal * F64.C0p001;
-                        Fixed64 verticalOffset = Vector3.Dot(downRay.Position - position, down);
+                        Fixed64 verticalOffset = FixedV3.Dot(downRay.Position - position, down);
                         verticalOffset = characterBody.Height * F64.C0p5 + verticalOffset;
                         downRay.Position -= verticalOffset * down;
                         downRay.Direction = down;
 
                         //First, we must ensure that the ray cast test origin is not obstructed.  Starting very close to the very top of the character is safe because the process has already validated
                         //this location as accepted, just without traction.
-                        Ray obstructionTestRay;
+                        BEPURay obstructionTestRay;
                         obstructionTestRay.Position = position - down * (characterBody.Height * F64.C0p5);
                         obstructionTestRay.Direction = downRay.Position - obstructionTestRay.Position;
 
@@ -718,18 +718,18 @@ namespace BEPUphysics.Character
                                     //It's in range!                   
                                     Fixed64 dot;
                                     hit.Normal.Normalize();
-                                    Vector3.Dot(ref hit.Normal, ref down, out dot);
+                                    FixedV3.Dot(ref hit.Normal, ref down, out dot);
                                     if (Fixed64.Abs(dot) > ContactCategorizer.TractionThreshold)
                                     {
                                         //Slope is shallow enough to stand on!
-                                        hintOffset = MathHelper.Min(F64.C0, Vector3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
+                                        hintOffset = MathHelper.Min(F64.C0, FixedV3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
                                         //ONE MORE thing to check.  The new position of the center ray must be able to touch the ground!
                                         downRay.Position = position;
                                         if (QueryManager.RayCast(downRay, characterBody.Height * F64.C0p5 + maximumStepHeight, out hit))
                                         {
                                             //It hit.. almost there!
                                             hit.Normal.Normalize();
-                                            Vector3.Dot(ref hit.Normal, ref down, out dot);
+                                            FixedV3.Dot(ref hit.Normal, ref down, out dot);
                                             if (Fixed64.Abs(dot) > ContactCategorizer.TractionThreshold)
                                             {
                                                 //It has traction! We can step!
@@ -748,7 +748,7 @@ namespace BEPUphysics.Character
                 else if (supportState == CharacterContactPositionState.TooDeep)
                 {
                     //Looks like we have to keep trying, but at least we found a good hint.
-                    hintOffset = MathHelper.Min(F64.C0, Vector3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
+                    hintOffset = MathHelper.Min(F64.C0, FixedV3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
                     return CharacterContactPositionState.TooDeep;
                 }
                 else //if (supportState == SupportState.Separated)
@@ -756,7 +756,7 @@ namespace BEPUphysics.Character
                     //It's not obstructed, but the support isn't quite right.
                     //It's got a negative penetration depth.
                     //We can use that as a hint.
-                    hintOffset = -F64.C0p001 - Vector3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
+                    hintOffset = -F64.C0p001 - FixedV3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
                     return CharacterContactPositionState.NoHit;
                 }
             }
@@ -770,7 +770,7 @@ namespace BEPUphysics.Character
             }
         }
 
-        bool IsUpStepObstructedBySideContacts(ref Vector3 sideNormal, ref QuickList<CharacterContact> sideContacts)
+        bool IsUpStepObstructedBySideContacts(ref FixedV3 sideNormal, ref QuickList<CharacterContact> sideContacts)
         {
             //A contact is considered obstructive if its projected depth is deeper than any existing contact along the existing contacts' normals.
             for (int i = 0; i < sideContacts.Count; i++)
@@ -781,14 +781,14 @@ namespace BEPUphysics.Character
             return false;
         }
 
-        bool IsObstructiveToUpStepping(ref Vector3 sideNormal, ref ContactData contact)
+        bool IsObstructiveToUpStepping(ref FixedV3 sideNormal, ref ContactData contact)
         {
             //Up stepping has slightly different rules than down stepping.
             //For contacts with normals aligned with the side normal that triggered the step,
             //only marginal (allowed penetration) obstruction is permitted.
             //Consider the side normal to define an implicit plane.
             Fixed64 dot;
-            Vector3.Dot(ref contact.Normal, ref sideNormal, out dot);
+            FixedV3.Dot(ref contact.Normal, ref sideNormal, out dot);
             if (dot * contact.PenetrationDepth > CollisionDetectionSettings.AllowedPenetration)
             {
                 //It's too deep! Can't step.
@@ -800,7 +800,7 @@ namespace BEPUphysics.Character
             //Since we already have the penetration depths, we don't need to use the positions of the contacts.
             foreach (var c in SupportFinder.SideContacts)
             {
-                dot = Vector3.Dot(contact.Normal, c.Contact.Normal);
+                dot = FixedV3.Dot(contact.Normal, c.Contact.Normal);
                 Fixed64 depth = dot * c.Contact.PenetrationDepth;
                 if (depth > MathHelper.Max(c.Contact.PenetrationDepth, CollisionDetectionSettings.AllowedPenetration))
                     return true;

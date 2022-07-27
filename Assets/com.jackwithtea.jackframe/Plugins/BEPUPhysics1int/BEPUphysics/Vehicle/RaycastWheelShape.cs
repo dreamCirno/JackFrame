@@ -27,7 +27,7 @@ namespace BEPUphysics.Vehicle
         /// like position and orientation.</param>
         /// <param name="localGraphicTransform">Local graphic transform of the wheel shape.
         /// This transform is applied first when creating the shape's worldTransform.</param>
-        public RaycastWheelShape(Fixed64 graphicalRadius, Matrix localGraphicTransform)
+        public RaycastWheelShape(Fixed64 graphicalRadius, BEPUMatrix localGraphicTransform)
         {
             Radius = graphicalRadius;
             LocalGraphicTransform = localGraphicTransform;
@@ -58,38 +58,38 @@ namespace BEPUphysics.Vehicle
         public override void UpdateWorldTransform()
         {
 #if !WINDOWS
-            Vector3 newPosition = new Vector3();
+            FixedV3 newPosition = new FixedV3();
 #else
             Vector3 newPosition;
 #endif
-            Vector3 worldAttachmentPoint;
-            Vector3 localAttach;
-            Vector3.Add(ref wheel.suspension.localAttachmentPoint, ref wheel.vehicle.Body.CollisionInformation.localPosition, out localAttach);
-            worldTransform = Matrix3x3.ToMatrix4X4(wheel.vehicle.Body.BufferedStates.InterpolatedStates.OrientationMatrix);
+            FixedV3 worldAttachmentPoint;
+            FixedV3 localAttach;
+            FixedV3.Add(ref wheel.suspension.localAttachmentPoint, ref wheel.vehicle.Body.CollisionInformation.localPosition, out localAttach);
+            worldTransform = BEPUMatrix3x3.ToMatrix4X4(wheel.vehicle.Body.BufferedStates.InterpolatedStates.OrientationMatrix);
 
-            Matrix.TransformNormal(ref localAttach, ref worldTransform, out worldAttachmentPoint);
+            BEPUMatrix.TransformNormal(ref localAttach, ref worldTransform, out worldAttachmentPoint);
             worldAttachmentPoint += wheel.vehicle.Body.BufferedStates.InterpolatedStates.Position;
 
-            Vector3 worldDirection;
-            Matrix.Transform(ref wheel.suspension.localDirection, ref worldTransform, out worldDirection);
+            FixedV3 worldDirection;
+            BEPUMatrix.Transform(ref wheel.suspension.localDirection, ref worldTransform, out worldDirection);
 
             Fixed64 length = wheel.suspension.currentLength - graphicalRadius;
             newPosition.X = worldAttachmentPoint.X + worldDirection.X * length;
             newPosition.Y = worldAttachmentPoint.Y + worldDirection.Y * length;
             newPosition.Z = worldAttachmentPoint.Z + worldDirection.Z * length;
 
-            Matrix spinTransform;
+            BEPUMatrix spinTransform;
 
-            Vector3 localSpinAxis;
-            Vector3.Cross(ref wheel.localForwardDirection, ref wheel.suspension.localDirection, out localSpinAxis);
-            Matrix.CreateFromAxisAngle(ref localSpinAxis, spinAngle, out spinTransform);
+            FixedV3 localSpinAxis;
+            FixedV3.Cross(ref wheel.localForwardDirection, ref wheel.suspension.localDirection, out localSpinAxis);
+            BEPUMatrix.CreateFromAxisAngle(ref localSpinAxis, spinAngle, out spinTransform);
 
 
-            Matrix localTurnTransform;
-            Matrix.Multiply(ref localGraphicTransform, ref spinTransform, out localTurnTransform);
-            Matrix.Multiply(ref localTurnTransform, ref steeringTransform, out localTurnTransform);
+            BEPUMatrix localTurnTransform;
+            BEPUMatrix.Multiply(ref localGraphicTransform, ref spinTransform, out localTurnTransform);
+            BEPUMatrix.Multiply(ref localTurnTransform, ref steeringTransform, out localTurnTransform);
             //Matrix.Multiply(ref localTurnTransform, ref spinTransform, out localTurnTransform);
-            Matrix.Multiply(ref localTurnTransform, ref worldTransform, out worldTransform);
+            BEPUMatrix.Multiply(ref localTurnTransform, ref worldTransform, out worldTransform);
             worldTransform.Translation += newPosition;
         }
 
@@ -103,7 +103,7 @@ namespace BEPUphysics.Vehicle
         /// <param name="entity">Supporting object.</param>
         /// <param name="material">Material of the wheel.</param>
         /// <returns>Whether or not any support was found.</returns>
-        protected internal override bool FindSupport(out Vector3 location, out Vector3 normal, out Fixed64 suspensionLength, out Collidable supportingCollidable, out Entity entity, out Material material)
+        protected internal override bool FindSupport(out FixedV3 location, out FixedV3 normal, out Fixed64 suspensionLength, out Collidable supportingCollidable, out Entity entity, out Material material)
         {
             suspensionLength = Fixed64.MaxValue;
             location = Toolbox.NoVector;
@@ -124,7 +124,7 @@ namespace BEPUphysics.Vehicle
                 if (testCollidable != null)
                 {
                     if (CollisionRules.CollisionRuleCalculator(this, testCollidable) == CollisionRule.Normal &&
-                        testCollidable.RayCast(new Ray(wheel.suspension.worldAttachmentPoint, wheel.suspension.worldDirection), wheel.suspension.restLength, out rayHit) &&
+                        testCollidable.RayCast(new BEPURay(wheel.suspension.worldAttachmentPoint, wheel.suspension.worldDirection), wheel.suspension.restLength, out rayHit) &&
                         rayHit.T < suspensionLength)
                     {
                         suspensionLength = rayHit.T;
@@ -153,7 +153,7 @@ namespace BEPUphysics.Vehicle
                 if (suspensionLength > F64.C0)
                     normal.Normalize();
                 else
-                    Vector3.Negate(ref wheel.suspension.worldDirection, out normal);
+                    FixedV3.Negate(ref wheel.suspension.worldDirection, out normal);
                 return true;
             }
             return false;
@@ -166,11 +166,11 @@ namespace BEPUphysics.Vehicle
         protected internal override void Initialize()
         {
             //Setup the dimensions of the detector.
-            Vector3 startpoint = wheel.suspension.localAttachmentPoint;
-            Vector3 endpoint = startpoint + wheel.suspension.localDirection * wheel.suspension.restLength;
-            Vector3 min, max;
-            Vector3.Min(ref startpoint, ref endpoint, out min);
-            Vector3.Max(ref startpoint, ref endpoint, out max);
+            FixedV3 startpoint = wheel.suspension.localAttachmentPoint;
+            FixedV3 endpoint = startpoint + wheel.suspension.localDirection * wheel.suspension.restLength;
+            FixedV3 min, max;
+            FixedV3.Min(ref startpoint, ref endpoint, out min);
+            FixedV3.Max(ref startpoint, ref endpoint, out max);
 
             detector.Width = max.X - min.X;
             detector.Height = max.Y - min.Y;
@@ -183,7 +183,7 @@ namespace BEPUphysics.Vehicle
         protected internal override void UpdateDetectorPosition()
         {
 #if !WINDOWS
-            Vector3 newPosition = new Vector3();
+            FixedV3 newPosition = new FixedV3();
 #else
             Vector3 newPosition;
 #endif
@@ -194,10 +194,10 @@ namespace BEPUphysics.Vehicle
 
             detector.Position = newPosition;
             detector.OrientationMatrix = wheel.Vehicle.Body.orientationMatrix;
-            Vector3 linearVelocity;
-            Vector3.Subtract(ref newPosition, ref wheel.vehicle.Body.position, out linearVelocity);
-            Vector3.Cross(ref linearVelocity, ref wheel.vehicle.Body.angularVelocity, out linearVelocity);
-            Vector3.Add(ref linearVelocity, ref wheel.vehicle.Body.linearVelocity, out linearVelocity);
+            FixedV3 linearVelocity;
+            FixedV3.Subtract(ref newPosition, ref wheel.vehicle.Body.position, out linearVelocity);
+            FixedV3.Cross(ref linearVelocity, ref wheel.vehicle.Body.angularVelocity, out linearVelocity);
+            FixedV3.Add(ref linearVelocity, ref wheel.vehicle.Body.linearVelocity, out linearVelocity);
             detector.LinearVelocity = linearVelocity;
             detector.AngularVelocity = wheel.vehicle.Body.angularVelocity;
         }

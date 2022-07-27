@@ -10,11 +10,11 @@ namespace BEPUutilities
         ///<summary>
         /// Location of the ray hit.
         ///</summary>
-        public Vector3 Location;
+        public FixedV3 Location;
         ///<summary>
         /// Normal of the ray hit.
         ///</summary>
-        public Vector3 Normal;
+        public FixedV3 Normal;
         ///<summary>
         /// T parameter of the ray hit.  
         /// The ray hit location is equal to the ray origin added to the ray direction multiplied by T.

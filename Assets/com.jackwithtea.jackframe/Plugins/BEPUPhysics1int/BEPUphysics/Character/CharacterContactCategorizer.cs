@@ -127,7 +127,7 @@ namespace BEPUphysics.Character
         /// <param name="sideContacts">List to contain the side contacts found in the input contacts list.</param>
         /// <param name="headContacts">List to contain the head contacts found in the input contacts list.</param>
         /// <typeparam name="TOutputContacts">List type used to store the output character contact structs.</typeparam>
-        public void CategorizeContacts<TOutputContacts>(CollidablePairHandler pair, EntityCollidable characterCollidable, ref Vector3 downDirection, 
+        public void CategorizeContacts<TOutputContacts>(CollidablePairHandler pair, EntityCollidable characterCollidable, ref FixedV3 downDirection, 
                                                         ref TOutputContacts tractionContacts, ref TOutputContacts supportContacts, ref TOutputContacts sideContacts, ref TOutputContacts headContacts)
                                                             where TOutputContacts : IList<CharacterContact>
         {
@@ -149,16 +149,16 @@ namespace BEPUphysics.Character
                     continue;
 
                 Fixed64 dot;
-                Vector3 offset;
-                Vector3.Subtract(ref characterContact.Contact.Position, ref characterCollidable.worldTransform.Position, out offset);
-                Vector3.Dot(ref characterContact.Contact.Normal, ref offset, out dot);
+                FixedV3 offset;
+                FixedV3.Subtract(ref characterContact.Contact.Position, ref characterCollidable.worldTransform.Position, out offset);
+                FixedV3.Dot(ref characterContact.Contact.Normal, ref offset, out dot);
                 if (dot < F64.C0)
                 {
                     //The normal should face outward.
-                    Vector3.Negate(ref characterContact.Contact.Normal, out characterContact.Contact.Normal);
+                    FixedV3.Negate(ref characterContact.Contact.Normal, out characterContact.Contact.Normal);
                 }
 
-                Vector3.Dot(ref characterContact.Contact.Normal, ref downDirection, out dot);
+                FixedV3.Dot(ref characterContact.Contact.Normal, ref downDirection, out dot);
                 if (dot > SupportThreshold)
                 {
                     //It's a support.

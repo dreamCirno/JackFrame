@@ -13,12 +13,12 @@ namespace BEPUphysics.CollisionTests
         /// <summary>
         /// Offset from the center of the first object to the contact point in the object's local space.
         /// </summary>
-        public Vector3 LocalOffsetA;
+        public FixedV3 LocalOffsetA;
 
         /// <summary>
         /// Offset from the center of the second object to the contact point in the object's local space.
         /// </summary>
-        public Vector3 LocalOffsetB;
+        public FixedV3 LocalOffsetB;
         /// <summary>
         /// Original penetration depth computed at the associatd contact.
         /// </summary>

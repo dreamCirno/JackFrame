@@ -56,7 +56,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///</summary>
         ///<param name="vertices">Vertex positions of the mesh.</param>
         ///<param name="indices">Index list of the mesh.</param>
-        public StaticMesh(Vector3[] vertices, int[] indices)
+        public StaticMesh(FixedV3[] vertices, int[] indices)
         {
             base.Shape = new StaticMeshShape(vertices, indices);
             Events = new ContactEventManager<StaticMesh>();
@@ -69,7 +69,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///<param name="vertices">Vertex positions of the mesh.</param>
         ///<param name="indices">Index list of the mesh.</param>
         /// <param name="worldTransform">Transform to use to create the mesh initially.</param>
-        public StaticMesh(Vector3[] vertices, int[] indices, AffineTransform worldTransform)
+        public StaticMesh(FixedV3[] vertices, int[] indices, AffineTransform worldTransform)
         {
             base.Shape = new StaticMeshShape(vertices, indices, worldTransform);
             Events = new ContactEventManager<StaticMesh>();
@@ -177,7 +177,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit location of the ray on the entry, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             return mesh.RayCast(ray, maximumLength, sidedness, out rayHit);
         }
@@ -190,7 +190,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// <param name="sweep">Sweep to apply to the shape.</param>
         /// <param name="hit">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit)
+        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit)
         {
             hit = new RayHit();
             BoundingBox boundingBox;
@@ -203,13 +203,13 @@ namespace BEPUphysics.BroadPhaseEntries
                 for (int i = 0; i < hitElements.Count; i++)
                 {
                     mesh.Data.GetTriangle(hitElements[i], out tri.vA, out tri.vB, out tri.vC);
-                    Vector3 center;
-                    Vector3.Add(ref tri.vA, ref tri.vB, out center);
-                    Vector3.Add(ref center, ref tri.vC, out center);
-                    Vector3.Multiply(ref center, F64.OneThird, out center);
-                    Vector3.Subtract(ref tri.vA, ref center, out tri.vA);
-                    Vector3.Subtract(ref tri.vB, ref center, out tri.vB);
-                    Vector3.Subtract(ref tri.vC, ref center, out tri.vC);
+                    FixedV3 center;
+                    FixedV3.Add(ref tri.vA, ref tri.vB, out center);
+                    FixedV3.Add(ref center, ref tri.vC, out center);
+                    FixedV3.Multiply(ref center, F64.OneThird, out center);
+                    FixedV3.Subtract(ref tri.vA, ref center, out tri.vA);
+                    FixedV3.Subtract(ref tri.vB, ref center, out tri.vB);
+                    FixedV3.Subtract(ref tri.vC, ref center, out tri.vC);
                     tri.MaximumRadius = tri.vA.LengthSquared();
                     Fixed64 radius = tri.vB.LengthSquared();
                     if (tri.MaximumRadius < radius)
@@ -219,7 +219,7 @@ namespace BEPUphysics.BroadPhaseEntries
                         tri.MaximumRadius = radius;
                     tri.MaximumRadius = Fixed64.Sqrt(tri.MaximumRadius);
                     tri.collisionMargin = F64.C0;
-                    var triangleTransform = new RigidTransform {Orientation = Quaternion.Identity, Position = center};
+                    var triangleTransform = new RigidTransform {Orientation = FixedQuaternion.Identity, Position = center};
                     RayHit tempHit;
                     if (MPRToolbox.Sweep(castShape, tri, ref sweep, ref Toolbox.ZeroVector, ref startingTransform, ref triangleTransform, out tempHit) && tempHit.T < hit.T)
                     {
@@ -244,7 +244,7 @@ namespace BEPUphysics.BroadPhaseEntries
         ///<param name="sidedness">Sidedness to use when raycasting.  Doesn't have to be the same as the mesh's own sidedness.</param>
         ///<param name="rayHit">Data about the ray's intersection with the mesh, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
         {
             return mesh.RayCast(ray, maximumLength, sidedness, out rayHit);
         }

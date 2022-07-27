@@ -562,7 +562,7 @@ namespace BEPUphysics
         /// <param name="ray">Ray to test.</param>
         /// <param name="result">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, out RayCastResult result)
+        public bool RayCast(BEPURay ray, out RayCastResult result)
         {
             return RayCast(ray, Fixed64.MaxValue, out result);
         }
@@ -574,7 +574,7 @@ namespace BEPUphysics
         /// <param name="filter">Delegate to prune out hit candidates before performing a ray cast against them. Return true from the filter to process an entry or false to ignore the entry.</param>
         /// <param name="result">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
+        public bool RayCast(BEPURay ray, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
         {
             return RayCast(ray, Fixed64.MaxValue, filter, out result);
         }
@@ -586,7 +586,7 @@ namespace BEPUphysics
         /// <param name="maximumLength">Maximum length of the ray in units of the ray direction's length.</param>
         /// <param name="result">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, out RayCastResult result)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayCastResult result)
         {
             var resultsList = PhysicsResources.GetRayCastResultList();
             bool didHit = RayCast(ray, maximumLength, resultsList);
@@ -610,7 +610,7 @@ namespace BEPUphysics
         /// <param name="filter">Delegate to prune out hit candidates before performing a ray cast against them. Return true from the filter to process an entry or false to ignore the entry.</param>
         /// <param name="result">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
         {
             var resultsList = PhysicsResources.GetRayCastResultList();
             bool didHit = RayCast(ray, maximumLength, filter, resultsList);
@@ -633,7 +633,7 @@ namespace BEPUphysics
         /// <param name="maximumLength">Maximum length of the ray in units of the ray direction's length.</param>
         /// <param name="outputRayCastResults">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, IList<RayCastResult> outputRayCastResults)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, IList<RayCastResult> outputRayCastResults)
         {
             var outputIntersections = PhysicsResources.GetBroadPhaseEntryList();
             if (BroadPhase.QueryAccelerator.RayCast(ray, maximumLength, outputIntersections))
@@ -661,7 +661,7 @@ namespace BEPUphysics
         /// <param name="filter">Delegate to prune out hit candidates before performing a cast against them. Return true from the filter to process an entry or false to ignore the entry.</param>
         /// <param name="outputRayCastResults">Hit data of the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, IList<RayCastResult> outputRayCastResults)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, IList<RayCastResult> outputRayCastResults)
         {
             var outputIntersections = PhysicsResources.GetBroadPhaseEntryList();
             if (BroadPhase.QueryAccelerator.RayCast(ray, maximumLength, outputIntersections))
@@ -690,7 +690,7 @@ namespace BEPUphysics
         /// <param name="sweep">Sweep to apply to the shape. Avoid extremely long convex casts for better stability and performance.</param>
         /// <param name="castResult">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayCastResult castResult)
+        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayCastResult castResult)
         {
             var castResults = PhysicsResources.GetRayCastResultList();
             bool didHit = ConvexCast(castShape, ref startingTransform, ref sweep, castResults);
@@ -715,7 +715,7 @@ namespace BEPUphysics
         /// <param name="filter">Delegate to prune out hit candidates before performing a cast against them. Return true from the filter to process an entry or false to ignore the entry.</param>
         /// <param name="castResult">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, out RayCastResult castResult)
+        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, out RayCastResult castResult)
         {
             var castResults = PhysicsResources.GetRayCastResultList();
             bool didHit = ConvexCast(castShape, ref startingTransform, ref sweep, filter, castResults);
@@ -739,7 +739,7 @@ namespace BEPUphysics
         /// <param name="sweep">Sweep to apply to the shape. Avoid extremely long convex casts for better stability and performance.</param>
         /// <param name="outputCastResults">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, IList<RayCastResult> outputCastResults)
+        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, IList<RayCastResult> outputCastResults)
         {
             var overlappedElements = PhysicsResources.GetBroadPhaseEntryList();
             BoundingBox boundingBox;
@@ -768,7 +768,7 @@ namespace BEPUphysics
         /// <param name="filter">Delegate to prune out hit candidates before performing a cast against them. Return true from the filter to process an entry or false to ignore the entry.</param>
         /// <param name="outputCastResults">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, IList<RayCastResult> outputCastResults)
+        public bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, IList<RayCastResult> outputCastResults)
         {
             var overlappedElements = PhysicsResources.GetBroadPhaseEntryList();
             BoundingBox boundingBox;

@@ -30,7 +30,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         }
 
 
-        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit)
+        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit)
         {
             return MPRToolbox.Sweep(castShape, Shape, ref sweep, ref Toolbox.ZeroVector, ref startingTransform, ref worldTransform, out hit);
         }
@@ -72,7 +72,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit location of the ray on the entry, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             return Shape.RayTest(ref ray, ref worldTransform, maximumLength, out rayHit);
         }

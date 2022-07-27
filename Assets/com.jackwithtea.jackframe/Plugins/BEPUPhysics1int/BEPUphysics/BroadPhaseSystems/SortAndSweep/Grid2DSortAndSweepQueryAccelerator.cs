@@ -27,12 +27,12 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
             }
         }
 
-        public bool RayCast(Ray ray, IList<BroadPhaseEntry> outputIntersections)
+        public bool RayCast(BEPURay ray, IList<BroadPhaseEntry> outputIntersections)
         {
             throw new NotSupportedException("The Grid2DSortAndSweep broad phase cannot accelerate infinite ray casts.  Consider using a broad phase which supports infinite tests, using a custom solution, or using a finite ray.");
         }
 
-        public bool RayCast(Ray ray, Fixed64 maximumLength, IList<BroadPhaseEntry> outputIntersections)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, IList<BroadPhaseEntry> outputIntersections)
         {
             if (maximumLength == Fixed64.MaxValue) 
                 throw new NotSupportedException("The Grid2DSortAndSweep broad phase cannot accelerate infinite ray casts.  Consider specifying a maximum length or using a broad phase which supports infinite ray casts.");
@@ -42,7 +42,7 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
             //Test against each bounding box up until the exit value is reached.
             Fixed64 length = F64.C0;
             Int2 cellIndex;
-            Vector3 currentPosition = ray.Position;
+            FixedV3 currentPosition = ray.Position;
             Grid2DSortAndSweep.ComputeCell(ref currentPosition, out cellIndex);
             while (true)
             {
@@ -100,9 +100,9 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
                 length += nextT;
                 if (length > maximumLength) //Note that this catches the case in which the ray is pointing right down the middle of a row (resulting in a nextT of 10e10f).
                     break;
-                Vector3 offset;
-                Vector3.Multiply(ref ray.Direction, nextT, out offset);
-                Vector3.Add(ref offset, ref currentPosition, out currentPosition);
+                FixedV3 offset;
+                FixedV3.Multiply(ref ray.Direction, nextT, out offset);
+                FixedV3.Add(ref offset, ref currentPosition, out currentPosition);
                 if (yIsMinimum)
                     if (ray.Direction.Y < F64.C0)
                         cellIndex.Y -= 1;
@@ -164,7 +164,7 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
             //Compute the min and max of the bounding box.
             //Loop through the cells and select bounding boxes which overlap the x axis.
 #if !WINDOWS
-            Vector3 offset = new Vector3();
+            FixedV3 offset = new FixedV3();
 #else
             Vector3 offset;
 #endif
@@ -172,8 +172,8 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
             offset.Y = offset.X;
             offset.Z = offset.Y;
             BoundingBox box;
-            Vector3.Add(ref boundingShape.Center, ref offset, out box.Max);
-            Vector3.Subtract(ref boundingShape.Center, ref offset, out box.Min);
+            FixedV3.Add(ref boundingShape.Center, ref offset, out box.Max);
+            FixedV3.Subtract(ref boundingShape.Center, ref offset, out box.Min);
 
             Int2 min, max;
             Grid2DSortAndSweep.ComputeCell(ref box.Min, out min);

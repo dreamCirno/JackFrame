@@ -134,8 +134,8 @@ namespace BEPUphysics.EntityStateManagement
             //Interpolated updates occur after proper updates complete.
             //That means that the internal positions and the front buffer positions are equivalent.
             //However, the backbuffer is uncontested and contains the previous frame's data.
-            Vector3.Lerp(ref manager.ReadBuffers.backBuffer[i].Position, ref entity.position, blendAmount, out backBuffer[i].Position);
-            Quaternion.Slerp(ref manager.ReadBuffers.backBuffer[i].Orientation, ref entity.orientation, blendAmount, out backBuffer[i].Orientation);
+            FixedV3.Lerp(ref manager.ReadBuffers.backBuffer[i].Position, ref entity.position, blendAmount, out backBuffer[i].Position);
+            FixedQuaternion.Slerp(ref manager.ReadBuffers.backBuffer[i].Orientation, ref entity.orientation, blendAmount, out backBuffer[i].Orientation);
         }
 
 

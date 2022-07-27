@@ -79,22 +79,22 @@ namespace BEPUphysics.CollisionTests.Manifolds
             //TODO: this could be quicker and cleaner.
             localTriangleShape.collisionMargin = triangle.Shape.collisionMargin;
             localTriangleShape.sidedness = triangle.Shape.sidedness;
-            Matrix3x3 orientation;
-            Matrix3x3.CreateFromQuaternion(ref triangle.worldTransform.Orientation, out orientation);
-            Matrix3x3.Transform(ref triangle.Shape.vA, ref orientation, out localTriangleShape.vA);
-            Matrix3x3.Transform(ref triangle.Shape.vB, ref orientation, out localTriangleShape.vB);
-            Matrix3x3.Transform(ref triangle.Shape.vC, ref orientation, out localTriangleShape.vC);
-            Vector3.Add(ref localTriangleShape.vA, ref triangle.worldTransform.Position, out localTriangleShape.vA);
-            Vector3.Add(ref localTriangleShape.vB, ref triangle.worldTransform.Position, out localTriangleShape.vB);
-            Vector3.Add(ref localTriangleShape.vC, ref triangle.worldTransform.Position, out localTriangleShape.vC);
+            BEPUMatrix3x3 orientation;
+            BEPUMatrix3x3.CreateFromQuaternion(ref triangle.worldTransform.Orientation, out orientation);
+            BEPUMatrix3x3.Transform(ref triangle.Shape.vA, ref orientation, out localTriangleShape.vA);
+            BEPUMatrix3x3.Transform(ref triangle.Shape.vB, ref orientation, out localTriangleShape.vB);
+            BEPUMatrix3x3.Transform(ref triangle.Shape.vC, ref orientation, out localTriangleShape.vC);
+            FixedV3.Add(ref localTriangleShape.vA, ref triangle.worldTransform.Position, out localTriangleShape.vA);
+            FixedV3.Add(ref localTriangleShape.vB, ref triangle.worldTransform.Position, out localTriangleShape.vB);
+            FixedV3.Add(ref localTriangleShape.vC, ref triangle.worldTransform.Position, out localTriangleShape.vC);
 
-            Vector3.Subtract(ref localTriangleShape.vA, ref convex.worldTransform.Position, out localTriangleShape.vA);
-            Vector3.Subtract(ref localTriangleShape.vB, ref convex.worldTransform.Position, out localTriangleShape.vB);
-            Vector3.Subtract(ref localTriangleShape.vC, ref convex.worldTransform.Position, out localTriangleShape.vC);
-            Matrix3x3.CreateFromQuaternion(ref convex.worldTransform.Orientation, out orientation);
-            Matrix3x3.TransformTranspose(ref localTriangleShape.vA, ref orientation, out localTriangleShape.vA);
-            Matrix3x3.TransformTranspose(ref localTriangleShape.vB, ref orientation, out localTriangleShape.vB);
-            Matrix3x3.TransformTranspose(ref localTriangleShape.vC, ref orientation, out localTriangleShape.vC);
+            FixedV3.Subtract(ref localTriangleShape.vA, ref convex.worldTransform.Position, out localTriangleShape.vA);
+            FixedV3.Subtract(ref localTriangleShape.vB, ref convex.worldTransform.Position, out localTriangleShape.vB);
+            FixedV3.Subtract(ref localTriangleShape.vC, ref convex.worldTransform.Position, out localTriangleShape.vC);
+            BEPUMatrix3x3.CreateFromQuaternion(ref convex.worldTransform.Orientation, out orientation);
+            BEPUMatrix3x3.TransformTranspose(ref localTriangleShape.vA, ref orientation, out localTriangleShape.vA);
+            BEPUMatrix3x3.TransformTranspose(ref localTriangleShape.vB, ref orientation, out localTriangleShape.vB);
+            BEPUMatrix3x3.TransformTranspose(ref localTriangleShape.vC, ref orientation, out localTriangleShape.vC);
 
             //Now, generate a contact between the two shapes.
             ContactData contact;
@@ -105,9 +105,9 @@ namespace BEPUphysics.CollisionTests.Manifolds
                 {
                     contactList.Get(i, out contact);
                     //Put the contact into world space.
-                    Matrix3x3.Transform(ref contact.Position, ref orientation, out contact.Position);
-                    Vector3.Add(ref contact.Position, ref convex.worldTransform.Position, out contact.Position);
-                    Matrix3x3.Transform(ref contact.Normal, ref orientation, out contact.Normal);
+                    BEPUMatrix3x3.Transform(ref contact.Position, ref orientation, out contact.Position);
+                    FixedV3.Add(ref contact.Position, ref convex.worldTransform.Position, out contact.Position);
+                    BEPUMatrix3x3.Transform(ref contact.Normal, ref orientation, out contact.Normal);
                     //Check if the contact is unique before proceeding.
                     if (IsContactUnique(ref contact))
                     {
@@ -162,7 +162,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
             Fixed64 distanceSquared;
             for (int i = 0; i < contacts.Count; i++)
             {
-                Vector3.DistanceSquared(ref contacts.Elements[i].Position, ref contactCandidate.Position, out distanceSquared);
+                FixedV3.DistanceSquared(ref contacts.Elements[i].Position, ref contactCandidate.Position, out distanceSquared);
                 if (distanceSquared < CollisionDetectionSettings.ContactMinimumSeparationDistanceSquared)
                 {
                     //Update the existing 'redundant' contact with the new information.

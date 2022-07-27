@@ -126,7 +126,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             Fixed64 lengthSquared = length * length;
 			Fixed64 inv12 = F64.OneTwelfth;
 
-            description.EntityShapeVolume.VolumeDistribution = new Matrix3x3();
+            description.EntityShapeVolume.VolumeDistribution = new BEPUMatrix3x3();
             description.EntityShapeVolume.VolumeDistribution.M11 = (heightSquared + lengthSquared) * inv12;
             description.EntityShapeVolume.VolumeDistribution.M22 = (widthSquared + lengthSquared) * inv12;
             description.EntityShapeVolume.VolumeDistribution.M33 = (widthSquared + heightSquared) * inv12;
@@ -153,24 +153,24 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             boundingBox = new BoundingBox();
 #endif
 
-            Matrix3x3 o;
-            Matrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
+            BEPUMatrix3x3 o;
+            BEPUMatrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
             //Sample the local directions from the orientation matrix, implicitly transposed.
             //Notice only three directions are used.  Due to box symmetry, 'left' is just -right.
-            var right = new Vector3(Fixed64.Sign(o.M11) * halfWidth, Fixed64.Sign(o.M21) * halfHeight, Fixed64.Sign(o.M31) * halfLength);
+            var right = new FixedV3(Fixed64.Sign(o.M11) * halfWidth, Fixed64.Sign(o.M21) * halfHeight, Fixed64.Sign(o.M31) * halfLength);
 
-            var up = new Vector3(Fixed64.Sign(o.M12) * halfWidth, Fixed64.Sign(o.M22) * halfHeight, Fixed64.Sign(o.M32) * halfLength);
+            var up = new FixedV3(Fixed64.Sign(o.M12) * halfWidth, Fixed64.Sign(o.M22) * halfHeight, Fixed64.Sign(o.M32) * halfLength);
 
-            var backward = new Vector3(Fixed64.Sign(o.M13) * halfWidth, Fixed64.Sign(o.M23) * halfHeight, Fixed64.Sign(o.M33) * halfLength);
+            var backward = new FixedV3(Fixed64.Sign(o.M13) * halfWidth, Fixed64.Sign(o.M23) * halfHeight, Fixed64.Sign(o.M33) * halfLength);
 
 
             //Rather than transforming each axis independently (and doing three times as many operations as required), just get the 3 required values directly.
-            Vector3 offset;
+            FixedV3 offset;
             TransformLocalExtremePoints(ref right, ref up, ref backward, ref o, out offset);
 
             //The positive and negative vectors represent the X, Y and Z coordinates of the extreme points in world space along the world space axes.
-            Vector3.Add(ref shapeTransform.Position, ref offset, out boundingBox.Max);
-            Vector3.Subtract(ref shapeTransform.Position, ref offset, out boundingBox.Min);
+            FixedV3.Add(ref shapeTransform.Position, ref offset, out boundingBox.Max);
+            FixedV3.Subtract(ref shapeTransform.Position, ref offset, out boundingBox.Min);
 
         }
 
@@ -180,9 +180,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
-            extremePoint = new Vector3(Fixed64.Sign(direction.X) * (halfWidth - collisionMargin), Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), Fixed64.Sign(direction.Z) * (halfLength - collisionMargin));
+            extremePoint = new FixedV3(Fixed64.Sign(direction.X) * (halfWidth - collisionMargin), Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), Fixed64.Sign(direction.Z) * (halfLength - collisionMargin));
         }
 
 
@@ -196,18 +196,18 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="maximumLength">Maximum distance to travel in units of the direction vector's length.</param>
         /// <param name="hit">Hit data for the raycast, if any.</param>
         /// <returns>Whether or not the ray hit the target.</returns>
-        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
+        public override bool RayTest(ref BEPURay ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
         {
             hit = new RayHit();
 
-            Quaternion conjugate;
-            Quaternion.Conjugate(ref transform.Orientation, out conjugate);
-            Vector3 localOrigin;
-            Vector3.Subtract(ref ray.Position, ref transform.Position, out localOrigin);
-            Quaternion.Transform(ref localOrigin, ref conjugate, out localOrigin);
-            Vector3 localDirection;
-            Quaternion.Transform(ref ray.Direction, ref conjugate, out localDirection);
-            Vector3 normal = Toolbox.ZeroVector;
+            FixedQuaternion conjugate;
+            FixedQuaternion.Conjugate(ref transform.Orientation, out conjugate);
+            FixedV3 localOrigin;
+            FixedV3.Subtract(ref ray.Position, ref transform.Position, out localOrigin);
+            FixedQuaternion.Transform(ref localOrigin, ref conjugate, out localOrigin);
+            FixedV3 localDirection;
+            FixedQuaternion.Transform(ref ray.Direction, ref conjugate, out localDirection);
+            FixedV3 normal = Toolbox.ZeroVector;
             Fixed64 temp, tmin = F64.C0, tmax = maximumLength;
 
             if (Fixed64.Abs(localDirection.X) < Toolbox.Epsilon && (localOrigin.X < -halfWidth || localOrigin.X > halfWidth))
@@ -216,7 +216,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
 			// inverseDirection might be Infinity (Fix64.MaxValue), so use SafeMul here to handle overflow
             Fixed64 t1 = Fixed64.SafeMul((-halfWidth - localOrigin.X), inverseDirection);
             Fixed64 t2 = Fixed64.SafeMul((halfWidth - localOrigin.X), inverseDirection);
-            var tempNormal = new Vector3(-1, F64.C0, F64.C0);
+            var tempNormal = new FixedV3(-1, F64.C0, F64.C0);
             if (t1 > t2)
             {
                 temp = t1;
@@ -236,7 +236,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             inverseDirection = F64.C1 / localDirection.Y;
             t1 = Fixed64.SafeMul((-halfHeight - localOrigin.Y), inverseDirection);
             t2 = Fixed64.SafeMul((halfHeight - localOrigin.Y), inverseDirection);
-            tempNormal = new Vector3(F64.C0, -1, F64.C0);
+            tempNormal = new FixedV3(F64.C0, -1, F64.C0);
             if (t1 > t2)
             {
                 temp = t1;
@@ -256,7 +256,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             inverseDirection = F64.C1 / localDirection.Z;
             t1 = Fixed64.SafeMul((-halfLength - localOrigin.Z), inverseDirection);
             t2 = Fixed64.SafeMul((halfLength - localOrigin.Z), inverseDirection);
-            tempNormal = new Vector3(F64.C0, F64.C0, -1);
+            tempNormal = new FixedV3(F64.C0, F64.C0, -1);
             if (t1 > t2)
             {
                 temp = t1;
@@ -272,9 +272,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             if (tmin > tmax)
                 return false;
             hit.T = tmin;
-            Vector3.Multiply(ref ray.Direction, tmin, out hit.Location);
-            Vector3.Add(ref hit.Location, ref ray.Position, out hit.Location);
-            Quaternion.Transform(ref normal, ref transform.Orientation, out normal);
+            FixedV3.Multiply(ref ray.Direction, tmin, out hit.Location);
+            FixedV3.Add(ref hit.Location, ref ray.Position, out hit.Location);
+            FixedQuaternion.Transform(ref normal, ref transform.Orientation, out normal);
             hit.Normal = normal;
             return true;
         }

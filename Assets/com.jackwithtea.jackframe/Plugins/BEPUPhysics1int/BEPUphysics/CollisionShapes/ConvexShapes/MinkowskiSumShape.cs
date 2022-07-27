@@ -21,14 +21,14 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<summary>
         /// The entry's orientation.
         ///</summary>
-        public Quaternion Orientation;
+        public FixedQuaternion Orientation;
 
         ///<summary>
         /// Constructs a new entry.
         ///</summary>
         ///<param name="orientation">Orientation of the entry.</param>
         ///<param name="shape">Shape of the entry.</param>
-        public OrientedConvexShapeEntry(Quaternion orientation, ConvexShape shape)
+        public OrientedConvexShapeEntry(FixedQuaternion orientation, ConvexShape shape)
         {
             Orientation = orientation;
             CollisionShape = shape;
@@ -40,7 +40,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="shape">Shape of the entry.</param>
         public OrientedConvexShapeEntry(ConvexShape shape)
         {
-            Orientation = Quaternion.Identity;
+            Orientation = FixedQuaternion.Identity;
             CollisionShape = shape;
         }
     }
@@ -64,12 +64,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         }
 
         //Local offset is needed to ensure that the minkowski sum is centered on the local origin.
-        Vector3 localOffset;
+        FixedV3 localOffset;
         ///<summary>
         /// Gets the local offset of the elements in the minkowski sum.
         /// This is required because convex shapes need to be centered on their local origin.
         ///</summary>
-        public Vector3 LocalOffset
+        public FixedV3 LocalOffset
         {
             get
             {
@@ -101,7 +101,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="firstShape">First entry in the sum.</param>
         /// <param name="secondShape">Second entry in the sum.</param>
         /// <param name="center">Center of the minkowski sum computed pre-recentering.</param>
-        public MinkowskiSumShape(OrientedConvexShapeEntry firstShape, OrientedConvexShapeEntry secondShape, out Vector3 center)
+        public MinkowskiSumShape(OrientedConvexShapeEntry firstShape, OrientedConvexShapeEntry secondShape, out FixedV3 center)
             : this(firstShape, secondShape)
         {
             center = -localOffset;
@@ -130,7 +130,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// </summary>
         /// <param name="shapeEntries">Entries composing the minkowski sum.</param>
         /// <param name="center">Center of the minkowski sum computed pre-recentering.</param>
-        public MinkowskiSumShape(IList<OrientedConvexShapeEntry> shapeEntries, out Vector3 center)
+        public MinkowskiSumShape(IList<OrientedConvexShapeEntry> shapeEntries, out FixedV3 center)
             : this(shapeEntries)
         {
             center = -localOffset;
@@ -141,7 +141,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="shapeEntries">Entries composing the minkowski sum.</param>
         /// <param name="localOffset">Local offset of the elements in the minkowski sum.</param>
         /// <param name="description">Cached information about the shape. Assumed to be correct; no extra processing or validation is performed.</param>
-        public MinkowskiSumShape(IList<OrientedConvexShapeEntry> shapeEntries, Vector3 localOffset, ConvexShapeDescription description)
+        public MinkowskiSumShape(IList<OrientedConvexShapeEntry> shapeEntries, FixedV3 localOffset, ConvexShapeDescription description)
         {
             for (int i = 0; i < shapeEntries.Count; i++)
             {
@@ -186,7 +186,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             ConvexHullHelper.GetConvexHull(samples, triangles);
 
             Fixed64 volume;
-            Vector3 center;
+            FixedV3 center;
             InertiaHelper.ComputeShapeDistribution(samples, triangles, out center, out volume, out volumeDistribution);
             Volume = volume;
 
@@ -217,18 +217,18 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
             var transform = new RigidTransform { Orientation = shapes.WrappedList.Elements[0].Orientation };
             shapes.WrappedList.Elements[0].CollisionShape.GetExtremePoint(direction, ref transform, out extremePoint);
             for (int i = 1; i < shapes.WrappedList.Count; i++)
             {
-                Vector3 temp;
+                FixedV3 temp;
                 transform.Orientation = shapes.WrappedList.Elements[i].Orientation;
                 shapes.WrappedList.Elements[i].CollisionShape.GetExtremePoint(direction, ref transform, out temp);
-                Vector3.Add(ref extremePoint, ref temp, out extremePoint);
+                FixedV3.Add(ref extremePoint, ref temp, out extremePoint);
             }
-            Vector3.Add(ref extremePoint, ref localOffset, out extremePoint);
+            FixedV3.Add(ref extremePoint, ref localOffset, out extremePoint);
         }
 
 

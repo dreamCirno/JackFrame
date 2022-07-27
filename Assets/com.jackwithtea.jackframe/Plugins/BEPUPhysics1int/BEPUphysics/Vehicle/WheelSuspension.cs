@@ -25,15 +25,15 @@ namespace BEPUphysics.Vehicle
         private Fixed64 linearAX, linearAY, linearAZ;
         private Fixed64 allowedCompression = (Fixed64).01m;
         internal Fixed64 currentLength;
-        internal Vector3 localAttachmentPoint;
-        internal Vector3 localDirection;
+        internal FixedV3 localAttachmentPoint;
+        internal FixedV3 localDirection;
         private Fixed64 maximumSpringCorrectionSpeed = Fixed64.MaxValue;
         private Fixed64 maximumSpringForce = Fixed64.MaxValue;
         internal Fixed64 restLength;
         internal SolverSettings solverSettings = new SolverSettings();
         private Wheel wheel;
-        internal Vector3 worldAttachmentPoint;
-        internal Vector3 worldDirection;
+        internal FixedV3 worldAttachmentPoint;
+        internal FixedV3 worldDirection;
         internal int numIterationsAtZeroImpulse;
         private Entity vehicleEntity, supportEntity;
         private Fixed64 softness;
@@ -50,7 +50,7 @@ namespace BEPUphysics.Vehicle
         /// <param name="localDirection">Direction of the suspension in the vehicle's local space.  For a normal, straight down suspension, this would be (0, -1, 0).</param>
         /// <param name="restLength">Length of the suspension when uncompressed.</param>
         /// <param name="localAttachmentPoint">Place where the suspension hooks up to the body of the vehicle.</param>
-        public WheelSuspension(Fixed64 stiffnessConstant, Fixed64 dampingConstant, Vector3 localDirection, Fixed64 restLength, Vector3 localAttachmentPoint)
+        public WheelSuspension(Fixed64 stiffnessConstant, Fixed64 dampingConstant, FixedV3 localDirection, Fixed64 restLength, FixedV3 localAttachmentPoint)
         {
             SpringSettings.Stiffness = stiffnessConstant;
             SpringSettings.Damping = dampingConstant;
@@ -86,7 +86,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets or sets the attachment point of the suspension to the vehicle body in the body's local space.
         /// </summary>
-        public Vector3 LocalAttachmentPoint
+        public FixedV3 LocalAttachmentPoint
         {
             get { return localAttachmentPoint; }
             set
@@ -156,7 +156,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets or sets the attachment point of the suspension to the vehicle body in world space.
         /// </summary>
-        public Vector3 WorldAttachmentPoint
+        public FixedV3 WorldAttachmentPoint
         {
             get { return worldAttachmentPoint; }
             set
@@ -175,16 +175,16 @@ namespace BEPUphysics.Vehicle
         /// Gets or sets the direction of the wheel suspension in the local space of the vehicle body.
         /// A normal, straight suspension would be (0,-1,0).
         /// </summary>
-        public Vector3 LocalDirection
+        public FixedV3 LocalDirection
         {
             get { return localDirection; }
             set
             {
-                localDirection = Vector3.Normalize(value);
+                localDirection = FixedV3.Normalize(value);
                 if (wheel != null)
                     wheel.shape.Initialize();
                 if (wheel != null && wheel.vehicle != null)
-                    Matrix3x3.Transform(ref localDirection, ref wheel.vehicle.Body.orientationMatrix, out worldDirection);
+                    BEPUMatrix3x3.Transform(ref localDirection, ref wheel.vehicle.Body.orientationMatrix, out worldDirection);
                 else
                     worldDirection = localDirection;
             }
@@ -193,16 +193,16 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets or sets the direction of the wheel suspension in the world space of the vehicle body.
         /// </summary>
-        public Vector3 WorldDirection
+        public FixedV3 WorldDirection
         {
             get { return worldDirection; }
             set
             {
-                worldDirection = Vector3.Normalize(value);
+                worldDirection = FixedV3.Normalize(value);
                 if (wheel != null)
                     wheel.shape.Initialize();
                 if (wheel != null && wheel.vehicle != null)
-                    Matrix3x3.TransformTranspose(ref worldDirection, ref wheel.Vehicle.Body.orientationMatrix, out localDirection);
+                    BEPUMatrix3x3.TransformTranspose(ref worldDirection, ref wheel.Vehicle.Body.orientationMatrix, out localDirection);
                 else
                     localDirection = worldDirection;
             }
@@ -265,8 +265,8 @@ namespace BEPUphysics.Vehicle
 
             //Apply the impulse
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif
@@ -300,7 +300,7 @@ namespace BEPUphysics.Vehicle
         {
             //Transform local space vectors to world space.
             RigidTransform.Transform(ref localAttachmentPoint, ref wheel.vehicle.Body.CollisionInformation.worldTransform, out worldAttachmentPoint);
-            Matrix3x3.Transform(ref localDirection, ref wheel.vehicle.Body.orientationMatrix, out worldDirection);
+            BEPUMatrix3x3.Transform(ref localDirection, ref wheel.vehicle.Body.orientationMatrix, out worldDirection);
         }
 
         internal void OnAdditionToVehicle()
@@ -380,8 +380,8 @@ namespace BEPUphysics.Vehicle
         {
             //Warm starting
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif

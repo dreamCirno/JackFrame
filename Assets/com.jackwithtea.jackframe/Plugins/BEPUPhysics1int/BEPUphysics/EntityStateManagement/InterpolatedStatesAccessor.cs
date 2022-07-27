@@ -30,7 +30,7 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Gets the interpolated position of the entity.
         ///</summary>
-        public Vector3 Position
+        public FixedV3 Position
         {
             get
             {
@@ -43,7 +43,7 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Gets the interpolated orientation of the entity.
         ///</summary>
-        public Quaternion Orientation
+        public FixedQuaternion Orientation
         {
             get
             {
@@ -56,18 +56,18 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Gets the interpolated orientation matrix of the entity.
         ///</summary>
-        public Matrix3x3 OrientationMatrix
+        public BEPUMatrix3x3 OrientationMatrix
         {
             get
             {
-                Matrix3x3 toReturn;
+                BEPUMatrix3x3 toReturn;
                 if (IsBufferAccessible())
                 {
-                    Quaternion o = bufferedStates.BufferedStatesManager.InterpolatedStates.GetState(bufferedStates.motionStateIndex).Orientation;
-                    Matrix3x3.CreateFromQuaternion(ref o, out toReturn);
+                    FixedQuaternion o = bufferedStates.BufferedStatesManager.InterpolatedStates.GetState(bufferedStates.motionStateIndex).Orientation;
+                    BEPUMatrix3x3.CreateFromQuaternion(ref o, out toReturn);
                 }
                 else
-                    Matrix3x3.CreateFromQuaternion(ref bufferedStates.Entity.orientation, out toReturn);
+                    BEPUMatrix3x3.CreateFromQuaternion(ref bufferedStates.Entity.orientation, out toReturn);
                 return toReturn;
             }
         }
@@ -75,7 +75,7 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Gets the interpolated world transform of the entity.
         ///</summary>
-        public Matrix WorldTransform
+        public BEPUMatrix WorldTransform
         {
             get
             {

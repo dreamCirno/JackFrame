@@ -45,7 +45,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="position">Position of the sphere.</param>
         /// <param name="radius">Radius of the sphere.</param>
         /// <param name="mass">Mass of the object.</param>
-        public Sphere(Vector3 position, Fixed64 radius, Fixed64 mass)
+        public Sphere(FixedV3 position, Fixed64 radius, Fixed64 mass)
             : this(radius, mass)
         {
             Position = position;
@@ -56,7 +56,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// </summary>
         /// <param name="position">Position of the sphere.</param>
         /// <param name="radius">Radius of the sphere.</param>
-        public Sphere(Vector3 position, Fixed64 radius)
+        public Sphere(FixedV3 position, Fixed64 radius)
             : this(radius)
         {
             Position = position;

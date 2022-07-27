@@ -22,13 +22,13 @@ namespace BEPUphysics.CollisionShapes
         /// </summary>
         public Fixed64 Volume { get; internal set; }
 
-        internal Matrix3x3 volumeDistribution;
+        internal BEPUMatrix3x3 volumeDistribution;
         /// <summary>
         /// Gets the volume distribution of the shape.
         /// This can be considered the unscaled inertia tensor of the shape.
         /// By default, entities scale this distribution by Mass * InertiaHelper.InertiaTensorScale to compute their local inertia tensor.
         /// </summary>
-        public Matrix3x3 VolumeDistribution
+        public BEPUMatrix3x3 VolumeDistribution
         {
             get { return volumeDistribution; }
         }
@@ -56,7 +56,7 @@ namespace BEPUphysics.CollisionShapes
         /// <param name="z">Local extreme point along the world Z axis.</param>
         /// <param name="transform">World transform.</param>
         /// <param name="result">Contains the transformed X coordinate of input X, transformed Y coordinate of input Y, and transformed Z coordinate of input Z.</param>
-        protected void TransformLocalExtremePoints(ref Vector3 x, ref Vector3 y, ref Vector3 z, ref Matrix3x3 transform, out Vector3 result)
+        protected void TransformLocalExtremePoints(ref FixedV3 x, ref FixedV3 y, ref FixedV3 z, ref BEPUMatrix3x3 transform, out FixedV3 result)
         {
             result.X = x.X * transform.M11 + x.Y * transform.M21 + x.Z * transform.M31;
             result.Y = y.X * transform.M12 + y.Y * transform.M22 + y.Z * transform.M32;

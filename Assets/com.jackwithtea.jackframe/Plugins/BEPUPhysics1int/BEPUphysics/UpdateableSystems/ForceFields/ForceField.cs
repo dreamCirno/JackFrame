@@ -113,7 +113,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
         /// <param name="e">Affected entity.</param>
         /// <param name="dt">Duration between simulation updates.</param>
         /// <param name="impulse">Impulse to apply to the entity.</param>
-        protected abstract void CalculateImpulse(Entity e, Fixed64 dt, out Vector3 impulse);
+        protected abstract void CalculateImpulse(Entity e, Fixed64 dt, out FixedV3 impulse);
 
         private void CalculateImpulsesSubfunction(int index)
         {
@@ -122,7 +122,7 @@ namespace BEPUphysics.UpdateableSystems.ForceFields
             {
                 if (ForceWakeUp)
                     e.activityInformation.Activate();
-                Vector3 impulse;
+                FixedV3 impulse;
                 CalculateImpulse(e, currentTimestep, out impulse);
                 e.ApplyLinearImpulse(ref impulse);
             }

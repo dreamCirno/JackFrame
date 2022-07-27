@@ -12,32 +12,32 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Position of an entity.
         ///</summary>
-        public Vector3 Position;
+        public FixedV3 Position;
         ///<summary>
         /// Orientation of an entity.
         ///</summary>
-        public Quaternion Orientation;
+        public FixedQuaternion Orientation;
         ///<summary>
         /// Orientation matrix of an entity.
         ///</summary>
-        public Matrix OrientationMatrix
+        public BEPUMatrix OrientationMatrix
         {
             get
             {
-                Matrix toReturn;
-                Matrix.CreateFromQuaternion(ref Orientation, out toReturn);
+                BEPUMatrix toReturn;
+                BEPUMatrix.CreateFromQuaternion(ref Orientation, out toReturn);
                 return toReturn;
             }
         }
         ///<summary>
         /// World transform of an entity.
         ///</summary>
-        public Matrix WorldTransform
+        public BEPUMatrix WorldTransform
         {
             get
             {
-                Matrix toReturn;
-                Matrix.CreateFromQuaternion(ref Orientation, out toReturn);
+                BEPUMatrix toReturn;
+                BEPUMatrix.CreateFromQuaternion(ref Orientation, out toReturn);
                 toReturn.Translation = Position;
                 return toReturn;
             }
@@ -45,11 +45,11 @@ namespace BEPUphysics.EntityStateManagement
         ///<summary>
         /// Linear velocity of an entity.
         ///</summary>
-        public Vector3 LinearVelocity;
+        public FixedV3 LinearVelocity;
         ///<summary>
         /// Angular velocity of an entity.
         ///</summary>
-        public Vector3 AngularVelocity;
+        public FixedV3 AngularVelocity;
 
 
         public bool Equals(MotionState other)

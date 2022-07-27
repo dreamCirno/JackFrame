@@ -54,7 +54,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         {
             ConvexShapeDescription description;
             description.EntityShapeVolume.Volume = F64.FourThirds * MathHelper.Pi * radius * radius * radius;
-            description.EntityShapeVolume.VolumeDistribution = new Matrix3x3();
+            description.EntityShapeVolume.VolumeDistribution = new BEPUMatrix3x3();
             Fixed64 diagValue = ((F64.TwoFifths) * radius * radius);
             description.EntityShapeVolume.VolumeDistribution.M11 = diagValue;
             description.EntityShapeVolume.VolumeDistribution.M22 = diagValue;
@@ -93,7 +93,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
             extremePoint = Toolbox.ZeroVector;
         }
@@ -107,7 +107,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="maximumLength">Maximum distance to travel in units of the ray direction's length.</param>
         /// <param name="hit">Ray hit data, if any.</param>
         /// <returns>Whether or not the ray hit the target.</returns>
-        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
+        public override bool RayTest(ref BEPURay ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
         {
             return Toolbox.RayCastSphere(ref ray, ref transform.Position, collisionMargin, maximumLength, out hit);
         }

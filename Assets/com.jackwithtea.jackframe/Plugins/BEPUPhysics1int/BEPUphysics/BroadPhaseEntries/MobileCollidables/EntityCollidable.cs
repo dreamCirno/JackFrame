@@ -82,11 +82,11 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             set
             {
                 //Remove the local position.  The UpdateBoundingBoxForTransform will reintroduce it; we want the final result to put the shape (i.e. the WorldTransform) right where defined.
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref value.Orientation, out conjugate);
-                Vector3 worldOffset;
-                Quaternion.Transform(ref localPosition, ref conjugate, out worldOffset);
-                Vector3.Subtract(ref value.Position, ref worldOffset, out value.Position);
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref value.Orientation, out conjugate);
+                FixedV3 worldOffset;
+                FixedQuaternion.Transform(ref localPosition, ref conjugate, out worldOffset);
+                FixedV3.Subtract(ref value.Position, ref worldOffset, out value.Position);
                 UpdateBoundingBoxForTransform(ref value);
             }
         }
@@ -102,13 +102,13 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             }
         }
 
-        protected internal Vector3 localPosition;
+        protected internal FixedV3 localPosition;
         ///<summary>
         /// Gets or sets the local position of the collidable.
         /// The local position can be used to offset the collision geometry
         /// from an entity's center of mass.
         ///</summary>
-        public Vector3 LocalPosition
+        public FixedV3 LocalPosition
         {
             get
             {
@@ -154,10 +154,10 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         ///</summary>
         ///<param name="position">Position to use for the calculation.</param>
         ///<param name="orientation">Orientation to use for the calculation.</param>
-        public virtual void UpdateWorldTransform(ref Vector3 position, ref Quaternion orientation)
+        public virtual void UpdateWorldTransform(ref FixedV3 position, ref FixedQuaternion orientation)
         {
-            Quaternion.Transform(ref localPosition, ref orientation, out worldTransform.Position);
-            Vector3.Add(ref worldTransform.Position, ref position, out worldTransform.Position);
+            FixedQuaternion.Transform(ref localPosition, ref orientation, out worldTransform.Position);
+            FixedV3.Add(ref worldTransform.Position, ref position, out worldTransform.Position);
             worldTransform.Orientation = orientation;
 
             worldTransform.Validate();

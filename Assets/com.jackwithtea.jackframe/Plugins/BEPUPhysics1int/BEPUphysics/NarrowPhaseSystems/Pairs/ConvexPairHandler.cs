@@ -61,7 +61,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             {
                 //Only perform the test if the minimum radii are small enough relative to the size of the velocity.
                 //Discrete objects have already had their linear motion integrated, so don't use their velocity.
-                Vector3 velocity;
+                FixedV3 velocity;
                 if (modeA == PositionUpdateMode.Discrete)
                 {
                     //CollidableA is static for the purposes of this continuous test.
@@ -70,14 +70,14 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 else if (modeB == PositionUpdateMode.Discrete)
                 {
                     //CollidableB is static for the purposes of this continuous test.
-                    Vector3.Negate(ref collidableA.entity.linearVelocity, out velocity);
+                    FixedV3.Negate(ref collidableA.entity.linearVelocity, out velocity);
                 }
                 else
                 {
                     //Both objects are moving.
-                    Vector3.Subtract(ref collidableB.entity.linearVelocity, ref collidableA.entity.linearVelocity, out velocity);
+                    FixedV3.Subtract(ref collidableB.entity.linearVelocity, ref collidableA.entity.linearVelocity, out velocity);
                 }
-                Vector3.Multiply(ref velocity, dt, out velocity);
+                FixedV3.Multiply(ref velocity, dt, out velocity);
                 Fixed64 velocitySquared = velocity.LengthSquared();
 
                 var minimumRadiusA = collidableA.Shape.MinimumRadius * MotionSettings.CoreShapeScaling;
@@ -86,7 +86,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 {
                     //Spherecast A against B.
                     RayHit rayHit;
-                    if (GJKToolbox.CCDSphereCast(new Ray(collidableA.worldTransform.Position, -velocity), minimumRadiusA, collidableB.Shape, ref collidableB.worldTransform, timeOfImpact, out rayHit))
+                    if (GJKToolbox.CCDSphereCast(new BEPURay(collidableA.worldTransform.Position, -velocity), minimumRadiusA, collidableB.Shape, ref collidableB.worldTransform, timeOfImpact, out rayHit))
                         timeOfImpact = rayHit.T;
                 }
 
@@ -95,7 +95,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 {
                     //Spherecast B against A.
                     RayHit rayHit;
-                    if (GJKToolbox.CCDSphereCast(new Ray(collidableB.worldTransform.Position, velocity), minimumRadiusB, collidableA.Shape, ref collidableA.worldTransform, timeOfImpact, out rayHit))
+                    if (GJKToolbox.CCDSphereCast(new BEPURay(collidableB.worldTransform.Position, velocity), minimumRadiusB, collidableA.Shape, ref collidableA.worldTransform, timeOfImpact, out rayHit))
                         timeOfImpact = rayHit.T;
                 }
 

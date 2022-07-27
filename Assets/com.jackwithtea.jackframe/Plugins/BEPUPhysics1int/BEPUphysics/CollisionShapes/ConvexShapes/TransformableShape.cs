@@ -30,11 +30,11 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             }
         }
 
-        protected Matrix3x3 transform;
+        protected BEPUMatrix3x3 transform;
         ///<summary>
         /// Gets or sets the linear transform used to transform the convex shape.
         ///</summary>
-        public Matrix3x3 Transform
+        public BEPUMatrix3x3 Transform
         {
             get
             {
@@ -52,7 +52,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="shape">Base shape to transform.</param>
         ///<param name="transform">Transform to use.</param>
-        public TransformableShape(ConvexShape shape, Matrix3x3 transform)
+        public TransformableShape(ConvexShape shape, BEPUMatrix3x3 transform)
         {
             this.shape = shape;
             this.transform = transform;
@@ -67,7 +67,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="shape">Base shape to transform.</param>
         /// <param name="transform">Transform to use.</param>
         /// <param name="description">Cached information about the shape. Assumed to be correct; no extra processing or validation is performed.</param>
-        public TransformableShape(ConvexShape shape, Matrix3x3 transform, ConvexShapeDescription description)
+        public TransformableShape(ConvexShape shape, BEPUMatrix3x3 transform, ConvexShapeDescription description)
         {
             this.shape = shape;
             this.transform = transform;
@@ -118,12 +118,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
-            Vector3 d;
-            Matrix3x3.TransformTranspose(ref direction, ref transform, out d);
+            FixedV3 d;
+            BEPUMatrix3x3.TransformTranspose(ref direction, ref transform, out d);
             shape.GetLocalExtremePoint(d, out extremePoint);
-            Matrix3x3.Transform(ref extremePoint, ref transform, out extremePoint);
+            BEPUMatrix3x3.Transform(ref extremePoint, ref transform, out extremePoint);
         }
 
 
@@ -139,8 +139,8 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             RigidTransform identity = RigidTransform.Identity;
             BoundingBox boundingBox;
             GetBoundingBox(ref identity, out boundingBox);
-            Vector3 diameter;
-            Vector3.Subtract(ref boundingBox.Max, ref boundingBox.Min, out diameter);
+            FixedV3 diameter;
+            FixedV3.Subtract(ref boundingBox.Max, ref boundingBox.Min, out diameter);
             return diameter.Length();
 
         }

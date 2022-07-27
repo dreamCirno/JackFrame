@@ -48,23 +48,23 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         {
             var shape = entry.Collidable.Shape;
             mesh.Shape.TriangleMesh.Data.GetTriangle(entry.Index, out shape.vA, out shape.vB, out shape.vC);
-            Matrix3x3 o;
-            Matrix3x3.CreateFromQuaternion(ref mesh.worldTransform.Orientation, out o);
-            Matrix3x3.Transform(ref shape.vA, ref o, out shape.vA);
-            Matrix3x3.Transform(ref shape.vB, ref o, out shape.vB);
-            Matrix3x3.Transform(ref shape.vC, ref o, out shape.vC);
-            Vector3 center;
-            Vector3.Add(ref shape.vA, ref shape.vB, out center);
-            Vector3.Add(ref center, ref shape.vC, out center);
-            Vector3.Multiply(ref center, F64.OneThird, out center);
-            Vector3.Subtract(ref shape.vA, ref center, out shape.vA);
-            Vector3.Subtract(ref shape.vB, ref center, out shape.vB);
-            Vector3.Subtract(ref shape.vC, ref center, out shape.vC);
+            BEPUMatrix3x3 o;
+            BEPUMatrix3x3.CreateFromQuaternion(ref mesh.worldTransform.Orientation, out o);
+            BEPUMatrix3x3.Transform(ref shape.vA, ref o, out shape.vA);
+            BEPUMatrix3x3.Transform(ref shape.vB, ref o, out shape.vB);
+            BEPUMatrix3x3.Transform(ref shape.vC, ref o, out shape.vC);
+            FixedV3 center;
+            FixedV3.Add(ref shape.vA, ref shape.vB, out center);
+            FixedV3.Add(ref center, ref shape.vC, out center);
+            FixedV3.Multiply(ref center, F64.OneThird, out center);
+            FixedV3.Subtract(ref shape.vA, ref center, out shape.vA);
+            FixedV3.Subtract(ref shape.vB, ref center, out shape.vB);
+            FixedV3.Subtract(ref shape.vC, ref center, out shape.vC);
 
-            Vector3.Add(ref center, ref mesh.worldTransform.Position, out center);
+            FixedV3.Add(ref center, ref mesh.worldTransform.Position, out center);
             //The bounding box doesn't update by itself.
             entry.Collidable.worldTransform.Position = center;
-            entry.Collidable.worldTransform.Orientation = Quaternion.Identity;
+            entry.Collidable.worldTransform.Orientation = FixedQuaternion.Identity;
             entry.Collidable.UpdateBoundingBoxInternal(dt);
         }
 
@@ -107,9 +107,9 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             AffineTransform meshTransform;
             AffineTransform.CreateFromRigidTransform(ref mesh.worldTransform, out meshTransform);
 
-            Vector3 sweep;
-            Vector3.Subtract(ref mobileMesh.entity.linearVelocity, ref mesh.entity.linearVelocity, out sweep);
-            Vector3.Multiply(ref sweep, dt, out sweep);
+            FixedV3 sweep;
+            FixedV3.Subtract(ref mobileMesh.entity.linearVelocity, ref mesh.entity.linearVelocity, out sweep);
+            FixedV3.Multiply(ref sweep, dt, out sweep);
             mobileMesh.Shape.GetSweptLocalBoundingBox(ref mobileMesh.worldTransform, ref meshTransform, ref sweep, out localBoundingBox);
             mesh.Shape.TriangleMesh.Tree.GetOverlaps(localBoundingBox, overlappedElements);
             for (int i = 0; i < overlappedElements.Count; i++)

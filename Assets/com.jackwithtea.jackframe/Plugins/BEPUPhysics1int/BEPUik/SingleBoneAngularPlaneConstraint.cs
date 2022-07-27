@@ -8,28 +8,28 @@ namespace BEPUik
         /// <summary>
         /// Gets or sets normal of the plane which the bone's axis will be constrained to..
         /// </summary>
-        public Vector3 PlaneNormal;
+        public FixedV3 PlaneNormal;
 
 
 
         /// <summary>
         /// Axis to constrain to the plane in the bone's local space.
         /// </summary>
-        public Vector3 BoneLocalAxis;
+        public FixedV3 BoneLocalAxis;
 
         protected internal override void UpdateJacobiansAndVelocityBias()
         {
  
 
-            linearJacobian = new Matrix3x3();
+            linearJacobian = new BEPUMatrix3x3();
 
-            Vector3 boneAxis;
-            Quaternion.Transform(ref BoneLocalAxis, ref TargetBone.Orientation, out boneAxis);
+            FixedV3 boneAxis;
+            FixedQuaternion.Transform(ref BoneLocalAxis, ref TargetBone.Orientation, out boneAxis);
 
-            Vector3 jacobian;
-            Vector3.Cross(ref boneAxis, ref PlaneNormal, out jacobian);
+            FixedV3 jacobian;
+            FixedV3.Cross(ref boneAxis, ref PlaneNormal, out jacobian);
 
-            angularJacobian = new Matrix3x3
+            angularJacobian = new BEPUMatrix3x3
             {
                 M11 = jacobian.X,
                 M12 = jacobian.Y,
@@ -37,7 +37,7 @@ namespace BEPUik
             };
 
 
-            Vector3.Dot(ref boneAxis, ref PlaneNormal, out velocityBias.X);
+            FixedV3.Dot(ref boneAxis, ref PlaneNormal, out velocityBias.X);
             velocityBias.X = -errorCorrectionFactor * velocityBias.X;
 
 

@@ -33,7 +33,7 @@ namespace BEPUphysics.Constraints.Collision
         internal Fixed64 velocityToImpulse;
         private ContactManifoldConstraint contactManifoldConstraint;
 
-        internal Vector3 ra, rb;
+        internal FixedV3 ra, rb;
 
         ///<summary>
         /// Constructs a new penetration constraint.
@@ -131,7 +131,7 @@ namespace BEPUphysics.Constraints.Collision
             //angular A = Ra x N
             if (entityA != null)
             {
-                Vector3.Subtract(ref contact.Position, ref entityA.position, out ra);
+                FixedV3.Subtract(ref contact.Position, ref entityA.position, out ra);
                 angularAX = (ra.Y * linearAZ) - (ra.Z * linearAY);
                 angularAY = (ra.Z * linearAX) - (ra.X * linearAZ);
                 angularAZ = (ra.X * linearAY) - (ra.Y * linearAX);
@@ -141,7 +141,7 @@ namespace BEPUphysics.Constraints.Collision
             //Angular B = N x Rb
             if (entityB != null)
             {
-                Vector3.Subtract(ref contact.Position, ref entityB.position, out rb);
+                FixedV3.Subtract(ref contact.Position, ref entityB.position, out rb);
                 angularBX = (linearAY * rb.Z) - (linearAZ * rb.Y);
                 angularBY = (linearAZ * rb.X) - (linearAX * rb.Z);
                 angularBZ = (linearAX * rb.Y) - (linearAY * rb.X);
@@ -242,8 +242,8 @@ namespace BEPUphysics.Constraints.Collision
         {
             //Warm starting
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif
@@ -290,8 +290,8 @@ namespace BEPUphysics.Constraints.Collision
 
             //Apply the impulse
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif

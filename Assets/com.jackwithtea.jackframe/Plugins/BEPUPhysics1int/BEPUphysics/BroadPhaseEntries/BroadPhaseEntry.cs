@@ -89,7 +89,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit location of the ray on the entry, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public abstract bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit);
+        public abstract bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit);
 
         /// <summary>
         /// Tests a ray against the entry.
@@ -100,7 +100,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <param name="rayHit">Hit location of the ray on the entry, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public virtual bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
+        public virtual bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
         {
             if (filter(this))
                 return RayCast(ray, maximumLength, out rayHit);
@@ -118,7 +118,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// <param name="sweep">Sweep motion to apply to the cast shape.</param>
         /// <param name="hit">Hit data of the cast on the entry, if any.</param>
         /// <returns>Whether or not the cast hit the entry.</returns>
-        public abstract bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit);
+        public abstract bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit);
 
         /// <summary>
         /// Sweeps a convex shape against the entry.
@@ -130,7 +130,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <param name="hit">Hit data of the cast on the entry, if any.</param>
         /// <returns>Whether or not the cast hit the entry.</returns>
-        public virtual bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit hit)
+        public virtual bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit hit)
         {
             if (filter(this))
                 return ConvexCast(castShape, ref startingTransform, ref sweep, out hit);

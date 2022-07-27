@@ -20,11 +20,11 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
                                              out RigidTransform localTransformB)
         {
             //Put B into A's space.
-            Quaternion conjugateOrientationA;
-            Quaternion.Conjugate(ref transformA.Orientation, out conjugateOrientationA);
-            Quaternion.Concatenate(ref transformB.Orientation, ref conjugateOrientationA, out localTransformB.Orientation);
-            Vector3.Subtract(ref transformB.Position, ref transformA.Position, out localTransformB.Position);
-            Quaternion.Transform(ref localTransformB.Position, ref conjugateOrientationA, out localTransformB.Position);
+            FixedQuaternion conjugateOrientationA;
+            FixedQuaternion.Conjugate(ref transformA.Orientation, out conjugateOrientationA);
+            FixedQuaternion.Concatenate(ref transformB.Orientation, ref conjugateOrientationA, out localTransformB.Orientation);
+            FixedV3.Subtract(ref transformB.Position, ref transformA.Position, out localTransformB.Position);
+            FixedQuaternion.Transform(ref localTransformB.Position, ref conjugateOrientationA, out localTransformB.Position);
         }
 
         ///<summary>
@@ -35,18 +35,18 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         ///<param name="direction">Extreme point direction in local space.</param>
         ///<param name="localTransformB">Transform of shapeB in the local space of A.</param>
         ///<param name="extremePoint">The extreme point in the local space of A.</param>
-        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref Vector3 direction, ref RigidTransform localTransformB, out Vector3 extremePoint)
+        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref FixedV3 direction, ref RigidTransform localTransformB, out FixedV3 extremePoint)
         {
             //Extreme point of A-B along D = (extreme point of A along D) - (extreme point of B along -D)
             shapeA.GetLocalExtremePointWithoutMargin(ref direction, out extremePoint);
-            Vector3 v;
-            Vector3 negativeN;
-            Vector3.Negate(ref direction, out negativeN);
+            FixedV3 v;
+            FixedV3 negativeN;
+            FixedV3.Negate(ref direction, out negativeN);
             shapeB.GetExtremePointWithoutMargin(negativeN, ref localTransformB, out v);
-            Vector3.Subtract(ref extremePoint, ref v, out extremePoint);
+            FixedV3.Subtract(ref extremePoint, ref v, out extremePoint);
 
             ExpandMinkowskiSum(shapeA.collisionMargin, shapeB.collisionMargin, ref direction, out v);
-            Vector3.Add(ref extremePoint, ref v, out extremePoint);
+            FixedV3.Add(ref extremePoint, ref v, out extremePoint);
 
 
         }
@@ -60,18 +60,18 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         ///<param name="localTransformB">Transform of shapeB in the local space of A.</param>
         /// <param name="extremePointA">The extreme point on shapeA.</param>
         ///<param name="extremePoint">The extreme point in the local space of A.</param>
-        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref Vector3 direction, ref RigidTransform localTransformB,
-                                                 out Vector3 extremePointA, out Vector3 extremePoint)
+        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref FixedV3 direction, ref RigidTransform localTransformB,
+                                                 out FixedV3 extremePointA, out FixedV3 extremePoint)
         {
             //Extreme point of A-B along D = (extreme point of A along D) - (extreme point of B along -D)
             shapeA.GetLocalExtremePointWithoutMargin(ref direction, out extremePointA);
-            Vector3 v;
-            Vector3.Negate(ref direction, out v);
-            Vector3 extremePointB;
+            FixedV3 v;
+            FixedV3.Negate(ref direction, out v);
+            FixedV3 extremePointB;
             shapeB.GetExtremePointWithoutMargin(v, ref localTransformB, out extremePointB);
 
             ExpandMinkowskiSum(shapeA.collisionMargin, shapeB.collisionMargin, direction, ref extremePointA, ref extremePointB);
-            Vector3.Subtract(ref extremePointA, ref extremePointB, out extremePoint);
+            FixedV3.Subtract(ref extremePointA, ref extremePointB, out extremePoint);
 
 
         }
@@ -86,17 +86,17 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         /// <param name="extremePointA">The extreme point on shapeA.</param>
         /// <param name="extremePointB">The extreme point on shapeB.</param>
         ///<param name="extremePoint">The extreme point in the local space of A.</param>
-        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref Vector3 direction, ref RigidTransform localTransformB,
-                                                 out Vector3 extremePointA, out Vector3 extremePointB, out Vector3 extremePoint)
+        public static void GetLocalMinkowskiExtremePoint(ConvexShape shapeA, ConvexShape shapeB, ref FixedV3 direction, ref RigidTransform localTransformB,
+                                                 out FixedV3 extremePointA, out FixedV3 extremePointB, out FixedV3 extremePoint)
         {
             //Extreme point of A-B along D = (extreme point of A along D) - (extreme point of B along -D)
             shapeA.GetLocalExtremePointWithoutMargin(ref direction, out extremePointA);
-            Vector3 v;
-            Vector3.Negate(ref direction, out v);
+            FixedV3 v;
+            FixedV3.Negate(ref direction, out v);
             shapeB.GetExtremePointWithoutMargin(v, ref localTransformB, out extremePointB);
 
             ExpandMinkowskiSum(shapeA.collisionMargin, shapeB.collisionMargin, direction, ref extremePointA, ref extremePointB);
-            Vector3.Subtract(ref extremePointA, ref extremePointB, out extremePoint);
+            FixedV3.Subtract(ref extremePointA, ref extremePointB, out extremePoint);
 
 
         }
@@ -109,15 +109,15 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         ///<param name="direction">Extreme point direction in local space.</param>
         ///<param name="localTransformB">Transform of shapeB in the local space of A.</param>
         ///<param name="extremePoint">The extreme point in the local space of A.</param>
-        public static void GetLocalMinkowskiExtremePointWithoutMargin(ConvexShape shapeA, ConvexShape shapeB, ref Vector3 direction, ref RigidTransform localTransformB, out Vector3 extremePoint)
+        public static void GetLocalMinkowskiExtremePointWithoutMargin(ConvexShape shapeA, ConvexShape shapeB, ref FixedV3 direction, ref RigidTransform localTransformB, out FixedV3 extremePoint)
         {
             //Extreme point of A-B along D = (extreme point of A along D) - (extreme point of B along -D)
             shapeA.GetLocalExtremePointWithoutMargin(ref direction, out extremePoint);
-            Vector3 extremePointB;
-            Vector3 negativeN;
-            Vector3.Negate(ref direction, out negativeN);
+            FixedV3 extremePointB;
+            FixedV3 negativeN;
+            FixedV3.Negate(ref direction, out negativeN);
             shapeB.GetExtremePointWithoutMargin(negativeN, ref localTransformB, out extremePointB);
-            Vector3.Subtract(ref extremePoint, ref extremePointB, out extremePoint);
+            FixedV3.Subtract(ref extremePoint, ref extremePointB, out extremePoint);
 
         }
 
@@ -130,19 +130,19 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         ///<param name="marginB">Second margin.</param>
         ///<param name="direction">Extreme point direction.</param>
         ///<param name="contribution">Margin contribution to the extreme point.</param>
-        public static void ExpandMinkowskiSum(Fixed64 marginA, Fixed64 marginB, ref Vector3 direction, out Vector3 contribution)
+        public static void ExpandMinkowskiSum(Fixed64 marginA, Fixed64 marginB, ref FixedV3 direction, out FixedV3 contribution)
         {
             Fixed64 lengthSquared = direction.LengthSquared();
             if (lengthSquared > Toolbox.Epsilon)
             {
                 //The contribution to the minkowski sum by the margin is:
                 //direction * marginA - (-direction) * marginB.
-                Vector3.Multiply(ref direction, (marginA + marginB) / Fixed64.Sqrt(lengthSquared), out contribution);
+                FixedV3.Multiply(ref direction, (marginA + marginB) / Fixed64.Sqrt(lengthSquared), out contribution);
 
             }
             else
             {
-                contribution = new Vector3();
+                contribution = new FixedV3();
             }
 
 
@@ -157,7 +157,7 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
         ///<param name="direction">Extreme point direction.</param>
         ///<param name="toExpandA">Margin contribution to the shapeA.</param>
         ///<param name="toExpandB">Margin contribution to the shapeB.</param>
-        public static void ExpandMinkowskiSum(Fixed64 marginA, Fixed64 marginB, Vector3 direction, ref Vector3 toExpandA, ref Vector3 toExpandB)
+        public static void ExpandMinkowskiSum(Fixed64 marginA, Fixed64 marginB, FixedV3 direction, ref FixedV3 toExpandA, ref FixedV3 toExpandB)
         {
             Fixed64 lengthSquared = direction.LengthSquared();
             if (lengthSquared > Toolbox.Epsilon)
@@ -165,11 +165,11 @@ namespace BEPUphysics.CollisionTests.CollisionAlgorithms
                 lengthSquared = F64.C1 / Fixed64.Sqrt(lengthSquared);   
                 //The contribution to the minkowski sum by the margin is:
                 //direction * marginA - (-direction) * marginB. 
-                Vector3 contribution;
-                Vector3.Multiply(ref direction, marginA * lengthSquared, out contribution);
-                Vector3.Add(ref toExpandA, ref contribution, out toExpandA);
-                Vector3.Multiply(ref direction, marginB * lengthSquared, out contribution);
-                Vector3.Subtract(ref toExpandB, ref contribution, out toExpandB);
+                FixedV3 contribution;
+                FixedV3.Multiply(ref direction, marginA * lengthSquared, out contribution);
+                FixedV3.Add(ref toExpandA, ref contribution, out toExpandA);
+                FixedV3.Multiply(ref direction, marginB * lengthSquared, out contribution);
+                FixedV3.Subtract(ref toExpandB, ref contribution, out toExpandB);
             }
             //If the direction is too small, then the expansion values are left unchanged.
 

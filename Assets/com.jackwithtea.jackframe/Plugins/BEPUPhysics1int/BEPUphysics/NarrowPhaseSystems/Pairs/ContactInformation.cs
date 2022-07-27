@@ -36,7 +36,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         ///<summary>
         /// Relative velocity of the colliding objects at the position of the contact.
         ///</summary>
-        public Vector3 RelativeVelocity;
+        public FixedV3 RelativeVelocity;
 
 
         public override string ToString()

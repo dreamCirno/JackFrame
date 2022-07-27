@@ -16,10 +16,10 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// <summary>
         /// Sum of forces applied to the constraint in the past.
         /// </summary>
-        private Vector3 accumulatedImpulse = Vector3.Zero;
+        private FixedV3 accumulatedImpulse = FixedV3.Zero;
 
-        private Vector3 biasVelocity;
-        private Matrix3x3 effectiveMassMatrix;
+        private FixedV3 biasVelocity;
+        private BEPUMatrix3x3 effectiveMassMatrix;
 
         /// <summary>
         /// Maximum impulse that can be applied in a single frame.
@@ -32,13 +32,13 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// </summary>
         private Fixed64 maxForceDtSquared;
 
-        private Vector3 error;
+        private FixedV3 error;
 
-        private Vector3 localPoint;
+        private FixedV3 localPoint;
 
-        private Vector3 worldPoint;
+        private FixedV3 worldPoint;
 
-        private Vector3 r;
+        private FixedV3 r;
         private Fixed64 usedSoftness;
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace BEPUphysics.Constraints.SingleEntity
             set
             {
                 if (Entity != value)
-                    accumulatedImpulse = new Vector3();
+                    accumulatedImpulse = new FixedV3();
                 base.Entity = value;
             }
         }
@@ -64,7 +64,7 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// </summary>
         /// <param name="entity">Entity to affect.</param>
         /// <param name="point">Point in world space attached to the entity that will be motorized.</param>
-        public SingleEntityLinearMotor(Entity entity, Vector3 point)
+        public SingleEntityLinearMotor(Entity entity, FixedV3 point)
         {
             Entity = entity;
             Point = point;
@@ -87,28 +87,28 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// <summary>
         /// Point attached to the entity in its local space that is motorized.
         /// </summary>
-        public Vector3 LocalPoint
+        public FixedV3 LocalPoint
         {
             get { return localPoint; }
             set
             {
                 localPoint = value;
-                Matrix3x3.Transform(ref localPoint, ref entity.orientationMatrix, out worldPoint);
-                Vector3.Add(ref worldPoint, ref entity.position, out worldPoint);
+                BEPUMatrix3x3.Transform(ref localPoint, ref entity.orientationMatrix, out worldPoint);
+                FixedV3.Add(ref worldPoint, ref entity.position, out worldPoint);
             }
         }
 
         /// <summary>
         /// Point attached to the entity in world space that is motorized.
         /// </summary>
-        public Vector3 Point
+        public FixedV3 Point
         {
             get { return worldPoint; }
             set
             {
                 worldPoint = value;
-                Vector3.Subtract(ref worldPoint, ref entity.position, out localPoint);
-                Matrix3x3.TransformTranspose(ref localPoint, ref entity.orientationMatrix, out localPoint);
+                FixedV3.Subtract(ref worldPoint, ref entity.position, out localPoint);
+                BEPUMatrix3x3.TransformTranspose(ref localPoint, ref entity.orientationMatrix, out localPoint);
             }
         }
 
@@ -125,13 +125,13 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// <summary>
         /// Gets the current relative velocity between the connected entities with respect to the constraint.
         /// </summary>
-        public Vector3 RelativeVelocity
+        public FixedV3 RelativeVelocity
         {
             get
             {
-                Vector3 lambda;
-                Vector3.Cross(ref r, ref entity.angularVelocity, out lambda);
-                Vector3.Subtract(ref lambda, ref entity.linearVelocity, out lambda);
+                FixedV3 lambda;
+                FixedV3.Cross(ref r, ref entity.angularVelocity, out lambda);
+                FixedV3.Subtract(ref lambda, ref entity.linearVelocity, out lambda);
                 return lambda;
             }
         }
@@ -139,7 +139,7 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// <summary>
         /// Gets the total impulse applied by this constraint.
         /// </summary>
-        public Vector3 TotalImpulse
+        public FixedV3 TotalImpulse
         {
             get { return accumulatedImpulse; }
         }
@@ -148,7 +148,7 @@ namespace BEPUphysics.Constraints.SingleEntity
         /// Gets the current constraint error.
         /// If the motor is in velocity only mode, error is zero.
         /// </summary>
-        public Vector3 Error
+        public FixedV3 Error
         {
             get { return error; }
         }
@@ -162,23 +162,23 @@ namespace BEPUphysics.Constraints.SingleEntity
         public override Fixed64 SolveIteration()
         {
             //Compute relative velocity
-            Vector3 lambda;
-            Vector3.Cross(ref r, ref entity.angularVelocity, out lambda);
-            Vector3.Subtract(ref lambda, ref entity.linearVelocity, out lambda);
+            FixedV3 lambda;
+            FixedV3.Cross(ref r, ref entity.angularVelocity, out lambda);
+            FixedV3.Subtract(ref lambda, ref entity.linearVelocity, out lambda);
 
             //Add in bias velocity
-            Vector3.Add(ref biasVelocity, ref lambda, out lambda);
+            FixedV3.Add(ref biasVelocity, ref lambda, out lambda);
 
             //Add in softness
-            Vector3 softnessVelocity;
-            Vector3.Multiply(ref accumulatedImpulse, usedSoftness, out softnessVelocity);
-            Vector3.Subtract(ref lambda, ref softnessVelocity, out lambda);
+            FixedV3 softnessVelocity;
+            FixedV3.Multiply(ref accumulatedImpulse, usedSoftness, out softnessVelocity);
+            FixedV3.Subtract(ref lambda, ref softnessVelocity, out lambda);
 
             //In terms of an impulse (an instantaneous change in momentum), what is it?
-            Matrix3x3.Transform(ref lambda, ref effectiveMassMatrix, out lambda);
+            BEPUMatrix3x3.Transform(ref lambda, ref effectiveMassMatrix, out lambda);
 
             //Sum the impulse.
-            Vector3 previousAccumulatedImpulse = accumulatedImpulse;
+            FixedV3 previousAccumulatedImpulse = accumulatedImpulse;
             accumulatedImpulse += lambda;
 
             //If the impulse it takes to get to the goal is too high for the motor to handle, scale it back.
@@ -194,8 +194,8 @@ namespace BEPUphysics.Constraints.SingleEntity
 
 
             entity.ApplyLinearImpulse(ref lambda);
-            Vector3 taImpulse;
-            Vector3.Cross(ref r, ref lambda, out taImpulse);
+            FixedV3 taImpulse;
+            FixedV3.Cross(ref r, ref lambda, out taImpulse);
             entity.ApplyAngularImpulse(ref taImpulse);
 
             return (Fixed64.Abs(lambda.X) + Fixed64.Abs(lambda.Y) + Fixed64.Abs(lambda.Z));
@@ -208,13 +208,13 @@ namespace BEPUphysics.Constraints.SingleEntity
         public override void Update(Fixed64 dt)
         {
             //Transform point into world space.
-            Matrix3x3.Transform(ref localPoint, ref entity.orientationMatrix, out r);
-            Vector3.Add(ref r, ref entity.position, out worldPoint);
+            BEPUMatrix3x3.Transform(ref localPoint, ref entity.orientationMatrix, out r);
+            FixedV3.Add(ref r, ref entity.position, out worldPoint);
 
             Fixed64 updateRate = F64.C1 / dt;
             if (settings.mode == MotorMode.Servomechanism)
             {
-                Vector3.Subtract(ref settings.servo.goal, ref worldPoint, out error);
+                FixedV3.Subtract(ref settings.servo.goal, ref worldPoint, out error);
                 Fixed64 separationDistance = error.Length();
                 if (separationDistance > Toolbox.BigEpsilon)
                 {
@@ -226,7 +226,7 @@ namespace BEPUphysics.Constraints.SingleEntity
                     Fixed64 correctionSpeed = MathHelper.Min(settings.servo.baseCorrectiveSpeed, separationDistance * updateRate) +
                                             separationDistance * errorReduction;
 
-                    Vector3.Multiply(ref error, correctionSpeed / separationDistance, out biasVelocity);
+                    FixedV3.Multiply(ref error, correctionSpeed / separationDistance, out biasVelocity);
                     //Ensure that the corrective velocity doesn't exceed the max.
                     Fixed64 length = biasVelocity.LengthSquared();
                     if (length > settings.servo.maxCorrectiveVelocitySquared)
@@ -240,14 +240,14 @@ namespace BEPUphysics.Constraints.SingleEntity
                 else
                 {
                     //Wouldn't want to use a bias from an earlier frame.
-                    biasVelocity = new Vector3();
+                    biasVelocity = new FixedV3();
                 }
             }
             else
             {
                 usedSoftness = settings.velocityMotor.softness * updateRate;
                 biasVelocity = settings.velocityMotor.goalVelocity;
-                error = Vector3.Zero;
+                error = FixedV3.Zero;
             }
 
             //Compute the maximum force that can be applied this frame.
@@ -255,20 +255,20 @@ namespace BEPUphysics.Constraints.SingleEntity
 
             //COMPUTE EFFECTIVE MASS MATRIX
             //Transforms a change in velocity to a change in momentum when multiplied.
-            Matrix3x3 linearComponent;
-            Matrix3x3.CreateScale(entity.inverseMass, out linearComponent);
-            Matrix3x3 rACrossProduct;
-            Matrix3x3.CreateCrossProduct(ref r, out rACrossProduct);
-            Matrix3x3 angularComponentA;
-            Matrix3x3.Multiply(ref rACrossProduct, ref entity.inertiaTensorInverse, out angularComponentA);
-            Matrix3x3.Multiply(ref angularComponentA, ref rACrossProduct, out angularComponentA);
-            Matrix3x3.Subtract(ref linearComponent, ref angularComponentA, out effectiveMassMatrix);
+            BEPUMatrix3x3 linearComponent;
+            BEPUMatrix3x3.CreateScale(entity.inverseMass, out linearComponent);
+            BEPUMatrix3x3 rACrossProduct;
+            BEPUMatrix3x3.CreateCrossProduct(ref r, out rACrossProduct);
+            BEPUMatrix3x3 angularComponentA;
+            BEPUMatrix3x3.Multiply(ref rACrossProduct, ref entity.inertiaTensorInverse, out angularComponentA);
+            BEPUMatrix3x3.Multiply(ref angularComponentA, ref rACrossProduct, out angularComponentA);
+            BEPUMatrix3x3.Subtract(ref linearComponent, ref angularComponentA, out effectiveMassMatrix);
 
             effectiveMassMatrix.M11 += usedSoftness;
             effectiveMassMatrix.M22 += usedSoftness;
             effectiveMassMatrix.M33 += usedSoftness;
 
-            Matrix3x3.Invert(ref effectiveMassMatrix, out effectiveMassMatrix);
+            BEPUMatrix3x3.Invert(ref effectiveMassMatrix, out effectiveMassMatrix);
 
         }
 
@@ -281,8 +281,8 @@ namespace BEPUphysics.Constraints.SingleEntity
         {
             //"Warm start" the constraint by applying a first guess of the solution should be.
             entity.ApplyLinearImpulse(ref accumulatedImpulse);
-            Vector3 taImpulse;
-            Vector3.Cross(ref r, ref accumulatedImpulse, out taImpulse);
+            FixedV3 taImpulse;
+            FixedV3.Cross(ref r, ref accumulatedImpulse, out taImpulse);
             entity.ApplyAngularImpulse(ref taImpulse);
         }
 

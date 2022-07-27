@@ -183,7 +183,7 @@ namespace BEPUphysics
         /// <param name="b">Second vertex in the triangle.</param>
         /// <param name="c">Third vertex in the triangle.</param>
         /// <returns>Initialized TriangleCollidable.</returns>
-        public static TriangleCollidable GetTriangleCollidable(ref Vector3 a, ref Vector3 b, ref Vector3 c)
+        public static TriangleCollidable GetTriangleCollidable(ref FixedV3 a, ref FixedV3 b, ref FixedV3 c)
         {
             if (SubPoolTriangleCollidables == null)
                 SubPoolTriangleCollidables = new UnsafeResourcePool<TriangleCollidable>();

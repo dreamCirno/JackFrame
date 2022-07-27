@@ -47,8 +47,8 @@ namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
         {
             base.Add(entry);
             //Entities do not set up their own bounding box before getting stuck in here.  If they're all zeroed out, the tree will be horrible.
-            Vector3 offset;
-            Vector3.Subtract(ref entry.boundingBox.Max, ref entry.boundingBox.Min, out offset);
+            FixedV3 offset;
+            FixedV3.Subtract(ref entry.boundingBox.Max, ref entry.boundingBox.Min, out offset);
             if (offset.X * offset.Y * offset.Z == F64.C0)
                 entry.UpdateBoundingBox();
             //binary search for the approximately correct location.  This helps prevent large first-frame sort times.

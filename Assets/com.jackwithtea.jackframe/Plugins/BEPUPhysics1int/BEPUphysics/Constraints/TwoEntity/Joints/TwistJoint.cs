@@ -12,16 +12,16 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
     /// </summary>
     public class TwistJoint : BEPUJoint, I1DImpulseConstraintWithError, I1DJacobianConstraint
     {
-        private Vector3 aLocalAxisY, aLocalAxisZ;
+        private FixedV3 aLocalAxisY, aLocalAxisZ;
         private Fixed64 accumulatedImpulse;
-        private Vector3 bLocalAxisY;
+        private FixedV3 bLocalAxisY;
         private Fixed64 biasVelocity;
-        private Vector3 jacobianA, jacobianB;
+        private FixedV3 jacobianA, jacobianB;
         private Fixed64 error;
-        private Vector3 localAxisA;
-        private Vector3 localAxisB;
-        private Vector3 worldAxisA;
-        private Vector3 worldAxisB;
+        private FixedV3 localAxisA;
+        private FixedV3 localAxisB;
+        private FixedV3 worldAxisA;
+        private FixedV3 worldAxisB;
         private Fixed64 velocityToImpulse;
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <param name="connectionB">Second connection of the pair.</param>
         /// <param name="axisA">Twist axis attached to the first connected entity.</param>
         /// <param name="axisB">Twist axis attached to the second connected entity.</param>
-        public TwistJoint(Entity connectionA, Entity connectionB, Vector3 axisA, Vector3 axisB)
+        public TwistJoint(Entity connectionA, Entity connectionB, FixedV3 axisA, FixedV3 axisB)
         {
             ConnectionA = connectionA;
             ConnectionB = connectionB;
@@ -53,13 +53,13 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the axis attached to the first connected entity in its local space.
         /// </summary>
-        public Vector3 LocalAxisA
+        public FixedV3 LocalAxisA
         {
             get { return localAxisA; }
             set
             {
-                localAxisA = Vector3.Normalize(value);
-                Matrix3x3.Transform(ref localAxisA, ref connectionA.orientationMatrix, out worldAxisA);
+                localAxisA = FixedV3.Normalize(value);
+                BEPUMatrix3x3.Transform(ref localAxisA, ref connectionA.orientationMatrix, out worldAxisA);
                 Initialize();
             }
         }
@@ -67,13 +67,13 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the axis attached to the first connected entity in its local space.
         /// </summary>
-        public Vector3 LocalAxisB
+        public FixedV3 LocalAxisB
         {
             get { return localAxisB; }
             set
             {
-                localAxisB = Vector3.Normalize(value);
-                Matrix3x3.Transform(ref localAxisB, ref connectionA.orientationMatrix, out worldAxisB);
+                localAxisB = FixedV3.Normalize(value);
+                BEPUMatrix3x3.Transform(ref localAxisB, ref connectionA.orientationMatrix, out worldAxisB);
                 Initialize();
             }
         }
@@ -81,15 +81,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the axis attached to the first connected entity in world space.
         /// </summary>
-        public Vector3 WorldAxisA
+        public FixedV3 WorldAxisA
         {
             get { return worldAxisA; }
             set
             {
-                worldAxisA = Vector3.Normalize(value);
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref connectionA.orientation, out conjugate);
-                Quaternion.Transform(ref worldAxisA, ref conjugate, out localAxisA);
+                worldAxisA = FixedV3.Normalize(value);
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref connectionA.orientation, out conjugate);
+                FixedQuaternion.Transform(ref worldAxisA, ref conjugate, out localAxisA);
                 Initialize();
             }
         }
@@ -97,15 +97,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <summary>
         /// Gets or sets the axis attached to the first connected entity in world space.
         /// </summary>
-        public Vector3 WorldAxisB
+        public FixedV3 WorldAxisB
         {
             get { return worldAxisB; }
             set
             {
-                worldAxisB = Vector3.Normalize(value);
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref connectionB.orientation, out conjugate);
-                Quaternion.Transform(ref worldAxisB, ref conjugate, out localAxisB);
+                worldAxisB = FixedV3.Normalize(value);
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref connectionB.orientation, out conjugate);
+                FixedQuaternion.Transform(ref worldAxisB, ref conjugate, out localAxisB);
                 Initialize();
             }
         }
@@ -120,8 +120,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             get
             {
                 Fixed64 velocityA, velocityB;
-                Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
-                Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
+                FixedV3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
+                FixedV3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
                 return velocityA + velocityB;
             }
         }
@@ -150,7 +150,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the linear jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the first connected entity.</param>
-        public void GetLinearJacobianA(out Vector3 jacobian)
+        public void GetLinearJacobianA(out FixedV3 jacobian)
         {
             jacobian = Toolbox.ZeroVector;
         }
@@ -159,7 +159,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the linear jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the second connected entity.</param>
-        public void GetLinearJacobianB(out Vector3 jacobian)
+        public void GetLinearJacobianB(out FixedV3 jacobian)
         {
             jacobian = Toolbox.ZeroVector;
         }
@@ -168,7 +168,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the angular jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the first connected entity.</param>
-        public void GetAngularJacobianA(out Vector3 jacobian)
+        public void GetAngularJacobianA(out FixedV3 jacobian)
         {
             jacobian = jacobianA;
         }
@@ -177,7 +177,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// Gets the angular jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the second connected entity.</param>
-        public void GetAngularJacobianB(out Vector3 jacobian)
+        public void GetAngularJacobianB(out FixedV3 jacobian)
         {
             jacobian = jacobianB;
         }
@@ -200,8 +200,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         {
             Fixed64 velocityA, velocityB;
             //Find the velocity contribution from each connection
-            Vector3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
-            Vector3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
+            FixedV3.Dot(ref connectionA.angularVelocity, ref jacobianA, out velocityA);
+            FixedV3.Dot(ref connectionB.angularVelocity, ref jacobianB, out velocityB);
             //Add in the constraint space bias velocity
             Fixed64 lambda = -(velocityA + velocityB) + biasVelocity - softness * accumulatedImpulse;
 
@@ -212,15 +212,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             accumulatedImpulse += lambda;
 
             //Apply the impulse
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jacobianA, lambda, out impulse);
+                FixedV3.Multiply(ref jacobianA, lambda, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jacobianB, lambda, out impulse);
+                FixedV3.Multiply(ref jacobianB, lambda, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
 
@@ -233,25 +233,25 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         /// <param name="dt">Simulation step length.</param>
         public override void Update(Fixed64 dt)
         {
-            Vector3 aAxisY, aAxisZ;
-            Vector3 bAxisY;
-            Matrix3x3.Transform(ref localAxisA, ref connectionA.orientationMatrix, out worldAxisA);
-            Matrix3x3.Transform(ref aLocalAxisY, ref connectionA.orientationMatrix, out aAxisY);
-            Matrix3x3.Transform(ref aLocalAxisZ, ref connectionA.orientationMatrix, out aAxisZ);
-            Matrix3x3.Transform(ref localAxisB, ref connectionB.orientationMatrix, out worldAxisB);
-            Matrix3x3.Transform(ref bLocalAxisY, ref connectionB.orientationMatrix, out bAxisY);
+            FixedV3 aAxisY, aAxisZ;
+            FixedV3 bAxisY;
+            BEPUMatrix3x3.Transform(ref localAxisA, ref connectionA.orientationMatrix, out worldAxisA);
+            BEPUMatrix3x3.Transform(ref aLocalAxisY, ref connectionA.orientationMatrix, out aAxisY);
+            BEPUMatrix3x3.Transform(ref aLocalAxisZ, ref connectionA.orientationMatrix, out aAxisZ);
+            BEPUMatrix3x3.Transform(ref localAxisB, ref connectionB.orientationMatrix, out worldAxisB);
+            BEPUMatrix3x3.Transform(ref bLocalAxisY, ref connectionB.orientationMatrix, out bAxisY);
 
-            Quaternion rotation;
-            Quaternion.GetQuaternionBetweenNormalizedVectors(ref worldAxisB, ref worldAxisA, out rotation);
+            FixedQuaternion rotation;
+            FixedQuaternion.GetQuaternionBetweenNormalizedVectors(ref worldAxisB, ref worldAxisA, out rotation);
 
             //Transform b's 'Y' axis so that it is perpendicular with a's 'X' axis for measurement.
-            Vector3 twistMeasureAxis;
-            Quaternion.Transform(ref bAxisY, ref rotation, out twistMeasureAxis);
+            FixedV3 twistMeasureAxis;
+            FixedQuaternion.Transform(ref bAxisY, ref rotation, out twistMeasureAxis);
 
             //By dotting the measurement vector with a 2d plane's axes, we can get a local X and Y value.
             Fixed64 y, x;
-            Vector3.Dot(ref twistMeasureAxis, ref aAxisZ, out y);
-            Vector3.Dot(ref twistMeasureAxis, ref aAxisY, out x);
+            FixedV3.Dot(ref twistMeasureAxis, ref aAxisZ, out y);
+            FixedV3.Dot(ref twistMeasureAxis, ref aAxisY, out x);
             error = Fixed64.FastAtan2(y, x);
 
             //Debug.WriteLine("Angle: " + angle);
@@ -261,7 +261,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             //This is important for limits which have a unique high and low value.
 
             //Compute the jacobian.
-            Vector3.Add(ref worldAxisA, ref worldAxisB, out jacobianB);
+            FixedV3.Add(ref worldAxisA, ref worldAxisB, out jacobianB);
             if (jacobianB.LengthSquared() < Toolbox.Epsilon)
             {
                 //A nasty singularity can show up if the axes are aligned perfectly.
@@ -284,11 +284,11 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             //****** EFFECTIVE MASS MATRIX ******//
             //Connection A's contribution to the mass matrix
             Fixed64 entryA;
-            Vector3 transformedAxis;
+            FixedV3 transformedAxis;
             if (connectionA.isDynamic)
             {
-                Matrix3x3.Transform(ref jacobianA, ref connectionA.inertiaTensorInverse, out transformedAxis);
-                Vector3.Dot(ref transformedAxis, ref jacobianA, out entryA);
+                BEPUMatrix3x3.Transform(ref jacobianA, ref connectionA.inertiaTensorInverse, out transformedAxis);
+                FixedV3.Dot(ref transformedAxis, ref jacobianA, out entryA);
             }
             else
                 entryA = F64.C0;
@@ -297,8 +297,8 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
             Fixed64 entryB;
             if (connectionB.isDynamic)
             {
-                Matrix3x3.Transform(ref jacobianB, ref connectionB.inertiaTensorInverse, out transformedAxis);
-                Vector3.Dot(ref transformedAxis, ref jacobianB, out entryB);
+                BEPUMatrix3x3.Transform(ref jacobianB, ref connectionB.inertiaTensorInverse, out transformedAxis);
+                FixedV3.Dot(ref transformedAxis, ref jacobianB, out entryB);
             }
             else
                 entryB = F64.C0;
@@ -318,15 +318,15 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         {
             //****** WARM STARTING ******//
             //Apply accumulated impulse
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jacobianA, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jacobianA, accumulatedImpulse, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jacobianB, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jacobianB, accumulatedImpulse, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
         }
@@ -338,31 +338,31 @@ namespace BEPUphysics.Constraints.TwoEntity.Joints
         public void Initialize()
         {
             //Compute a vector which is perpendicular to the axis.  It'll be added in local space to both connections.
-            Vector3 yAxis;
-            Vector3.Cross(ref worldAxisA, ref Toolbox.UpVector, out yAxis);
+            FixedV3 yAxis;
+            FixedV3.Cross(ref worldAxisA, ref Toolbox.UpVector, out yAxis);
             Fixed64 length = yAxis.LengthSquared();
             if (length < Toolbox.Epsilon)
             {
-                Vector3.Cross(ref worldAxisA, ref Toolbox.RightVector, out yAxis);
+                FixedV3.Cross(ref worldAxisA, ref Toolbox.RightVector, out yAxis);
             }
             yAxis.Normalize();
 
             //Put the axis into the local space of A.
-            Quaternion conjugate;
-            Quaternion.Conjugate(ref connectionA.orientation, out conjugate);
-            Quaternion.Transform(ref yAxis, ref conjugate, out aLocalAxisY);
+            FixedQuaternion conjugate;
+            FixedQuaternion.Conjugate(ref connectionA.orientation, out conjugate);
+            FixedQuaternion.Transform(ref yAxis, ref conjugate, out aLocalAxisY);
 
             //Complete A's basis.
-            Vector3.Cross(ref localAxisA, ref aLocalAxisY, out aLocalAxisZ);
+            FixedV3.Cross(ref localAxisA, ref aLocalAxisY, out aLocalAxisZ);
 
             //Rotate the axis to B since it could be arbitrarily rotated.
-            Quaternion rotation;
-            Quaternion.GetQuaternionBetweenNormalizedVectors(ref worldAxisA, ref worldAxisB, out rotation);
-            Quaternion.Transform(ref yAxis, ref rotation, out yAxis);
+            FixedQuaternion rotation;
+            FixedQuaternion.GetQuaternionBetweenNormalizedVectors(ref worldAxisA, ref worldAxisB, out rotation);
+            FixedQuaternion.Transform(ref yAxis, ref rotation, out yAxis);
 
             //Put it into local space.
-            Quaternion.Conjugate(ref connectionB.orientation, out conjugate);
-            Quaternion.Transform(ref yAxis, ref conjugate, out bLocalAxisY);
+            FixedQuaternion.Conjugate(ref connectionB.orientation, out conjugate);
+            FixedQuaternion.Transform(ref yAxis, ref conjugate, out bLocalAxisY);
         }
     }
 }

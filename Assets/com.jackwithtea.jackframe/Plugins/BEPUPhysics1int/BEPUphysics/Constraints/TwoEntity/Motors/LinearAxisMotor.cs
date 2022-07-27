@@ -15,18 +15,18 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
 
         private Fixed64 accumulatedImpulse;
         private Fixed64 biasVelocity;
-        private Vector3 jAngularA, jAngularB;
-        private Vector3 jLinearA, jLinearB;
-        private Vector3 localAnchorA;
-        private Vector3 localAnchorB;
+        private FixedV3 jAngularA, jAngularB;
+        private FixedV3 jLinearA, jLinearB;
+        private FixedV3 localAnchorA;
+        private FixedV3 localAnchorB;
         private Fixed64 massMatrix;
         private Fixed64 error;
-        private Vector3 localAxis;
-        private Vector3 worldAxis;
-        private Vector3 rA; //Jacobian entry for entity A.
-        private Vector3 worldAnchorA;
-        private Vector3 worldAnchorB;
-        private Vector3 worldOffsetA, worldOffsetB;
+        private FixedV3 localAxis;
+        private FixedV3 worldAxis;
+        private FixedV3 rA; //Jacobian entry for entity A.
+        private FixedV3 worldAnchorA;
+        private FixedV3 worldAnchorB;
+        private FixedV3 worldOffsetA, worldOffsetB;
 
         /// <summary>
         /// Constrains anchors on two entities to move relative to each other on a line.
@@ -49,7 +49,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <param name="anchorA">World space point to attach to connection A that will be constrained.</param>
         /// <param name="anchorB">World space point to attach to connection B that will be constrained.</param>
         /// <param name="axis">Limited axis in world space to attach to connection A.</param>
-        public LinearAxisMotor(Entity connectionA, Entity connectionB, Vector3 anchorA, Vector3 anchorB, Vector3 axis)
+        public LinearAxisMotor(Entity connectionA, Entity connectionB, FixedV3 anchorA, FixedV3 anchorB, FixedV3 axis)
         {
             ConnectionA = connectionA;
             ConnectionB = connectionB;
@@ -63,28 +63,28 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the anchor point attached to entity A in world space.
         /// </summary>
-        public Vector3 AnchorA
+        public FixedV3 AnchorA
         {
             get { return worldAnchorA; }
             set
             {
                 worldAnchorA = value;
                 worldOffsetA = worldAnchorA - connectionA.position;
-                Matrix3x3.TransformTranspose(ref worldOffsetA, ref connectionA.orientationMatrix, out localAnchorA);
+                BEPUMatrix3x3.TransformTranspose(ref worldOffsetA, ref connectionA.orientationMatrix, out localAnchorA);
             }
         }
 
         /// <summary>
         /// Gets or sets the anchor point attached to entity A in world space.
         /// </summary>
-        public Vector3 AnchorB
+        public FixedV3 AnchorB
         {
             get { return worldAnchorB; }
             set
             {
                 worldAnchorB = value;
                 worldOffsetB = worldAnchorB - connectionB.position;
-                Matrix3x3.TransformTranspose(ref worldOffsetB, ref connectionB.orientationMatrix, out localAnchorB);
+                BEPUMatrix3x3.TransformTranspose(ref worldOffsetB, ref connectionB.orientationMatrix, out localAnchorB);
             }
         }
 
@@ -92,39 +92,39 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the motorized axis in world space.
         /// </summary>
-        public Vector3 Axis
+        public FixedV3 Axis
         {
             get { return worldAxis; }
             set
             {
-                worldAxis = Vector3.Normalize(value);
-                Matrix3x3.TransformTranspose(ref worldAxis, ref connectionA.orientationMatrix, out localAxis);
+                worldAxis = FixedV3.Normalize(value);
+                BEPUMatrix3x3.TransformTranspose(ref worldAxis, ref connectionA.orientationMatrix, out localAxis);
             }
         }
 
         /// <summary>
         /// Gets or sets the limited axis in the local space of connection A.
         /// </summary>
-        public Vector3 LocalAxis
+        public FixedV3 LocalAxis
         {
             get { return localAxis; }
             set
             {
-                localAxis = Vector3.Normalize(value);
-                Matrix3x3.Transform(ref localAxis, ref connectionA.orientationMatrix, out worldAxis);
+                localAxis = FixedV3.Normalize(value);
+                BEPUMatrix3x3.Transform(ref localAxis, ref connectionA.orientationMatrix, out worldAxis);
             }
         }
 
         /// <summary>
         /// Gets or sets the offset from the first entity's center of mass to the anchor point in its local space.
         /// </summary>
-        public Vector3 LocalOffsetA
+        public FixedV3 LocalOffsetA
         {
             get { return localAnchorA; }
             set
             {
                 localAnchorA = value;
-                Matrix3x3.Transform(ref localAnchorA, ref connectionA.orientationMatrix, out worldOffsetA);
+                BEPUMatrix3x3.Transform(ref localAnchorA, ref connectionA.orientationMatrix, out worldOffsetA);
                 worldAnchorA = connectionA.position + worldOffsetA;
             }
         }
@@ -132,13 +132,13 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the offset from the second entity's center of mass to the anchor point in its local space.
         /// </summary>
-        public Vector3 LocalOffsetB
+        public FixedV3 LocalOffsetB
         {
             get { return localAnchorB; }
             set
             {
                 localAnchorB = value;
-                Matrix3x3.Transform(ref localAnchorB, ref connectionB.orientationMatrix, out worldOffsetB);
+                BEPUMatrix3x3.Transform(ref localAnchorB, ref connectionB.orientationMatrix, out worldOffsetB);
                 worldAnchorB = connectionB.position + worldOffsetB;
             }
         }
@@ -146,14 +146,14 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the offset from the first entity's center of mass to the anchor point in world space.
         /// </summary>
-        public Vector3 OffsetA
+        public FixedV3 OffsetA
         {
             get { return worldOffsetA; }
             set
             {
                 worldOffsetA = value;
                 worldAnchorA = connectionA.position + worldOffsetA;
-                Matrix3x3.TransformTranspose(ref worldOffsetA, ref connectionA.orientationMatrix, out localAnchorA); //Looks weird, but localAnchorA is "localOffsetA."
+                BEPUMatrix3x3.TransformTranspose(ref worldOffsetA, ref connectionA.orientationMatrix, out localAnchorA); //Looks weird, but localAnchorA is "localOffsetA."
 
             }
         }
@@ -161,14 +161,14 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the offset from the second entity's center of mass to the anchor point in world space.
         /// </summary>
-        public Vector3 OffsetB
+        public FixedV3 OffsetB
         {
             get { return worldOffsetB; }
             set
             {
                 worldOffsetB = value;
                 worldAnchorB = connectionB.position + worldOffsetB;
-                Matrix3x3.TransformTranspose(ref worldOffsetB, ref connectionB.orientationMatrix, out localAnchorB);//Looks weird, but localAnchorB is "localOffsetB."
+                BEPUMatrix3x3.TransformTranspose(ref worldOffsetB, ref connectionB.orientationMatrix, out localAnchorB);//Looks weird, but localAnchorB is "localOffsetB."
             }
         }
 
@@ -190,12 +190,12 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
             get
             {
                 Fixed64 lambda, dot;
-                Vector3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
-                Vector3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
+                FixedV3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
+                FixedV3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
                 lambda += dot;
-                Vector3.Dot(ref jLinearB, ref connectionB.linearVelocity, out dot);
+                FixedV3.Dot(ref jLinearB, ref connectionB.linearVelocity, out dot);
                 lambda += dot;
-                Vector3.Dot(ref jAngularB, ref connectionB.angularVelocity, out dot);
+                FixedV3.Dot(ref jAngularB, ref connectionB.angularVelocity, out dot);
                 lambda += dot;
                 return lambda;
             }
@@ -228,7 +228,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// Gets the linear jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the first connected entity.</param>
-        public void GetLinearJacobianA(out Vector3 jacobian)
+        public void GetLinearJacobianA(out FixedV3 jacobian)
         {
             jacobian = jLinearA;
         }
@@ -237,7 +237,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// Gets the linear jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Linear jacobian entry for the second connected entity.</param>
-        public void GetLinearJacobianB(out Vector3 jacobian)
+        public void GetLinearJacobianB(out FixedV3 jacobian)
         {
             jacobian = jLinearB;
         }
@@ -246,7 +246,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// Gets the angular jacobian entry for the first connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the first connected entity.</param>
-        public void GetAngularJacobianA(out Vector3 jacobian)
+        public void GetAngularJacobianA(out FixedV3 jacobian)
         {
             jacobian = jAngularA;
         }
@@ -255,7 +255,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// Gets the angular jacobian entry for the second connected entity.
         /// </summary>
         /// <param name="jacobian">Angular jacobian entry for the second connected entity.</param>
-        public void GetAngularJacobianB(out Vector3 jacobian)
+        public void GetAngularJacobianB(out FixedV3 jacobian)
         {
             jacobian = jAngularB;
         }
@@ -279,12 +279,12 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         {
             //Compute the current relative velocity.
             Fixed64 lambda, dot;
-            Vector3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
-            Vector3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
+            FixedV3.Dot(ref jLinearA, ref connectionA.linearVelocity, out lambda);
+            FixedV3.Dot(ref jAngularA, ref connectionA.angularVelocity, out dot);
             lambda += dot;
-            Vector3.Dot(ref jLinearB, ref connectionB.linearVelocity, out dot);
+            FixedV3.Dot(ref jLinearB, ref connectionB.linearVelocity, out dot);
             lambda += dot;
-            Vector3.Dot(ref jAngularB, ref connectionB.angularVelocity, out dot);
+            FixedV3.Dot(ref jAngularB, ref connectionB.angularVelocity, out dot);
             lambda += dot;
 
             //Add in the constraint space bias velocity
@@ -299,19 +299,19 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
             lambda = accumulatedImpulse - previousAccumulatedImpulse;
 
             //Apply the impulse
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jLinearA, lambda, out impulse);
+                FixedV3.Multiply(ref jLinearA, lambda, out impulse);
                 connectionA.ApplyLinearImpulse(ref impulse);
-                Vector3.Multiply(ref jAngularA, lambda, out impulse);
+                FixedV3.Multiply(ref jAngularA, lambda, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jLinearB, lambda, out impulse);
+                FixedV3.Multiply(ref jLinearB, lambda, out impulse);
                 connectionB.ApplyLinearImpulse(ref impulse);
-                Vector3.Multiply(ref jAngularB, lambda, out impulse);
+                FixedV3.Multiply(ref jAngularB, lambda, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
 
@@ -321,19 +321,19 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         public override void Update(Fixed64 dt)
         {
             //Compute the 'pre'-jacobians
-            Matrix3x3.Transform(ref localAnchorA, ref connectionA.orientationMatrix, out worldOffsetA);
-            Matrix3x3.Transform(ref localAnchorB, ref connectionB.orientationMatrix, out worldOffsetB);
-            Vector3.Add(ref worldOffsetA, ref connectionA.position, out worldAnchorA);
-            Vector3.Add(ref worldOffsetB, ref connectionB.position, out worldAnchorB);
-            Vector3.Subtract(ref worldAnchorB, ref connectionA.position, out rA);
-            Matrix3x3.Transform(ref localAxis, ref connectionA.orientationMatrix, out worldAxis);
+            BEPUMatrix3x3.Transform(ref localAnchorA, ref connectionA.orientationMatrix, out worldOffsetA);
+            BEPUMatrix3x3.Transform(ref localAnchorB, ref connectionB.orientationMatrix, out worldOffsetB);
+            FixedV3.Add(ref worldOffsetA, ref connectionA.position, out worldAnchorA);
+            FixedV3.Add(ref worldOffsetB, ref connectionB.position, out worldAnchorB);
+            FixedV3.Subtract(ref worldAnchorB, ref connectionA.position, out rA);
+            BEPUMatrix3x3.Transform(ref localAxis, ref connectionA.orientationMatrix, out worldAxis);
 
             Fixed64 updateRate = F64.C1 / dt;
             if (settings.mode == MotorMode.Servomechanism)
             {
                 //Compute error
 #if !WINDOWS
-            Vector3 separation = new Vector3();
+            FixedV3 separation = new FixedV3();
 #else
                 Vector3 separation;
 #endif
@@ -341,7 +341,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
                 separation.Y = worldAnchorB.Y - worldAnchorA.Y;
                 separation.Z = worldAnchorB.Z - worldAnchorA.Z;
 
-                Vector3.Dot(ref separation, ref worldAxis, out error);
+                FixedV3.Dot(ref separation, ref worldAxis, out error);
 
                 //Compute error
                 error = error - settings.servo.goal;
@@ -366,24 +366,24 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
             jLinearB.X = -jLinearA.X;
             jLinearB.Y = -jLinearA.Y;
             jLinearB.Z = -jLinearA.Z;
-            Vector3.Cross(ref rA, ref jLinearA, out jAngularA);
-            Vector3.Cross(ref worldOffsetB, ref jLinearB, out jAngularB);
+            FixedV3.Cross(ref rA, ref jLinearA, out jAngularA);
+            FixedV3.Cross(ref worldOffsetB, ref jLinearB, out jAngularB);
 
             //compute mass matrix
             Fixed64 entryA, entryB;
-            Vector3 intermediate;
+            FixedV3 intermediate;
             if (connectionA.isDynamic)
             {
-                Matrix3x3.Transform(ref jAngularA, ref connectionA.inertiaTensorInverse, out intermediate);
-                Vector3.Dot(ref intermediate, ref jAngularA, out entryA);
+                BEPUMatrix3x3.Transform(ref jAngularA, ref connectionA.inertiaTensorInverse, out intermediate);
+                FixedV3.Dot(ref intermediate, ref jAngularA, out entryA);
                 entryA += connectionA.inverseMass;
             }
             else
                 entryA = F64.C0;
             if (connectionB.isDynamic)
             {
-                Matrix3x3.Transform(ref jAngularB, ref connectionB.inertiaTensorInverse, out intermediate);
-                Vector3.Dot(ref intermediate, ref jAngularB, out entryB);
+                BEPUMatrix3x3.Transform(ref jAngularB, ref connectionB.inertiaTensorInverse, out intermediate);
+                FixedV3.Dot(ref intermediate, ref jAngularB, out entryB);
                 entryB += connectionB.inverseMass;
             }
             else
@@ -405,19 +405,19 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         public override void ExclusiveUpdate()
         {
             //Warm starting
-            Vector3 impulse;
+            FixedV3 impulse;
             if (connectionA.isDynamic)
             {
-                Vector3.Multiply(ref jLinearA, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jLinearA, accumulatedImpulse, out impulse);
                 connectionA.ApplyLinearImpulse(ref impulse);
-                Vector3.Multiply(ref jAngularA, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jAngularA, accumulatedImpulse, out impulse);
                 connectionA.ApplyAngularImpulse(ref impulse);
             }
             if (connectionB.isDynamic)
             {
-                Vector3.Multiply(ref jLinearB, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jLinearB, accumulatedImpulse, out impulse);
                 connectionB.ApplyLinearImpulse(ref impulse);
-                Vector3.Multiply(ref jAngularB, accumulatedImpulse, out impulse);
+                FixedV3.Multiply(ref jAngularB, accumulatedImpulse, out impulse);
                 connectionB.ApplyAngularImpulse(ref impulse);
             }
         }

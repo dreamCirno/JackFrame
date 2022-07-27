@@ -71,7 +71,7 @@ namespace BEPUphysics.Paths.PathFollowing
         /// <summary>
         /// Gets or sets the point in the entity's local space that will be moved towards the target position.
         /// </summary>
-        public Vector3 LocalOffset
+        public FixedV3 LocalOffset
         {
             get { return LinearMotor.LocalPoint; }
             set { LinearMotor.LocalPoint = value; }
@@ -80,7 +80,7 @@ namespace BEPUphysics.Paths.PathFollowing
         /// <summary>
         /// Gets or sets the point attached to the entity in world space that will be moved towards the target position.
         /// </summary>
-        public Vector3 Offset
+        public FixedV3 Offset
         {
             get { return LinearMotor.Point; }
             set { LinearMotor.Point = value; }
@@ -89,7 +89,7 @@ namespace BEPUphysics.Paths.PathFollowing
         /// <summary>
         /// Gets or sets the target location of the entity mover.
         /// </summary>
-        public Vector3 TargetPosition { get; set; }
+        public FixedV3 TargetPosition { get; set; }
 
         /// <summary>
         /// Gets the angular velocity necessary to change an entity's orientation from
@@ -99,11 +99,11 @@ namespace BEPUphysics.Paths.PathFollowing
         /// <param name="end">Final position.</param>
         /// <param name="dt">Time over which the angular velocity is to be applied.</param>
         /// <returns>Angular velocity to reach the goal in time.</returns>
-        public static Vector3 GetLinearVelocity(Vector3 start, Vector3 end, Fixed64 dt)
+        public static FixedV3 GetLinearVelocity(FixedV3 start, FixedV3 end, Fixed64 dt)
         {
-            Vector3 offset;
-            Vector3.Subtract(ref end, ref start, out offset);
-            Vector3.Divide(ref offset, dt, out offset);
+            FixedV3 offset;
+            FixedV3.Subtract(ref end, ref start, out offset);
+            FixedV3.Divide(ref offset, dt, out offset);
             return offset;
         }
 
@@ -141,8 +141,8 @@ namespace BEPUphysics.Paths.PathFollowing
             else
             {
                 LinearMotor.IsActive = false;
-                Vector3 worldMovedPoint = Matrix3x3.Transform(LocalOffset, entity.orientationMatrix);
-                Vector3.Add(ref worldMovedPoint, ref entity.position, out worldMovedPoint);
+                FixedV3 worldMovedPoint = BEPUMatrix3x3.Transform(LocalOffset, entity.orientationMatrix);
+                FixedV3.Add(ref worldMovedPoint, ref entity.position, out worldMovedPoint);
                 Entity.LinearVelocity = GetLinearVelocity(worldMovedPoint, TargetPosition, dt);
             }
         }

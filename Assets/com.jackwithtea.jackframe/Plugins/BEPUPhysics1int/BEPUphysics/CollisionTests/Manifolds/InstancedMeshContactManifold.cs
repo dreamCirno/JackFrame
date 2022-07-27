@@ -35,11 +35,11 @@ namespace BEPUphysics.CollisionTests.Manifolds
             convex.Shape.GetLocalBoundingBox(ref convex.worldTransform, ref mesh.worldTransform, out boundingBox);
             if (convex.entity != null)
             {
-                Vector3 transformedVelocity;
-                Matrix3x3 inverse;
-                Matrix3x3.Invert(ref mesh.worldTransform.LinearTransform, out inverse);
-                Matrix3x3.Transform(ref convex.entity.linearVelocity, ref inverse, out transformedVelocity);
-                Vector3.Multiply(ref transformedVelocity, dt, out transformedVelocity);
+                FixedV3 transformedVelocity;
+                BEPUMatrix3x3 inverse;
+                BEPUMatrix3x3.Invert(ref mesh.worldTransform.LinearTransform, out inverse);
+                BEPUMatrix3x3.Transform(ref convex.entity.linearVelocity, ref inverse, out transformedVelocity);
+                FixedV3.Multiply(ref transformedVelocity, dt, out transformedVelocity);
 
                 if (transformedVelocity.X > F64.C0)
                     boundingBox.Max.X += transformedVelocity.X;

@@ -12,11 +12,11 @@ namespace BEPUphysics.OtherSpaceStages
     {
 
         RawList<IForceUpdateable> dynamicObjects = new RawList<IForceUpdateable>();
-        protected internal Vector3 gravity;
+        protected internal FixedV3 gravity;
         ///<summary>
         /// Gets or sets the gravity applied by the force updater.
         ///</summary>
-        public Vector3 Gravity
+        public FixedV3 Gravity
         {
             get
             {
@@ -28,7 +28,7 @@ namespace BEPUphysics.OtherSpaceStages
             }
         }
 
-        internal Vector3 gravityDt;
+        internal FixedV3 gravityDt;
 
         protected TimeStepSettings timeStepSettings;
 
@@ -78,13 +78,13 @@ namespace BEPUphysics.OtherSpaceStages
 
         protected override void UpdateMultithreaded()
         {
-            Vector3.Multiply(ref gravity, timeStepSettings.TimeStepDuration, out gravityDt);
+            FixedV3.Multiply(ref gravity, timeStepSettings.TimeStepDuration, out gravityDt);
             ParallelLooper.ForLoop(0, dynamicObjects.Count, multithreadedLoopBodyDelegate);
         }
 
         protected override void UpdateSingleThreaded()
         {
-            Vector3.Multiply(ref gravity, timeStepSettings.TimeStepDuration, out gravityDt);
+            FixedV3.Multiply(ref gravity, timeStepSettings.TimeStepDuration, out gravityDt);
             for (int i = 0; i < dynamicObjects.Count; i++)
             {
                 UpdateObject(i);

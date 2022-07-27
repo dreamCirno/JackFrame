@@ -14,7 +14,7 @@ namespace BEPUphysics.Vehicle
     /// </summary>
     public class Wheel
     {
-        internal Vector3 ra, rb;
+        internal FixedV3 ra, rb;
 
         /// <summary>
         /// Used for solver early outing.
@@ -26,19 +26,19 @@ namespace BEPUphysics.Vehicle
         internal WheelDrivingMotor drivingMotor;
 
 
-        internal Vector3 localForwardDirection = new Vector3(F64.C0, F64.C0, -1);
+        internal FixedV3 localForwardDirection = new FixedV3(F64.C0, F64.C0, -1);
 
-        internal Vector3 normal;
+        internal FixedV3 normal;
         internal WheelShape shape;
         internal WheelSlidingFriction slidingFriction;
 
         internal Collidable supportingCollidable;
         internal Material supportMaterial;
-        internal Vector3 supportLocation;
+        internal FixedV3 supportLocation;
         internal Entity supportingEntity;
         internal WheelSuspension suspension;
         internal Vehicle vehicle;
-        internal Vector3 worldForwardDirection;
+        internal FixedV3 worldForwardDirection;
 
 
         /// <summary>
@@ -133,14 +133,14 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets or sets the local space forward direction of the wheel.
         /// </summary>
-        public Vector3 LocalForwardDirection
+        public FixedV3 LocalForwardDirection
         {
             get { return localForwardDirection; }
             set
             {
-                localForwardDirection = Vector3.Normalize(value);
+                localForwardDirection = FixedV3.Normalize(value);
                 if (vehicle != null)
-                    Matrix3x3.Transform(ref localForwardDirection, ref Vehicle.Body.orientationMatrix, out worldForwardDirection);
+                    BEPUMatrix3x3.Transform(ref localForwardDirection, ref Vehicle.Body.orientationMatrix, out worldForwardDirection);
                 else
                     worldForwardDirection = localForwardDirection;
             }
@@ -204,7 +204,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets the current support location of this wheel.
         /// </summary>
-        public Vector3 SupportLocation
+        public FixedV3 SupportLocation
         {
             get { return supportLocation; }
         }
@@ -212,7 +212,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets the normal 
         /// </summary>
-        public Vector3 SupportNormal
+        public FixedV3 SupportNormal
         {
             get { return normal; }
         }
@@ -281,17 +281,17 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets or sets the world space forward direction of the wheel.
         /// </summary>
-        public Vector3 WorldForwardDirection
+        public FixedV3 WorldForwardDirection
         {
             get { return worldForwardDirection; }
             set
             {
-                worldForwardDirection = Vector3.Normalize(value);
+                worldForwardDirection = FixedV3.Normalize(value);
                 if (vehicle != null)
                 {
-                    Quaternion conjugate;
-                    Quaternion.Conjugate(ref Vehicle.Body.orientation, out conjugate);
-                    Quaternion.Transform(ref worldForwardDirection, ref conjugate, out localForwardDirection);
+                    FixedQuaternion conjugate;
+                    FixedQuaternion.Conjugate(ref Vehicle.Body.orientation, out conjugate);
+                    FixedQuaternion.Transform(ref worldForwardDirection, ref conjugate, out localForwardDirection);
                 }
                 else
                     localForwardDirection = worldForwardDirection;
@@ -301,14 +301,14 @@ namespace BEPUphysics.Vehicle
 
         internal void PreStep(Fixed64 dt)
         {
-            Matrix.CreateFromAxisAngle(ref suspension.localDirection, shape.steeringAngle, out shape.steeringTransform);
-            Matrix.TransformNormal(ref localForwardDirection, ref shape.steeringTransform, out worldForwardDirection);
-            Matrix3x3.Transform(ref worldForwardDirection, ref Vehicle.Body.orientationMatrix, out worldForwardDirection);
+            BEPUMatrix.CreateFromAxisAngle(ref suspension.localDirection, shape.steeringAngle, out shape.steeringTransform);
+            BEPUMatrix.TransformNormal(ref localForwardDirection, ref shape.steeringTransform, out worldForwardDirection);
+            BEPUMatrix3x3.Transform(ref worldForwardDirection, ref Vehicle.Body.orientationMatrix, out worldForwardDirection);
             if (HasSupport)
             {
-                Vector3.Subtract(ref supportLocation, ref Vehicle.Body.position, out ra);
+                FixedV3.Subtract(ref supportLocation, ref Vehicle.Body.position, out ra);
                 if (supportingEntity != null)
-                    Vector3.Subtract(ref supportLocation, ref SupportingEntity.position, out rb);
+                    FixedV3.Subtract(ref supportLocation, ref SupportingEntity.position, out rb);
 
 
                 //Mind the order of updating!  sliding friction must come before driving force or rolling friction

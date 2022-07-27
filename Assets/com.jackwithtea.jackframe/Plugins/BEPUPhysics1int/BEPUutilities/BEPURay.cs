@@ -6,16 +6,16 @@ namespace BEPUutilities
     /// <summary>
     /// Provides XNA-like ray functionality.
     /// </summary>
-    public struct Ray
+    public struct BEPURay
     {
         /// <summary>
         /// Starting position of the ray.
         /// </summary>
-        public Vector3 Position;
+        public FixedV3 Position;
         /// <summary>
         /// Direction in which the ray points.
         /// </summary>
-        public Vector3 Direction;
+        public FixedV3 Direction;
 
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="position">Starting position of the ray.</param>
         /// <param name="direction">Direction in which the ray points.</param>
-        public Ray(Vector3 position, Vector3 direction)
+        public BEPURay(FixedV3 position, FixedV3 direction)
         {
             this.Position = position;
             this.Direction = direction;
@@ -148,17 +148,17 @@ namespace BEPUutilities
         /// <param name="plane">Plane to test against.</param>
         /// <param name="t">The length along the ray to the impact, if any impact occurs.</param>
         /// <returns>True if the ray intersects the target, false otherwise.</returns>
-        public bool Intersects(ref Plane plane, out Fixed64 t)
+        public bool Intersects(ref BEPUPlane plane, out Fixed64 t)
         {
 			Fixed64 velocity;
-            Vector3.Dot(ref Direction, ref plane.Normal, out velocity);
+            FixedV3.Dot(ref Direction, ref plane.Normal, out velocity);
             if (Fixed64.Abs(velocity) < Toolbox.Epsilon)
             {
                 t = F64.C0;
                 return false;
             }
 			Fixed64 distanceAlongNormal;
-            Vector3.Dot(ref Position, ref plane.Normal, out distanceAlongNormal);
+            FixedV3.Dot(ref Position, ref plane.Normal, out distanceAlongNormal);
             distanceAlongNormal += plane.D;
             t = -distanceAlongNormal / velocity;
             return t >= -Toolbox.Epsilon;
@@ -170,7 +170,7 @@ namespace BEPUutilities
         /// <param name="plane">Plane to test against.</param>
         /// <param name="t">The length along the ray to the impact, if any impact occurs.</param>
         /// <returns>True if the ray intersects the target, false otherwise.</returns>
-        public bool Intersects(Plane plane, out Fixed64 t)
+        public bool Intersects(BEPUPlane plane, out Fixed64 t)
         {
             return Intersects(ref plane, out t);
         }
@@ -180,10 +180,10 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="t">Length along the ray from the ray position in terms of the ray's direction.</param>
         /// <param name="v">Point along the ray at the given location.</param>
-        public void GetPointOnRay(Fixed64 t, out Vector3 v)
+        public void GetPointOnRay(Fixed64 t, out FixedV3 v)
         {
-            Vector3.Multiply(ref Direction, t, out v);
-            Vector3.Add(ref v, ref Position, out v);
+            FixedV3.Multiply(ref Direction, t, out v);
+            FixedV3.Add(ref v, ref Position, out v);
         }
     }
 }

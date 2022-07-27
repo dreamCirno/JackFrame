@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace BEPUutilities
 {
-	static class Matrix3x6
+	static class BEPUMatrix3x6
 	{
 		[ThreadStatic] private static Fixed64[,] Matrix;
 
@@ -62,7 +62,7 @@ namespace BEPUutilities
 			return true;
 		}
 		
-		public static bool Invert(ref Matrix3x3 m, out Matrix3x3 r)
+		public static bool Invert(ref BEPUMatrix3x3 m, out BEPUMatrix3x3 r)
 		{
 			if (Matrix == null)
 				 Matrix = new Fixed64[3, 6];
@@ -91,10 +91,10 @@ namespace BEPUutilities
 
 			if (!Gauss(M, 3, 6))
 			{
-				r = new Matrix3x3();
+				r = new BEPUMatrix3x3();
 				return false;
 			}
-			r = new Matrix3x3(
+			r = new BEPUMatrix3x3(
 				// m11...m13
 				M[0, 3],
 				M[0, 4],

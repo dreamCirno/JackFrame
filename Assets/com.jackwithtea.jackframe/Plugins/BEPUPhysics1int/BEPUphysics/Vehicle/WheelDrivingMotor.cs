@@ -47,7 +47,7 @@ namespace BEPUphysics.Vehicle
         internal bool isActive = true;
         internal Fixed64 linearAX, linearAY, linearAZ;
         private Fixed64 currentFrictionCoefficient;
-        internal Vector3 forceAxis;
+        internal FixedV3 forceAxis;
         private Fixed64 gripFriction;
         private WheelFrictionBlender gripFrictionBlender = DefaultGripFrictionBlender;
         private Fixed64 maxMotorForceDt;
@@ -93,7 +93,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets the axis along which the driving forces are applied.
         /// </summary>
-        public Vector3 ForceAxis
+        public FixedV3 ForceAxis
         {
             get { return forceAxis; }
         }
@@ -219,8 +219,8 @@ namespace BEPUphysics.Vehicle
 
             //Apply the impulse
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif
@@ -256,7 +256,7 @@ namespace BEPUphysics.Vehicle
             supportEntity = wheel.SupportingEntity;
             supportIsDynamic = supportEntity != null && supportEntity.isDynamic;
 
-            Vector3.Cross(ref wheel.normal, ref wheel.slidingFriction.slidingFrictionAxis, out forceAxis);
+            FixedV3.Cross(ref wheel.normal, ref wheel.slidingFriction.slidingFrictionAxis, out forceAxis);
             forceAxis.Normalize();
             //Do not need to check for normalize safety because normal and sliding friction axis must be perpendicular.
 
@@ -318,8 +318,8 @@ namespace BEPUphysics.Vehicle
         {
             //Warm starting
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif

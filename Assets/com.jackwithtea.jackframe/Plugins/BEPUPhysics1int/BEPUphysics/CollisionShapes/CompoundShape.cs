@@ -49,7 +49,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="position">Local position of the shape.</param>
         ///<param name="weight">Weight of the entry.  This defines how much the entry contributes to its owner
         /// for the purposes of center of mass and inertia computation.</param>
-        public CompoundShapeEntry(EntityShape shape, Vector3 position, Fixed64 weight)
+        public CompoundShapeEntry(EntityShape shape, FixedV3 position, Fixed64 weight)
         {
             position.Validate();
             LocalTransform = new RigidTransform(position);
@@ -64,7 +64,7 @@ namespace BEPUphysics.CollisionShapes
         ///<param name="orientation">Local orientation of the shape.</param>
         ///<param name="weight">Weight of the entry.  This defines how much the entry contributes to its owner
         /// for the purposes of center of rotation computation.</param>
-        public CompoundShapeEntry(EntityShape shape, Quaternion orientation, Fixed64 weight)
+        public CompoundShapeEntry(EntityShape shape, FixedQuaternion orientation, Fixed64 weight)
         {
             orientation.Validate();
             LocalTransform = new RigidTransform(orientation);
@@ -102,7 +102,7 @@ namespace BEPUphysics.CollisionShapes
         ///</summary>
         ///<param name="shape">Shape to use.</param>
         ///<param name="position">Local position of the shape.</param>
-        public CompoundShapeEntry(EntityShape shape, Vector3 position)
+        public CompoundShapeEntry(EntityShape shape, FixedV3 position)
         {
             position.Validate();
             LocalTransform = new RigidTransform(position);
@@ -115,7 +115,7 @@ namespace BEPUphysics.CollisionShapes
         ///</summary>
         ///<param name="shape">Shape to use.</param>
         ///<param name="orientation">Local orientation of the shape.</param>
-        public CompoundShapeEntry(EntityShape shape, Quaternion orientation)
+        public CompoundShapeEntry(EntityShape shape, FixedQuaternion orientation)
         {
             orientation.Validate();
             LocalTransform = new RigidTransform(orientation);
@@ -161,7 +161,7 @@ namespace BEPUphysics.CollisionShapes
         ///</summary>
         ///<param name="shapes">Shape entries used to create the compound.</param>
         /// <param name="center">Computed center of the compound shape, using the entry weights.</param>
-        public CompoundShape(IList<CompoundShapeEntry> shapes, out Vector3 center)
+        public CompoundShape(IList<CompoundShapeEntry> shapes, out FixedV3 center)
         {
             if (shapes.Count > 0)
             {
@@ -191,7 +191,7 @@ namespace BEPUphysics.CollisionShapes
             if (shapes.Count > 0)
             {
                 Fixed64 volume;
-                Vector3 center;
+                FixedV3 center;
                 ComputeVolumeDistribution(shapes, out volume, out volumeDistribution, out center);
                 Volume = volume;
 
@@ -226,9 +226,9 @@ namespace BEPUphysics.CollisionShapes
         /// <param name="volume">Summed volume of the constituent shapes. Intersecting volumes get double counted.</param>
         /// <param name="volumeDistribution">Volume distribution of the shape.</param>
         /// <param name="center">Center of the compound.</param>
-        public static void ComputeVolumeDistribution(IList<CompoundShapeEntry> entries, out Fixed64 volume, out Matrix3x3 volumeDistribution, out Vector3 center)
+        public static void ComputeVolumeDistribution(IList<CompoundShapeEntry> entries, out Fixed64 volume, out BEPUMatrix3x3 volumeDistribution, out FixedV3 center)
         {
-            center = new Vector3();
+            center = new FixedV3();
             Fixed64 totalWeight = F64.C0;
             volume = F64.C0;
             for (int i = 0; i < entries.Count; i++)
@@ -243,15 +243,15 @@ namespace BEPUphysics.CollisionShapes
             totalWeightInverse.Validate();
             center *= totalWeightInverse;
 
-            volumeDistribution = new Matrix3x3();
+            volumeDistribution = new BEPUMatrix3x3();
             for (int i = 0; i < entries.Count; i++)
             {
                 RigidTransform transform = entries[i].LocalTransform;
-                Matrix3x3 contribution;
+                BEPUMatrix3x3 contribution;
                 TransformContribution(ref transform, ref center, ref entries[i].Shape.volumeDistribution, entries[i].Weight, out contribution);
-                Matrix3x3.Add(ref volumeDistribution, ref contribution, out volumeDistribution);
+                BEPUMatrix3x3.Add(ref volumeDistribution, ref contribution, out volumeDistribution);
             }
-            Matrix3x3.Multiply(ref volumeDistribution, totalWeightInverse, out volumeDistribution);
+            BEPUMatrix3x3.Multiply(ref volumeDistribution, totalWeightInverse, out volumeDistribution);
             volumeDistribution.Validate();
         }
 
@@ -264,30 +264,30 @@ namespace BEPUphysics.CollisionShapes
         /// <param name="baseContribution">Original unmodified contribution.</param>
         /// <param name="weight">Weight of the contribution.</param>
         /// <param name="contribution">Transformed contribution.</param>
-        public static void TransformContribution(ref RigidTransform transform, ref Vector3 center, ref Matrix3x3 baseContribution, Fixed64 weight, out Matrix3x3 contribution)
+        public static void TransformContribution(ref RigidTransform transform, ref FixedV3 center, ref BEPUMatrix3x3 baseContribution, Fixed64 weight, out BEPUMatrix3x3 contribution)
         {
-            Matrix3x3 rotation;
-            Matrix3x3.CreateFromQuaternion(ref transform.Orientation, out rotation);
-            Matrix3x3 temp;
+            BEPUMatrix3x3 rotation;
+            BEPUMatrix3x3.CreateFromQuaternion(ref transform.Orientation, out rotation);
+            BEPUMatrix3x3 temp;
             
             //Do angular transformed contribution first...
-            Matrix3x3.MultiplyTransposed(ref rotation, ref baseContribution, out temp);
-            Matrix3x3.Multiply(ref temp, ref rotation, out temp);
+            BEPUMatrix3x3.MultiplyTransposed(ref rotation, ref baseContribution, out temp);
+            BEPUMatrix3x3.Multiply(ref temp, ref rotation, out temp);
 
             contribution = temp;
 
             //Now add in the offset from the origin.
-            Vector3 offset;
-            Vector3.Subtract(ref transform.Position, ref center, out offset);
-            Matrix3x3 innerProduct;
-            Matrix3x3.CreateScale(offset.LengthSquared(), out innerProduct);
-            Matrix3x3 outerProduct;
-            Matrix3x3.CreateOuterProduct(ref offset, ref offset, out outerProduct);
+            FixedV3 offset;
+            FixedV3.Subtract(ref transform.Position, ref center, out offset);
+            BEPUMatrix3x3 innerProduct;
+            BEPUMatrix3x3.CreateScale(offset.LengthSquared(), out innerProduct);
+            BEPUMatrix3x3 outerProduct;
+            BEPUMatrix3x3.CreateOuterProduct(ref offset, ref offset, out outerProduct);
 
-            Matrix3x3.Subtract(ref innerProduct, ref outerProduct, out temp);
+            BEPUMatrix3x3.Subtract(ref innerProduct, ref outerProduct, out temp);
 
-            Matrix3x3.Add(ref contribution, ref temp, out contribution);
-            Matrix3x3.Multiply(ref contribution, weight, out contribution);
+            BEPUMatrix3x3.Add(ref contribution, ref temp, out contribution);
+            BEPUMatrix3x3.Multiply(ref contribution, weight, out contribution);
 
         }
 

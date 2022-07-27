@@ -23,12 +23,12 @@ namespace BEPUphysics.UpdateableSystems
         //(A mesh volume, maybe?)
 
         private RigidTransform surfaceTransform;
-        private Matrix3x3 toSurfaceRotationMatrix;
-        Vector3 upVector;
+        private BEPUMatrix3x3 toSurfaceRotationMatrix;
+        FixedV3 upVector;
         ///<summary>
         /// Gets or sets the up vector of the fluid volume.
         ///</summary>
-        public Vector3 UpVector
+        public FixedV3 UpVector
         {
             get
             {
@@ -113,12 +113,12 @@ namespace BEPUphysics.UpdateableSystems
 
 
 
-        private Vector3 flowDirection;
+        private FixedV3 flowDirection;
         /// <summary>
         /// Direction in which to exert force on objects within the fluid.
         /// flowForce and maxFlowSpeed must have valid values as well for the flow to work.
         /// </summary>
-        public Vector3 FlowDirection
+        public FixedV3 FlowDirection
         {
             get
             {
@@ -132,7 +132,7 @@ namespace BEPUphysics.UpdateableSystems
                     flowDirection = value / length;
                 }
                 else
-                    flowDirection = Vector3.Zero;
+                    flowDirection = FixedV3.Zero;
                 //TODO: Activate bodies in water
             }
         }
@@ -181,11 +181,11 @@ namespace BEPUphysics.UpdateableSystems
         ///</summary>
         public IParallelLooper ParallelLooper { get; set; }
 
-        private List<Vector3[]> surfaceTriangles;
+        private List<FixedV3[]> surfaceTriangles;
         /// <summary>
         /// List of coplanar triangles composing the surface of the fluid.
         /// </summary>
-        public List<Vector3[]> SurfaceTriangles
+        public List<FixedV3[]> SurfaceTriangles
         {
             get
             {
@@ -226,7 +226,7 @@ namespace BEPUphysics.UpdateableSystems
         /// <param name="fluidDensity">Density of the fluid represented in the volume.</param>
         /// <param name="linearDamping">Fraction by which to reduce the linear momentum of Fix64ing objects each update, in addition to any of the body's own damping.</param>
         /// <param name="angularDamping">Fraction by which to reduce the angular momentum of Fix64ing objects each update, in addition to any of the body's own damping.</param>
-        public FluidVolume(Vector3 upVector, Fixed64 gravity, List<Vector3[]> surfaceTriangles, Fixed64 depth, Fixed64 fluidDensity, Fixed64 linearDamping, Fixed64 angularDamping)
+        public FluidVolume(FixedV3 upVector, Fixed64 gravity, List<FixedV3[]> surfaceTriangles, Fixed64 depth, Fixed64 fluidDensity, Fixed64 linearDamping, Fixed64 angularDamping)
         {
             Gravity = gravity;
             SurfaceTriangles = surfaceTriangles;
@@ -261,8 +261,8 @@ namespace BEPUphysics.UpdateableSystems
             CommonResources.GiveBack(points);
 
             //Compute the transforms used to pull objects into fluid local space.
-            Quaternion.GetQuaternionBetweenNormalizedVectors(ref Toolbox.UpVector, ref upVector, out surfaceTransform.Orientation);
-            Matrix3x3.CreateFromQuaternion(ref surfaceTransform.Orientation, out toSurfaceRotationMatrix);
+            FixedQuaternion.GetQuaternionBetweenNormalizedVectors(ref Toolbox.UpVector, ref upVector, out surfaceTransform.Orientation);
+            BEPUMatrix3x3.CreateFromQuaternion(ref surfaceTransform.Orientation, out toSurfaceRotationMatrix);
             surfaceTransform.Position = surfaceTriangles[0][0];
         }
 
@@ -322,7 +322,7 @@ namespace BEPUphysics.UpdateableSystems
 
 				//The entity is submerged, apply buoyancy forces.
 				Fixed64 submergedVolume;
-                Vector3 submergedCenter;
+                FixedV3 submergedCenter;
                 GetBuoyancyInformation(entityCollidable, out submergedVolume, out submergedCenter);
 
                 if (submergedVolume > F64.C0)
@@ -337,14 +337,14 @@ namespace BEPUphysics.UpdateableSystems
                     {
                         submergedVolume /= densityMultiplier;
                     }
-                    Vector3 force;
-                    Vector3.Multiply(ref upVector, -gravity * Density * dt * submergedVolume, out force);
+                    FixedV3 force;
+                    FixedV3.Multiply(ref upVector, -gravity * Density * dt * submergedVolume, out force);
                     entityCollidable.entity.ApplyImpulseWithoutActivating(ref submergedCenter, ref force);
 
                     //Flow
                     if (FlowForce != F64.C0)
                     {
-                        Fixed64 dot = MathHelper.Max(Vector3.Dot(entityCollidable.entity.linearVelocity, flowDirection), F64.C0);
+                        Fixed64 dot = MathHelper.Max(FixedV3.Dot(entityCollidable.entity.linearVelocity, flowDirection), F64.C0);
                         if (dot < MaxFlowSpeed)
                         {
                             force = MathHelper.Min(FlowForce, (MaxFlowSpeed - dot) * entityCollidable.entity.mass) * dt * fractionSubmerged * FlowDirection;
@@ -359,7 +359,7 @@ namespace BEPUphysics.UpdateableSystems
             }
         }
 
-        void GetBuoyancyInformation(EntityCollidable collidable, out Fixed64 submergedVolume, out Vector3 submergedCenter)
+        void GetBuoyancyInformation(EntityCollidable collidable, out Fixed64 submergedVolume, out FixedV3 submergedCenter)
         {
             BoundingBox entityBoundingBox;
 
@@ -380,57 +380,57 @@ namespace BEPUphysics.UpdateableSystems
                 return;
             }
 
-            Vector3 origin, xSpacing, zSpacing;
+            FixedV3 origin, xSpacing, zSpacing;
 			Fixed64 perColumnArea;
             GetSamplingOrigin(ref entityBoundingBox, out xSpacing, out zSpacing, out perColumnArea, out origin);
 
 			Fixed64 boundingBoxHeight = entityBoundingBox.Max.Y - entityBoundingBox.Min.Y;
 			Fixed64 maxLength = -entityBoundingBox.Min.Y;
-            submergedCenter = new Vector3();
+            submergedCenter = new FixedV3();
             submergedVolume = F64.C0;
             for (int i = 0; i < samplePointsPerDimension; i++)
             {
                 for (int j = 0; j < samplePointsPerDimension; j++)
                 {
-                    Vector3 columnVolumeCenter;
+                    FixedV3 columnVolumeCenter;
 					Fixed64 submergedHeight;
                     if ((submergedHeight = GetSubmergedHeight(collidable, maxLength, boundingBoxHeight, ref origin, ref xSpacing, ref zSpacing, i, j, out columnVolumeCenter)) > F64.C0)
                     {
 						Fixed64 columnVolume = submergedHeight * perColumnArea;
-                        Vector3.Multiply(ref columnVolumeCenter, columnVolume, out columnVolumeCenter);
-                        Vector3.Add(ref columnVolumeCenter, ref submergedCenter, out submergedCenter);
+                        FixedV3.Multiply(ref columnVolumeCenter, columnVolume, out columnVolumeCenter);
+                        FixedV3.Add(ref columnVolumeCenter, ref submergedCenter, out submergedCenter);
                         submergedVolume += columnVolume;
                     }
                 }
             }
-            Vector3.Divide(ref submergedCenter, submergedVolume, out submergedCenter);
+            FixedV3.Divide(ref submergedCenter, submergedVolume, out submergedCenter);
             //Pull the submerged center into world space before applying the force.
             RigidTransform.Transform(ref submergedCenter, ref surfaceTransform, out submergedCenter);
 
         }
 
-        void GetSamplingOrigin(ref BoundingBox entityBoundingBox, out Vector3 xSpacing, out Vector3 zSpacing, out Fixed64 perColumnArea, out Vector3 origin)
+        void GetSamplingOrigin(ref BoundingBox entityBoundingBox, out FixedV3 xSpacing, out FixedV3 zSpacing, out Fixed64 perColumnArea, out FixedV3 origin)
         {
 			//Compute spacing and increment informaiton.
 			Fixed64 samplePointsPerDimensionFix64 = (Fixed64)samplePointsPerDimension;
 			Fixed64 widthIncrement = (entityBoundingBox.Max.X - entityBoundingBox.Min.X) / samplePointsPerDimensionFix64;
 			Fixed64 lengthIncrement = (entityBoundingBox.Max.Z - entityBoundingBox.Min.Z) / samplePointsPerDimensionFix64;
-            xSpacing = new Vector3(widthIncrement, F64.C0, F64.C0);
-            zSpacing = new Vector3(F64.C0, F64.C0, lengthIncrement);
-            Quaternion.Transform(ref xSpacing, ref surfaceTransform.Orientation, out xSpacing);
-            Quaternion.Transform(ref zSpacing, ref surfaceTransform.Orientation, out zSpacing);
+            xSpacing = new FixedV3(widthIncrement, F64.C0, F64.C0);
+            zSpacing = new FixedV3(F64.C0, F64.C0, lengthIncrement);
+            FixedQuaternion.Transform(ref xSpacing, ref surfaceTransform.Orientation, out xSpacing);
+            FixedQuaternion.Transform(ref zSpacing, ref surfaceTransform.Orientation, out zSpacing);
             perColumnArea = widthIncrement * lengthIncrement;
 
 
             //Compute the origin.
-            Vector3 minimum;
+            FixedV3 minimum;
             RigidTransform.Transform(ref entityBoundingBox.Min, ref surfaceTransform, out minimum);
             //Matrix3X3.TransformTranspose(ref entityBoundingBox.Min, ref surfaceOrientationTranspose, out minimum);
-            Vector3 offset;
-            Vector3.Multiply(ref xSpacing, F64.C0p5, out offset);
-            Vector3.Add(ref minimum, ref offset, out origin);
-            Vector3.Multiply(ref zSpacing, F64.C0p5, out offset);
-            Vector3.Add(ref origin, ref offset, out origin);
+            FixedV3 offset;
+            FixedV3.Multiply(ref xSpacing, F64.C0p5, out offset);
+            FixedV3.Add(ref minimum, ref offset, out origin);
+            FixedV3.Multiply(ref zSpacing, F64.C0p5, out offset);
+            FixedV3.Add(ref origin, ref offset, out origin);
 
 
             //TODO: Could adjust the grid origin such that a ray always hits the deepest point.
@@ -478,13 +478,13 @@ namespace BEPUphysics.UpdateableSystems
             //}
         }
 
-		Fixed64 GetSubmergedHeight(EntityCollidable collidable, Fixed64 maxLength, Fixed64 boundingBoxHeight, ref Vector3 rayOrigin, ref Vector3 xSpacing, ref Vector3 zSpacing, int i, int j, out Vector3 volumeCenter)
+		Fixed64 GetSubmergedHeight(EntityCollidable collidable, Fixed64 maxLength, Fixed64 boundingBoxHeight, ref FixedV3 rayOrigin, ref FixedV3 xSpacing, ref FixedV3 zSpacing, int i, int j, out FixedV3 volumeCenter)
         {
-            Ray ray;
-            Vector3.Multiply(ref xSpacing, (Fixed64)i, out ray.Position);
-            Vector3.Multiply(ref zSpacing, (Fixed64)j, out ray.Direction);
-            Vector3.Add(ref ray.Position, ref ray.Direction, out ray.Position);
-            Vector3.Add(ref ray.Position, ref rayOrigin, out ray.Position);
+            BEPURay ray;
+            FixedV3.Multiply(ref xSpacing, (Fixed64)i, out ray.Position);
+            FixedV3.Multiply(ref zSpacing, (Fixed64)j, out ray.Direction);
+            FixedV3.Add(ref ray.Position, ref ray.Direction, out ray.Position);
+            FixedV3.Add(ref ray.Position, ref rayOrigin, out ray.Position);
 
             ray.Direction = upVector;
             //do a bottom-up raycast.
@@ -493,28 +493,28 @@ namespace BEPUphysics.UpdateableSystems
             if (collidable.RayCast(ray, maxLength, out rayHit))
             {
                 //Position the ray to point from the other side.
-                Vector3.Multiply(ref ray.Direction, boundingBoxHeight, out ray.Direction);
-                Vector3.Add(ref ray.Position, ref ray.Direction, out ray.Position);
-                Vector3.Negate(ref upVector, out ray.Direction);
+                FixedV3.Multiply(ref ray.Direction, boundingBoxHeight, out ray.Direction);
+                FixedV3.Add(ref ray.Position, ref ray.Direction, out ray.Position);
+                FixedV3.Negate(ref upVector, out ray.Direction);
 
                 //Transform the hit into local space.
                 RigidTransform.TransformByInverse(ref rayHit.Location, ref surfaceTransform, out rayHit.Location);
 				Fixed64 bottomY = rayHit.Location.Y;
 				Fixed64 bottom = rayHit.T;
-                Vector3 bottomPosition = rayHit.Location;
+                FixedV3 bottomPosition = rayHit.Location;
                 if (collidable.RayCast(ray, boundingBoxHeight - rayHit.T, out rayHit))
                 {
                     //Transform the hit into local space.
                     RigidTransform.TransformByInverse(ref rayHit.Location, ref surfaceTransform, out rayHit.Location);
-                    Vector3.Add(ref rayHit.Location, ref bottomPosition, out volumeCenter);
-                    Vector3.Multiply(ref volumeCenter, F64.C0p5, out volumeCenter);
+                    FixedV3.Add(ref rayHit.Location, ref bottomPosition, out volumeCenter);
+                    FixedV3.Multiply(ref volumeCenter, F64.C0p5, out volumeCenter);
                     return MathHelper.Min(-bottomY, boundingBoxHeight - rayHit.T - bottom);
                 }
                 //This inner raycast should always hit, but just in case it doesn't due to some numerical problem, give it a graceful way out.
-                volumeCenter = Vector3.Zero;
+                volumeCenter = FixedV3.Zero;
                 return F64.C0;
             }
-            volumeCenter = Vector3.Zero;
+            volumeCenter = FixedV3.Zero;
             return F64.C0;
         }
 

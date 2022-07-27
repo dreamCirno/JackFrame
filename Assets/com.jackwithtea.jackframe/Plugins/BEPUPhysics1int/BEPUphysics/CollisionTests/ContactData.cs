@@ -23,12 +23,12 @@ namespace BEPUphysics.CollisionTests
         /// <summary>
         /// Normal direction of the surface at the contact point.
         /// </summary>
-        public Vector3 Normal;
+        public FixedV3 Normal;
 
         /// <summary>
         /// Position of the contact point.
         /// </summary>
-        public Vector3 Position;
+        public FixedV3 Position;
 
         /// <summary>
         /// Creates a ContactData from an existing Contact.

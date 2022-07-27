@@ -26,19 +26,19 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Collects collision pairs from the environment.
         /// </summary>
-        protected internal Box detector = new Box(Vector3.Zero, F64.C0, F64.C0, F64.C0);
+        protected internal Box detector = new Box(FixedV3.Zero, F64.C0, F64.C0, F64.C0);
 
-        protected internal Matrix localGraphicTransform;
+        protected internal BEPUMatrix localGraphicTransform;
         protected Fixed64 spinAngle;
 
 
         protected Fixed64 spinVelocity;
         internal Fixed64 steeringAngle;
 
-        internal Matrix steeringTransform;
+        internal BEPUMatrix steeringTransform;
         protected internal Wheel wheel;
 
-        protected internal Matrix worldTransform;
+        protected internal BEPUMatrix worldTransform;
 
         CollisionRules collisionRules = new CollisionRules() { Group = CollisionRules.DefaultDynamicCollisionGroup };
         /// <summary>
@@ -102,7 +102,7 @@ namespace BEPUphysics.Vehicle
         /// Gets or sets the local graphic transform of the wheel shape.
         /// This transform is applied first when creating the shape's worldTransform.
         /// </summary>
-        public Matrix LocalGraphicTransform
+        public BEPUMatrix LocalGraphicTransform
         {
             get { return localGraphicTransform; }
             set { localGraphicTransform = value; }
@@ -151,7 +151,7 @@ namespace BEPUphysics.Vehicle
         /// <summary>
         /// Gets the world matrix of the wheel for positioning a graphic.
         /// </summary>
-        public Matrix WorldTransform
+        public BEPUMatrix WorldTransform
         {
             get { return worldTransform; }
         }
@@ -243,7 +243,7 @@ namespace BEPUphysics.Vehicle
         /// <param name="entity">Entity supporting the wheel, if any.</param>
         /// <param name="material">Material of the support.</param>
         /// <returns>Whether or not any support was found.</returns>
-        protected internal abstract bool FindSupport(out Vector3 location, out Vector3 normal, out Fixed64 suspensionLength, out Collidable supportCollidable, out Entity entity, out Material material);
+        protected internal abstract bool FindSupport(out FixedV3 location, out FixedV3 normal, out Fixed64 suspensionLength, out Collidable supportCollidable, out Entity entity, out Material material);
 
         /// <summary>
         /// Initializes the detector entity and any other necessary logic.

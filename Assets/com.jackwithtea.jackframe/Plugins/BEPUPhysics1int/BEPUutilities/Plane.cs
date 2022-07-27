@@ -5,12 +5,12 @@ namespace BEPUutilities
     /// <summary>
     /// Provides XNA-like plane functionality.
     /// </summary>
-    public struct Plane
+    public struct BEPUPlane
     {
         /// <summary>
         /// Normal of the plane.
         /// </summary>
-        public Vector3 Normal;
+        public FixedV3 Normal;
         /// <summary>
         /// Negative distance to the plane from the origin along the normal.
         /// </summary>
@@ -22,10 +22,10 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="position">A point on the plane.</param>
         /// <param name="normal">The normal of the plane.</param>
-        public Plane(ref Vector3 position, ref Vector3 normal)
+        public BEPUPlane(ref FixedV3 position, ref FixedV3 normal)
         {
             Fixed64 d;
-            Vector3.Dot(ref position, ref normal, out d);
+            FixedV3.Dot(ref position, ref normal, out d);
             D = -d;
             Normal = normal;
         }
@@ -36,7 +36,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="position">A point on the plane.</param>
         /// <param name="normal">The normal of the plane.</param>
-        public Plane(Vector3 position, Vector3 normal)
+        public BEPUPlane(FixedV3 position, FixedV3 normal)
             : this(ref position, ref normal)
         {
 
@@ -48,7 +48,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="normal">Normal of the plane.</param>
         /// <param name="d">Negative distance to the plane from the origin along the normal.</param>
-        public Plane(Vector3 normal, Fixed64 d)
+        public BEPUPlane(FixedV3 normal, Fixed64 d)
             : this(ref normal, d)
         {
         }
@@ -58,7 +58,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="normal">Normal of the plane.</param>
         /// <param name="d">Negative distance to the plane from the origin along the normal.</param>
-        public Plane(ref Vector3 normal, Fixed64 d)
+        public BEPUPlane(ref FixedV3 normal, Fixed64 d)
         {
             this.Normal = normal;
             this.D = d;
@@ -69,7 +69,7 @@ namespace BEPUutilities
         /// </summary>
         /// <param name="v">Position to compute the dot product of.</param>
         /// <param name="dot">Dot product.</param>
-        public void DotCoordinate(ref Vector3 v, out Fixed64 dot)
+        public void DotCoordinate(ref FixedV3 v, out Fixed64 dot)
         {
             dot = Normal.X * v.X + Normal.Y * v.Y + Normal.Z * v.Z + D;
         }

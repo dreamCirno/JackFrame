@@ -42,7 +42,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="a">First entity in the sum.</param>
         /// <param name="b">Second entity in the sum.</param>
         /// <param name="mass">Mass of the object.</param>
-        public MinkowskiSum(Vector3 position, OrientedConvexShapeEntry a, OrientedConvexShapeEntry b, Fixed64 mass)
+        public MinkowskiSum(FixedV3 position, OrientedConvexShapeEntry a, OrientedConvexShapeEntry b, Fixed64 mass)
             : this(a, b, mass)
         {
             Position = position;
@@ -54,7 +54,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="position">Position of the resulting shape.</param>
         /// <param name="a">First entity in the sum.</param>
         /// <param name="b">Second entity in the sum.</param>
-        public MinkowskiSum(Vector3 position, OrientedConvexShapeEntry a, OrientedConvexShapeEntry b)
+        public MinkowskiSum(FixedV3 position, OrientedConvexShapeEntry a, OrientedConvexShapeEntry b)
             : this(a, b)
         {
             Position = position;

@@ -55,7 +55,7 @@ namespace BEPUphysics.DataStructures
         ///<param name="ray">Ray to test against the mesh.</param>
         ///<param name="hitCount">Number of hits between the ray and the mesh.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, out int hitCount)
+        public bool RayCast(BEPURay ray, out int hitCount)
         {
             var rayHits = CommonResources.GetRayHitList();
             bool toReturn = RayCast(ray, rayHits);
@@ -70,7 +70,7 @@ namespace BEPUphysics.DataStructures
         ///<param name="ray">Ray to test against the mesh.</param>
         ///<param name="rayHit">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, out RayHit rayHit)
         {
             return RayCast(ray, Fixed64.MaxValue, TriangleSidedness.DoubleSided, out rayHit);
         }
@@ -82,7 +82,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="sidedness">Sidedness to apply to the mesh for the ray cast.</param>
         ///<param name="rayHit">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, TriangleSidedness sidedness, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, TriangleSidedness sidedness, out RayHit rayHit)
         {
             return RayCast(ray, Fixed64.MaxValue, sidedness, out rayHit);
         }
@@ -93,7 +93,7 @@ namespace BEPUphysics.DataStructures
         ///<param name="ray">Ray to test against the mesh.</param>
         ///<param name="hits">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, IList<RayHit> hits)
+        public bool RayCast(BEPURay ray, IList<RayHit> hits)
         {
             return RayCast(ray, Fixed64.MaxValue, TriangleSidedness.DoubleSided, hits);
         }
@@ -105,7 +105,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="sidedness">Sidedness to apply to the mesh for the ray cast.</param>
         ///<param name="hits">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, TriangleSidedness sidedness, IList<RayHit> hits)
+        public bool RayCast(BEPURay ray, TriangleSidedness sidedness, IList<RayHit> hits)
         {
             return RayCast(ray, Fixed64.MaxValue, sidedness, hits);
         }
@@ -117,7 +117,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="maximumLength">Maximum length of the ray in units of the ray direction's length.</param>
         ///<param name="rayHit">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             return RayCast(ray, maximumLength, TriangleSidedness.DoubleSided, out rayHit);
         }
@@ -130,7 +130,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="sidedness">Sidedness to apply to the mesh for the ray cast.</param>
         ///<param name="rayHit">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, TriangleSidedness sidedness, out RayHit rayHit)
         {
             var rayHits = CommonResources.GetRayHitList();
             bool toReturn = RayCast(ray, maximumLength, sidedness, rayHits);
@@ -157,7 +157,7 @@ namespace BEPUphysics.DataStructures
         /// <param name="maximumLength">Maximum length of the ray in units of the ray direction's length.</param>
         ///<param name="hits">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, IList<RayHit> hits)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, IList<RayHit> hits)
         {
             return RayCast(ray, maximumLength, TriangleSidedness.DoubleSided, hits);
         }
@@ -170,13 +170,13 @@ namespace BEPUphysics.DataStructures
         /// <param name="sidedness">Sidedness to apply to the mesh for the ray cast.</param>
         ///<param name="hits">Hit data for the ray, if any.</param>
         ///<returns>Whether or not the ray hit the mesh.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, TriangleSidedness sidedness, IList<RayHit> hits)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, TriangleSidedness sidedness, IList<RayHit> hits)
         {
             var hitElements = CommonResources.GetIntList();
             tree.GetOverlaps(ray, maximumLength, hitElements);
             for (int i = 0; i < hitElements.Count; i++)
             {
-                Vector3 v1, v2, v3;
+                FixedV3 v1, v2, v3;
                 data.GetTriangle(hitElements[i], out v1, out v2, out v3);
                 RayHit hit;
                 if (Toolbox.FindRayTriangleIntersection(ref ray, maximumLength, sidedness, ref v1, ref v2, ref v3, out hit))

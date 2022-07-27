@@ -32,7 +32,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <exception cref="InvalidOperationException">Thrown when the bodies list is empty or there is a mix of kinematic and dynamic entities in the body list.</exception>
         public CompoundBody(IList<CompoundShapeEntry> bodies)
         {
-            Vector3 center;
+            FixedV3 center;
             var shape = new CompoundShape(bodies, out center);
             Initialize(new CompoundCollidable(shape));
             Position = center;
@@ -47,7 +47,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <exception cref="InvalidOperationException">Thrown when the bodies list is empty or there is a mix of kinematic and dynamic entities in the body list.</exception>
         public CompoundBody(IList<CompoundShapeEntry> bodies, Fixed64 mass)
         {
-            Vector3 center;
+            FixedV3 center;
             var shape = new CompoundShape(bodies, out center);
             Initialize(new CompoundCollidable(shape), mass);
             Position = center;
@@ -61,7 +61,7 @@ namespace BEPUphysics.Entities.Prefabs
         public CompoundBody(IList<CompoundChildData> children)
         {
 
-            Vector3 center;
+            FixedV3 center;
             var collidable = new CompoundCollidable(children, out center);
             Initialize(collidable);
             Position = center;
@@ -74,7 +74,7 @@ namespace BEPUphysics.Entities.Prefabs
         ///<param name="mass">Mass of the compound body.</param>
         public CompoundBody(IList<CompoundChildData> children, Fixed64 mass)
         {
-            Vector3 center;
+            FixedV3 center;
             var collidable = new CompoundCollidable(children, out center);
             Initialize(collidable, mass);
             Position = center;

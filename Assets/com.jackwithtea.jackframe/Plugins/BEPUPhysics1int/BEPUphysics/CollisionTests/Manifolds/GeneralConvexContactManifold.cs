@@ -84,7 +84,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
                 for (int i = 0; i < contacts.Count; ++i)
                 {
                     Fixed64 normalDot;
-                    Vector3.Dot(ref contacts.Elements[i].Normal, ref contact.Normal, out normalDot);
+                    FixedV3.Dot(ref contacts.Elements[i].Normal, ref contact.Normal, out normalDot);
                     if (normalDot < F64.C0)
                     {
                         Remove(i);
@@ -149,7 +149,7 @@ namespace BEPUphysics.CollisionTests.Manifolds
             for (int i = 0; i < contacts.Count; i++)
             {
                 Fixed64 distanceSquared;
-                Vector3.DistanceSquared(ref contacts.Elements[i].Position, ref contactCandidate.Position, out distanceSquared);
+                FixedV3.DistanceSquared(ref contacts.Elements[i].Position, ref contactCandidate.Position, out distanceSquared);
                 if (distanceSquared < CollisionDetectionSettings.ContactMinimumSeparationDistanceSquared)
                 {
                     //Update the existing 'redundant' contact with the new information.

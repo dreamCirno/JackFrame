@@ -166,7 +166,7 @@ namespace BEPUphysics.Character
             proneQueryObject.CollisionRules = characterBody.CollisionInformation.CollisionRules;
         }
 
-        private void PrepareQueryObject(EntityCollidable queryObject, ref Vector3 position)
+        private void PrepareQueryObject(EntityCollidable queryObject, ref FixedV3 position)
         {
             RigidTransform transform;
             transform.Position = position;
@@ -181,11 +181,11 @@ namespace BEPUphysics.Character
         /// <param name="newHeight">If the transition is safe, the new height of the character. Zero otherwise.</param>
         /// <param name="newPosition">If the transition is safe, the new location of the character body if the transition occurred. Zero vector otherwise.</param>
         /// <returns>True if the target stance is different than the current stance and the transition is valid, false otherwise.</returns>
-        public bool CheckTransition(Stance targetStance, out Fixed64 newHeight, out Vector3 newPosition)
+        public bool CheckTransition(Stance targetStance, out Fixed64 newHeight, out FixedV3 newPosition)
         {
             var currentPosition = characterBody.position;
             var down = characterBody.orientationMatrix.Down;
-            newPosition = new Vector3();
+            newPosition = new FixedV3();
             newHeight = F64.C0;
 
             if (CurrentStance != targetStance)
@@ -291,7 +291,7 @@ namespace BEPUphysics.Character
                         var lastState = CharacterContactPositionState.Accepted;
                         while (attempts++ < 5 && lowestBound - highestBound > Toolbox.BigEpsilon)
                         {
-                            Vector3 candidatePosition = currentPosition + currentOffset * down;
+                            FixedV3 candidatePosition = currentPosition + currentOffset * down;
                             Fixed64 hintOffset;
                             switch (lastState = TrySupportLocation(queryObject, ref candidatePosition, out hintOffset, ref tractionContacts, ref supportContacts, ref sideContacts, ref headContacts))
                             {
@@ -350,7 +350,7 @@ namespace BEPUphysics.Character
         /// Attempts to change the stance of the character if possible.
         /// </summary>
         /// <returns>Whether or not the character was able to change its stance.</returns>
-        public bool UpdateStance(out Vector3 newPosition)
+        public bool UpdateStance(out FixedV3 newPosition)
         {
             Fixed64 newHeight;
             if (CheckTransition(DesiredStance, out newHeight, out newPosition))
@@ -386,7 +386,7 @@ namespace BEPUphysics.Character
             foreach (var c in SupportFinder.Supports)
             {
                 //An existing contact is considered 'deeper' if its normal-adjusted depth is greater than the new contact.
-                Fixed64 dot = Vector3.Dot(contact.Normal, c.Contact.Normal);
+                Fixed64 dot = FixedV3.Dot(contact.Normal, c.Contact.Normal);
                 Fixed64 depth = dot * c.Contact.PenetrationDepth + Toolbox.BigEpsilon;
                 if (depth >= contact.PenetrationDepth)
                     return false;
@@ -409,7 +409,7 @@ namespace BEPUphysics.Character
         }
 
 
-        CharacterContactPositionState TrySupportLocation(ConvexCollidable<CylinderShape> queryObject, ref Vector3 position, out Fixed64 hintOffset,
+        CharacterContactPositionState TrySupportLocation(ConvexCollidable<CylinderShape> queryObject, ref FixedV3 position, out Fixed64 hintOffset,
             ref QuickList<CharacterContact> tractionContacts, ref QuickList<CharacterContact> supportContacts, ref QuickList<CharacterContact> sideContacts, ref QuickList<CharacterContact> headContacts)
         {
             hintOffset = F64.C0;
@@ -432,13 +432,13 @@ namespace BEPUphysics.Character
                 {
                     //We're done! The guess found a good spot to stand on.
                     //We need to have fairly good contacts after this process, so only push it up a bit.
-                    hintOffset = MathHelper.Min(F64.C0, Vector3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
+                    hintOffset = MathHelper.Min(F64.C0, FixedV3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
                     return CharacterContactPositionState.Accepted;
                 }
                 else if (supportState == CharacterContactPositionState.TooDeep)
                 {
                     //Looks like we have to keep trying, but at least we found a good hint.
-                    hintOffset = MathHelper.Min(F64.C0, Vector3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
+                    hintOffset = MathHelper.Min(F64.C0, FixedV3.Dot(supportContact.Contact.Normal, down) * (CollisionDetectionSettings.AllowedPenetration * F64.C0p5 - supportContact.Contact.PenetrationDepth));
                     return CharacterContactPositionState.TooDeep;
                 }
                 else //if (supportState == SupportState.Separated)
@@ -446,7 +446,7 @@ namespace BEPUphysics.Character
                     //It's not obstructed, but the support isn't quite right.
                     //It's got a negative penetration depth.
                     //We can use that as a hint.
-                    hintOffset = -F64.C0p001 - Vector3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
+                    hintOffset = -F64.C0p001 - FixedV3.Dot(supportContact.Contact.Normal, down) * supportContact.Contact.PenetrationDepth;
                     return CharacterContactPositionState.NoHit;
                 }
             }

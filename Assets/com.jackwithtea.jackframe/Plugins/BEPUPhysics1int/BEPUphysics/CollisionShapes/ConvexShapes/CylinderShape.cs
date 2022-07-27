@@ -65,7 +65,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             ConvexShapeDescription description;
             description.EntityShapeVolume.Volume = MathHelper.Pi * radius * radius * height;
 
-            description.EntityShapeVolume.VolumeDistribution = new Matrix3x3();
+            description.EntityShapeVolume.VolumeDistribution = new BEPUMatrix3x3();
             Fixed64 diagValue = (F64.C0p0833333333 * height * height + F64.C0p25 * radius * radius);
             description.EntityShapeVolume.VolumeDistribution.M11 = diagValue;
             description.EntityShapeVolume.VolumeDistribution.M22 = F64.C0p5 * radius * radius;
@@ -91,24 +91,24 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
 #endif
 
 
-            Matrix3x3 o;
-            Matrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
+            BEPUMatrix3x3 o;
+            BEPUMatrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
             //Sample the local directions from the orientation matrix, implicitly transposed.
             //Notice only three directions are used.  Due to cylinder symmetry, 'left' is just -right.
-            var direction = new Vector3(o.M11, o.M21, o.M31);
-            Vector3 right;
+            var direction = new FixedV3(o.M11, o.M21, o.M31);
+            FixedV3 right;
             GetLocalExtremePointWithoutMargin(ref direction, out right);
 
-            direction = new Vector3(o.M12, o.M22, o.M32);
-            Vector3 up;
+            direction = new FixedV3(o.M12, o.M22, o.M32);
+            FixedV3 up;
             GetLocalExtremePointWithoutMargin(ref direction, out up);
 
-            direction = new Vector3(o.M13, o.M23, o.M33);
-            Vector3 backward;
+            direction = new FixedV3(o.M13, o.M23, o.M33);
+            FixedV3 backward;
             GetLocalExtremePointWithoutMargin(ref direction, out backward);
 
             //Rather than transforming each axis independently (and doing three times as many operations as required), just get the 3 required values directly.
-            Vector3 positive;
+            FixedV3 positive;
             TransformLocalExtremePoints(ref right, ref up, ref backward, ref o, out positive);
 
             //The positive and negative vectors represent the X, Y and Z coordinates of the extreme points in world space along the world space axes.
@@ -127,17 +127,17 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
             Fixed64 horizontalLengthSquared = direction.X * direction.X + direction.Z * direction.Z;
             if (horizontalLengthSquared > Toolbox.Epsilon)
             {
                 Fixed64 multiplier = (radius - collisionMargin) / Fixed64.Sqrt(horizontalLengthSquared);
-                extremePoint = new Vector3(direction.X * multiplier, Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), direction.Z * multiplier);
+                extremePoint = new FixedV3(direction.X * multiplier, Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), direction.Z * multiplier);
             }
             else
             {
-                extremePoint = new Vector3(F64.C0, Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), F64.C0);
+                extremePoint = new FixedV3(F64.C0, Fixed64.Sign(direction.Y) * (halfHeight - collisionMargin), F64.C0);
             }
 
         }
@@ -160,15 +160,15 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="maximumLength">Maximum distance to travel in units of the ray direction's length.</param>
         /// <param name="hit">Ray hit data, if any.</param>
         /// <returns>Whether or not the ray hit the target.</returns>
-        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
+        public override bool RayTest(ref BEPURay ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
         {
             //Put the ray into local space.
-            Quaternion conjugate;
-            Quaternion.Conjugate(ref transform.Orientation, out conjugate);
-            Ray localRay;
-            Vector3.Subtract(ref ray.Position, ref transform.Position, out localRay.Position);
-            Quaternion.Transform(ref localRay.Position, ref conjugate, out localRay.Position);
-            Quaternion.Transform(ref ray.Direction, ref conjugate, out localRay.Direction);
+            FixedQuaternion conjugate;
+            FixedQuaternion.Conjugate(ref transform.Orientation, out conjugate);
+            BEPURay localRay;
+            FixedV3.Subtract(ref ray.Position, ref transform.Position, out localRay.Position);
+            FixedQuaternion.Transform(ref localRay.Position, ref conjugate, out localRay.Position);
+            FixedQuaternion.Transform(ref ray.Direction, ref conjugate, out localRay.Direction);
 
             //Check for containment.
             if (localRay.Position.Y >= -halfHeight && localRay.Position.Y <= halfHeight && localRay.Position.X * localRay.Position.X + localRay.Position.Z * localRay.Position.Z <= radius * radius)
@@ -176,14 +176,14 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 //It's inside!
                 hit.T = F64.C0;
                 hit.Location = localRay.Position;
-                hit.Normal = new Vector3(hit.Location.X, F64.C0, hit.Location.Z);
+                hit.Normal = new FixedV3(hit.Location.X, F64.C0, hit.Location.Z);
                 Fixed64 normalLengthSquared = hit.Normal.LengthSquared();
                 if (normalLengthSquared > F64.C1em9)
-                    Vector3.Divide(ref hit.Normal, Fixed64.Sqrt(normalLengthSquared), out hit.Normal);
+                    FixedV3.Divide(ref hit.Normal, Fixed64.Sqrt(normalLengthSquared), out hit.Normal);
                 else
-                    hit.Normal = new Vector3();
+                    hit.Normal = new FixedV3();
                 //Pull the hit into world space.
-                Quaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
+                FixedQuaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
                 RigidTransform.Transform(ref hit.Location, ref transform, out hit.Location);
                 return true;
             }
@@ -191,7 +191,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             //Project the ray direction onto the plane where the cylinder is a circle.
             //The projected ray is then tested against the circle to compute the time of impact.
             //That time of impact is used to compute the 3d hit location.
-            Vector2 planeDirection = new Vector2(localRay.Direction.X, localRay.Direction.Z);
+            FixedV2 planeDirection = new FixedV2(localRay.Direction.X, localRay.Direction.Z);
             Fixed64 planeDirectionLengthSquared = planeDirection.LengthSquared();
 
             if (planeDirectionLengthSquared < Toolbox.Epsilon)
@@ -209,14 +209,14 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 return false;
 
             }
-            Vector2 planeOrigin = new Vector2(localRay.Position.X, localRay.Position.Z);
+            FixedV2 planeOrigin = new FixedV2(localRay.Position.X, localRay.Position.Z);
             Fixed64 dot;
-            Vector2.Dot(ref planeDirection, ref planeOrigin, out dot);
+            FixedV2.Dot(ref planeDirection, ref planeOrigin, out dot);
             Fixed64 closestToCenterT = -dot / planeDirectionLengthSquared;
 
-            Vector2 closestPoint;
-            Vector2.Multiply(ref planeDirection, closestToCenterT, out closestPoint);
-            Vector2.Add(ref planeOrigin, ref closestPoint, out closestPoint);
+            FixedV2 closestPoint;
+            FixedV2.Multiply(ref planeDirection, closestToCenterT, out closestPoint);
+            FixedV2.Add(ref planeOrigin, ref closestPoint, out closestPoint);
             //How close does the ray come to the circle?
             Fixed64 squaredDistance = closestPoint.LengthSquared();
             if (squaredDistance > radius * radius)
@@ -235,21 +235,21 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             hit.T = closestToCenterT - tOffset;
 
             //Compute the impact point on the infinite cylinder in 3d local space.
-            Vector3.Multiply(ref localRay.Direction, hit.T, out hit.Location);
-            Vector3.Add(ref hit.Location, ref localRay.Position, out hit.Location);
+            FixedV3.Multiply(ref localRay.Direction, hit.T, out hit.Location);
+            FixedV3.Add(ref hit.Location, ref localRay.Position, out hit.Location);
 
             //Is it intersecting the cylindrical portion of the capsule?
             if (hit.Location.Y <= halfHeight && hit.Location.Y >= -halfHeight && hit.T < maximumLength)
             {
                 //Yup!
-                hit.Normal = new Vector3(hit.Location.X, F64.C0, hit.Location.Z);
+                hit.Normal = new FixedV3(hit.Location.X, F64.C0, hit.Location.Z);
                 Fixed64 normalLengthSquared = hit.Normal.LengthSquared();
                 if (normalLengthSquared > F64.C1em9)
-                    Vector3.Divide(ref hit.Normal, Fixed64.Sqrt(normalLengthSquared), out hit.Normal);
+                    FixedV3.Divide(ref hit.Normal, Fixed64.Sqrt(normalLengthSquared), out hit.Normal);
                 else
-                    hit.Normal = new Vector3();
+                    hit.Normal = new FixedV3();
                 //Pull the hit into world space.
-                Quaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
+                FixedQuaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
                 RigidTransform.Transform(ref hit.Location, ref transform, out hit.Location);
                 return true;
             }
@@ -266,13 +266,13 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 return false;
             }
             Fixed64 t = (halfHeight - localRay.Position.Y) / localRay.Direction.Y;
-            Vector3 planeIntersection;
-            Vector3.Multiply(ref localRay.Direction, t, out planeIntersection);
-            Vector3.Add(ref localRay.Position, ref planeIntersection, out planeIntersection);
+            FixedV3 planeIntersection;
+            FixedV3.Multiply(ref localRay.Direction, t, out planeIntersection);
+            FixedV3.Add(ref localRay.Position, ref planeIntersection, out planeIntersection);
             if(planeIntersection.X * planeIntersection.X + planeIntersection.Z * planeIntersection.Z < radius * radius + F64.C1em9 && t < maximumLength)
             {
                 //Pull the hit into world space.
-                Quaternion.Transform(ref Toolbox.UpVector, ref transform.Orientation, out hit.Normal);
+                FixedQuaternion.Transform(ref Toolbox.UpVector, ref transform.Orientation, out hit.Normal);
                 RigidTransform.Transform(ref planeIntersection, ref transform, out hit.Location);
                 hit.T = t;
                 return true;
@@ -290,12 +290,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
                 return false;
             }
             t = (-halfHeight - localRay.Position.Y) / localRay.Direction.Y;
-            Vector3.Multiply(ref localRay.Direction, t, out planeIntersection);
-            Vector3.Add(ref localRay.Position, ref planeIntersection, out planeIntersection);
+            FixedV3.Multiply(ref localRay.Direction, t, out planeIntersection);
+            FixedV3.Add(ref localRay.Position, ref planeIntersection, out planeIntersection);
             if (planeIntersection.X * planeIntersection.X + planeIntersection.Z * planeIntersection.Z < radius * radius + F64.C1em9 && t < maximumLength)
             {
                 //Pull the hit into world space.
-                Quaternion.Transform(ref Toolbox.DownVector, ref transform.Orientation, out hit.Normal);
+                FixedQuaternion.Transform(ref Toolbox.DownVector, ref transform.Orientation, out hit.Normal);
                 RigidTransform.Transform(ref planeIntersection, ref transform, out hit.Location);
                 hit.T = t;
                 return true;

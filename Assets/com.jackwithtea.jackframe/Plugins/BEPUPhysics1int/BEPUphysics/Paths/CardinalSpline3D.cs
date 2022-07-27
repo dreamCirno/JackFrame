@@ -46,17 +46,17 @@ namespace BEPUphysics.Paths
 
         protected override void ComputeTangents()
         {
-            tangents.Add(Vector3.Zero);
+            tangents.Add(FixedV3.Zero);
             for (int i = 1; i < ControlPoints.Count - 1; i++)
             {
-                Vector3 tangent;
-                Vector3 previous = ControlPoints[i - 1].Value;
-                Vector3 next = ControlPoints[i + 1].Value;
-                Vector3.Subtract(ref next, ref previous, out tangent);
-                Vector3.Multiply(ref tangent, (Fixed64)((F64.C1 - tension) / (ControlPoints[i + 1].Time - ControlPoints[i - 1].Time)), out tangent);
+                FixedV3 tangent;
+                FixedV3 previous = ControlPoints[i - 1].Value;
+                FixedV3 next = ControlPoints[i + 1].Value;
+                FixedV3.Subtract(ref next, ref previous, out tangent);
+                FixedV3.Multiply(ref tangent, (Fixed64)((F64.C1 - tension) / (ControlPoints[i + 1].Time - ControlPoints[i - 1].Time)), out tangent);
                 tangents.Add(tangent);
             }
-            tangents.Add(Vector3.Zero);
+            tangents.Add(FixedV3.Zero);
         }
     }
 }

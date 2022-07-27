@@ -36,7 +36,7 @@ namespace BEPUphysics.CollisionShapes
         ///</summary>
         ///<param name="vertices">Vertices of the mesh.</param>
         ///<param name="indices">Indices of the mesh.</param>
-        public InstancedMeshShape(Vector3[] vertices, int[] indices)
+        public InstancedMeshShape(FixedV3[] vertices, int[] indices)
         {
             TriangleMesh = new TriangleMesh(new StaticMeshData(vertices, indices));
         }
@@ -62,9 +62,9 @@ namespace BEPUphysics.CollisionShapes
             Fixed64 maxZ = -Fixed64.MaxValue;
             for (int i = 0; i < triangleMesh.Data.vertices.Length; i++)
             {
-                Vector3 vertex;
+                FixedV3 vertex;
                 triangleMesh.Data.GetVertexPosition(i, out vertex);
-                Matrix3x3.Transform(ref vertex, ref transform.LinearTransform, out vertex);
+                BEPUMatrix3x3.Transform(ref vertex, ref transform.LinearTransform, out vertex);
                 if (vertex.X < minX)
                     minX = vertex.X;
                 if (vertex.X > maxX)

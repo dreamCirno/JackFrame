@@ -81,8 +81,8 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
 
             var meshData = mesh.Shape.TriangleMesh.Data;
             RigidTransform mobileTriangleTransform, detectorTriangleTransform;
-            mobileTriangleTransform.Orientation = Quaternion.Identity;
-            detectorTriangleTransform.Orientation = Quaternion.Identity;
+            mobileTriangleTransform.Orientation = FixedQuaternion.Identity;
+            detectorTriangleTransform.Orientation = FixedQuaternion.Identity;
             for (int i = 0; i < meshData.Indices.Length; i += 3)
             {
                 //Grab a triangle associated with the mobile mesh.
@@ -90,12 +90,12 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 RigidTransform.Transform(ref mobileTriangle.vA, ref mesh.worldTransform, out mobileTriangle.vA);
                 RigidTransform.Transform(ref mobileTriangle.vB, ref mesh.worldTransform, out mobileTriangle.vB);
                 RigidTransform.Transform(ref mobileTriangle.vC, ref mesh.worldTransform, out mobileTriangle.vC);
-                Vector3.Add(ref mobileTriangle.vA, ref mobileTriangle.vB, out mobileTriangleTransform.Position);
-                Vector3.Add(ref mobileTriangle.vC, ref mobileTriangleTransform.Position, out mobileTriangleTransform.Position);
-                Vector3.Multiply(ref mobileTriangleTransform.Position, F64.OneThird, out mobileTriangleTransform.Position);
-                Vector3.Subtract(ref mobileTriangle.vA, ref mobileTriangleTransform.Position, out mobileTriangle.vA);
-                Vector3.Subtract(ref mobileTriangle.vB, ref mobileTriangleTransform.Position, out mobileTriangle.vB);
-                Vector3.Subtract(ref mobileTriangle.vC, ref mobileTriangleTransform.Position, out mobileTriangle.vC);
+                FixedV3.Add(ref mobileTriangle.vA, ref mobileTriangle.vB, out mobileTriangleTransform.Position);
+                FixedV3.Add(ref mobileTriangle.vC, ref mobileTriangleTransform.Position, out mobileTriangleTransform.Position);
+                FixedV3.Multiply(ref mobileTriangleTransform.Position, F64.OneThird, out mobileTriangleTransform.Position);
+                FixedV3.Subtract(ref mobileTriangle.vA, ref mobileTriangleTransform.Position, out mobileTriangle.vA);
+                FixedV3.Subtract(ref mobileTriangle.vB, ref mobileTriangleTransform.Position, out mobileTriangle.vB);
+                FixedV3.Subtract(ref mobileTriangle.vC, ref mobileTriangleTransform.Position, out mobileTriangle.vC);
 
                 //Go through all the detector volume triangles which are near the mobile mesh triangle.
                 bool triangleTouching, triangleContaining;
@@ -105,12 +105,12 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 for (int j = 0; j < overlaps.Count; j++)
                 {
                     DetectorVolume.TriangleMesh.Data.GetTriangle(overlaps.Elements[j], out detectorTriangle.vA, out detectorTriangle.vB, out detectorTriangle.vC);
-                    Vector3.Add(ref detectorTriangle.vA, ref detectorTriangle.vB, out detectorTriangleTransform.Position);
-                    Vector3.Add(ref detectorTriangle.vC, ref detectorTriangleTransform.Position, out detectorTriangleTransform.Position);
-                    Vector3.Multiply(ref detectorTriangleTransform.Position, F64.OneThird, out detectorTriangleTransform.Position);
-                    Vector3.Subtract(ref detectorTriangle.vA, ref detectorTriangleTransform.Position, out detectorTriangle.vA);
-                    Vector3.Subtract(ref detectorTriangle.vB, ref detectorTriangleTransform.Position, out detectorTriangle.vB);
-                    Vector3.Subtract(ref detectorTriangle.vC, ref detectorTriangleTransform.Position, out detectorTriangle.vC);
+                    FixedV3.Add(ref detectorTriangle.vA, ref detectorTriangle.vB, out detectorTriangleTransform.Position);
+                    FixedV3.Add(ref detectorTriangle.vC, ref detectorTriangleTransform.Position, out detectorTriangleTransform.Position);
+                    FixedV3.Multiply(ref detectorTriangleTransform.Position, F64.OneThird, out detectorTriangleTransform.Position);
+                    FixedV3.Subtract(ref detectorTriangle.vA, ref detectorTriangleTransform.Position, out detectorTriangle.vA);
+                    FixedV3.Subtract(ref detectorTriangle.vB, ref detectorTriangleTransform.Position, out detectorTriangle.vB);
+                    FixedV3.Subtract(ref detectorTriangle.vC, ref detectorTriangleTransform.Position, out detectorTriangle.vC);
 
                     //If this triangle collides with the convex, we can stop immediately since we know we're touching and not containing.)))
                     //[MPR is used here in lieu of GJK because the MPR implementation tends to finish quicker than GJK when objects are overlapping.  The GJK implementation does better on separated objects.]
@@ -168,10 +168,10 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
                 //are in the mobile mesh.
 
                 //This *could* fail if the mobile mesh is actually multiple pieces, but that's not a common or really supported case for solids.
-                Vector3 vertex;
+                FixedV3 vertex;
                 DetectorVolume.TriangleMesh.Data.GetVertexPosition(0, out vertex);
-                Ray ray;
-                ray.Direction = Vector3.Up;
+                BEPURay ray;
+                ray.Direction = FixedV3.Up;
                 RayHit hit;
                 RigidTransform.TransformByInverse(ref vertex, ref mesh.worldTransform, out ray.Position);
                 if (mesh.Shape.IsLocalRayOriginInMesh(ref ray, out hit))

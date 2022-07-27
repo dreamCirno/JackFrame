@@ -93,9 +93,9 @@ namespace BEPUphysics.Constraints.Collision
         /// <summary>
         /// Gets the direction in which the friction force acts.
         /// </summary>
-        public Vector3 FrictionDirection
+        public FixedV3 FrictionDirection
         {
-            get { return new Vector3(linearAX, linearAY, linearAZ); }
+            get { return new FixedV3(linearAX, linearAY, linearAZ); }
         }
 
         /// <summary>
@@ -143,8 +143,8 @@ namespace BEPUphysics.Constraints.Collision
 
             //Apply the impulse
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif
@@ -187,23 +187,23 @@ namespace BEPUphysics.Constraints.Collision
 
             //Compute the three dimensional relative velocity at the point.
 
-            Vector3 velocityA = new Vector3(), velocityB = new Vector3();
-            Vector3 ra = penetrationConstraint.ra, rb = penetrationConstraint.rb;
+            FixedV3 velocityA = new FixedV3(), velocityB = new FixedV3();
+            FixedV3 ra = penetrationConstraint.ra, rb = penetrationConstraint.rb;
             if (entityA != null)
             {
-                Vector3.Cross(ref entityA.angularVelocity, ref ra, out velocityA);
-                Vector3.Add(ref velocityA, ref entityA.linearVelocity, out velocityA);
+                FixedV3.Cross(ref entityA.angularVelocity, ref ra, out velocityA);
+                FixedV3.Add(ref velocityA, ref entityA.linearVelocity, out velocityA);
             }
             if (entityB != null)
             {
-                Vector3.Cross(ref entityB.angularVelocity, ref rb, out velocityB);
-                Vector3.Add(ref velocityB, ref entityB.linearVelocity, out velocityB);
+                FixedV3.Cross(ref entityB.angularVelocity, ref rb, out velocityB);
+                FixedV3.Add(ref velocityB, ref entityB.linearVelocity, out velocityB);
             }
-            Vector3 relativeVelocity;
-            Vector3.Subtract(ref velocityA, ref velocityB, out relativeVelocity);
+            FixedV3 relativeVelocity;
+            FixedV3.Subtract(ref velocityA, ref velocityB, out relativeVelocity);
 
             //Get rid of the normal velocity.
-            Vector3 normal = penetrationConstraint.contact.Normal;
+            FixedV3 normal = penetrationConstraint.contact.Normal;
             Fixed64 normalVelocityScalar = normal.X * relativeVelocity.X + normal.Y * relativeVelocity.Y + normal.Z * relativeVelocity.Z;
             relativeVelocity.X -= normalVelocityScalar * normal.X;
             relativeVelocity.Y -= normalVelocityScalar * normal.Y;
@@ -296,8 +296,8 @@ namespace BEPUphysics.Constraints.Collision
         {
             //Warm starting
 #if !WINDOWS
-            Vector3 linear = new Vector3();
-            Vector3 angular = new Vector3();
+            FixedV3 linear = new FixedV3();
+            FixedV3 angular = new FixedV3();
 #else
             Vector3 linear, angular;
 #endif

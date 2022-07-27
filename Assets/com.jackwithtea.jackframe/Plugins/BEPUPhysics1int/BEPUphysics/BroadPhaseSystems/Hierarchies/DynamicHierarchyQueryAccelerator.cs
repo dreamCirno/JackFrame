@@ -70,7 +70,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         /// <param name="ray">Ray to test against the structure.</param>
         /// <param name="maximumLength">Maximum length of the ray in units of the ray's direction's length.</param>
         /// <param name="entries">Entries which have bounding boxes that overlap the ray.</param>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, IList<BroadPhaseEntry> entries)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, IList<BroadPhaseEntry> entries)
         {
             if (hierarchy.root != null)
             {
@@ -87,7 +87,7 @@ namespace BEPUphysics.BroadPhaseSystems.Hierarchies
         /// </summary>
         /// <param name="ray">Ray to test against the structure.</param>
         /// <param name="entries">Entries which have bounding boxes that overlap the ray.</param>
-        public bool RayCast(Ray ray, IList<BroadPhaseEntry> entries)
+        public bool RayCast(BEPURay ray, IList<BroadPhaseEntry> entries)
         {
             if (hierarchy.root != null)
             {

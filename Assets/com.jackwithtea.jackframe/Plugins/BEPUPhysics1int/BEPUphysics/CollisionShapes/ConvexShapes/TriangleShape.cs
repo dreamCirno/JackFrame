@@ -12,12 +12,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
     ///</summary>
     public class TriangleShape : ConvexShape
     {
-        internal Vector3 vA, vB, vC;
+        internal FixedV3 vA, vB, vC;
 
         ///<summary>
         /// Gets or sets the first vertex of the triangle shape.
         ///</summary>
-        public Vector3 VertexA
+        public FixedV3 VertexA
         {
             get
             {
@@ -33,7 +33,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<summary>
         /// Gets or sets the second vertex of the triangle shape.
         ///</summary>
-        public Vector3 VertexB
+        public FixedV3 VertexB
         {
             get
             {
@@ -49,7 +49,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<summary>
         /// Gets or sets the third vertex of the triangle shape.
         ///</summary>
-        public Vector3 VertexC
+        public FixedV3 VertexC
         {
             get
             {
@@ -92,10 +92,10 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="vA">First vertex in the triangle.</param>
         ///<param name="vB">Second vertex in the triangle.</param>
         ///<param name="vC">Third vertex in the triangle.</param>
-        public TriangleShape(Vector3 vA, Vector3 vB, Vector3 vC)
+        public TriangleShape(FixedV3 vA, FixedV3 vB, FixedV3 vC)
         {
             //Recenter.  Convexes should contain the origin.
-            Vector3 center = (vA + vB + vC) / F64.C3;
+            FixedV3 center = (vA + vB + vC) / F64.C3;
             this.vA = vA - center;
             this.vB = vB - center;
             this.vC = vC - center;
@@ -110,7 +110,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="vB">Second vertex in the triangle.</param>
         ///<param name="vC">Third vertex in the triangle.</param>
         ///<param name="center">Computed center of the triangle.</param>
-        public TriangleShape(Vector3 vA, Vector3 vB, Vector3 vC, out Vector3 center)
+        public TriangleShape(FixedV3 vA, FixedV3 vB, FixedV3 vC, out FixedV3 center)
         {
             //Recenter.  Convexes should contain the origin.
             center = (vA + vB + vC) / F64.C3;
@@ -127,7 +127,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="vB">Second vertex in the triangle.</param>
         ///<param name="vC">Third vertex in the triangle.</param>
         /// <param name="description">Cached information about the shape. Assumed to be correct; no extra processing or validation is performed.</param>
-        public TriangleShape(Vector3 vA, Vector3 vB, Vector3 vC, ConvexShapeDescription description)
+        public TriangleShape(FixedV3 vA, FixedV3 vB, FixedV3 vC, ConvexShapeDescription description)
         {
             //Recenter.  Convexes should contain the origin.
             var center = (vA + vB + vC) / F64.C3;
@@ -148,28 +148,28 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="vC">Third local vertex in the triangle.</param>
         ///<param name="collisionMargin">Collision margin of the shape.</param>
         /// <returns>Description required to define a convex shape.</returns>
-        public static ConvexShapeDescription ComputeDescription(Vector3 vA, Vector3 vB, Vector3 vC, Fixed64 collisionMargin)
+        public static ConvexShapeDescription ComputeDescription(FixedV3 vA, FixedV3 vB, FixedV3 vC, Fixed64 collisionMargin)
         {
             ConvexShapeDescription description;
             // A triangle by itself technically has no volume, but shapes try to include the collision margin in the volume when feasible (e.g. BoxShape).
             //Plus, it's convenient to have a nonzero volume for buoyancy.
-            var doubleArea = Vector3.Cross(vB - vA, vC - vA).Length();
+            var doubleArea = FixedV3.Cross(vB - vA, vC - vA).Length();
             description.EntityShapeVolume.Volume = doubleArea * collisionMargin;
 
             //Compute the inertia tensor.
-            var v = new Matrix3x3(
+            var v = new BEPUMatrix3x3(
                 vA.X, vA.Y, vA.Z,
                 vB.X, vB.Y, vB.Z,
                 vC.X, vC.Y, vC.Z);
-            var s = new Matrix3x3(
+            var s = new BEPUMatrix3x3(
 				F64.C2, F64.C1, F64.C1,
 				F64.C1, F64.C2, F64.C1,
 				F64.C1, F64.C1, F64.C2);
 
-            Matrix3x3.MultiplyTransposed(ref v, ref s, out description.EntityShapeVolume.VolumeDistribution);
-            Matrix3x3.Multiply(ref description.EntityShapeVolume.VolumeDistribution, ref v, out description.EntityShapeVolume.VolumeDistribution);
+            BEPUMatrix3x3.MultiplyTransposed(ref v, ref s, out description.EntityShapeVolume.VolumeDistribution);
+            BEPUMatrix3x3.Multiply(ref description.EntityShapeVolume.VolumeDistribution, ref v, out description.EntityShapeVolume.VolumeDistribution);
             var scaling = doubleArea / F64.C24;
-            Matrix3x3.Multiply(ref description.EntityShapeVolume.VolumeDistribution, -scaling, out description.EntityShapeVolume.VolumeDistribution);
+            BEPUMatrix3x3.Multiply(ref description.EntityShapeVolume.VolumeDistribution, -scaling, out description.EntityShapeVolume.VolumeDistribution);
 
             //The square-of-sum term is ignored since the parameters should already be localized (and so would sum to zero).
             var sums = scaling * (vA.LengthSquared() + vB.LengthSquared() + vC.LengthSquared());
@@ -190,19 +190,19 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="boundingBox">Bounding box of the transformed shape.</param>
         public override void GetBoundingBox(ref RigidTransform shapeTransform, out BoundingBox boundingBox)
         {
-            Vector3 a, b, c;
+            FixedV3 a, b, c;
 
-            Matrix3x3 o;
-            Matrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
-            Matrix3x3.Transform(ref vA, ref o, out a);
-            Matrix3x3.Transform(ref vB, ref o, out b);
-            Matrix3x3.Transform(ref vC, ref o, out c);
+            BEPUMatrix3x3 o;
+            BEPUMatrix3x3.CreateFromQuaternion(ref shapeTransform.Orientation, out o);
+            BEPUMatrix3x3.Transform(ref vA, ref o, out a);
+            BEPUMatrix3x3.Transform(ref vB, ref o, out b);
+            BEPUMatrix3x3.Transform(ref vC, ref o, out c);
 
-            Vector3.Min(ref a, ref b, out boundingBox.Min);
-            Vector3.Min(ref c, ref boundingBox.Min, out boundingBox.Min);
+            FixedV3.Min(ref a, ref b, out boundingBox.Min);
+            FixedV3.Min(ref c, ref boundingBox.Min, out boundingBox.Min);
 
-            Vector3.Max(ref a, ref b, out boundingBox.Max);
-            Vector3.Max(ref c, ref boundingBox.Max, out boundingBox.Max);
+            FixedV3.Max(ref a, ref b, out boundingBox.Max);
+            FixedV3.Max(ref c, ref boundingBox.Max, out boundingBox.Max);
 
             boundingBox.Min.X += shapeTransform.Position.X - collisionMargin;
             boundingBox.Min.Y += shapeTransform.Position.Y - collisionMargin;
@@ -218,12 +218,12 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
             Fixed64 dotA, dotB, dotC;
-            Vector3.Dot(ref direction, ref vA, out dotA);
-            Vector3.Dot(ref direction, ref vB, out dotB);
-            Vector3.Dot(ref direction, ref vC, out dotC);
+            FixedV3.Dot(ref direction, ref vA, out dotA);
+            FixedV3.Dot(ref direction, ref vB, out dotB);
+            FixedV3.Dot(ref direction, ref vC, out dotC);
             if (dotA > dotB && dotA > dotC)
             {
                 extremePoint = vA;
@@ -247,9 +247,9 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///<param name="vB">Second vertex in the triangle.</param>
         ///<param name="vC">Third vertex in the triangle.</param>
         /// <returns>Volume distribution of the shape.</returns>
-        public static Matrix3x3 ComputeVolumeDistribution(Vector3 vA, Vector3 vB, Vector3 vC)
+        public static BEPUMatrix3x3 ComputeVolumeDistribution(FixedV3 vA, FixedV3 vB, FixedV3 vC)
         {
-            Vector3 center = (vA + vB + vC) * F64.OneThird;
+            FixedV3 center = (vA + vB + vC) * F64.OneThird;
 
             //Calculate distribution of mass.
 
@@ -264,25 +264,25 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             Fixed64 j = vA.Y - center.Y;
             Fixed64 k = vA.Z - center.Z;
             //localInertiaTensor += new Matrix(j * j + k * k, -j * j, -j * k, 0, -j * j, j * j + k * k, -j * k, 0, -j * k, -j * k, j * j + j * j, 0, 0, 0, 0, 0); //No mass per point.
-            var volumeDistribution = new Matrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
+            var volumeDistribution = new BEPUMatrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
                                                    massPerPoint * (-i * j), massPerPoint * (i * i + k * k), massPerPoint * (-j * k),
                                                    massPerPoint * (-i * k), massPerPoint * (-j * k), massPerPoint * (i * i + j * j));
 
             i = vB.X - center.X;
             j = vB.Y - center.Y;
             k = vB.Z - center.Z;
-            var pointContribution = new Matrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
+            var pointContribution = new BEPUMatrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
                                                   massPerPoint * (-i * j), massPerPoint * (i * i + k * k), massPerPoint * (-j * k),
                                                   massPerPoint * (-i * k), massPerPoint * (-j * k), massPerPoint * (i * i + j * j));
-            Matrix3x3.Add(ref volumeDistribution, ref pointContribution, out volumeDistribution);
+            BEPUMatrix3x3.Add(ref volumeDistribution, ref pointContribution, out volumeDistribution);
 
             i = vC.X - center.X;
             j = vC.Y - center.Y;
             k = vC.Z - center.Z;
-            pointContribution = new Matrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
+            pointContribution = new BEPUMatrix3x3(massPerPoint * (j * j + k * k), massPerPoint * (-i * j), massPerPoint * (-i * k),
                                               massPerPoint * (-i * j), massPerPoint * (i * i + k * k), massPerPoint * (-j * k),
                                               massPerPoint * (-i * k), massPerPoint * (-j * k), massPerPoint * (i * i + j * j));
-            Matrix3x3.Add(ref volumeDistribution, ref pointContribution, out volumeDistribution);
+            BEPUMatrix3x3.Add(ref volumeDistribution, ref pointContribution, out volumeDistribution);
             return volumeDistribution;
         }
 
@@ -290,14 +290,14 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// Gets the normal of the triangle shape in its local space.
         ///</summary>
         ///<returns>The local normal.</returns>
-        public Vector3 GetLocalNormal()
+        public FixedV3 GetLocalNormal()
         {
-            Vector3 normal;
-            Vector3 vAvB;
-            Vector3 vAvC;
-            Vector3.Subtract(ref vB, ref vA, out vAvB);
-            Vector3.Subtract(ref vC, ref vA, out vAvC);
-            Vector3.Cross(ref vAvB, ref vAvC, out normal);
+            FixedV3 normal;
+            FixedV3 vAvB;
+            FixedV3 vAvC;
+            FixedV3.Subtract(ref vB, ref vA, out vAvB);
+            FixedV3.Subtract(ref vC, ref vA, out vAvC);
+            FixedV3.Cross(ref vAvB, ref vAvC, out normal);
             normal.Normalize();
             return normal;
         }
@@ -307,10 +307,10 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// </summary>
         /// <param name="transform">World transform.</param>
         /// <returns>Normal of the triangle in world space.</returns>
-        public Vector3 GetNormal(RigidTransform transform)
+        public FixedV3 GetNormal(RigidTransform transform)
         {
-            Vector3 normal = GetLocalNormal();
-            Quaternion.Transform(ref normal, ref transform.Orientation, out normal);
+            FixedV3 normal = GetLocalNormal();
+            FixedQuaternion.Transform(ref normal, ref transform.Orientation, out normal);
             return normal;
         }
 
@@ -322,22 +322,22 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         /// <param name="maximumLength">Maximum distance to travel in units of the direction vector's length.</param>
         /// <param name="hit">Hit data of the ray cast, if any.</param>
         /// <returns>Whether or not the ray hit the target.</returns>
-        public override bool RayTest(ref Ray ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
+        public override bool RayTest(ref BEPURay ray, ref RigidTransform transform, Fixed64 maximumLength, out RayHit hit)
         {
-            Matrix3x3 orientation;
-            Matrix3x3.CreateFromQuaternion(ref transform.Orientation, out orientation);
-            Ray localRay;
-            Quaternion conjugate;
-            Quaternion.Conjugate(ref transform.Orientation, out conjugate);
-            Quaternion.Transform(ref ray.Direction, ref conjugate, out localRay.Direction);
-            Vector3.Subtract(ref ray.Position, ref transform.Position, out localRay.Position);
-            Quaternion.Transform(ref localRay.Position, ref conjugate, out localRay.Position);
+            BEPUMatrix3x3 orientation;
+            BEPUMatrix3x3.CreateFromQuaternion(ref transform.Orientation, out orientation);
+            BEPURay localRay;
+            FixedQuaternion conjugate;
+            FixedQuaternion.Conjugate(ref transform.Orientation, out conjugate);
+            FixedQuaternion.Transform(ref ray.Direction, ref conjugate, out localRay.Direction);
+            FixedV3.Subtract(ref ray.Position, ref transform.Position, out localRay.Position);
+            FixedQuaternion.Transform(ref localRay.Position, ref conjugate, out localRay.Position);
 
             bool toReturn = Toolbox.FindRayTriangleIntersection(ref localRay, maximumLength, sidedness, ref vA, ref vB, ref vC, out hit);
             //Move the hit back into world space.
-            Vector3.Multiply(ref ray.Direction, hit.T, out hit.Location);
-            Vector3.Add(ref ray.Position, ref hit.Location, out hit.Location);
-            Quaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
+            FixedV3.Multiply(ref ray.Direction, hit.T, out hit.Location);
+            FixedV3.Add(ref ray.Position, ref hit.Location, out hit.Location);
+            FixedQuaternion.Transform(ref hit.Normal, ref transform.Orientation, out hit.Normal);
             return toReturn;
         }
 

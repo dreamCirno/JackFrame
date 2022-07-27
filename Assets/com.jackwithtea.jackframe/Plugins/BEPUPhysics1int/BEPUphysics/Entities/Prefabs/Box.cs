@@ -31,7 +31,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="length">Length of the box.</param>
         /// <param name="height">Height of the box.</param>
         /// <param name="mass">Mass of the object.</param>
-        public Box(Vector3 pos, Fixed64 width, Fixed64 height, Fixed64 length, Fixed64 mass)
+        public Box(FixedV3 pos, Fixed64 width, Fixed64 height, Fixed64 length, Fixed64 mass)
             : this(width, height, length, mass)
         {
             Position = pos;
@@ -44,7 +44,7 @@ namespace BEPUphysics.Entities.Prefabs
         /// <param name="width">Width of the box.</param>
         /// <param name="length">Length of the box.</param>
         /// <param name="height">Height of the box.</param>
-        public Box(Vector3 pos, Fixed64 width, Fixed64 height, Fixed64 length)
+        public Box(FixedV3 pos, Fixed64 width, Fixed64 height, Fixed64 length)
             : this(width, height, length)
         {
             Position = pos;

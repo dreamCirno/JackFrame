@@ -169,7 +169,7 @@ namespace BEPUphysics.BroadPhaseEntries
         /// </summary>
         /// <param name="point">Point to check for containment.</param>
         /// <returns>Whether or not the point is contained by the detector volume.</returns>
-        public bool IsPointContained(Vector3 point)
+        public bool IsPointContained(FixedV3 point)
         {
             var triangles = CommonResources.GetIntList();
             bool contained = IsPointContained(ref point, triangles);
@@ -177,19 +177,19 @@ namespace BEPUphysics.BroadPhaseEntries
             return contained;
         }
 
-        internal bool IsPointContained(ref Vector3 point, RawList<int> triangles)
+        internal bool IsPointContained(ref FixedV3 point, RawList<int> triangles)
         {
-            Vector3 rayDirection;
+            FixedV3 rayDirection;
             //Point from the approximate center of the mesh outwards.
             //This is a cheap way to reduce the number of unnecessary checks when objects are external to the mesh.
-            Vector3.Add(ref boundingBox.Max, ref boundingBox.Min, out rayDirection);
-            Vector3.Multiply(ref rayDirection, F64.C0p5, out rayDirection);
-            Vector3.Subtract(ref point, ref rayDirection, out rayDirection);
+            FixedV3.Add(ref boundingBox.Max, ref boundingBox.Min, out rayDirection);
+            FixedV3.Multiply(ref rayDirection, F64.C0p5, out rayDirection);
+            FixedV3.Subtract(ref point, ref rayDirection, out rayDirection);
             //If the point is right in the middle, we'll need a backup.
             if (rayDirection.LengthSquared() < F64.C0p01)
-                rayDirection = Vector3.Up;
+                rayDirection = FixedV3.Up;
 
-            var ray = new Ray(point, rayDirection);
+            var ray = new BEPURay(point, rayDirection);
             triangleMesh.Tree.GetOverlaps(ray, triangles);
 
             Fixed64 minimumT = Fixed64.MaxValue;
@@ -197,7 +197,7 @@ namespace BEPUphysics.BroadPhaseEntries
 
             for (int i = 0; i < triangles.Count; i++)
             {
-                Vector3 a, b, c;
+                FixedV3 a, b, c;
                 triangleMesh.Data.GetTriangle(triangles.Elements[i], out a, out b, out c);
 
                 RayHit hit;
@@ -233,12 +233,12 @@ namespace BEPUphysics.BroadPhaseEntries
             get { return false; }
         }
 
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             return triangleMesh.RayCast(ray, maximumLength, TriangleSidedness.DoubleSided, out rayHit);
         }
 
-        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit)
+        public override bool ConvexCast(ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit)
         {
             hit = new RayHit();
             BoundingBox boundingBox;
@@ -251,13 +251,13 @@ namespace BEPUphysics.BroadPhaseEntries
                 for (int i = 0; i < hitElements.Count; i++)
                 {
                     triangleMesh.Data.GetTriangle(hitElements[i], out tri.vA, out tri.vB, out tri.vC);
-                    Vector3 center;
-                    Vector3.Add(ref tri.vA, ref tri.vB, out center);
-                    Vector3.Add(ref center, ref tri.vC, out center);
-                    Vector3.Multiply(ref center, F64.OneThird, out center);
-                    Vector3.Subtract(ref tri.vA, ref center, out tri.vA);
-                    Vector3.Subtract(ref tri.vB, ref center, out tri.vB);
-                    Vector3.Subtract(ref tri.vC, ref center, out tri.vC);
+                    FixedV3 center;
+                    FixedV3.Add(ref tri.vA, ref tri.vB, out center);
+                    FixedV3.Add(ref center, ref tri.vC, out center);
+                    FixedV3.Multiply(ref center, F64.OneThird, out center);
+                    FixedV3.Subtract(ref tri.vA, ref center, out tri.vA);
+                    FixedV3.Subtract(ref tri.vB, ref center, out tri.vB);
+                    FixedV3.Subtract(ref tri.vC, ref center, out tri.vC);
                     tri.MaximumRadius = tri.vA.LengthSquared();
 					Fixed64 radius = tri.vB.LengthSquared();
                     if (tri.MaximumRadius < radius)
@@ -267,7 +267,7 @@ namespace BEPUphysics.BroadPhaseEntries
                         tri.MaximumRadius = radius;
                     tri.MaximumRadius = Fixed64.Sqrt(tri.MaximumRadius);
                     tri.collisionMargin = F64.C0;
-                    var triangleTransform = new RigidTransform { Orientation = Quaternion.Identity, Position = center };
+                    var triangleTransform = new RigidTransform { Orientation = FixedQuaternion.Identity, Position = center };
                     RayHit tempHit;
                     if (MPRToolbox.Sweep(castShape, tri, ref sweep, ref Toolbox.ZeroVector, ref startingTransform, ref triangleTransform, out tempHit) && tempHit.T < hit.T)
                     {
@@ -298,14 +298,14 @@ namespace BEPUphysics.BroadPhaseEntries
         public void Reinitialize()
         {
             //Pick a point that is known to be outside the mesh as the origin.
-            Vector3 origin = (triangleMesh.Tree.BoundingBox.Max - triangleMesh.Tree.BoundingBox.Min) * F64.C1p5 + triangleMesh.Tree.BoundingBox.Min;
+            FixedV3 origin = (triangleMesh.Tree.BoundingBox.Max - triangleMesh.Tree.BoundingBox.Min) * F64.C1p5 + triangleMesh.Tree.BoundingBox.Min;
 
             //Pick a direction which will definitely hit the mesh.
-            Vector3 a, b, c;
+            FixedV3 a, b, c;
             triangleMesh.Data.GetTriangle(0, out a, out b, out c);
             var direction = (a + b + c) / F64.C3 - origin;
 
-            var ray = new Ray(origin, direction);
+            var ray = new BEPURay(origin, direction);
             var triangles = CommonResources.GetIntList();
             triangleMesh.Tree.GetOverlaps(ray, triangles);
 

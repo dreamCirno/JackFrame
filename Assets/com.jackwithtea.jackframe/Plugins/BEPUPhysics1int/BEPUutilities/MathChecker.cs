@@ -40,7 +40,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Vector3 v)
+        public static void Validate(this FixedV3 v)
         {
             if (IsInvalid(v.LengthSquared()))
             {
@@ -53,7 +53,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Matrix2x2 m)
+        public static void Validate(this BEPUMatrix2x2 m)
         {
             if (IsInvalid(m.M11) || IsInvalid(m.M12) ||
                 IsInvalid(m.M21) || IsInvalid(m.M22))
@@ -67,7 +67,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Matrix3x2 m)
+        public static void Validate(this BEPUMatrix3x2 m)
         {
             if (IsInvalid(m.M11) || IsInvalid(m.M12) ||
                 IsInvalid(m.M21) || IsInvalid(m.M22) ||
@@ -82,7 +82,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Matrix2x3 m)
+        public static void Validate(this BEPUMatrix2x3 m)
         {
             if (IsInvalid(m.M11) || IsInvalid(m.M12) || IsInvalid(m.M13) ||
                 IsInvalid(m.M21) || IsInvalid(m.M22) || IsInvalid(m.M23))
@@ -96,7 +96,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Matrix3x3 m)
+        public static void Validate(this BEPUMatrix3x3 m)
         {
             m.Right.Validate();
             m.Up.Validate();
@@ -108,7 +108,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Matrix m)
+        public static void Validate(this BEPUMatrix m)
         {
             m.Right.Validate();
             m.Up.Validate();
@@ -125,7 +125,7 @@ namespace BEPUutilities
         /// This is only run when the CHECKMATH symbol is defined.
         /// </summary>
         [Conditional("CHECKMATH")]
-        public static void Validate(this Quaternion q)
+        public static void Validate(this FixedQuaternion q)
         {
             if (IsInvalid(q.LengthSquared()))
             {

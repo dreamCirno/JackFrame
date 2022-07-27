@@ -147,7 +147,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         ///</summary>
         ///<param name="children">Data representing the children of the compound collidable.</param>
         ///<param name="center">Location computed to be the center of the compound object.</param>
-        public CompoundCollidable(IList<CompoundChildData> children, out Vector3 center)
+        public CompoundCollidable(IList<CompoundChildData> children, out FixedV3 center)
         {
             Events = new CompoundEventManager();
 
@@ -210,7 +210,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         ///</summary>
         ///<param name="position">Position to use for the calculation.</param>
         ///<param name="orientation">Orientation to use for the calculation.</param>
-        public override void UpdateWorldTransform(ref Vector3 position, ref Quaternion orientation)
+        public override void UpdateWorldTransform(ref FixedV3 position, ref FixedQuaternion orientation)
         {
             base.UpdateWorldTransform(ref position, ref orientation);
             var shapeList = Shape.shapes;
@@ -241,7 +241,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit location of the ray on the collidable, if any.</param>
         /// <returns>Whether or not the ray hit the collidable.</returns>
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit)
         {
             CompoundChild hitChild;
             bool hit = RayCast(ray, maximumLength, out rayHit, out hitChild);
@@ -255,7 +255,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="maximumLength">Maximum length, in units of the ray's direction's length, to test.</param>
         /// <param name="rayHit">Hit data and the hit child collidable, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, out RayCastResult rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayCastResult rayHit)
         {
             RayHit hitData;
             CompoundChild hitChild;
@@ -272,7 +272,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="rayHit">Hit data, if any.</param>
         /// <param name="hitChild">Child collidable hit by the ray, if any.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, out RayHit rayHit, out CompoundChild hitChild)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, out RayHit rayHit, out CompoundChild hitChild)
         {
             rayHit = new RayHit();
             hitChild = null;
@@ -306,7 +306,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <param name="rayHit">Hit location of the ray on the collidable, if any.</param>
         /// <returns>Whether or not the ray hit the collidable.</returns>
-        public override bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
+        public override bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
         {
             CompoundChild hitChild;
             bool hit = RayCast(ray, maximumLength, filter, out rayHit, out hitChild);
@@ -322,7 +322,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="filter">Test to apply to the entry. If it returns true, the entry is processed, otherwise the entry is ignored. If a collidable hierarchy is present
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <returns>Whether or not the ray hit the entry.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayCastResult rayHit)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayCastResult rayHit)
         {
             RayHit hitData;
             CompoundChild hitChild;
@@ -341,7 +341,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="rayHit">Hit location of the ray on the collidable, if any.</param>
         /// <param name="hitChild">Child hit by the ray.</param>
         /// <returns>Whether or not the ray hit the collidable.</returns>
-        public bool RayCast(Ray ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit, out CompoundChild hitChild)
+        public bool RayCast(BEPURay ray, Fixed64 maximumLength, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit, out CompoundChild hitChild)
         {
             rayHit = new RayHit();
             hitChild = null;
@@ -377,7 +377,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="sweep">Sweep to apply to the shape.</param>
         /// <param name="rayHit">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public override bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit rayHit)
+        public override bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit rayHit)
         {
             CompoundChild hitChild;
             bool hit = ConvexCast(castShape, ref startingTransform, ref sweep, out rayHit, out hitChild);
@@ -393,7 +393,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="sweep">Sweep to apply to the shape.</param>
         /// <param name="result">Data and hit object from the first impact, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayCastResult result)
+        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayCastResult result)
         {
             CompoundChild hitChild;
             RayHit rayHit;
@@ -412,7 +412,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="hit">Hit data, if any.</param>
         /// <param name="hitChild">Child hit by the cast.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, out RayHit hit, out CompoundChild hitChild)
+        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, out RayHit hit, out CompoundChild hitChild)
         {
             hit = new RayHit();
             hitChild = null;
@@ -449,7 +449,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <param name="rayHit">Hit data, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public override bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
+        public override bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit rayHit)
         {
             CompoundChild hitChild;
             bool hit = ConvexCast(castShape, ref startingTransform, ref sweep, filter, out rayHit, out hitChild);
@@ -467,7 +467,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// in the entry, this filter will be passed into inner ray casts.</param>
         /// <param name="result">Data and hit object from the first impact, if any.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
+        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, out RayCastResult result)
         {
             CompoundChild hitChild;
             RayHit rayHit;
@@ -487,7 +487,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="hit">Hit data, if any.</param>
         /// <param name="hitChild">Child hit by the cast.</param>
         /// <returns>Whether or not the cast hit anything.</returns>
-        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref Vector3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit hit, out CompoundChild hitChild)
+        public bool ConvexCast(CollisionShapes.ConvexShapes.ConvexShape castShape, ref RigidTransform startingTransform, ref FixedV3 sweep, Func<BroadPhaseEntry, bool> filter, out RayHit hit, out CompoundChild hitChild)
         {
             hit = new RayHit();
             hitChild = null;

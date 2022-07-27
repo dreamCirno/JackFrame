@@ -47,7 +47,7 @@ namespace BEPUphysics.Character
         /// <param name="length">Length of the ray to use in units of the ray's length.</param>
         /// <param name="earliestHit">Earliest intersection location and information.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 length, out RayHit earliestHit)
+        public bool RayCast(BEPURay ray, Fixed64 length, out RayHit earliestHit)
         {
             earliestHit = new RayHit();
             earliestHit.T = Fixed64.MaxValue;
@@ -79,7 +79,7 @@ namespace BEPUphysics.Character
         /// <param name="earliestHit">Earliest intersection location and information.</param>
         /// <param name="hitObject">Collidable intersected by the ray, if any.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCast(Ray ray, Fixed64 length, out RayHit earliestHit, out Collidable hitObject)
+        public bool RayCast(BEPURay ray, Fixed64 length, out RayHit earliestHit, out Collidable hitObject)
         {
             earliestHit = new RayHit();
             earliestHit.T = Fixed64.MaxValue;
@@ -111,7 +111,7 @@ namespace BEPUphysics.Character
         /// <param name="ray">Ray to test.</param>
         /// <param name="length">Length of the ray to use in units of the ray's length.</param>
         /// <returns>Whether or not the ray hit anything.</returns>
-        public bool RayCastHitAnything(Ray ray, Fixed64 length)
+        public bool RayCastHitAnything(BEPURay ray, Fixed64 length)
         {
             foreach (var collidable in characterBody.CollisionInformation.OverlappedCollidables)
             {

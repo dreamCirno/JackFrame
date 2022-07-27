@@ -311,7 +311,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
     /// </summary>
     public class ServoSettings3D : ServoSettings
     {
-        internal Vector3 goal;
+        internal FixedV3 goal;
 
         internal ServoSettings3D(MotorSettings motorSettings)
             : base(motorSettings)
@@ -321,7 +321,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the goal position of the servo.
         /// </summary>
-        public Vector3 Goal
+        public FixedV3 Goal
         {
             get { return goal; }
             set
@@ -341,7 +341,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
     /// </summary>
     public class ServoSettingsOrientation : ServoSettings
     {
-        internal Quaternion goal;
+        internal FixedQuaternion goal;
 
         internal ServoSettingsOrientation(MotorSettings motorSettings)
             : base(motorSettings)
@@ -351,7 +351,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the goal orientation of the servo.
         /// </summary>
-        public Quaternion Goal
+        public FixedQuaternion Goal
         {
             get { return goal; }
             set
@@ -444,7 +444,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
     /// </summary>
     public class VelocityMotorSettings3D : VelocityMotorSettings
     {
-        internal Vector3 goalVelocity;
+        internal FixedV3 goalVelocity;
 
         internal VelocityMotorSettings3D(MotorSettings motorSettings)
             : base(motorSettings)
@@ -454,7 +454,7 @@ namespace BEPUphysics.Constraints.TwoEntity.Motors
         /// <summary>
         /// Gets or sets the goal position of the servo.
         /// </summary>
-        public Vector3 GoalVelocity
+        public FixedV3 GoalVelocity
         {
             get { return goalVelocity; }
             set

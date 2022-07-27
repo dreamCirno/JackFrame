@@ -61,13 +61,13 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 if (a.CollisionInformation.children.Count > 0)
                 {
                     Fixed64 newMassA = (weightA / (weightA + weightB)) * originalMass;
-                    Matrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, newMassA * InertiaHelper.InertiaTensorScale, out distributionInfoA.VolumeDistribution);
+                    BEPUMatrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, newMassA * InertiaHelper.InertiaTensorScale, out distributionInfoA.VolumeDistribution);
                     a.Initialize(a.CollisionInformation, newMassA, distributionInfoA.VolumeDistribution);
                 }
                 if (bCollidable.children.Count > 0)
                 {
                     Fixed64 newMassB = (weightB / (weightA + weightB)) * originalMass;
-                    Matrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, newMassB * InertiaHelper.InertiaTensorScale, out distributionInfoB.VolumeDistribution);
+                    BEPUMatrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, newMassB * InertiaHelper.InertiaTensorScale, out distributionInfoB.VolumeDistribution);
                     b = new Entity<CompoundCollidable>();
                     b.Initialize(bCollidable, newMassB, distributionInfoB.VolumeDistribution);
                 }
@@ -84,32 +84,32 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             //In order to align them, first look at the centers the split method computed.
             //They are offsets from the center of the original shape in local space.
             //These can be used to reposition the objects in world space.
-            Vector3 weightedA, weightedB;
-            Vector3.Multiply(ref distributionInfoA.Center, weightA, out weightedA);
-            Vector3.Multiply(ref distributionInfoB.Center, weightB, out weightedB);
-            Vector3 newLocalCenter;
-            Vector3.Add(ref weightedA, ref weightedB, out newLocalCenter);
-            Vector3.Divide(ref newLocalCenter, weightA + weightB, out newLocalCenter);
+            FixedV3 weightedA, weightedB;
+            FixedV3.Multiply(ref distributionInfoA.Center, weightA, out weightedA);
+            FixedV3.Multiply(ref distributionInfoB.Center, weightB, out weightedB);
+            FixedV3 newLocalCenter;
+            FixedV3.Add(ref weightedA, ref weightedB, out newLocalCenter);
+            FixedV3.Divide(ref newLocalCenter, weightA + weightB, out newLocalCenter);
 
-            Vector3 localOffsetA;
-            Vector3 localOffsetB;
-            Vector3.Subtract(ref distributionInfoA.Center, ref newLocalCenter, out localOffsetA);
-            Vector3.Subtract(ref distributionInfoB.Center, ref newLocalCenter, out localOffsetB);
+            FixedV3 localOffsetA;
+            FixedV3 localOffsetB;
+            FixedV3.Subtract(ref distributionInfoA.Center, ref newLocalCenter, out localOffsetA);
+            FixedV3.Subtract(ref distributionInfoB.Center, ref newLocalCenter, out localOffsetB);
 
-            Vector3 originalPosition = a.position;
+            FixedV3 originalPosition = a.position;
 
             b.Orientation = a.Orientation;
-            Vector3 offsetA = Quaternion.Transform(localOffsetA, a.Orientation);
-            Vector3 offsetB = Quaternion.Transform(localOffsetB, a.Orientation);
+            FixedV3 offsetA = FixedQuaternion.Transform(localOffsetA, a.Orientation);
+            FixedV3 offsetB = FixedQuaternion.Transform(localOffsetB, a.Orientation);
             a.Position = originalPosition + offsetA;
             b.Position = originalPosition + offsetB;
 
-            Vector3 originalLinearVelocity = a.linearVelocity;
-            Vector3 originalAngularVelocity = a.angularVelocity;
+            FixedV3 originalLinearVelocity = a.linearVelocity;
+            FixedV3 originalAngularVelocity = a.angularVelocity;
             a.AngularVelocity = originalAngularVelocity;
             b.AngularVelocity = originalAngularVelocity;
-            a.LinearVelocity = originalLinearVelocity + Vector3.Cross(originalAngularVelocity, offsetA);
-            b.LinearVelocity = originalLinearVelocity + Vector3.Cross(originalAngularVelocity, offsetB);
+            a.LinearVelocity = originalLinearVelocity + FixedV3.Cross(originalAngularVelocity, offsetA);
+            b.LinearVelocity = originalLinearVelocity + FixedV3.Cross(originalAngularVelocity, offsetB);
         }
 
 
@@ -152,14 +152,14 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 if (a.CollisionInformation.children.Count > 0)
                 {
                     Fixed64 newMassA = (weightA / (weightA + weightB)) * originalMass;
-                    Matrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, newMassA * InertiaHelper.InertiaTensorScale, out distributionInfoA.VolumeDistribution);
+                    BEPUMatrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, newMassA * InertiaHelper.InertiaTensorScale, out distributionInfoA.VolumeDistribution);
                     a.Initialize(a.CollisionInformation, newMassA, distributionInfoA.VolumeDistribution);
                 }
 
                 if (b.CollisionInformation.children.Count > 0)
                 {
                     Fixed64 newMassB = (weightB / (weightA + weightB)) * originalMass;
-                    Matrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, newMassB * InertiaHelper.InertiaTensorScale, out distributionInfoB.VolumeDistribution);
+                    BEPUMatrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, newMassB * InertiaHelper.InertiaTensorScale, out distributionInfoB.VolumeDistribution);
                     b.Initialize(b.CollisionInformation, newMassB, distributionInfoB.VolumeDistribution);
                 }
 
@@ -222,9 +222,9 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             {
                 var child = a.children.Elements[i];
                 var entry = child.Entry;
-                Vector3 weightedCenter;
-                Vector3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out weightedCenter);
-                Vector3.Add(ref weightedCenter, ref distributionInfoA.Center, out distributionInfoA.Center);
+                FixedV3 weightedCenter;
+                FixedV3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out weightedCenter);
+                FixedV3.Add(ref weightedCenter, ref distributionInfoA.Center, out distributionInfoA.Center);
                 distributionInfoA.Volume += entry.Shape.Volume;
                 weightA += entry.Weight;
             }
@@ -232,59 +232,59 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             {
                 var child = b.children.Elements[i];
                 var entry = child.Entry;
-                Vector3 weightedCenter;
-                Vector3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out weightedCenter);
-                Vector3.Add(ref weightedCenter, ref distributionInfoB.Center, out distributionInfoB.Center);
+                FixedV3 weightedCenter;
+                FixedV3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out weightedCenter);
+                FixedV3.Add(ref weightedCenter, ref distributionInfoB.Center, out distributionInfoB.Center);
                 distributionInfoB.Volume += entry.Shape.Volume;
                 weightB += entry.Weight;
             }
 
             //Average the center out.
             if (weightA > F64.C0)
-                Vector3.Divide(ref distributionInfoA.Center, weightA, out distributionInfoA.Center);
+                FixedV3.Divide(ref distributionInfoA.Center, weightA, out distributionInfoA.Center);
 
             if (weightB > F64.C0)
-                Vector3.Divide(ref distributionInfoB.Center, weightB, out distributionInfoB.Center);
+                FixedV3.Divide(ref distributionInfoB.Center, weightB, out distributionInfoB.Center);
 
             //Note that the 'entry' is from the Shape, and so the translations are local to the shape's center.
             //That is not technically the center of the new collidable- distributionInfoA.Center is.
             //Offset the child collidables by -distributionInfoA.Center using their local offset.
-            Vector3 offsetA;
-            Vector3.Negate(ref distributionInfoA.Center, out offsetA);
-            Vector3 offsetB;
-            Vector3.Negate(ref distributionInfoB.Center, out offsetB);
+            FixedV3 offsetA;
+            FixedV3.Negate(ref distributionInfoA.Center, out offsetA);
+            FixedV3 offsetB;
+            FixedV3.Negate(ref distributionInfoB.Center, out offsetB);
 
             //Compute the unscaled inertia tensor.
             for (int i = a.children.Count - 1; i >= 0; i--)
             {
                 var child = a.children.Elements[i];
                 var entry = child.Entry;
-                Vector3 transformedOffset;
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
-                Quaternion.Transform(ref offsetA, ref conjugate, out transformedOffset);
+                FixedV3 transformedOffset;
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
+                FixedQuaternion.Transform(ref offsetA, ref conjugate, out transformedOffset);
                 child.CollisionInformation.localPosition = transformedOffset;
-                Matrix3x3 contribution;
+                BEPUMatrix3x3 contribution;
                 CompoundShape.TransformContribution(ref entry.LocalTransform, ref distributionInfoA.Center, ref entry.Shape.volumeDistribution, entry.Weight, out contribution);
-                Matrix3x3.Add(ref contribution, ref distributionInfoA.VolumeDistribution, out distributionInfoA.VolumeDistribution);
+                BEPUMatrix3x3.Add(ref contribution, ref distributionInfoA.VolumeDistribution, out distributionInfoA.VolumeDistribution);
             }
             for (int i = b.children.Count - 1; i >= 0; i--)
             {
                 var child = b.children.Elements[i];
                 var entry = child.Entry;
-                Vector3 transformedOffset;
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
-                Quaternion.Transform(ref offsetB, ref conjugate, out transformedOffset);
+                FixedV3 transformedOffset;
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
+                FixedQuaternion.Transform(ref offsetB, ref conjugate, out transformedOffset);
                 child.CollisionInformation.localPosition = transformedOffset;
-                Matrix3x3 contribution;
+                BEPUMatrix3x3 contribution;
                 CompoundShape.TransformContribution(ref entry.LocalTransform, ref distributionInfoB.Center, ref entry.Shape.volumeDistribution, entry.Weight, out contribution);
-                Matrix3x3.Add(ref contribution, ref distributionInfoB.VolumeDistribution, out distributionInfoB.VolumeDistribution);
+                BEPUMatrix3x3.Add(ref contribution, ref distributionInfoB.VolumeDistribution, out distributionInfoB.VolumeDistribution);
             }
 
             //Normalize the volume distribution.
-            Matrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, F64.C1 / weightA, out distributionInfoA.VolumeDistribution);
-            Matrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, F64.C1 / weightB, out distributionInfoB.VolumeDistribution);
+            BEPUMatrix3x3.Multiply(ref distributionInfoA.VolumeDistribution, F64.C1 / weightA, out distributionInfoA.VolumeDistribution);
+            BEPUMatrix3x3.Multiply(ref distributionInfoB.VolumeDistribution, F64.C1 / weightB, out distributionInfoB.VolumeDistribution);
 
             //Update the hierarchies of the compounds.
             //TODO: Create a new method that does this quickly without garbage.  Requires a new Reconstruct method which takes a pool which stores the appropriate node types.
@@ -295,31 +295,31 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         }
 
 
-        static void RemoveReposition(Entity compound, ref ShapeDistributionInformation distributionInfo, Fixed64 weight, Fixed64 removedWeight, ref Vector3 removedCenter)
+        static void RemoveReposition(Entity compound, ref ShapeDistributionInformation distributionInfo, Fixed64 weight, Fixed64 removedWeight, ref FixedV3 removedCenter)
         {
             //The compounds are not aligned with the original's position yet.
             //In order to align them, first look at the centers the split method computed.
             //They are offsets from the center of the original shape in local space.
             //These can be used to reposition the objects in world space.
-            Vector3 weightedA, weightedB;
-            Vector3.Multiply(ref distributionInfo.Center, weight, out weightedA);
-            Vector3.Multiply(ref removedCenter, removedWeight, out weightedB);
-            Vector3 newLocalCenter;
-            Vector3.Add(ref weightedA, ref weightedB, out newLocalCenter);
-            Vector3.Divide(ref newLocalCenter, weight + removedWeight, out newLocalCenter);
+            FixedV3 weightedA, weightedB;
+            FixedV3.Multiply(ref distributionInfo.Center, weight, out weightedA);
+            FixedV3.Multiply(ref removedCenter, removedWeight, out weightedB);
+            FixedV3 newLocalCenter;
+            FixedV3.Add(ref weightedA, ref weightedB, out newLocalCenter);
+            FixedV3.Divide(ref newLocalCenter, weight + removedWeight, out newLocalCenter);
 
-            Vector3 localOffset;
-            Vector3.Subtract(ref distributionInfo.Center, ref newLocalCenter, out localOffset);
+            FixedV3 localOffset;
+            FixedV3.Subtract(ref distributionInfo.Center, ref newLocalCenter, out localOffset);
 
-            Vector3 originalPosition = compound.position;
+            FixedV3 originalPosition = compound.position;
 
-            Vector3 offset = Quaternion.Transform(localOffset, compound.orientation);
+            FixedV3 offset = FixedQuaternion.Transform(localOffset, compound.orientation);
             compound.Position = originalPosition + offset;
 
-            Vector3 originalLinearVelocity = compound.linearVelocity;
-            Vector3 originalAngularVelocity = compound.angularVelocity;
+            FixedV3 originalLinearVelocity = compound.linearVelocity;
+            FixedV3 originalAngularVelocity = compound.angularVelocity;
             compound.AngularVelocity = originalAngularVelocity;
-            compound.LinearVelocity = originalLinearVelocity + Vector3.Cross(originalAngularVelocity, offset);
+            compound.LinearVelocity = originalLinearVelocity + FixedV3.Cross(originalAngularVelocity, offset);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         {
             Fixed64 weight;
             Fixed64 removedWeight;
-            Vector3 removedCenter;
+            FixedV3 removedCenter;
             if (RemoveChildFromCompound(compound.CollisionInformation, removalPredicate, childContributions, out distributionInfo, out weight, out removedWeight, out removedCenter))
             {
                 //Reconfigure the entities using the data computed in the split.
@@ -362,7 +362,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 {
                     Fixed64 originalMass = compound.mass;
                     Fixed64 newMass = (weight / (weight + removedWeight)) * originalMass;
-                    Matrix3x3.Multiply(ref distributionInfo.VolumeDistribution, newMass * InertiaHelper.InertiaTensorScale, out distributionInfo.VolumeDistribution);
+                    BEPUMatrix3x3.Multiply(ref distributionInfo.VolumeDistribution, newMass * InertiaHelper.InertiaTensorScale, out distributionInfo.VolumeDistribution);
                     compound.Initialize(compound.CollisionInformation, newMass, distributionInfo.VolumeDistribution);
 
                     RemoveReposition(compound, ref distributionInfo, weight, removedWeight, ref removedCenter);
@@ -386,11 +386,11 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
         /// <param name="removedCenter">Center of the chunk removed from the compound.</param>
         /// <returns>Whether or not any removal took place.</returns>
         public static bool RemoveChildFromCompound(CompoundCollidable compound, Func<CompoundChild, bool> removalPredicate, IList<ShapeDistributionInformation> childContributions,
-           out ShapeDistributionInformation distributionInfo, out Fixed64 weight, out Fixed64 removedWeight, out Vector3 removedCenter)
+           out ShapeDistributionInformation distributionInfo, out Fixed64 weight, out Fixed64 removedWeight, out FixedV3 removedCenter)
         {
             bool removalOccurred = false;
             removedWeight = F64.C0;
-            removedCenter = new Vector3();
+            removedCenter = new FixedV3();
             for (int i = compound.children.Count - 1; i >= 0; i--)
             {
                 //The shape doesn't change during this process.  The entity could, though.
@@ -401,9 +401,9 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                     removalOccurred = true;
                     var entry = child.Entry;
                     removedWeight += entry.Weight;
-                    Vector3 toAdd;
-                    Vector3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out toAdd);
-                    Vector3.Add(ref removedCenter, ref toAdd, out removedCenter);
+                    FixedV3 toAdd;
+                    FixedV3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out toAdd);
+                    FixedV3.Add(ref removedCenter, ref toAdd, out removedCenter);
                     //The child event handler must be unhooked from the compound.
                     child.CollisionInformation.events.Parent = null;
                     compound.children.FastRemoveAt(i);
@@ -419,7 +419,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
             }
             if (removedWeight > F64.C0)
             {
-                Vector3.Divide(ref removedCenter, removedWeight, out removedCenter);
+                FixedV3.Divide(ref removedCenter, removedWeight, out removedCenter);
             }
 
             //Compute the contributions from the original shape to the new form of the original collidable.
@@ -430,39 +430,39 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 var child = compound.children.Elements[i];
                 var entry = child.Entry;
                 var contribution = childContributions[child.shapeIndex];
-                Vector3.Add(ref contribution.Center, ref entry.LocalTransform.Position, out contribution.Center);
-                Vector3.Multiply(ref contribution.Center, child.Entry.Weight, out contribution.Center);
-                Vector3.Add(ref contribution.Center, ref distributionInfo.Center, out distributionInfo.Center);
+                FixedV3.Add(ref contribution.Center, ref entry.LocalTransform.Position, out contribution.Center);
+                FixedV3.Multiply(ref contribution.Center, child.Entry.Weight, out contribution.Center);
+                FixedV3.Add(ref contribution.Center, ref distributionInfo.Center, out distributionInfo.Center);
                 distributionInfo.Volume += contribution.Volume;
                 weight += entry.Weight;
             }
             //Average the center out.
-            Vector3.Divide(ref distributionInfo.Center, weight, out distributionInfo.Center);
+            FixedV3.Divide(ref distributionInfo.Center, weight, out distributionInfo.Center);
 
             //Note that the 'entry' is from the Shape, and so the translations are local to the shape's center.
             //That is not technically the center of the new collidable- distributionInfo.Center is.
             //Offset the child collidables by -distributionInfo.Center using their local offset.
-            Vector3 offset;
-            Vector3.Negate(ref distributionInfo.Center, out offset);
+            FixedV3 offset;
+            FixedV3.Negate(ref distributionInfo.Center, out offset);
 
             //Compute the unscaled inertia tensor.
             for (int i = compound.children.Count - 1; i >= 0; i--)
             {
                 var child = compound.children.Elements[i];
                 var entry = child.Entry;
-                Vector3 transformedOffset;
-                Quaternion conjugate;
-                Quaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
-                Quaternion.Transform(ref offset, ref conjugate, out transformedOffset);
+                FixedV3 transformedOffset;
+                FixedQuaternion conjugate;
+                FixedQuaternion.Conjugate(ref entry.LocalTransform.Orientation, out conjugate);
+                FixedQuaternion.Transform(ref offset, ref conjugate, out transformedOffset);
                 child.CollisionInformation.localPosition = transformedOffset;
                 var contribution = childContributions[child.shapeIndex];
                 CompoundShape.TransformContribution(ref entry.LocalTransform, ref distributionInfo.Center, ref contribution.VolumeDistribution, entry.Weight, out contribution.VolumeDistribution);
                 //Vector3.Add(ref entry.LocalTransform.Position, ref offsetA, out entry.LocalTransform.Position);
-                Matrix3x3.Add(ref contribution.VolumeDistribution, ref distributionInfo.VolumeDistribution, out distributionInfo.VolumeDistribution);
+                BEPUMatrix3x3.Add(ref contribution.VolumeDistribution, ref distributionInfo.VolumeDistribution, out distributionInfo.VolumeDistribution);
             }
 
             //Normalize the volume distribution.
-            Matrix3x3.Multiply(ref distributionInfo.VolumeDistribution, F64.C1 / weight, out distributionInfo.VolumeDistribution);
+            BEPUMatrix3x3.Multiply(ref distributionInfo.VolumeDistribution, F64.C1 / weight, out distributionInfo.VolumeDistribution);
 
             //Update the hierarchies of the compounds.
             //TODO: Create a new method that does this quickly without garbage.  Requires a new Reconstruct method which takes a pool which stores the appropriate node types.
@@ -483,7 +483,7 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 throw new ArgumentException("Cannot create a compound from zero shapes.");
 
             CompoundCollidable compound = new CompoundCollidable();
-            Vector3 center = new Vector3();
+            FixedV3 center = new FixedV3();
             Fixed64 totalWeight = F64.C0;
             for (int i = 0; i < childIndices.Count; i++)
             {
@@ -491,16 +491,16 @@ namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
                 var entry = shape.shapes[childIndices[i]];
                 compound.children.Add(new CompoundChild(shape, entry.Shape.GetCollidableInstance(), childIndices[i]));
                 //Grab its entry to compute the center of mass of this subset.
-                Vector3 toAdd;
-                Vector3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out toAdd);
-                Vector3.Add(ref center, ref toAdd, out center);
+                FixedV3 toAdd;
+                FixedV3.Multiply(ref entry.LocalTransform.Position, entry.Weight, out toAdd);
+                FixedV3.Add(ref center, ref toAdd, out center);
                 totalWeight += entry.Weight;
             }
             if (totalWeight <= F64.C0)
             {
                 throw new ArgumentException("Compound has zero total weight; invalid configuration.");
             }
-            Vector3.Divide(ref center, totalWeight, out center);
+            FixedV3.Divide(ref center, totalWeight, out center);
             //Our subset of the compound is not necessarily aligned with the shape's origin.
             //By default, an object will rotate around the center of the collision shape.
             //We can't modify the shape data itself since it could be shared, which leaves

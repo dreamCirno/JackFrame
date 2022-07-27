@@ -10,18 +10,18 @@ namespace BEPUutilities
         ///<summary>
         /// Translation component of the transform.
         ///</summary>
-        public Vector3 Position;
+        public FixedV3 Position;
         ///<summary>
         /// Rotation component of the transform.
         ///</summary>
-        public Quaternion Orientation;
+        public FixedQuaternion Orientation;
 
         ///<summary>
         /// Constructs a new rigid transform.
         ///</summary>
         ///<param name="position">Translation component of the transform.</param>
         ///<param name="orientation">Rotation component of the transform.</param>
-        public RigidTransform(Vector3 position, Quaternion orientation)
+        public RigidTransform(FixedV3 position, FixedQuaternion orientation)
         {
             Position = position;
             Orientation = orientation;
@@ -31,43 +31,43 @@ namespace BEPUutilities
         /// Constructs a new rigid transform.
         ///</summary>
         ///<param name="position">Translation component of the transform.</param>
-        public RigidTransform(Vector3 position)
+        public RigidTransform(FixedV3 position)
         {
             Position = position;
-            Orientation = Quaternion.Identity;
+            Orientation = FixedQuaternion.Identity;
         }
 
         ///<summary>
         /// Constructs a new rigid transform.
         ///</summary>
         ///<param name="orienation">Rotation component of the transform.</param>
-        public RigidTransform(Quaternion orienation)
+        public RigidTransform(FixedQuaternion orienation)
         {
-            Position = new Vector3();
+            Position = new FixedV3();
             Orientation = orienation;
         }
 
         /// <summary>
         /// Gets the orientation matrix created from the orientation of the rigid transform.
         /// </summary>
-        public Matrix OrientationMatrix
+        public BEPUMatrix OrientationMatrix
         {
             get
             {
-                Matrix toReturn;
-                Matrix.CreateFromQuaternion(ref Orientation, out toReturn);
+                BEPUMatrix toReturn;
+                BEPUMatrix.CreateFromQuaternion(ref Orientation, out toReturn);
                 return toReturn;
             }
         }
         ///<summary>
         /// Gets the 4x4 matrix created from the rigid transform.
         ///</summary>
-        public Matrix Matrix
+        public BEPUMatrix Matrix
         {
             get
             {
-                Matrix toReturn;
-                Matrix.CreateFromQuaternion(ref Orientation, out toReturn);
+                BEPUMatrix toReturn;
+                BEPUMatrix.CreateFromQuaternion(ref Orientation, out toReturn);
                 toReturn.Translation = Position;
                 return toReturn;
             }
@@ -82,7 +82,7 @@ namespace BEPUutilities
         {
             get
             {
-                var t = new RigidTransform {Orientation = Quaternion.Identity, Position = new Vector3()};
+                var t = new RigidTransform {Orientation = FixedQuaternion.Identity, Position = new FixedV3()};
                 return t;
             }
         }
@@ -94,9 +94,9 @@ namespace BEPUutilities
         /// <param name="inverse">Inverse of the transform.</param>
         public static void Invert(ref RigidTransform transform, out RigidTransform inverse)
         {
-            Quaternion.Conjugate(ref transform.Orientation, out inverse.Orientation);
-            Quaternion.Transform(ref transform.Position, ref inverse.Orientation, out inverse.Position);
-            Vector3.Negate(ref inverse.Position, out inverse.Position);
+            FixedQuaternion.Conjugate(ref transform.Orientation, out inverse.Orientation);
+            FixedQuaternion.Transform(ref transform.Position, ref inverse.Orientation, out inverse.Position);
+            FixedV3.Negate(ref inverse.Position, out inverse.Position);
         }
 
         ///<summary>
@@ -107,10 +107,10 @@ namespace BEPUutilities
         ///<param name="combined">Concatenated rigid transform.</param>
         public static void Multiply(ref RigidTransform a, ref RigidTransform b, out RigidTransform combined)
         {
-            Vector3 intermediate;
-            Quaternion.Transform(ref a.Position, ref b.Orientation, out intermediate);
-            Vector3.Add(ref intermediate, ref b.Position, out combined.Position);
-            Quaternion.Concatenate(ref a.Orientation, ref b.Orientation, out combined.Orientation);
+            FixedV3 intermediate;
+            FixedQuaternion.Transform(ref a.Position, ref b.Orientation, out intermediate);
+            FixedV3.Add(ref intermediate, ref b.Position, out combined.Position);
+            FixedQuaternion.Concatenate(ref a.Orientation, ref b.Orientation, out combined.Orientation);
 
         }
 
@@ -132,11 +132,11 @@ namespace BEPUutilities
         ///<param name="position">Position to transform.</param>
         ///<param name="transform">Transform to apply.</param>
         ///<param name="result">Transformed position.</param>
-        public static void Transform(ref Vector3 position, ref RigidTransform transform, out Vector3 result)
+        public static void Transform(ref FixedV3 position, ref RigidTransform transform, out FixedV3 result)
         {
-            Vector3 intermediate;
-            Quaternion.Transform(ref position, ref transform.Orientation, out intermediate);
-            Vector3.Add(ref intermediate, ref transform.Position, out result);
+            FixedV3 intermediate;
+            FixedQuaternion.Transform(ref position, ref transform.Orientation, out intermediate);
+            FixedV3.Add(ref intermediate, ref transform.Position, out result);
         }
 
 
@@ -146,13 +146,13 @@ namespace BEPUutilities
         ///<param name="position">Position to transform.</param>
         ///<param name="transform">Transform to invert and apply.</param>
         ///<param name="result">Transformed position.</param>
-        public static void TransformByInverse(ref Vector3 position, ref RigidTransform transform, out Vector3 result)
+        public static void TransformByInverse(ref FixedV3 position, ref RigidTransform transform, out FixedV3 result)
         {
-            Quaternion orientation;
-            Vector3 intermediate;
-            Vector3.Subtract(ref position, ref transform.Position, out intermediate);
-            Quaternion.Conjugate(ref transform.Orientation, out orientation);
-            Quaternion.Transform(ref intermediate, ref orientation, out result);
+            FixedQuaternion orientation;
+            FixedV3 intermediate;
+            FixedV3.Subtract(ref position, ref transform.Position, out intermediate);
+            FixedQuaternion.Conjugate(ref transform.Orientation, out orientation);
+            FixedQuaternion.Transform(ref intermediate, ref orientation, out result);
         }
 
 

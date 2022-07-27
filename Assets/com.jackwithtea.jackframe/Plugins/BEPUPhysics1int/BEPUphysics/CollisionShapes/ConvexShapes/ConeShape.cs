@@ -87,7 +87,7 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             ConvexShapeDescription description;
             description.EntityShapeVolume.Volume = F64.OneThird * MathHelper.Pi * radius * radius * height;
 
-            description.EntityShapeVolume.VolumeDistribution = new Matrix3x3();
+            description.EntityShapeVolume.VolumeDistribution = new BEPUMatrix3x3();
             Fixed64 diagValue = (F64.C0p1 * height * height + F64.C0p15 * radius * radius);
             description.EntityShapeVolume.VolumeDistribution.M11 = diagValue;
             description.EntityShapeVolume.VolumeDistribution.M22 = F64.C0p3 * radius * radius;
@@ -109,14 +109,14 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
         ///</summary>
         ///<param name="direction">Direction to find the extreme point in.</param>
         ///<param name="extremePoint">Extreme point on the shape.</param>
-        public override void GetLocalExtremePointWithoutMargin(ref Vector3 direction, out Vector3 extremePoint)
+        public override void GetLocalExtremePointWithoutMargin(ref FixedV3 direction, out FixedV3 extremePoint)
         {
             //Is it the tip of the cone?
             Fixed64 sinThetaSquared = radius * radius / (radius * radius + height * height);
             //If d.Y * d.Y / d.LengthSquared >= sinthetaSquared
             if (direction.Y > F64.C0 && direction.Y * direction.Y >= direction.LengthSquared() * sinThetaSquared)
             {
-                extremePoint = new Vector3(F64.C0, F64.C0p75 * height, F64.C0);
+                extremePoint = new FixedV3(F64.C0, F64.C0p75 * height, F64.C0);
                 return;
             }
             //Is it a bottom edge of the cone?
@@ -124,10 +124,10 @@ namespace BEPUphysics.CollisionShapes.ConvexShapes
             if (horizontalLengthSquared > Toolbox.Epsilon)
             {
                 var radOverSigma = radius / Fixed64.Sqrt(horizontalLengthSquared);
-                extremePoint = new Vector3((Fixed64)(radOverSigma * direction.X), F64.Cm0p25 * height, (Fixed64)(radOverSigma * direction.Z));
+                extremePoint = new FixedV3((Fixed64)(radOverSigma * direction.X), F64.Cm0p25 * height, (Fixed64)(radOverSigma * direction.Z));
             }
             else // It's pointing almost straight down...
-                extremePoint = new Vector3(F64.C0, F64.Cm0p25 * height, F64.C0);
+                extremePoint = new FixedV3(F64.C0, F64.Cm0p25 * height, F64.C0);
 
 
         }

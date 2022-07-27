@@ -11,7 +11,7 @@ namespace BEPUik
         /// <summary>
         /// Gets or sets the rotation from connection A's orientation to connection B's orientation in A's local space.
         /// </summary>
-        public Quaternion GoalRelativeOrientation;
+        public FixedQuaternion GoalRelativeOrientation;
 
 
         /// <summary>
@@ -22,18 +22,18 @@ namespace BEPUik
         public IKAngularJoint(Bone connectionA, Bone connectionB)
             : base(connectionA, connectionB)
         {  
-            Quaternion orientationAConjugate;
-            Quaternion.Conjugate(ref ConnectionA.Orientation, out orientationAConjugate);
+            FixedQuaternion orientationAConjugate;
+            FixedQuaternion.Conjugate(ref ConnectionA.Orientation, out orientationAConjugate);
             //Store the orientation from A to B in A's local space in the GoalRelativeOrientation.
-            Quaternion.Concatenate(ref ConnectionB.Orientation, ref orientationAConjugate, out GoalRelativeOrientation);
+            FixedQuaternion.Concatenate(ref ConnectionB.Orientation, ref orientationAConjugate, out GoalRelativeOrientation);
 
         }
 
         protected internal override void UpdateJacobiansAndVelocityBias()
         {
-            linearJacobianA = linearJacobianB = new Matrix3x3();
-            angularJacobianA = new Matrix3x3 { M11 = F64.C1, M22 = F64.C1, M33 = F64.C1 };
-            angularJacobianB = new Matrix3x3 { M11 = -1, M22 = -1, M33 = -1 };
+            linearJacobianA = linearJacobianB = new BEPUMatrix3x3();
+            angularJacobianA = new BEPUMatrix3x3 { M11 = F64.C1, M22 = F64.C1, M33 = F64.C1 };
+            angularJacobianB = new BEPUMatrix3x3 { M11 = -1, M22 = -1, M33 = -1 };
 
             //The error is computed using this equation:
             //GoalRelativeOrientation * ConnectionA.Orientation * Error = ConnectionB.Orientation
@@ -42,18 +42,18 @@ namespace BEPUik
             //Of course, B won't be exactly where it should be after initialization.
             //The Error component holds the difference between what is and what should be.
             //Error = (GoalRelativeOrientation * ConnectionA.Orientation)^-1 * ConnectionB.Orientation
-            Quaternion bTarget;
-            Quaternion.Concatenate(ref GoalRelativeOrientation, ref ConnectionA.Orientation, out bTarget);
-            Quaternion bTargetConjugate;
-            Quaternion.Conjugate(ref bTarget, out bTargetConjugate);
+            FixedQuaternion bTarget;
+            FixedQuaternion.Concatenate(ref GoalRelativeOrientation, ref ConnectionA.Orientation, out bTarget);
+            FixedQuaternion bTargetConjugate;
+            FixedQuaternion.Conjugate(ref bTarget, out bTargetConjugate);
 
-            Quaternion error;
-            Quaternion.Concatenate(ref bTargetConjugate, ref ConnectionB.Orientation, out error);
+            FixedQuaternion error;
+            FixedQuaternion.Concatenate(ref bTargetConjugate, ref ConnectionB.Orientation, out error);
 
             //Convert the error into an axis-angle vector usable for bias velocity.
             Fixed64 angle;
-            Vector3 axis;
-            Quaternion.GetAxisAngleFromQuaternion(ref error, out axis, out angle);
+            FixedV3 axis;
+            FixedQuaternion.GetAxisAngleFromQuaternion(ref error, out axis, out angle);
 
             velocityBias.X = errorCorrectionFactor * axis.X * angle;
             velocityBias.Y = errorCorrectionFactor * axis.Y * angle;
