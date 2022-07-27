@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes.ConvexShapes
+namespace BEPUPhysics1int.CollisionShapes.ConvexShapes
 {
     ///<summary>
     /// Symmetrical shape with a circular base and a point at the top.

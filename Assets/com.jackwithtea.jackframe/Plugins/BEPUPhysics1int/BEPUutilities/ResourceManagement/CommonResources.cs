@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUutilities.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Handles allocation and management of commonly used resources.

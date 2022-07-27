@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.CollisionTests;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     //TODO: It would be nice to split and improve this monolith into individually superior, organized components.
 

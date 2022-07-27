@@ -1,7 +1,7 @@
 ﻿using System;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Uses a spinlock to safely access resources.

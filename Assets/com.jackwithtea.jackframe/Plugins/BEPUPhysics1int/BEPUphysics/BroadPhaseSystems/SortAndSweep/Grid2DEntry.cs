@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     class Grid2DEntry
     {

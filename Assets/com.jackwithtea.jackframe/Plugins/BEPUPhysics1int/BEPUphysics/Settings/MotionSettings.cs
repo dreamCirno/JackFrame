@@ -1,13 +1,12 @@
-﻿using BEPUphysics.PositionUpdating;
+﻿using BEPUPhysics1int.PositionUpdating;
 using System;
-using BEPUutilities;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.Entities;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
-namespace BEPUphysics.Settings
+namespace BEPUPhysics1int.Settings
 {
     ///<summary>
     /// Contains global settings about motion updating.

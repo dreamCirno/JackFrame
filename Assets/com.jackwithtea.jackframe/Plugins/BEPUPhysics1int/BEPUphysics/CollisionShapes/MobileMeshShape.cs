@@ -1,16 +1,14 @@
 ﻿
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
 using System;
-using BEPUphysics.Settings;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Local space data associated with a mobile mesh.

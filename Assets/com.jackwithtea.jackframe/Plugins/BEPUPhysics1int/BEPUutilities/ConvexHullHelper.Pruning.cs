@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     public static partial class ConvexHullHelper
     {

@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.OtherSpaceStages
+﻿namespace BEPUPhysics1int.OtherSpaceStages
 {
     ///<summary>
     /// Defines an object which can create deferred events.

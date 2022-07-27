@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUutilities.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     /// <summary>
     /// Special datatype used for heapless lists without unsafe/stackalloc.

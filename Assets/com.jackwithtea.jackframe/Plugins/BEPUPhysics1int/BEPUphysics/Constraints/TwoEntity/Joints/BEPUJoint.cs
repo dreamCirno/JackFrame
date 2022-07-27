@@ -1,8 +1,8 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 using System;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Superclass of position-based constraints.

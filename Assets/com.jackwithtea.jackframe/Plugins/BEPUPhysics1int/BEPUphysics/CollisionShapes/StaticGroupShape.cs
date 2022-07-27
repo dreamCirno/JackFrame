@@ -1,11 +1,11 @@
 ﻿using System;
-using BEPUphysics.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// The shape information used by a StaticGroup.

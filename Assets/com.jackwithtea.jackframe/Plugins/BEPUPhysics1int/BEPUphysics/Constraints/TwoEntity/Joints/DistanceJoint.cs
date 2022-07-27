@@ -1,10 +1,6 @@
-using System;
-using BEPUphysics.Entities;
-
-using BEPUutilities;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Constraint which tries to maintain the distance between points on two entities.

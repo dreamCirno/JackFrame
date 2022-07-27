@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// State of a contact relative to a speculative character position.

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BEPUphysics.Materials
+namespace BEPUPhysics1int.Materials
 {
     /// <summary>
     /// A function which takes two materials and computes the interaction properties between them.

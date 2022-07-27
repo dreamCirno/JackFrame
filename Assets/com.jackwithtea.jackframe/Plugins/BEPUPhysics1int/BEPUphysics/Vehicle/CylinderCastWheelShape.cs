@@ -1,13 +1,11 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.Entities;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUutilities;
-using BEPUphysics.Materials;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Materials;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Uses a cylinder cast as the shape of a wheel.

@@ -1,15 +1,14 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Entities;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
 
-using BEPUphysics.CollisionRuleManagement;
-using BEPUutilities;
-using BEPUphysics.Materials;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Materials;
 using System;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Uses a raycast as the shape of a wheel.

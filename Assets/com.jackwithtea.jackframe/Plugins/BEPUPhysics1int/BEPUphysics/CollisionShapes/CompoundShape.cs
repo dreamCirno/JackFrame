@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Contains a shape and its local transform relative to its owning compound shape.

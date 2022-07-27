@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 using System.Collections.ObjectModel;
 
-namespace BEPUphysics.DeactivationManagement
+namespace BEPUPhysics1int.DeactivationManagement
 {
     ///<summary>
     /// A collection of simulation island members bound together with connections.

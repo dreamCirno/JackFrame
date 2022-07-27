@@ -1,9 +1,9 @@
-﻿using BEPUphysics.Constraints.SolverGroups;
-using BEPUphysics.Entities;
+﻿using BEPUPhysics1int.Constraints.SolverGroups;
+using BEPUPhysics1int;
 using System;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     ///<summary>
     /// Constraint group containing multiple contact manifold constraints.

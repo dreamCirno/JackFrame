@@ -1,17 +1,17 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests.CollisionAlgorithms.GJK;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUphysics.Constraints.Collision;
-using BEPUphysics.DataStructures;
-using BEPUphysics.PositionUpdating;
-using BEPUphysics.Settings;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int.Constraints.Collision;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.PositionUpdating;
+using BEPUPhysics1int.Settings;
  
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a mobile mesh-convex collision pair.
@@ -32,11 +32,11 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         {
             get { return mobileMesh; }
         }
-        public override Entities.Entity EntityA
+        public override Entity EntityA
         {
             get { return convex.entity; }
         }
-        public override Entities.Entity EntityB
+        public override Entity EntityB
         {
             get { return mobileMesh.entity; }
         }

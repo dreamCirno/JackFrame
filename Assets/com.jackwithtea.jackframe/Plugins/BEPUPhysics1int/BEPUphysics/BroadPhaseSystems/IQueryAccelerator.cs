@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUutilities;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems
+namespace BEPUPhysics1int.BroadPhaseSystems
 {
     ///<summary>
     /// Defines a system that accelerates bounding volume and ray cast queries.

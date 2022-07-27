@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.CollisionRuleManagement
+﻿namespace BEPUPhysics1int.CollisionRuleManagement
 {
     /// <summary>
     /// Defines a set of rules that collisions can adhere to.

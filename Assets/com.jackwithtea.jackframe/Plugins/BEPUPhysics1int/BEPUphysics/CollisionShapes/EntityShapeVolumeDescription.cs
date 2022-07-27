@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     public struct EntityShapeVolumeDescription
     {

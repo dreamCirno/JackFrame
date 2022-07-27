@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints
+namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Defines a three dimensional orthonormal basis used by a constraint.

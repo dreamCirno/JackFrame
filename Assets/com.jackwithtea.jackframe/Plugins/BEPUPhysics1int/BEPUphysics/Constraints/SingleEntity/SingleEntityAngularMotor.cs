@@ -1,10 +1,7 @@
-﻿using System;
-using BEPUphysics.Constraints.TwoEntity.Motors;
-using BEPUphysics.Entities;
-using BEPUutilities;
+﻿using BEPUPhysics1int.Constraints.TwoEntity.Motors;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.SingleEntity
+namespace BEPUPhysics1int.Constraints.SingleEntity
 {
     /// <summary>
     /// Constraint which attempts to restrict the relative angular velocity of two entities to some value.

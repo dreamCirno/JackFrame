@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics
+﻿namespace BEPUPhysics1int
 {
     ///<summary>
     /// Defines an object which can be managed by an Space.

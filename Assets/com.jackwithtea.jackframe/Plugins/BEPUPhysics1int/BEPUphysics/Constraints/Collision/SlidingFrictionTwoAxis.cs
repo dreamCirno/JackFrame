@@ -1,12 +1,8 @@
-﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
- 
-using BEPUphysics.Settings;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     /// <summary>
     /// Computes the forces to slow down and stop sliding motion between two entities when centralized friction is active.

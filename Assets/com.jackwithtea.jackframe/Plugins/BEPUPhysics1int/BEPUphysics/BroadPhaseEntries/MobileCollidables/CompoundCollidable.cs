@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.CollisionShapes;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.Materials;
-using BEPUphysics.CollisionRuleManagement;
+using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.CollisionRuleManagement;
 using System;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Collidable used by compound shapes.

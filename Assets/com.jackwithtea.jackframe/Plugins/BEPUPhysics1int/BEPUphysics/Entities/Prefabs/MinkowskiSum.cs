@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.EntityStateManagement;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.EntityStateManagement;
  
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities.Prefabs
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Shape representing the sweeping of one entity through another.  Can collide and move.  After making an entity, add it to a Space so that the engine can manage it.

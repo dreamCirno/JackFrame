@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 using System;
-namespace BEPUphysics.Settings
+namespace BEPUPhysics1int.Settings
 {
     ///<summary>
     /// Settings class containing global information about collision detection.

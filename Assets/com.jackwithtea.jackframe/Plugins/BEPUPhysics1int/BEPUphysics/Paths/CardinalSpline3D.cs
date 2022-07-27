@@ -1,9 +1,9 @@
 ﻿
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Cardinal spline implementation of the 3D hermite curve.  Uses a tension parameter to control

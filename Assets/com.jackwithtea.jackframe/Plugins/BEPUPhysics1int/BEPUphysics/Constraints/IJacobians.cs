@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints
+namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Denotes a class that uses a single linear jacobian axis.

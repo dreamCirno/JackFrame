@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Contains locking and thread static buffer pools for the specified type.

@@ -1,8 +1,8 @@
 ﻿ 
 using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// State describing the position, orientation, and velocity of an entity.

@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Contains ray hit data.

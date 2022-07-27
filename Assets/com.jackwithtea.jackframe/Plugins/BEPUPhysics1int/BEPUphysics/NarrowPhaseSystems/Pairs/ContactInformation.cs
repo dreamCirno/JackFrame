@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUphysics.CollisionTests;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Contact and some associated data used by the convenience ContactCollection.

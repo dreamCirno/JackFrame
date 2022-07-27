@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.DeactivationManagement
+namespace BEPUPhysics1int.DeactivationManagement
 {
     /// <summary>
     /// Read only list containing the simulation island members associated with a simulation island connection.

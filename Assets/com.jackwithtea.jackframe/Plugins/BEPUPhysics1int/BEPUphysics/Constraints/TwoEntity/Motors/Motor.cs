@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Superclass of constraints which do work and change the velocity of connected entities, but have no specific position target.

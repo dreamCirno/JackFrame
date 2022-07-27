@@ -1,9 +1,6 @@
-﻿using BEPUphysics.Entities;
+﻿using FixMath.NET;
 
-using BEPUutilities;
-using FixMath.NET;
-
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Constrains a point on one body to be on a plane defined by another body.

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Acceleration structure of objects surrounded by axis aligned bounding boxes, supporting various speedy queries.

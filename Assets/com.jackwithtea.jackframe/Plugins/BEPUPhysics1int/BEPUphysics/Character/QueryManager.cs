@@ -1,16 +1,14 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.NarrowPhaseSystems;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Settings;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.NarrowPhaseSystems;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
 using FixMath.NET;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Helps a character identify supports by finding contacts and ray cast intersections with its immediate surroundings.

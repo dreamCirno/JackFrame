@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.Constraints;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.Constraints;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.NarrowPhaseSystems
+namespace BEPUPhysics1int.NarrowPhaseSystems
 {
     ///<summary>
     /// Pair of types.

@@ -1,10 +1,8 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.DeactivationManagement
+namespace BEPUPhysics1int.DeactivationManagement
 {
     /// <summary>
     /// Object owned by an entity which lives in a simulation island.
@@ -191,7 +189,7 @@ namespace BEPUphysics.DeactivationManagement
             }
         }
 
-        internal BEPUutilities.SpinLock simulationIslandChangeLocker = new BEPUutilities.SpinLock();
+        internal BEPUPhysics1int.SpinLock simulationIslandChangeLocker = new BEPUPhysics1int.SpinLock();
         void TryToCompressIslandHierarchy()
         {
 

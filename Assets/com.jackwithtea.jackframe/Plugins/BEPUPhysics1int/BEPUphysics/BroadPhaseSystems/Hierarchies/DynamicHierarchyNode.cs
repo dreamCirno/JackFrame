@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems.Hierarchies
+namespace BEPUPhysics1int.BroadPhaseSystems.Hierarchies
 {
     internal abstract class Node
     {

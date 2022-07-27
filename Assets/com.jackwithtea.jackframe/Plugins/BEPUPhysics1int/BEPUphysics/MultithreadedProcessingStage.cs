@@ -1,7 +1,7 @@
 ﻿using System;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Superclass of processing systems which can use multiple threads.

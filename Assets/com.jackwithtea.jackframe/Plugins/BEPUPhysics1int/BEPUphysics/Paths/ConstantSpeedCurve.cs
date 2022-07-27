@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Superclass of speed-controlled curves that have a constant speed.

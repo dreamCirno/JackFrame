@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Used by characters to figure out how to interpret a character's collisions for the purposes of movement.

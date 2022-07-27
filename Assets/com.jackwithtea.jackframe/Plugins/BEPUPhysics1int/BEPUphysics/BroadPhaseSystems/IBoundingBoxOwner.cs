@@ -1,7 +1,7 @@
 ﻿
 
-using BEPUutilities;
-namespace BEPUphysics.BroadPhaseSystems
+using BEPUPhysics1int;
+namespace BEPUPhysics1int.BroadPhaseSystems
 {
     ///<summary>
     /// Requires that a class have a BoundingBox.

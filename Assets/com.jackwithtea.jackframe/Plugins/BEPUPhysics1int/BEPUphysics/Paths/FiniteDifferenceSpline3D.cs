@@ -1,9 +1,9 @@
 ﻿
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// 3D hermite curve that uses the finite difference method to compute tangents.

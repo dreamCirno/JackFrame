@@ -1,11 +1,11 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.DataStructures;
 using System;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.BroadPhaseSystems
+namespace BEPUPhysics1int.BroadPhaseSystems
 {
     ///<summary>
     /// Superclass of all broad phases.  Broad phases collect overlapping broad phase entry pairs.

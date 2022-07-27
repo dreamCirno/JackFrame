@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     public enum VoronoiRegion
     {

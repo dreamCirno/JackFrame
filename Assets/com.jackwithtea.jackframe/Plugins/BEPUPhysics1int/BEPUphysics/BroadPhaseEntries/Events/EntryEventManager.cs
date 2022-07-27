@@ -1,12 +1,12 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.OtherSpaceStages;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.OtherSpaceStages;
+using BEPUPhysics1int;
 using System;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.BroadPhaseEntries.Events
+namespace BEPUPhysics1int.BroadPhaseEntries.Events
 {
 
     ///<summary>

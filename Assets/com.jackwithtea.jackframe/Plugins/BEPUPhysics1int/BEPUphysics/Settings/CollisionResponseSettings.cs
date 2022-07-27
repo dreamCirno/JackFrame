@@ -1,7 +1,7 @@
 ﻿using FixMath.NET;
-using BEPUutilities;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.Settings
+namespace BEPUPhysics1int.Settings
 {
     ///<summary>
     /// Contains global settings relating to the collision response system.

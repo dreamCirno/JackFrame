@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
 
     ///<summary>

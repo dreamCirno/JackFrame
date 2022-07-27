@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace BEPUutilities.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     //TODO: This could be handled better.
 

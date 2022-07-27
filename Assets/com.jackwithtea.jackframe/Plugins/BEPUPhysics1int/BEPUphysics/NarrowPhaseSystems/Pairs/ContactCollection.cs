@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Convenience collection of contacts and their associated data.

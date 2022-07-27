@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.Constraints.SolverGroups
+﻿namespace BEPUPhysics1int.Constraints.SolverGroups
 {
     /// <summary>
     /// Constraint made from other constraints.

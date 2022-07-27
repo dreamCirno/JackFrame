@@ -1,13 +1,13 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 using System;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities.DataStructures;
-using BEPUutilities;
-using BEPUphysics.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
 using FixMath.NET;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     /// <summary>
     /// Handles the tests between a DetectorVolume and a convex collidable.

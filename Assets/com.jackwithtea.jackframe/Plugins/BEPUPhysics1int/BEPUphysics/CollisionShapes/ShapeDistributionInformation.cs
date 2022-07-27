@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Contains data about the distribution of volume in a shape.

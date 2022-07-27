@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.UpdateableSystems.ForceFields
+namespace BEPUPhysics1int.UpdateableSystems.ForceFields
 {
     /// <summary>
     /// Superclass of force field shapes that test whether or not entities are affected by a forcefield.

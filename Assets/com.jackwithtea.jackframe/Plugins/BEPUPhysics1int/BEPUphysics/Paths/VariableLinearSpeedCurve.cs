@@ -1,9 +1,9 @@
 ﻿
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Wraps a curve that is traveled along with arbitrary defined linear speed.

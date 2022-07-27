@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using BEPUutilities.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
  
-using BEPUphysics.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     /// <summary>
     /// Stores basic data used by some collision systems.

@@ -1,10 +1,6 @@
-﻿using System.Runtime.InteropServices;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.DataStructures;
 
-
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
 
     ///<summary>

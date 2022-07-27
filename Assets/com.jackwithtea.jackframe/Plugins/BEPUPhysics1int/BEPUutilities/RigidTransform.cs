@@ -1,6 +1,6 @@
 ﻿ 
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Transform composed of a rotation and translation.

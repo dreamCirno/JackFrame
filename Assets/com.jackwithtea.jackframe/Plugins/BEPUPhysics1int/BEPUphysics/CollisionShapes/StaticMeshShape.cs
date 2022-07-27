@@ -1,8 +1,8 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
  
-using BEPUphysics.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// The local space information needed by a StaticMesh.

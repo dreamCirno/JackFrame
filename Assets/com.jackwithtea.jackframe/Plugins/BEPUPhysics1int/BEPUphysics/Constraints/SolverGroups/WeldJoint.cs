@@ -1,9 +1,7 @@
-﻿using BEPUphysics.Constraints.TwoEntity;
-using BEPUphysics.Constraints.TwoEntity.Joints;
-using BEPUphysics.Entities;
-using BEPUutilities;
+﻿using BEPUPhysics1int.Constraints.TwoEntity;
+using BEPUPhysics1int.Constraints.TwoEntity.Joints;
 
-namespace BEPUphysics.Constraints.SolverGroups
+namespace BEPUPhysics1int.Constraints.SolverGroups
 {
     /// <summary>
     /// Restricts the linear and angular motion between two entities.

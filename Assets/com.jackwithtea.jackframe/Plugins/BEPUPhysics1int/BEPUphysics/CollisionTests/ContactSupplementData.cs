@@ -1,9 +1,9 @@
 ﻿
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     ///<summary>
     /// Extra data associated with a contact point used to refresh contacts each frame.

@@ -1,12 +1,12 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     /// <summary>
     /// Broad phase implementation that partitions objects into a 2d grid, and then performs a sort and sweep on the final axis.

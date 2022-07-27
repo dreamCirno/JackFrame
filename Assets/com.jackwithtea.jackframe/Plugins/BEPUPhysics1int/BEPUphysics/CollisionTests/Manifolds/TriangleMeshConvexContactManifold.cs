@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUphysics.Entities.Prefabs;
-using BEPUutilities.ResourceManagement;
-using BEPUphysics.Settings;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.Manifolds
+namespace BEPUPhysics1int.CollisionTests.Manifolds
 {
     ///<summary>
     /// Manages persistent contact data between a triangle mesh and a convex.

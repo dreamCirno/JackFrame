@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
 #pragma warning disable F64_NUM, CS1591
 	public static class F64

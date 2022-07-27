@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.ResourceManagement;
 #if FORCEINLINE
 using System.Runtime.CompilerServices;
 #endif
 
-namespace BEPUutilities.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     /// <summary>
     /// Container supporting constant time adds and removes of key-value pairs while preserving fast iteration times.

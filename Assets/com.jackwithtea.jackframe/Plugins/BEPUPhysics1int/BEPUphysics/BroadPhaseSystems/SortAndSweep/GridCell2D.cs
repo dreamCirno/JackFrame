@@ -1,7 +1,7 @@
-﻿using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     class GridCell2D
     {

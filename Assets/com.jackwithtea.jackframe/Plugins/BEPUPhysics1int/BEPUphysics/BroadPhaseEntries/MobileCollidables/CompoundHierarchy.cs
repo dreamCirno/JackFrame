@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUphysics.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Hierarchy of children used to accelerate queries and tests for compound collidables.

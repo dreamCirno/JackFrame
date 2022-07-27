@@ -1,10 +1,8 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
-using BEPUutilities;
 
-namespace BEPUphysics.Constraints.SolverGroups
+namespace BEPUPhysics1int.Constraints.SolverGroups
 {
     /// <summary>
     /// Superclass of constraints that are composed of multiple subconstraints.

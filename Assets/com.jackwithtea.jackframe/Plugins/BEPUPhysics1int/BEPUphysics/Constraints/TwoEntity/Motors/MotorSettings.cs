@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Defines the behavior style of a motor.

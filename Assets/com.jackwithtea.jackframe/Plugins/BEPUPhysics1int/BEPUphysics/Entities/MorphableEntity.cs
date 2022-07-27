@@ -1,9 +1,9 @@
-﻿using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities;
-using BEPUphysics.CollisionShapes;
+﻿using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
+using BEPUPhysics1int.CollisionShapes;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Entity with modifiable collision information.

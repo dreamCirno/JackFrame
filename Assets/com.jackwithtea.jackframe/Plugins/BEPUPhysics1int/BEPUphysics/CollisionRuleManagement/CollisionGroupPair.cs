@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUphysics.CollisionRuleManagement
+namespace BEPUPhysics1int.CollisionRuleManagement
 {
 
     /// <summary>

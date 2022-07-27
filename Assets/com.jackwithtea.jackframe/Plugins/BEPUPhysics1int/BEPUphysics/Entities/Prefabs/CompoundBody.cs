@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities.Prefabs
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Acts as a grouping of multiple other objects.  Can be used to form physically simulated concave shapes.

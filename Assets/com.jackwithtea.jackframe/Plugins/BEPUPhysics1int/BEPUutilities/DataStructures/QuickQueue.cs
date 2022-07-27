@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.ResourceManagement;
 using System.Collections.Generic;
 #if FORCEINLINE
 using System.Runtime.CompilerServices;
 #endif
 
-namespace BEPUutilities.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     /// <summary>
     /// Container supporting double ended queue behaviors built on top of pooled arrays.

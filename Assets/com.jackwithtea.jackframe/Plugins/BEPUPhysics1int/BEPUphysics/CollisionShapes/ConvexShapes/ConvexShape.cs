@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities;
-using BEPUphysics.Settings;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int;
+using BEPUPhysics1int.Settings;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes.ConvexShapes
+namespace BEPUPhysics1int.CollisionShapes.ConvexShapes
 {
     ///<summary>
     /// Superclass of convex collision shapes.

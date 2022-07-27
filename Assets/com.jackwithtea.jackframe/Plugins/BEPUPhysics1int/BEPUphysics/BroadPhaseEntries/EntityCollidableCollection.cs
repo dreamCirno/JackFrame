@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Entities;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// Enumerable collection of entities associated with a collidable.

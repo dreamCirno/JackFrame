@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.UpdateableSystems;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.UpdateableSystems;
 using FixMath.NET;
-using BEPUutilities;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Simulates wheeled vehicles using a variety of constraints and shape casts.

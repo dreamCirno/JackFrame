@@ -1,5 +1,5 @@
 ﻿using System;
-namespace BEPUphysics.Materials
+namespace BEPUPhysics1int.Materials
 {
     ///<summary>
     /// A pair of materials.

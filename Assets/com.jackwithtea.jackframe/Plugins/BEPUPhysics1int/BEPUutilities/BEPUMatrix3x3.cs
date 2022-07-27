@@ -3,7 +3,7 @@ using System;
  
 
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// 3 row, 3 column matrix.

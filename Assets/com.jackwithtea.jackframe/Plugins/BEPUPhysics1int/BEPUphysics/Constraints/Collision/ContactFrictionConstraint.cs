@@ -1,12 +1,9 @@
 ﻿using System;
-using BEPUphysics.Entities;
- 
-using BEPUutilities.DataStructures;
-using BEPUphysics.Settings;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Settings;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     /// <summary>
     /// Computes the friction force for a contact when central friction cannot be used.

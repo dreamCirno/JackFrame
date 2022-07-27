@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Defines a 3D curve using hermite interpolation.

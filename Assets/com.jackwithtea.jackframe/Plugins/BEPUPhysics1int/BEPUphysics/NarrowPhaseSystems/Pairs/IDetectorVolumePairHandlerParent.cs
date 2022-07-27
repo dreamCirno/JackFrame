@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.NarrowPhaseSystems.Pairs
+﻿namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     /// <summary>
     /// Implemented by detector volume pair handlers with children.

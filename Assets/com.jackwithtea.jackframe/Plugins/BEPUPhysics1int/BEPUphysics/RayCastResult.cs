@@ -1,7 +1,7 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Contains information about a ray cast hit.

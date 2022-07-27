@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     /// <summary>
     /// Handles information about a contact point during a collision between two bodies.

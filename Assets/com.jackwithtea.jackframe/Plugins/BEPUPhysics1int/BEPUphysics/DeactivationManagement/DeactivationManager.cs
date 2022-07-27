@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
-using BEPUutilities.Threading;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.DeactivationManagement
+namespace BEPUPhysics1int.DeactivationManagement
 {
     ///<summary>
     /// Manages the sleeping states of objects.

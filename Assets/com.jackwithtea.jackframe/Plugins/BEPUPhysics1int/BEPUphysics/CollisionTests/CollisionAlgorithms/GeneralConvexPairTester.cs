@@ -1,12 +1,12 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests.CollisionAlgorithms.GJK;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK;
  
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Tests convex shapes against other convex shapes for contact generation.

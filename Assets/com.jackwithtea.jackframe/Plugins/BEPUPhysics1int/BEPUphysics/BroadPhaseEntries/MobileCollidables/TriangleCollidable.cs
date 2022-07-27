@@ -1,8 +1,8 @@
-﻿using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+﻿using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
  
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Special case collidable for reuseable triangles.

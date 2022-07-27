@@ -1,4 +1,4 @@
-﻿namespace BEPUutilities
+﻿namespace BEPUPhysics1int
 {
     ///<summary>
     /// Sidedness of a triangle or mesh.

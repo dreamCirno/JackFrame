@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems.Hierarchies
+namespace BEPUPhysics1int.BroadPhaseSystems.Hierarchies
 {
     ///<summary>
     /// Interface to the DynamicHierarchy's volume query systems.

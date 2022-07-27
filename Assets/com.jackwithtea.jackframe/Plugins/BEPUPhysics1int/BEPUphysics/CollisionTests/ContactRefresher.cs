@@ -1,10 +1,10 @@
-﻿using BEPUutilities;
-using BEPUphysics.Settings;
+﻿using BEPUPhysics1int;
+using BEPUPhysics1int.Settings;
  
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     ///<summary>
     /// Helper class that refreshes manifolds to keep them recent.

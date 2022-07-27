@@ -1,16 +1,14 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.DataStructures;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.CollisionShapes;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.Manifolds
+namespace BEPUPhysics1int.CollisionTests.Manifolds
 {
     ///<summary>
     /// Manages persistent contacts between a convex and an instanced mesh.

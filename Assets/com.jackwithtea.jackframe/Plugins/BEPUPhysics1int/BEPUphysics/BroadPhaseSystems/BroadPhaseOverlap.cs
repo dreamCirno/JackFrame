@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.CollisionRuleManagement;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.CollisionRuleManagement;
 
-namespace BEPUphysics.BroadPhaseSystems
+namespace BEPUPhysics1int.BroadPhaseSystems
 {
     /// <summary>
     /// A pair of overlapping BroadPhaseEntries.

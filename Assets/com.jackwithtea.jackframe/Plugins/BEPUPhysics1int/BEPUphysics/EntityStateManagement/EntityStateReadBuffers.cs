@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities.Threading;
+using BEPUPhysics1int;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// Manages the buffered states of entities.

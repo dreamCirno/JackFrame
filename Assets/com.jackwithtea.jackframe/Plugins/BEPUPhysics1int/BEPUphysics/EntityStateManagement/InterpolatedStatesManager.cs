@@ -1,10 +1,8 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// Manages the interpolated states of entities.  Interpolated states are those

@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.Manifolds
+namespace BEPUPhysics1int.CollisionTests.Manifolds
 {
     ///<summary>
     /// Superclass of manifolds which manage persistent contacts over multiple frames.

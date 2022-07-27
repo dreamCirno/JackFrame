@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUutilities;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     public class Grid2DSortAndSweepQueryAccelerator : IQueryAccelerator
     {

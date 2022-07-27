@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Manages a curve in 3D space that supports interpolation.

@@ -1,7 +1,7 @@
-﻿using BEPUphysics.Materials;
+﻿using BEPUPhysics1int.Materials;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Function which takes the friction values from a wheel and a supporting material and computes the blended friction.

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
-using BEPUphysics;
-using BEPUphysics.Entities.Prefabs;
+using BEPUPhysics1int;
 using FixMath.NET;
 
 namespace BEPUPhysicsSample {

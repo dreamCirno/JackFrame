@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.CollisionTests;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.CollisionTests;
 
-namespace BEPUphysics.BroadPhaseEntries.Events
+namespace BEPUPhysics1int.BroadPhaseEntries.Events
 {
     /// <summary>
     /// Manages triggers for events in an ContactEventManager.

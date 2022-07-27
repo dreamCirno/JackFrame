@@ -1,12 +1,9 @@
-﻿using BEPUphysics.Entities;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.Settings;
-using BEPUutilities;
-using System;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     /// <summary>
     /// Computes the forces necessary to keep two entities from going through each other at a contact point.

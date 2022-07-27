@@ -1,9 +1,6 @@
-using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Constrains two entities so that one has a point that stays on a line defined by the other.

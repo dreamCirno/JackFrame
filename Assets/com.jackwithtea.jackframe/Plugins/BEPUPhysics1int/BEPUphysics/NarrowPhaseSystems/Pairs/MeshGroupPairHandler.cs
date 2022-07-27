@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Constraints;
-using BEPUphysics.Constraints.Collision;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.Materials;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.Constraints;
+using BEPUPhysics1int.Constraints.Collision;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
-using BEPUutilities;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     /// <summary>
     /// Contains a triangle collidable and its index.  Used by mobile mesh-mesh collisions.

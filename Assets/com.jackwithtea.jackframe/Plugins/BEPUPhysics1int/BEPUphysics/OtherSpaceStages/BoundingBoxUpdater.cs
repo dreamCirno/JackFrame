@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.OtherSpaceStages
+namespace BEPUPhysics1int.OtherSpaceStages
 {
     ///<summary>
     /// Updates the bounding box of managed objects.

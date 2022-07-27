@@ -1,11 +1,11 @@
-﻿using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+﻿using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
  
-using BEPUphysics.Settings;
-using RigidTransform = BEPUutilities.RigidTransform;
+using BEPUPhysics1int.Settings;
+using RigidTransform = BEPUPhysics1int.RigidTransform;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK
 {
     ///<summary>
     /// Helper class containing various tests based on GJK.

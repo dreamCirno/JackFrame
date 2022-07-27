@@ -4,7 +4,7 @@
 
 using FixMath.NET;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// 2 row, 2 column matrix.

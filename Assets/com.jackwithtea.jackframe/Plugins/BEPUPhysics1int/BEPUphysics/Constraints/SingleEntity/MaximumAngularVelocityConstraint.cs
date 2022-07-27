@@ -1,9 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.SingleEntity
+namespace BEPUPhysics1int.Constraints.SingleEntity
 {
     /// <summary>
     /// Prevents the target entity from moving faster than the specified speeds.

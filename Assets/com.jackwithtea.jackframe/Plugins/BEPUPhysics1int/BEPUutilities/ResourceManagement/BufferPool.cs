@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Provides storage for reusable arrays with power-of-2 lengths.

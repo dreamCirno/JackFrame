@@ -1,7 +1,7 @@
 ﻿
 
-using BEPUutilities;
-namespace BEPUphysics.DataStructures
+using BEPUPhysics1int;
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Superclass of the data used to create triangle mesh bounding box trees.

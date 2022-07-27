@@ -1,17 +1,17 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.CollisionTests.CollisionAlgorithms.GJK;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUphysics.Constraints.Collision;
-using BEPUphysics.PositionUpdating;
-using BEPUphysics.Settings;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int.Constraints.Collision;
+using BEPUPhysics1int.PositionUpdating;
+using BEPUPhysics1int.Settings;
  
-using BEPUphysics.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Pair handler that manages a pair of two boxes.
@@ -33,12 +33,12 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             get { return boxB; }
         }
 
-        public override Entities.Entity EntityA
+        public override Entity EntityA
         {
             get { return boxA.entity; }
         }
 
-        public override Entities.Entity EntityB
+        public override Entity EntityB
         {
             get { return boxB.entity; }
         }

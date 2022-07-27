@@ -1,7 +1,7 @@
-﻿using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Persistent tester that compares triangles against convex objects.

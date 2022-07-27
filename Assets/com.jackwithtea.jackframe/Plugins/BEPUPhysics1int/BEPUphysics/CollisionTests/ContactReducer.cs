@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     ///<summary>
     /// Helper class that reduces contact manifolds to reasonable numbers of contacts.

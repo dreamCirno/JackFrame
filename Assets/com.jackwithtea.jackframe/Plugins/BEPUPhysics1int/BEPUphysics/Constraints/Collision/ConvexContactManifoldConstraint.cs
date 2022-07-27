@@ -1,11 +1,11 @@
-﻿using BEPUphysics.CollisionTests;
+﻿using BEPUPhysics1int.CollisionTests;
 using System.Collections.Generic;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
-using BEPUutilities;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     ///<summary>
     /// Contact manifold constraint that is used by manifolds whose normals are assumed to be

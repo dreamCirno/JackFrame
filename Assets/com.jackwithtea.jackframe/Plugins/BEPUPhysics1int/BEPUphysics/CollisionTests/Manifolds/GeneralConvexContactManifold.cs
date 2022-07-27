@@ -1,14 +1,14 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
-using BEPUphysics.Settings;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.Manifolds
+namespace BEPUPhysics1int.CollisionTests.Manifolds
 {
     ///<summary>
     /// Manages persistent contacts for two convex collidables.

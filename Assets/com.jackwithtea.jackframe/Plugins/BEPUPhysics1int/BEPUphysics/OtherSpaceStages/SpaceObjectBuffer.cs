@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.OtherSpaceStages
+namespace BEPUPhysics1int.OtherSpaceStages
 {
 
 

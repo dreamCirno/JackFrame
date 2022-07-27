@@ -1,6 +1,6 @@
-﻿using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.DeactivationManagement
+namespace BEPUPhysics1int.DeactivationManagement
 {
     ///<summary>
     /// Defines an object which connects simulation islands together.

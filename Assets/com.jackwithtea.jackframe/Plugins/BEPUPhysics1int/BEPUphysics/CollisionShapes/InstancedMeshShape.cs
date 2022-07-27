@@ -1,9 +1,9 @@
 ﻿
-using BEPUphysics.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Local space data associated with an instanced mesh.

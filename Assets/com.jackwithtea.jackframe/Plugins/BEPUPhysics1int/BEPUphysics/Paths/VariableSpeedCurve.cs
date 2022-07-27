@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Curve that wraps another curve and travels along it with specified speeds.

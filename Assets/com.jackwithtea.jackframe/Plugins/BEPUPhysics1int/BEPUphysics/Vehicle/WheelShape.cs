@@ -1,14 +1,9 @@
-﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.Entities;
-using BEPUphysics.Entities.Prefabs;
-
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Materials;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Materials;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Superclass for the shape of the tires of a vehicle.

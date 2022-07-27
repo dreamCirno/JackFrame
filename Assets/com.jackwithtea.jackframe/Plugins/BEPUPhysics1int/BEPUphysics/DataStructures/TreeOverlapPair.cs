@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BEPUphysics.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Result of an overlap test between two trees of specified type.

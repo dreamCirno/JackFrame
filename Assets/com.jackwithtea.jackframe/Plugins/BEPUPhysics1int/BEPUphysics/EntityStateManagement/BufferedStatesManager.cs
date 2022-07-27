@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// Manages the buffered and interpolated states of entities.

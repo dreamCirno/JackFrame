@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.PositionUpdating
+namespace BEPUPhysics1int.PositionUpdating
 {
     ///<summary>
     /// Updates objects according to the position update mode.

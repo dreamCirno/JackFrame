@@ -1,11 +1,11 @@
 ﻿using System;
-using BEPUphysics.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
  
-using BEPUphysics.Settings;
-using BEPUutilities;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Helper class to test spheres against each other.

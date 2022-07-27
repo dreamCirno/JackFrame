@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Superclass of all collision shapes.

@@ -1,15 +1,13 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.Entities.Prefabs;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.Settings;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Checks to see if a character is capable of stepping up or down onto a new support object.

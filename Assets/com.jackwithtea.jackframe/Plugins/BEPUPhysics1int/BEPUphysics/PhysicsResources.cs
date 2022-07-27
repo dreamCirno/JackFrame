@@ -1,15 +1,12 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUphysics.Entities;
- 
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.DeactivationManagement;
-using BEPUutilities.DataStructures;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DeactivationManagement;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Handles allocation and management of commonly used resources.

@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
     ///<summary>
     /// Defines an object which is updated by a space during force application.

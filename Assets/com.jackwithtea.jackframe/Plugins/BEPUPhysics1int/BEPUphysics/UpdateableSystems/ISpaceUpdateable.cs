@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
     ///<summary>
     /// Defines an object which is updated by the space.

@@ -1,17 +1,14 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Entities;
-using BEPUphysics.Constraints.Collision;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUphysics.CollisionTests;
-using System;
-using BEPUphysics.Constraints.SolverGroups;
-using BEPUphysics.Materials;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Constraints.Collision;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.Constraints.SolverGroups;
+using BEPUPhysics1int.Materials;
 using FixMath.NET;
-using BEPUutilities;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Superclass of pairs between collidables that generate contact points.

@@ -1,11 +1,7 @@
 using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
- 
-using System.Diagnostics;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Connects two entities with a spherical joint.  Acts like an unrestricted shoulder joint.

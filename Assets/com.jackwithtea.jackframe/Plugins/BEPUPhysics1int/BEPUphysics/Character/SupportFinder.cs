@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Settings;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Settings;
 using FixMath.NET;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Analyzes the contacts on the character's body to find supports.

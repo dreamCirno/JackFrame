@@ -1,5 +1,5 @@
 ﻿using FixMath.NET;
-using BEPUutilities;
+using BEPUPhysics1int;
 
 namespace BEPUik
 {

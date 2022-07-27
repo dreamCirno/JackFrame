@@ -1,7 +1,7 @@
 ﻿
 
-using BEPUutilities;
-namespace BEPUphysics.DataStructures
+using BEPUPhysics1int;
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Collection of triangle mesh data that directly returns vertices from its vertex buffer instead of transforming them first.

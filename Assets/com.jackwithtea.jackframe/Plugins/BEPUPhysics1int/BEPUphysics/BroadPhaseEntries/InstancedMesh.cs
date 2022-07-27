@@ -1,14 +1,14 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.CollisionShapes;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUphysics.OtherSpaceStages;
-using RigidTransform = BEPUutilities.RigidTransform;
+using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int.OtherSpaceStages;
+using RigidTransform = BEPUPhysics1int.RigidTransform;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// Collidable mesh which can be created from a reusable InstancedMeshShape.

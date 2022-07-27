@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Superclass of a variety of classes that can be evaluated at a time to retrieve a value associated with that time.

@@ -1,9 +1,9 @@
 ﻿
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Defines a quaternion curve using spherical linear interpolation.

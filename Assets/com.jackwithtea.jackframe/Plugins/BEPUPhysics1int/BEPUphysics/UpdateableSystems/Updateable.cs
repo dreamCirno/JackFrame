@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
     ///<summary>
     /// Convenience superclass of Updateables.

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.CollisionTests.Manifolds;
+using BEPUPhysics1int.CollisionTests.Manifolds;
 
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// The local space data needed by a Terrain collidable.

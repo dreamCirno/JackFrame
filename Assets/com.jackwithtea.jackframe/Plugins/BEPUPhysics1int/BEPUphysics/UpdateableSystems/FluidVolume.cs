@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
 
     /// <summary>

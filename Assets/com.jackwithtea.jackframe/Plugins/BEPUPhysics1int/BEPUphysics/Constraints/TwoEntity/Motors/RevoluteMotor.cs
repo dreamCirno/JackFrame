@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
- 
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Tries to rotate two entities so that they reach a specified relative orientation or speed around an axis.

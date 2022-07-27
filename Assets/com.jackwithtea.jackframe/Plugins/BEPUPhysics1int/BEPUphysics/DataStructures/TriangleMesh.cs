@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Data structure containing triangle mesh data and its associated bounding box tree.

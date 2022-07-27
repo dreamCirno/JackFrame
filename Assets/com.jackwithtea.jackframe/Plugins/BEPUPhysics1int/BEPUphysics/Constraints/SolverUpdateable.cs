@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using BEPUphysics.Constraints.SolverGroups;
-using BEPUphysics.DeactivationManagement;
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.Constraints.SolverGroups;
+using BEPUPhysics1int.DeactivationManagement;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints
+namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Superclass of objects types which require solving by the velocity solver.

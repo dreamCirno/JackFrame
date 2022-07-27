@@ -1,12 +1,12 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a mobile mesh-mobile mesh collision pair.
@@ -21,7 +21,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
         {
             get { return mesh; }
         }
-        public override Entities.Entity EntityB
+        public override Entity EntityB
         {
             get { return null; }
         }

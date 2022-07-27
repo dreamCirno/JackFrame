@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.OtherSpaceStages
+namespace BEPUPhysics1int.OtherSpaceStages
 {
     ///<summary>
     /// Applies forces to managed objects.

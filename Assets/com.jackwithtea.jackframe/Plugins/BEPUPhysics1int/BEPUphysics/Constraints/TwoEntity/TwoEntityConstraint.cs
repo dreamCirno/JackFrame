@@ -1,10 +1,6 @@
-using BEPUphysics.Entities;
-using BEPUphysics.Entities.Prefabs;
- 
-using BEPUutilities.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.Constraints.TwoEntity
+namespace BEPUPhysics1int.Constraints.TwoEntity
 {
     /// <summary>
     /// Abstract superclass of constraints involving two bodies.

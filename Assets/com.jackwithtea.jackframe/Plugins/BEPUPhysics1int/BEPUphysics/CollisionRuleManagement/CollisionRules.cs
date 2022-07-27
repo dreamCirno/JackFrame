@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.CollisionRuleManagement
+namespace BEPUPhysics1int.CollisionRuleManagement
 {
     /// <summary>
     /// Stores how an object can interact with other objects through collisions.

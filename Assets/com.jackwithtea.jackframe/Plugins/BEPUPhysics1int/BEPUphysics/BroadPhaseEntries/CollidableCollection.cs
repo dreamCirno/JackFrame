@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// List of collidable objects overlapping another collidable.

@@ -1,12 +1,10 @@
 ﻿using System;
-using BEPUphysics.Constraints.SingleEntity;
-using BEPUphysics.Constraints.TwoEntity.Motors;
-using BEPUphysics.Entities;
-using BEPUphysics.UpdateableSystems;
-using BEPUutilities;
+using BEPUPhysics1int.Constraints.SingleEntity;
+using BEPUPhysics1int.Constraints.TwoEntity.Motors;
+using BEPUPhysics1int.UpdateableSystems;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths.PathFollowing
+namespace BEPUPhysics1int.Paths.PathFollowing
 {
     /// <summary>
     /// Changes the angular velocity of an entity to reach goal orientations.

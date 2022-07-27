@@ -1,7 +1,7 @@
-﻿using BEPUphysics.Constraints;
-using BEPUphysics.CollisionTests;
+﻿using BEPUPhysics1int.Constraints;
+using BEPUPhysics1int.CollisionTests;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Defines a pair handler which can have children.

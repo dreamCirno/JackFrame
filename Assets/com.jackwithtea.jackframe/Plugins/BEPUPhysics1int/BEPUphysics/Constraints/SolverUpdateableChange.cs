@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.Constraints
+﻿namespace BEPUPhysics1int.Constraints
 {
     ///<summary>
     /// Stores an enqueued solver updateable addition or removal.

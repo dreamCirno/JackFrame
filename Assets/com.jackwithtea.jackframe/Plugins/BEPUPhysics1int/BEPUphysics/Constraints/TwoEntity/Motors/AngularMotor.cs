@@ -1,9 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Constraint which attempts to restrict the relative angular motion of two entities.

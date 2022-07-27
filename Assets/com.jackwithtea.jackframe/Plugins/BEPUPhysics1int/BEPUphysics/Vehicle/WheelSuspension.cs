@@ -1,10 +1,7 @@
-﻿using BEPUphysics.Constraints;
-using BEPUphysics.Entities;
-
-using BEPUutilities;
+﻿using BEPUPhysics1int.Constraints;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Allows the connected wheel and vehicle to smoothly absorb bumps.

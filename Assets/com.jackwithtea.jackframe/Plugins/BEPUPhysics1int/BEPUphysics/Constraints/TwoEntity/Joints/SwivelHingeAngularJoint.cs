@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
- 
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Constrains two bodies so that they can rotate relative to each other like a modified door hinge.

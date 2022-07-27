@@ -1,9 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Joints
+namespace BEPUPhysics1int.Constraints.TwoEntity.Joints
 {
     /// <summary>
     /// Constrains two entities so that they cannot rotate relative to each other.

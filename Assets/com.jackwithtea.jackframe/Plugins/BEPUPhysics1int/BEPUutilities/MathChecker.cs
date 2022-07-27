@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Contains conditional extensions to check for bad values in various structures.

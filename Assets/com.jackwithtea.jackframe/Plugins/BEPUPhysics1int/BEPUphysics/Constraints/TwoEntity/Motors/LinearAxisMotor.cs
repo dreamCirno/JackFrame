@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
+﻿using FixMath.NET;
 
-using BEPUutilities;
-using FixMath.NET;
-
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Constrains anchors on two entities to move relative to each other on a line.

@@ -1,10 +1,10 @@
-﻿using BEPUphysics.CollisionShapes.ConvexShapes;
+﻿using BEPUPhysics1int.CollisionShapes.ConvexShapes;
  
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 using System.Diagnostics;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK
 {
     
     ///<summary>

@@ -1,6 +1,6 @@
-﻿using BEPUphysics.Entities;
+﻿using BEPUPhysics1int;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// Contains a single entity's buffered states.

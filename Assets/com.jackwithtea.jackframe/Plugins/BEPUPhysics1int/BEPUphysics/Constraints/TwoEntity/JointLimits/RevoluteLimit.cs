@@ -1,9 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.JointLimits
+namespace BEPUPhysics1int.Constraints.TwoEntity.JointLimits
 {
     /// <summary>
     /// Constraint which prevents the connected entities from rotating relative to each other around an axis beyond given limits.

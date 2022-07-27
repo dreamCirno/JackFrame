@@ -1,6 +1,6 @@
-﻿using BEPUphysics.Entities;
+﻿using BEPUPhysics1int;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Defines a class which uniquely identifies a character.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Provides simple 2d cell hashing.

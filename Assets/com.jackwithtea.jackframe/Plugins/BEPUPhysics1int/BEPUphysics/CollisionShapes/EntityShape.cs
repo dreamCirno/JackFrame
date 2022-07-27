@@ -1,9 +1,9 @@
-﻿using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+﻿using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes
+namespace BEPUPhysics1int.CollisionShapes
 {
     ///<summary>
     /// Superclass of all collision shapes that are used by Entities.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     internal struct SpeedControlledCurveSample
     {

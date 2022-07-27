@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
  
 using System.Diagnostics;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     /// <summary>
     /// Contains a variety of queries and computation methods that make use of minkowski portal refinement.

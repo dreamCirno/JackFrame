@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.UpdateableSystems.ForceFields
+namespace BEPUPhysics1int.UpdateableSystems.ForceFields
 {
     /// <summary>
     /// Defines the area in which a force field works using an entity's shape.

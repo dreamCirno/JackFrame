@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities.DataStructures;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.NarrowPhaseSystems
+namespace BEPUPhysics1int.NarrowPhaseSystems
 {
     /// <summary>
     /// Contains the various factories that are used by default in the engine.

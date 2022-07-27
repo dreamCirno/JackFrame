@@ -1,14 +1,12 @@
 ﻿using System;
-using BEPUphysics.Constraints.SolverGroups;
-using BEPUutilities.DataStructures;
-using BEPUphysics.Entities;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.Materials;
-using BEPUutilities;
+using BEPUPhysics1int.Constraints.SolverGroups;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.Materials;
 
-namespace BEPUphysics.Constraints.Collision
+namespace BEPUPhysics1int.Constraints.Collision
 {
     ///<summary>
     /// Superclass of collision constraints that include multiple contact subconstraints.

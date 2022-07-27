@@ -1,8 +1,8 @@
-﻿using BEPUphysics.NarrowPhaseSystems.Pairs;
+﻿using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
 using System;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.ResourceManagement;
 
-namespace BEPUphysics.NarrowPhaseSystems
+namespace BEPUPhysics1int.NarrowPhaseSystems
 {
     /// <summary>
     /// Superclass of the generic typed NarrowPhasePairFactory.  Offers interaction with the factory on a INarrowPhasePair level.

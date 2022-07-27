@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
 namespace BEPUik

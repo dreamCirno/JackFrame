@@ -1,10 +1,10 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
 using System;
-using BEPUphysics.UpdateableSystems;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.UpdateableSystems;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Superclass of pairs between collidables that generate contact points.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.Constraints;
+using BEPUPhysics1int.Constraints;
 
-namespace BEPUphysics.UpdateableSystems
+namespace BEPUPhysics1int.UpdateableSystems
 {
     ///<summary>
     /// A class which is both a space updateable and a Solver Updateable.

@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace BEPUphysics.Paths
+namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Point defining the shape of a 3D curve.

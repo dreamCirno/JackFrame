@@ -1,9 +1,9 @@
 ﻿ 
 using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests
+namespace BEPUPhysics1int.CollisionTests
 {
     ///<summary>
     /// Contact data created by collision detection.

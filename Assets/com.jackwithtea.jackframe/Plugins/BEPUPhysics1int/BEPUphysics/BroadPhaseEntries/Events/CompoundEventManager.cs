@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.OtherSpaceStages;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.OtherSpaceStages;
 
-namespace BEPUphysics.BroadPhaseEntries.Events
+namespace BEPUPhysics1int.BroadPhaseEntries.Events
 {
     /// <summary>
     /// Event manager for use with the CompoundCollidable.

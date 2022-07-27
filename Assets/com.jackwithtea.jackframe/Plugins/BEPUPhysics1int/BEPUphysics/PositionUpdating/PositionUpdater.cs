@@ -1,7 +1,7 @@
 ﻿using System;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.PositionUpdating
+namespace BEPUPhysics1int.PositionUpdating
 {
     ///<summary>
     /// Superclass of updaters which manage the position of objects.

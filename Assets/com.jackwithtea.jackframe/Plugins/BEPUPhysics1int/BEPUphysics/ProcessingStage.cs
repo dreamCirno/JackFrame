@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Superclass of singlethreaded update systems.

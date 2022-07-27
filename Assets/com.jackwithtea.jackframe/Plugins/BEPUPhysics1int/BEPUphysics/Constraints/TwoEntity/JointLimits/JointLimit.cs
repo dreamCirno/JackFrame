@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUphysics.Constraints.TwoEntity.Joints;
-using BEPUutilities;
+using BEPUPhysics1int.Constraints.TwoEntity.Joints;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.JointLimits
+namespace BEPUPhysics1int.Constraints.TwoEntity.JointLimits
 {
     /// <summary>
     /// Superclass of constraints which have a limited area of free movement.

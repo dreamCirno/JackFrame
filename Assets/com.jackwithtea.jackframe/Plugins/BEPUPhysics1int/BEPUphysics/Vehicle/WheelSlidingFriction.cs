@@ -1,12 +1,7 @@
-﻿using System;
-using BEPUphysics.Constraints;
-using BEPUphysics.Entities;
- 
-using BEPUphysics.Materials;
-using BEPUutilities;
+﻿using BEPUPhysics1int.Constraints;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Attempts to resist sliding motion of a vehicle.

@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.Constraints
+﻿namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Implemented by constraints that support springlike behavior.

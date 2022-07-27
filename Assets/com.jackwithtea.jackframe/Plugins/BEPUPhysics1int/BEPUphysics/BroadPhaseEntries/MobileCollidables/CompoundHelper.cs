@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BEPUphysics.CollisionShapes;
+using BEPUPhysics1int.CollisionShapes;
 
-using BEPUutilities;
-using BEPUphysics.Entities;
-using BEPUphysics.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     /// <summary>
     /// Contains methods to help with splitting compound objects into multiple pieces.

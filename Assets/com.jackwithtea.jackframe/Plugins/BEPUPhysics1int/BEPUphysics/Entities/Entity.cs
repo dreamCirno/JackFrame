@@ -1,8 +1,7 @@
-﻿using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Superclass of all entities which have a defined collidable type.

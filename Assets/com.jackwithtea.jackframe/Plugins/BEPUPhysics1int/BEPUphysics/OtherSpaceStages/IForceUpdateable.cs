@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.OtherSpaceStages
+namespace BEPUPhysics1int.OtherSpaceStages
 {
     ///<summary>
     /// Defines an object which can be updated using forces by the ForceUpdater.

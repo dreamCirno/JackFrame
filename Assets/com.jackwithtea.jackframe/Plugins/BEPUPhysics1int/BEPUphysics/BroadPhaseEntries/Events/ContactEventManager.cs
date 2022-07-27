@@ -1,9 +1,9 @@
-﻿using BEPUutilities;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUutilities.DataStructures;
+﻿using BEPUPhysics1int;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.BroadPhaseEntries.Events
+namespace BEPUPhysics1int.BroadPhaseEntries.Events
 {
 
     ///<summary>

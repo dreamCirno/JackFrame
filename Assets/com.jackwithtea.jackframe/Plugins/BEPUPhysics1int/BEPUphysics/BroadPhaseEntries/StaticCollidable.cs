@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.CollisionShapes;
-using BEPUphysics.Materials;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.OtherSpaceStages;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.OtherSpaceStages;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// Superclass of static collidable objects which can be added directly to a space.  Static objects cannot move.

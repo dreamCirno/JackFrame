@@ -1,4 +1,4 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 
 namespace BEPUik
 {

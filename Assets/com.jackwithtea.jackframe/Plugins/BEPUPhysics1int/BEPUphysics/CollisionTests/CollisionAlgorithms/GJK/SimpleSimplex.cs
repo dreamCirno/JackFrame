@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK
 {
 
 

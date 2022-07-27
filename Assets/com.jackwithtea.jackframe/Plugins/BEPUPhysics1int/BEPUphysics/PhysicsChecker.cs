@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using BEPUphysics.CollisionTests;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// Contains conditional extensions to check for bad values in various structures.

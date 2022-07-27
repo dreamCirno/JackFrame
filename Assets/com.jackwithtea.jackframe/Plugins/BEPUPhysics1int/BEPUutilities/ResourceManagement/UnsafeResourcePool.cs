@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Manages a resource type, but performs no locking to handle asynchronous access.

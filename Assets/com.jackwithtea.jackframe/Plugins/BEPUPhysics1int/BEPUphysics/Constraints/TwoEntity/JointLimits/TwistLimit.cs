@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
- 
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.JointLimits
+namespace BEPUPhysics1int.Constraints.TwoEntity.JointLimits
 {
     /// <summary>
     /// Prevents the connected entities from twisting relative to each other beyond given limits.

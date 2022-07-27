@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.Entities;
-using BEPUutilities;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.UpdateableSystems.ForceFields
+namespace BEPUPhysics1int.UpdateableSystems.ForceFields
 {
     /// <summary>
     /// Superclass of objects which apply forces to entities in some field.

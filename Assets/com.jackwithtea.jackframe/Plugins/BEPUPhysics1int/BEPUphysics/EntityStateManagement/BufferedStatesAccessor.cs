@@ -1,7 +1,7 @@
 ﻿ 
-using BEPUutilities;
+using BEPUPhysics1int;
 
-namespace BEPUphysics.EntityStateManagement
+namespace BEPUPhysics1int.EntityStateManagement
 {
     ///<summary>
     /// Acts as an entity's view into the buffered states system.

@@ -1,8 +1,8 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
 using FixMath.NET;
 using System;
 
-namespace BEPUphysics.Constraints
+namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Contains information about how a wheel solves its constraints.

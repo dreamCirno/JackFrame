@@ -1,6 +1,6 @@
-﻿using BEPUphysics.CollisionTests.Manifolds;
+﻿using BEPUPhysics1int.CollisionTests.Manifolds;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a mobile mesh-convex collision pair.

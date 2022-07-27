@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.BroadPhaseSystems.Hierarchies;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.Constraints;
-using BEPUphysics.DeactivationManagement;
-using BEPUphysics.Entities;
-using BEPUphysics.EntityStateManagement;
-using BEPUphysics.OtherSpaceStages;
-using BEPUphysics.PositionUpdating;
-using BEPUutilities;
-using BEPUphysics.NarrowPhaseSystems;
-using BEPUphysics.UpdateableSystems;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.BroadPhaseSystems.Hierarchies;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.Constraints;
+using BEPUPhysics1int.DeactivationManagement;
+using BEPUPhysics1int.EntityStateManagement;
+using BEPUPhysics1int.OtherSpaceStages;
+using BEPUPhysics1int.PositionUpdating;
+using BEPUPhysics1int.NarrowPhaseSystems;
+using BEPUPhysics1int.UpdateableSystems;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Main simulation class of BEPUphysics.  Contains various updating stages addition/removal methods for getting objects into the simulation.

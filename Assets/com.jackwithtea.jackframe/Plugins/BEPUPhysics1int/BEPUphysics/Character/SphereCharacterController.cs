@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.Entities.Prefabs;
-using BEPUphysics.UpdateableSystems;
-using BEPUutilities;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
-using BEPUphysics.Materials;
-using BEPUphysics.PositionUpdating;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.UpdateableSystems;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.PositionUpdating;
 using System.Threading;
 using FixMath.NET;
 
-namespace BEPUphysics.Character
+namespace BEPUPhysics1int.Character
 {
     /// <summary>
     /// Gives a physical object simple and cheap FPS-like control.

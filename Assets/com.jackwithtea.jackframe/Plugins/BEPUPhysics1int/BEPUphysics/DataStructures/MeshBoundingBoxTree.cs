@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Acceleration structure of triangles surrounded by axis aligned bounding boxes, supporting various speedy queries.

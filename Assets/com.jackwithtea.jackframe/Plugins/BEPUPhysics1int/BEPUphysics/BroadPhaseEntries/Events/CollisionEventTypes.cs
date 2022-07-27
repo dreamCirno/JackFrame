@@ -1,9 +1,9 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.NarrowPhaseSystems.Pairs;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
 
-namespace BEPUphysics.BroadPhaseEntries.Events
+namespace BEPUPhysics1int.BroadPhaseEntries.Events
 {
     //TODO: Contravariance isn't supported on all platforms...
 

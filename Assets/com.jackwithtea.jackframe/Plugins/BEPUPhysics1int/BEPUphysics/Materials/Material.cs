@@ -1,7 +1,7 @@
 ﻿using FixMath.NET;
 using System;
 
-namespace BEPUphysics.Materials
+namespace BEPUPhysics1int.Materials
 {
     ///<summary>
     /// Material properties for collidable objects.

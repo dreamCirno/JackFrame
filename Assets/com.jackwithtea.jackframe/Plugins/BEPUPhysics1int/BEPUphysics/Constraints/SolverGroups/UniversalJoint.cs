@@ -1,12 +1,9 @@
-﻿using BEPUphysics.Constraints.TwoEntity;
-using BEPUphysics.Constraints.TwoEntity.JointLimits;
-using BEPUphysics.Constraints.TwoEntity.Joints;
-using BEPUphysics.Constraints.TwoEntity.Motors;
-using BEPUphysics.Entities;
-using BEPUutilities;
- 
+﻿using BEPUPhysics1int.Constraints.TwoEntity;
+using BEPUPhysics1int.Constraints.TwoEntity.JointLimits;
+using BEPUPhysics1int.Constraints.TwoEntity.Joints;
+using BEPUPhysics1int.Constraints.TwoEntity.Motors;
 
-namespace BEPUphysics.Constraints.SolverGroups
+namespace BEPUPhysics1int.Constraints.SolverGroups
 {
     /// <summary>
     /// Restricts three degrees of linear motion and one degree of angular motion.

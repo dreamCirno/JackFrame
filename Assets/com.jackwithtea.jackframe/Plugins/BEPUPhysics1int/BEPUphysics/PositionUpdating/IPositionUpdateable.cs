@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.PositionUpdating
+namespace BEPUPhysics1int.PositionUpdating
 {
     ///<summary>
     /// Defines an object capable of a position update.

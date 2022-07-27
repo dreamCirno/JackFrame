@@ -1,7 +1,7 @@
-﻿using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+﻿using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     internal class SortedGrid2DSet
     {

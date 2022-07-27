@@ -1,14 +1,12 @@
-﻿using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.CollisionShapes;
-using BEPUphysics.Entities;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.CollisionShapes;
  
-using BEPUphysics.Settings;
+using BEPUPhysics1int.Settings;
 using System;
-using BEPUphysics.PositionUpdating;
+using BEPUPhysics1int.PositionUpdating;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Mobile collidable acting as a collision proxy for an entity.

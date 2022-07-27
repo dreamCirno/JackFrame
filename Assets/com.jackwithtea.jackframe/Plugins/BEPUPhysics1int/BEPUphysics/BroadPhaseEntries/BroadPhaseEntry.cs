@@ -1,11 +1,11 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.CollisionRuleManagement;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     /// <summary>
     /// Superclass of all objects which live inside the broad phase.

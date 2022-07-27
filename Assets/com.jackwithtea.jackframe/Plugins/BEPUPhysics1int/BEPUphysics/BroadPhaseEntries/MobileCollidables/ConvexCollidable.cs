@@ -1,10 +1,10 @@
-﻿using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities;
+﻿using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Collidable with a convex shape.

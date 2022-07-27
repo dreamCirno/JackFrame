@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a compound-instanced mesh collision pair.
@@ -17,7 +17,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             get { return mesh; }
         }
 
-        public override Entities.Entity EntityB
+        public override Entity EntityB
         {
             get { return mesh.entity; }
         }

@@ -1,10 +1,6 @@
-using System;
-using BEPUphysics.Entities;
-
-using BEPUutilities;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.JointLimits
+namespace BEPUPhysics1int.Constraints.TwoEntity.JointLimits
 {
     /// <summary>
     /// A modified distance constraint allowing a range of lengths between two anchor points.

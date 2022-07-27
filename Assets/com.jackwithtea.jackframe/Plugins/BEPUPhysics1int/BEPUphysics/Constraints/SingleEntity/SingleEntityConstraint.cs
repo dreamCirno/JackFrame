@@ -1,7 +1,7 @@
-using BEPUphysics.Entities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.Constraints.SingleEntity
+namespace BEPUPhysics1int.Constraints.SingleEntity
 {
     /// <summary>
     /// Abstract superclass of constraints which control a single entity.

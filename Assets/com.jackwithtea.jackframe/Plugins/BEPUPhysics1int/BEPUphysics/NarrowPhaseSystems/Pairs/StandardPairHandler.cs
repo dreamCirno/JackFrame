@@ -1,11 +1,11 @@
-﻿using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.CollisionTests;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUphysics.Constraints.Collision;
-using BEPUphysics.Materials;
+﻿using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.CollisionTests;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int.Constraints.Collision;
+using BEPUPhysics1int.Materials;
 using FixMath.NET;
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a standard pair handler that has a direct manifold and constraint.

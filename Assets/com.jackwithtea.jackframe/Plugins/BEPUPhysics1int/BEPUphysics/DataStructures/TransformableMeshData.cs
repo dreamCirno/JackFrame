@@ -1,7 +1,7 @@
-﻿using BEPUutilities;
+﻿using BEPUPhysics1int;
  
 
-namespace BEPUphysics.DataStructures
+namespace BEPUPhysics1int.DataStructures
 {
     ///<summary>
     /// Collection of mesh data which transforms its vertices before returning them.

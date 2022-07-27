@@ -1,6 +1,6 @@
 ﻿
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// A transformation composed of a linear transformation and a translation.

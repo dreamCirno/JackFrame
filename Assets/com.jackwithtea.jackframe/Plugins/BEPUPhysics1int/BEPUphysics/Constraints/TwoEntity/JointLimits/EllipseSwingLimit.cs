@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
+﻿using FixMath.NET;
 
-using BEPUutilities;
-using FixMath.NET;
-
-namespace BEPUphysics.Constraints.TwoEntity.JointLimits
+namespace BEPUPhysics1int.Constraints.TwoEntity.JointLimits
 {
     /// <summary>
     /// Constrains the relative orientation of two entities to within an ellipse.

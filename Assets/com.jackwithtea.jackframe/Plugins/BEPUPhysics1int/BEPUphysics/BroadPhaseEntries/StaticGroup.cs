@@ -1,14 +1,14 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.CollisionShapes;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
-using BEPUphysics.OtherSpaceStages;
+using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.OtherSpaceStages;
 using System.Collections.Generic;
-using RigidTransform = BEPUutilities.RigidTransform;
+using RigidTransform = BEPUPhysics1int.RigidTransform;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// Collection of unmoving collidable objects.

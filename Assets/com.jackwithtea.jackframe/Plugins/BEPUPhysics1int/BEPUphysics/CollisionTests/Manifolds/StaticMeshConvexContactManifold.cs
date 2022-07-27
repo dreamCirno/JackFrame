@@ -1,7 +1,7 @@
-﻿using BEPUphysics.CollisionTests.CollisionAlgorithms;
-using BEPUutilities.ResourceManagement;
+﻿using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
+using BEPUPhysics1int.ResourceManagement;
 
-namespace BEPUphysics.CollisionTests.Manifolds
+namespace BEPUPhysics1int.CollisionTests.Manifolds
 {
     ///<summary>
     /// Manages persistent contacts between a static mesh and a convex.

@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Helper class that supports other systems using minkowski space operations.

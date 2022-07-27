@@ -1,8 +1,8 @@
 ﻿using System;
-using BEPUutilities;
+using BEPUPhysics1int;
 using FixMath.NET;
 
-namespace BEPUphysics.Constraints
+namespace BEPUPhysics1int.Constraints
 {
     /// <summary>
     /// Contains the error reduction factor and softness of a constraint.

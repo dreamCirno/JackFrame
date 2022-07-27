@@ -1,10 +1,6 @@
-﻿using System;
-using BEPUphysics.Entities;
- 
-using BEPUutilities;
-using FixMath.NET;
+﻿using FixMath.NET;
 
-namespace BEPUphysics.Constraints.TwoEntity.Motors
+namespace BEPUPhysics1int.Constraints.TwoEntity.Motors
 {
     /// <summary>
     /// Attempts to achieve some defined relative twist angle between the entities.

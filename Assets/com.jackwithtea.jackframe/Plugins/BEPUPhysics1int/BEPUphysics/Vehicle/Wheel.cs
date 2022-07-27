@@ -1,13 +1,10 @@
 ﻿using System;
-using BEPUphysics.Entities;
-using BEPUphysics.UpdateableSystems;
-
-using BEPUutilities;
-using BEPUphysics.Materials;
-using BEPUphysics.BroadPhaseEntries;
+using BEPUPhysics1int.UpdateableSystems;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
-namespace BEPUphysics.Vehicle
+namespace BEPUPhysics1int.Vehicle
 {
     /// <summary>
     /// Supports a Vehicle.

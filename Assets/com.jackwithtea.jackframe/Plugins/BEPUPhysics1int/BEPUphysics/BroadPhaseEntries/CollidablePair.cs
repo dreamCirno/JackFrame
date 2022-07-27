@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUphysics.BroadPhaseEntries
+namespace BEPUPhysics1int.BroadPhaseEntries
 {
     ///<summary>
     /// Pair of collidables.

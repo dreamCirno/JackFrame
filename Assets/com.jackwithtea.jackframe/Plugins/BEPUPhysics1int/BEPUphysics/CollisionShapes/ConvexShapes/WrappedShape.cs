@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUutilities;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int;
  
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes.ConvexShapes
+namespace BEPUPhysics1int.CollisionShapes.ConvexShapes
 {
     ///<summary>
     /// Convex shape entry to a WrappedShape.

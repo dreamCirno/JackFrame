@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.Materials
+﻿namespace BEPUPhysics1int.Materials
 {
     ///<summary>
     /// Defines an object that has a material.

@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Contains settings for the instance's time step.

@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace BEPUutilities
+namespace BEPUPhysics1int
 {
 	static class BEPUMatrix3x6
 	{

@@ -1,9 +1,9 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
 
-namespace BEPUphysics.NarrowPhaseSystems.Pairs
+namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {
     ///<summary>
     /// Handles a compound and convex collision pair.
@@ -18,7 +18,7 @@ namespace BEPUphysics.NarrowPhaseSystems.Pairs
             get { return convexInfo; }
         }
 
-        public override Entities.Entity EntityB
+        public override Entity EntityB
         {
             get { return convexInfo.entity; }
         }

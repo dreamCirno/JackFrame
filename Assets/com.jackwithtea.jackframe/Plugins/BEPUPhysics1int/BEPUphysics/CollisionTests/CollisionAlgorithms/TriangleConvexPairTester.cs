@@ -1,13 +1,13 @@
 ﻿using System;
-using BEPUphysics.CollisionTests.CollisionAlgorithms.GJK;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms.GJK;
 
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
-using BEPUphysics.Settings;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.Settings;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Persistent tester that compares triangles against convex objects.

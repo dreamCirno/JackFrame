@@ -1,11 +1,11 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes.ConvexShapes
+namespace BEPUPhysics1int.CollisionShapes.ConvexShapes
 {
 
     ///<summary>

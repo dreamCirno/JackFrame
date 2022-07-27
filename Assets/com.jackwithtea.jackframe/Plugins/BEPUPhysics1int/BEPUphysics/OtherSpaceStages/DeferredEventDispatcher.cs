@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BEPUphysics.OtherSpaceStages
+namespace BEPUPhysics1int.OtherSpaceStages
 {
     ///<summary>
     /// Manages the deferred events spawned by IDeferredEventCreators and dispatches them on update.

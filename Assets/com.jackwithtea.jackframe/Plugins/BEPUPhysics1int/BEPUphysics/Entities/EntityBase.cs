@@ -1,22 +1,21 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUphysics.BroadPhaseSystems;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.DeactivationManagement;
-using BEPUphysics.EntityStateManagement;
-using BEPUphysics.OtherSpaceStages;
-using BEPUphysics.PositionUpdating;
-using BEPUphysics.Settings;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int.BroadPhaseSystems;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.DeactivationManagement;
+using BEPUPhysics1int.EntityStateManagement;
+using BEPUPhysics1int.OtherSpaceStages;
+using BEPUPhysics1int.PositionUpdating;
+using BEPUPhysics1int.Settings;
 
-using BEPUutilities;
-using BEPUphysics.Materials;
-using BEPUphysics.CollisionShapes;
-using BEPUphysics.CollisionRuleManagement;
-using MathChecker = BEPUutilities.MathChecker;
+using BEPUPhysics1int.Materials;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int.CollisionRuleManagement;
+using MathChecker = BEPUPhysics1int.MathChecker;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Superclass of movable rigid bodies.  Contains information for

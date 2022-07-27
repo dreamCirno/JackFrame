@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEPUphysics.CollisionTests.Manifolds;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.ResourceManagement;
+using BEPUPhysics1int.CollisionTests.Manifolds;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.ResourceManagement;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionShapes.ConvexShapes
+namespace BEPUPhysics1int.CollisionShapes.ConvexShapes
 {
     ///<summary>
     /// Helper class used to compute volume distribution information, which is in turn used to compute inertia tensor information.

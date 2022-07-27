@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BEPUphysics.Constraints;
-using BEPUphysics.DeactivationManagement;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.Constraints;
+using BEPUPhysics1int.DeactivationManagement;
+using BEPUPhysics1int.DataStructures;
 
-namespace BEPUphysics.Entities
+namespace BEPUPhysics1int
 {
     ///<summary>
     /// Convenience collection for easily scanning the two entity constraints connected to an entity.

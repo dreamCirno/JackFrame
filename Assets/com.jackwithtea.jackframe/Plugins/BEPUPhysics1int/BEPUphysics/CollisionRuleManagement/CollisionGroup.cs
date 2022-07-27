@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BEPUphysics.CollisionRuleManagement
+namespace BEPUPhysics1int.CollisionRuleManagement
 {
     /// <summary>
     /// A group which can have interaction rules created between it and other collision groups.

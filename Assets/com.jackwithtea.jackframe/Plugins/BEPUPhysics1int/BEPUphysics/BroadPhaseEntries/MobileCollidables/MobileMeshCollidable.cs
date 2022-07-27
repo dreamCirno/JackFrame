@@ -1,13 +1,13 @@
-﻿using BEPUphysics.BroadPhaseEntries.Events;
-using BEPUphysics.CollisionShapes;
-using BEPUutilities;
-using BEPUutilities.ResourceManagement;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUphysics.CollisionTests.CollisionAlgorithms;
+﻿using BEPUPhysics1int.BroadPhaseEntries.Events;
+using BEPUPhysics1int.CollisionShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.ResourceManagement;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int.CollisionTests.CollisionAlgorithms;
 using System;
 using FixMath.NET;
 
-namespace BEPUphysics.BroadPhaseEntries.MobileCollidables
+namespace BEPUPhysics1int.BroadPhaseEntries.MobileCollidables
 {
     ///<summary>
     /// Collidable used by compound shapes.

@@ -1,10 +1,10 @@
 ﻿using System;
-using BEPUphysics.BroadPhaseEntries;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
-using BEPUutilities.Threading;
+using BEPUPhysics1int.BroadPhaseEntries;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
+using BEPUPhysics1int.Threading;
 
-namespace BEPUphysics.BroadPhaseSystems.SortAndSweep
+namespace BEPUPhysics1int.BroadPhaseSystems.SortAndSweep
 {
     /// <summary>
     /// Simple and standard implementation of the one-axis sort and sweep (sweep and prune) algorithm.

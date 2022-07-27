@@ -1,11 +1,11 @@
 ﻿using System;
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
  
-using BEPUphysics.Settings;
+using BEPUPhysics1int.Settings;
 using FixMath.NET;
 
-namespace BEPUphysics.CollisionTests.CollisionAlgorithms
+namespace BEPUPhysics1int.CollisionTests.CollisionAlgorithms
 {
     ///<summary>
     /// Static class with methods to help with testing box shapes against sphere shapes.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEPUutilities.ResourceManagement
+namespace BEPUPhysics1int.ResourceManagement
 {
     /// <summary>
     /// Manages a cache of a type of resource.

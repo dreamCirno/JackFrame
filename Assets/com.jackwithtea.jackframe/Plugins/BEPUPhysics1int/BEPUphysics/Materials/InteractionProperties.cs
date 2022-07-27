@@ -1,6 +1,6 @@
 ﻿using FixMath.NET;
 
-namespace BEPUphysics.Materials
+namespace BEPUPhysics1int.Materials
 {
     ///<summary>
     /// Contains the blended friction and bounciness of a pair of objects.

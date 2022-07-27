@@ -1,4 +1,4 @@
-﻿namespace BEPUphysics.Paths
+﻿namespace BEPUPhysics1int.Paths
 {
     /// <summary>
     /// Defines how a curve behaves beyond an endpoint.

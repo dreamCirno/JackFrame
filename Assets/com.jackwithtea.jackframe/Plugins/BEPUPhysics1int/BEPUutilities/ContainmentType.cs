@@ -1,4 +1,4 @@
-﻿namespace BEPUutilities
+﻿namespace BEPUPhysics1int
 {
     /// <summary>
     /// The current containment state of two objects.

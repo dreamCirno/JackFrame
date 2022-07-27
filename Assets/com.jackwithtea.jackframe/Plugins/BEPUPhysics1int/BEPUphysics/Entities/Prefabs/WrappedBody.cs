@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using BEPUphysics.BroadPhaseEntries.MobileCollidables;
-using BEPUphysics.EntityStateManagement;
+using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
+using BEPUPhysics1int.EntityStateManagement;
  
-using BEPUphysics.CollisionShapes.ConvexShapes;
-using BEPUutilities;
-using BEPUutilities.DataStructures;
+using BEPUPhysics1int.CollisionShapes.ConvexShapes;
+using BEPUPhysics1int;
+using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
 
-namespace BEPUphysics.Entities.Prefabs
+namespace BEPUPhysics1int
 {
     /// <summary>
     /// A shape formed from the convex hull around its subbodies.  Can collide and move.  After making an entity, add it to a Space so that the engine can manage it.
