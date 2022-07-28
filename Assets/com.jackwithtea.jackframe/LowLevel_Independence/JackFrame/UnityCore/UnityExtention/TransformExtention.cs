@@ -37,7 +37,39 @@ namespace JackFrame {
             return null;
         }
 
-        public static T GunShoot<T>(this Transform _trans, T _bulletPrefab, Vector2 _targetPos, float _shootSpeed) where T: MonoBehaviour {
+        public static T[] FindChildrenWithDeep<T>(this Transform tf, int deepCount, List<T> res = null) {
+
+            if (res == null) {
+                res = new List<T>(tf.childCount * deepCount * 2);
+            }
+
+            if (deepCount > 0) {
+
+                deepCount -= 1;
+
+                List<Transform> children = new List<Transform>(tf.childCount);
+                for (int i = 0; i < tf.childCount; i += 1) {
+                    var child = tf.GetChild(i);
+                    children.Add(child);
+                    res.Add(child.GetComponent<T>());
+                }
+
+                children.ForEach(value => {
+                    FindChildrenWithDeep<T>(value, deepCount, res);
+                });
+
+            } else {
+                for (int i = 0; i < tf.childCount; i += 1) {
+                    var child = tf.GetChild(i);
+                    res.Add(child.GetComponent<T>());
+                }
+            }
+
+            return res.ToArray();
+
+        }
+
+        public static T GunShoot<T>(this Transform _trans, T _bulletPrefab, Vector2 _targetPos, float _shootSpeed) where T : MonoBehaviour {
 
             Vector2 _pos = _trans.position; // 发射的起点坐标
 
@@ -90,7 +122,7 @@ namespace JackFrame {
         /// </summary>
         /// <param name="layer">要剔除的层级编号</param>
         /// <returns></returns>
-        public static Vector3 LookAtMousePoint(this Transform transform,Camera mainCamera,int layer) {
+        public static Vector3 LookAtMousePoint(this Transform transform, Camera mainCamera, int layer) {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             int layerMask = ~(1 << layer);
@@ -106,7 +138,7 @@ namespace JackFrame {
         /// <param name="hit"></param>
         /// <param name="ray"></param>
         /// <returns></returns>
-        public static float RayDiscover(this Transform rayTransform,RaycastHit hit,Ray ray) {
+        public static float RayDiscover(this Transform rayTransform, RaycastHit hit, Ray ray) {
             ray = new Ray(rayTransform.position, rayTransform.forward);
             bool isHit = Physics.Raycast(ray, out hit);
             if (isHit) {
