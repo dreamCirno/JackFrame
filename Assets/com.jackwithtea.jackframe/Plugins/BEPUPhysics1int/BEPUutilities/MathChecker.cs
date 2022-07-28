@@ -1,0 +1,182 @@
+﻿using FixMath.NET;
+using System;
+using System.Diagnostics;
+
+namespace BEPUPhysics1int
+{
+    /// <summary>
+    /// Contains conditional extensions to check for bad values in various structures.
+    /// </summary>
+    public static class MathChecker
+    {
+        /// <summary>
+        /// Checks a single float for validity.  Separate from the extension method to avoid throwing exceptions deep in a call tree.
+        /// </summary>
+        /// <param name="f">Value to validate.</param>
+        /// <returns>True if the value is invalid, false if it is valid.</returns>
+        private static bool IsInvalid(Fixed64 f)
+        {
+			// Fixed-point library does not have NaN or Infinity representation.
+			// We keep this dummy function around for completeness sake
+			// return float.IsNaN(f) || float.IsInfinity(f);
+			return f == Fixed64.MaxValue || f == Fixed64.MinValue;
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this Fixed64 f)
+        {
+            if (IsInvalid(f))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this FixedV3 v)
+        {
+            if (IsInvalid(v.LengthSquared()))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BEPUMatrix2x2 m)
+        {
+            if (IsInvalid(m.M11) || IsInvalid(m.M12) ||
+                IsInvalid(m.M21) || IsInvalid(m.M22))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BEPUMatrix3x2 m)
+        {
+            if (IsInvalid(m.M11) || IsInvalid(m.M12) ||
+                IsInvalid(m.M21) || IsInvalid(m.M22) ||
+                IsInvalid(m.M31) || IsInvalid(m.M32))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BEPUMatrix2x3 m)
+        {
+            if (IsInvalid(m.M11) || IsInvalid(m.M12) || IsInvalid(m.M13) ||
+                IsInvalid(m.M21) || IsInvalid(m.M22) || IsInvalid(m.M23))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BEPUMatrix3x3 m)
+        {
+            m.Right.Validate();
+            m.Up.Validate();
+            m.Backward.Validate();
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BEPUMatrix m)
+        {
+            m.Right.Validate();
+            m.Up.Validate();
+            m.Backward.Validate();
+            m.Translation.Validate();
+            if (IsInvalid(m.M14) || IsInvalid(m.M24) || IsInvalid(m.M34) || IsInvalid(m.M44))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this FixedQuaternion q)
+        {
+            if (IsInvalid(q.LengthSquared()))
+            {
+                throw new NotFiniteNumberException("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this RigidTransform r)
+        {
+            r.Position.Validate();
+            r.Orientation.Validate();
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this AffineTransform a)
+        {
+            a.LinearTransform.Validate();
+            a.Translation.Validate();
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BoundingBox b)
+        {
+            b.Min.Validate();
+            b.Max.Validate();
+        }
+
+        /// <summary>
+        /// Checks the value to see if it is a NaN or infinite.  If it is, an exception is thrown.
+        /// This is only run when the CHECKMATH symbol is defined.
+        /// </summary>
+        [Conditional("CHECKMATH")]
+        public static void Validate(this BoundingSphere b)
+        {
+            b.Center.Validate();
+            if (IsInvalid(b.Radius))
+                throw new NotFiniteNumberException("Invalid value.");
+        }
+
+    }
+}
