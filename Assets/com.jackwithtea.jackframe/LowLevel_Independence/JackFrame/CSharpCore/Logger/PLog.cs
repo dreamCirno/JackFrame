@@ -188,6 +188,11 @@ namespace JackFrame {
             FileHelper.SaveFileText(log, filePath);
         }
 
+        public static string PackLogWithDeviceInfo(LogLevel logLevel, string src) {
+            var os = System.Environment.OSVersion;
+            return "<" + os.VersionString + "> [" + logLevel.ToString() + "]" + src;
+        }
+
         public static void TearDown() {
             if (OnTearDown != null) {
                 OnTearDown.Invoke();
