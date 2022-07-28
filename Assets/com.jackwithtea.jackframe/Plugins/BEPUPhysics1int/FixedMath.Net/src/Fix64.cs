@@ -922,6 +922,14 @@ namespace FixMath.NET
 			return atan;
 		}
 
+        public float AsFloat() {
+            return (float)this;
+        }
+
+        public int AsInt() {
+            return (int)this;
+        }
+
 		public static implicit operator Fixed64(int value)
 		{
 			return new Fixed64(value);
