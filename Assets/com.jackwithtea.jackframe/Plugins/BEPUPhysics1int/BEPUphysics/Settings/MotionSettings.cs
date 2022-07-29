@@ -1,9 +1,5 @@
 ﻿using BEPUPhysics1int.PositionUpdating;
-using System;
-using BEPUPhysics1int;
 using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
-using BEPUPhysics1int.CollisionRuleManagement;
-using BEPUPhysics1int.BroadPhaseEntries;
 using FixMath.NET;
 
 namespace BEPUPhysics1int.Settings

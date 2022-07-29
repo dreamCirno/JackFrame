@@ -1,6 +1,6 @@
 ﻿using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseSystems;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.Constraints.Collision;
 using BEPUPhysics1int.CollisionTests.Manifolds;
 using BEPUPhysics1int.CollisionTests;

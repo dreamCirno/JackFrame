@@ -1,6 +1,6 @@
 ﻿using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseSystems;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using FixMath.NET;
 
 namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs

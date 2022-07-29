@@ -1,11 +1,6 @@
 ﻿using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
-using BEPUPhysics1int;
-using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
-
-using BEPUPhysics1int.CollisionRuleManagement;
 using BEPUPhysics1int.Materials;
-using System;
 using FixMath.NET;
 
 namespace BEPUPhysics1int.Vehicle

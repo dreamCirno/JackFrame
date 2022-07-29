@@ -1,8 +1,6 @@
 ﻿using System;
 using BEPUPhysics1int.BroadPhaseSystems;
-using BEPUPhysics1int.CollisionRuleManagement;
 using BEPUPhysics1int.CollisionShapes.ConvexShapes;
-using BEPUPhysics1int;
 using FixMath.NET;
 
 namespace BEPUPhysics1int.BroadPhaseEntries

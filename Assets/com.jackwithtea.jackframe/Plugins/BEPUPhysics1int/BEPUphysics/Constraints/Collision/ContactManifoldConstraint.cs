@@ -3,7 +3,7 @@ using BEPUPhysics1int.Constraints.SolverGroups;
 using BEPUPhysics1int.DataStructures;
 using BEPUPhysics1int.CollisionTests;
 using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.Materials;
 
 namespace BEPUPhysics1int.Constraints.Collision

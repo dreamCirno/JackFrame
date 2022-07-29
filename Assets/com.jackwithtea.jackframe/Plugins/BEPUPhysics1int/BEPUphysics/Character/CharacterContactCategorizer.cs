@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
-using BEPUPhysics1int.CollisionRuleManagement;
 using BEPUPhysics1int.CollisionTests;
 using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
-using BEPUPhysics1int;
 using FixMath.NET;
 
 namespace BEPUPhysics1int.Character
