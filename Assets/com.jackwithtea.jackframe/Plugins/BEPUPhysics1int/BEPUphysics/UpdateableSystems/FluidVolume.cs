@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseSystems;
 using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.ResourceManagement;
 using BEPUPhysics1int.Threading;
 using FixMath.NET;

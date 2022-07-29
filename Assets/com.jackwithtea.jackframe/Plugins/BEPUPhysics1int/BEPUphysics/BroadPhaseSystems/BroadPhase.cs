@@ -1,8 +1,6 @@
-﻿using BEPUPhysics1int.BroadPhaseEntries;
-using BEPUPhysics1int;
-using BEPUPhysics1int.CollisionRuleManagement;
+﻿using System;
+using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.DataStructures;
-using System;
 using BEPUPhysics1int.Threading;
 
 namespace BEPUPhysics1int.BroadPhaseSystems

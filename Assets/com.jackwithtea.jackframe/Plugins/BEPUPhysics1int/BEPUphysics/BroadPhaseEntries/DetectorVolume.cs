@@ -5,7 +5,7 @@ using BEPUPhysics1int.DataStructures;
 using BEPUPhysics1int.OtherSpaceStages;
 using BEPUPhysics1int.ResourceManagement;
 using BEPUPhysics1int.CollisionShapes.ConvexShapes;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
 using FixMath.NET;
 

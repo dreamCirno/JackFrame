@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.DataStructures;
 using BEPUPhysics1int.BroadPhaseEntries.MobileCollidables;
 using FixMath.NET;

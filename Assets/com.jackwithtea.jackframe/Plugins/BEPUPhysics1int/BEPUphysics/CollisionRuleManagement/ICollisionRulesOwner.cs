@@ -1,4 +1,4 @@
-﻿namespace BEPUPhysics1int.CollisionRuleManagement
+﻿namespace BEPUPhysics1int
  {
      ///<summary>
      /// Defines a class which must own CollisionRules.

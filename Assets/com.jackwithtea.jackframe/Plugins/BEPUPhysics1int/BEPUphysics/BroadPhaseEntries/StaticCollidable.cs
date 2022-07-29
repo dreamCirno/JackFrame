@@ -1,7 +1,7 @@
 ﻿using System;
 using BEPUPhysics1int.CollisionShapes;
 using BEPUPhysics1int.Materials;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.OtherSpaceStages;
 
 namespace BEPUPhysics1int.BroadPhaseEntries

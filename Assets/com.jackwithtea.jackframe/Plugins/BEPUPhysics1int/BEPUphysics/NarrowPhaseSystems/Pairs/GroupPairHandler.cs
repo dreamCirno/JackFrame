@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.Constraints;
 using BEPUPhysics1int.Constraints.Collision;
-using BEPUPhysics1int.CollisionRuleManagement;
 using BEPUPhysics1int.CollisionTests;
 using BEPUPhysics1int.Materials;
 using BEPUPhysics1int.Settings;
 using BEPUPhysics1int.DataStructures;
 using FixMath.NET;
-using BEPUPhysics1int;
 
 namespace BEPUPhysics1int.NarrowPhaseSystems.Pairs
 {

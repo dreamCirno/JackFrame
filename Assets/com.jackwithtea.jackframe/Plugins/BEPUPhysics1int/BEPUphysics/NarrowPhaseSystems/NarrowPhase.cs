@@ -4,7 +4,7 @@ using BEPUPhysics1int.BroadPhaseEntries;
 using BEPUPhysics1int.BroadPhaseSystems;
 using BEPUPhysics1int.Constraints;
 using BEPUPhysics1int.NarrowPhaseSystems.Pairs;
-using BEPUPhysics1int.CollisionRuleManagement;
+using BEPUPhysics1int;
 using BEPUPhysics1int.DataStructures;
 using BEPUPhysics1int.Threading;
 
