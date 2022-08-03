@@ -62,6 +62,19 @@ namespace BEPUPhysics1int
                 MathChecker.Validate(position);
             }
         }
+
+        public FixedV3 GetFootPosition() {
+            var shape = collisionInformation.shape;
+            if (shape is BoxShape box) {
+                return position - box.Height / 2 * FixedV3.Up;
+            } else if (shape is CapsuleShape capsule) {
+                return position - (capsule.Length / 2 + capsule.Radius) * FixedV3.Up;
+            } else if (shape is SphereShape sphere) {
+                return position - sphere.Radius / 2 * FixedV3.Up;
+            } else {
+                return position;
+            }
+        }
         ///<summary>
         /// Gets or sets the orientation quaternion of the entity.
         ///</summary>
