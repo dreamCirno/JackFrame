@@ -12,11 +12,12 @@ namespace JackFrame.UPMaster {
     public class UPMasterEditorWindow : EditorWindow {
 
         string CONFIG_DIR => Application.dataPath + "/Config";
-        string DEP_FILE_PATH => CONFIG_DIR + "/UPMaster.udep";
+        string DEP_FILE_PATH => CONFIG_DIR + "/UPMaster.json";
 
         Dictionary<string, UPMasterDependancyModel> all;
 
         List<UPMasterDependancyModel> inputList;
+        Queue<UPMasterDependancyModel> toRemoveQueue;
 
         UPMManifestModifier modifier;
 
@@ -34,6 +35,8 @@ namespace JackFrame.UPMaster {
         void OnGUI() {
 
             GUILayout.Space(10);
+
+            DequeueRemoveDependencies();
 
             int index = 0;
 
@@ -84,6 +87,10 @@ namespace JackFrame.UPMaster {
             model.branchOrTag = GUILayout.TextField(model.branchOrTag);
             GUILayout.EndHorizontal();
 
+            if (GUILayout.Button("移除依赖")) {
+                toRemoveQueue.Enqueue(model);
+            }
+
             GUILayout.Space(20);
 
         }
@@ -95,6 +102,10 @@ namespace JackFrame.UPMaster {
 
             if (inputList == null) {
                 inputList = new List<UPMasterDependancyModel>();
+            }
+
+            if (toRemoveQueue == null) {
+                toRemoveQueue = new Queue<UPMasterDependancyModel>();
             }
 
             modifier = new UPMManifestModifier();
@@ -153,6 +164,14 @@ namespace JackFrame.UPMaster {
             string dataToWrite = JsonConvert.SerializeObject(dataArr);
             File.WriteAllText(DEP_FILE_PATH, dataToWrite);
 
+        }
+
+        void DequeueRemoveDependencies() {
+            while (toRemoveQueue.TryDequeue(out var model)) {
+                all.Remove(model.name);
+                inputList.Remove(model);
+                modifier.Remove(model.name);
+            }
         }
 
         void ModifyManifest() {

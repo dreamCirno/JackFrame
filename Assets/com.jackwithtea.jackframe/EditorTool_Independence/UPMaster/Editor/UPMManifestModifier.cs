@@ -18,8 +18,6 @@ namespace JackFrame.UPMaster {
             }
         }
 
-        string json;
-
         List<DepModel> all;
 
         public UPMManifestModifier() {
@@ -29,7 +27,7 @@ namespace JackFrame.UPMaster {
         public void Initialize() {
 
             string path = Path.Combine(Environment.CurrentDirectory, "Packages", "manifest.json");
-            this.json = File.ReadAllText(path);
+            var json = File.ReadAllText(path);
 
             // TRIM
             json = json.Replace("\r\n", "");
@@ -87,8 +85,10 @@ namespace JackFrame.UPMaster {
             string data = "";
             int index = 0;
             all.ForEach(value => {
+                if (string.IsNullOrEmpty(value.name)) {
+                    return;
+                }
                 string per;
-                Debug.Log("PER: " + value.version);
                 if (index == all.Count - 1) {
                     per = "\"" + value.name + "\":\"" + @value.version + "\"\r\n";
                 } else {

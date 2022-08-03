@@ -1,16 +1,16 @@
 {
-    "name": "JackFrame.EditorCollections.SpriteExportTool",
+    "name": "JackFrame.EditorTool.RegenerateCSProjTool",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:8b845b123ab418448a8be2935fa804e0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "UNITY_EDITOR"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }
