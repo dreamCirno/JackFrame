@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-#if UNITY_2021_2
+#if UNITY_2021_2 || UNITY_2021_3
 using System;
 using System.Collections.Generic;
 using System.IO;
