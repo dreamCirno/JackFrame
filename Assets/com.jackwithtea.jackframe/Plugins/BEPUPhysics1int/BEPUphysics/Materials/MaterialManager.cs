@@ -27,17 +27,17 @@ namespace BEPUPhysics1int.Materials
         /// Default coefficient of kinetic friction. 
         /// Defaults to 0.8.
         ///</summary>
-        public static Fixed64 DefaultKineticFriction = (Fixed64).8m;
+        public static Fixed64 DefaultKineticFriction = Fixed64.Zero; //(Fixed64).8m
         ///<summary>
         /// Default coefficient of static friction.
         /// Defaults to 1.
         ///</summary>
-        public static Fixed64 DefaultStaticFriction = Fixed64.One;
+        public static Fixed64 DefaultStaticFriction = Fixed64.Zero;
         ///<summary>
         /// Default coefficient of restitution.
         /// Defaults to 0.
         ///</summary>
-        public static Fixed64 DefaultBounciness;
+        public static Fixed64 DefaultBounciness = Fixed64.Zero;
 
         static MaterialManager()
         {
