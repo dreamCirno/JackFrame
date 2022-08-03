@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.jack.archilib": {
-      "version": "ssh://git@github.com/chenwansal/ArchiLib.git?path=/Assets/com.jack.archilib#master",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "46ef2eaa57f00ea5399737a87a336a4e87bac448"
-    },
     "com.unity.2d.animation": {
       "version": "7.0.4",
       "depth": 0,

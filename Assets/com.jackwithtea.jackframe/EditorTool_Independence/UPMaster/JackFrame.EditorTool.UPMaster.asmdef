@@ -1,5 +1,5 @@
 {
-    "name": "JackFrame.EditorCollections.GitRepoPublishTool",
+    "name": "JackFrame.EditorTool.UPMaster",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
