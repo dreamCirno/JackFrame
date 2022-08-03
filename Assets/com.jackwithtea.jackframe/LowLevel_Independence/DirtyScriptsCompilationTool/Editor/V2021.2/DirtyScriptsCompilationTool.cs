@@ -1,6 +1,6 @@
-#if JACK_FRAME_DEV
+#if ENABLE_DIRTY_COMPILER
 #if UNITY_EDITOR
-#if UNITY_2021_2
+#if UNITY_2021_2 || UNITY_2021_3
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace JackFrame.EditorTool {
 
         static List<string> dirtyFiles;
 
-        // [InitializeOnLoadMethod]
+        [InitializeOnLoadMethod]
         static void Setup() {
 
             dirtyFiles = new List<string>();
@@ -40,7 +40,7 @@ namespace JackFrame.EditorTool {
             }
         }
 
-        [MenuItem(MENU_CONTEXT_NAME.L1_TOOL + "/" + nameof(DirtyScriptsCompilationTool) + "/Compile " + SHORTCUT_KEY)]
+        [MenuItem(nameof(JackFrame)  + "/" + nameof(DirtyScriptsCompilationTool) + "/Compile " + SHORTCUT_KEY)]
         public static void Compile() {
 
             sw = new System.Diagnostics.Stopwatch();
