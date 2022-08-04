@@ -98,15 +98,10 @@ namespace JackFrame.UPMaster {
         // ==== LOGIC ====
         void Initialize() {
 
+            inputList = new List<UPMasterDependancyModel>();
+            toRemoveQueue = new Queue<UPMasterDependancyModel>();
+
             CreateOrLoadDefaultConfig();
-
-            if (inputList == null) {
-                inputList = new List<UPMasterDependancyModel>();
-            }
-
-            if (toRemoveQueue == null) {
-                toRemoveQueue = new Queue<UPMasterDependancyModel>();
-            }
 
             modifier = new UPMManifestModifier();
             modifier.Initialize();
@@ -114,10 +109,6 @@ namespace JackFrame.UPMaster {
         }
 
         void CreateOrLoadDefaultConfig() {
-
-            if (all != null) {
-                return;
-            }
 
             all = new Dictionary<string, UPMasterDependancyModel>();
             if (!Directory.Exists(CONFIG_DIR)) {
