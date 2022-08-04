@@ -41,7 +41,7 @@ namespace JackFrame.UPMaster {
                 var kv = str.Split("\":\"");
                 string key = kv[0];
                 string value = kv[1];
-                var model = new DepModel(key.Replace("\"", ""), value.Replace("\"", ""));
+                var model = new DepModel(key.Replace("\"", "").Trim(), value.Replace("\"", "").Trim());
                 all.Add(model);
             }
 
@@ -90,14 +90,14 @@ namespace JackFrame.UPMaster {
                 }
                 string per;
                 if (index == all.Count - 1) {
-                    per = "\"" + value.name + "\":\"" + @value.version + "\"\r\n";
+                    per = "\t\t\"" + value.name + "\":\"" + @value.version + "\"\r\n";
                 } else {
-                    per = "\"" + value.name + "\":\"" + @value.version + "\",\r\n";
+                    per = "\t\t\"" + value.name + "\":\"" + @value.version + "\",\r\n";
                 }
                 data += per;
                 index += 1;
             });
-            string str = "{\r\n\"dependencies\": {\r\n" + data + "}\r\n}";
+            string str = "{\r\n\t\"dependencies\": {\r\n" + data + "\t}\r\n}";
             return str;
         }
 
