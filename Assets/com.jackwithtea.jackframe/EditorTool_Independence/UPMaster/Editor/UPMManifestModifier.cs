@@ -38,7 +38,7 @@ namespace JackFrame.UPMaster {
             arr = arr[2].Split("}");
             arr = arr[0].Split(",");
             foreach (var str in arr) {
-                var kv = str.Split(":");
+                var kv = str.Split("\":\"");
                 string key = kv[0];
                 string value = kv[1];
                 var model = new DepModel(key.Replace("\"", ""), value.Replace("\"", ""));
