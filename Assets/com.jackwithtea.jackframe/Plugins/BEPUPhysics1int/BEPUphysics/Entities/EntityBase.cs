@@ -63,6 +63,8 @@ namespace BEPUPhysics1int
             }
         }
 
+        public FreezeRotationFlag freezeRotationFlag;
+
         public FixedV3 GetFootPosition() {
             var shape = collisionInformation.shape;
             if (shape is BoxShape box) {
@@ -324,6 +326,7 @@ namespace BEPUPhysics1int
                 return inertiaTensorInverse;
             }
         }
+        public void SetInertiaTensorInverse(BEPUMatrix3x3 mat) => inertiaTensorInverse = mat;
         internal BEPUMatrix3x3 inertiaTensor;
         ///<summary>
         /// Gets the world space inertia tensor of the entity.
@@ -1125,6 +1128,16 @@ namespace BEPUPhysics1int
         void IPositionUpdateable.PreUpdatePosition(Fixed64 dt)
         {
             FixedV3 increment;
+
+            if ((freezeRotationFlag & FreezeRotationFlag.RotX) != 0) {
+                angularVelocity.X = 0;
+            }
+            if ((freezeRotationFlag & FreezeRotationFlag.RotY) != 0) {
+                angularVelocity.Y = 0;
+            }
+            if ((freezeRotationFlag & FreezeRotationFlag.RotZ) != 0) {
+                angularVelocity.Z = 0;
+            }
 
             FixedV3.Multiply(ref angularVelocity, dt * F64.C0p5, out increment);
             var multiplier = new FixedQuaternion(increment.X, increment.Y, increment.Z, F64.C0);

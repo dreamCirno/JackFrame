@@ -12,10 +12,8 @@ namespace BEPUPhysicsSample {
         BEPUSpace space;
 
         Box ground;
-        GameObject groundGo;
 
         Capsule role;
-        GameObject roleGo;
 
         void Awake() {
 
@@ -28,15 +26,12 @@ namespace BEPUPhysicsSample {
             // ==== GROUND ====
             ground = new Box(new FixedV3(0, 0, 0), 20, 1, 50, -1);
             ground.Gravity = FixedV3.Zero;
-            groundGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            groundGo.transform.localScale = new Vector3(ground.Width.AsFloat(), ground.Height.AsFloat(), ground.Length.AsFloat());
             space.Add(ground);
 
             // ==== ROLE ====
-            role = new Capsule(new FixedV3(0, 2, 0), new FixedV3(0, 3, 0), 2, 1);
+            role = new Capsule(new FixedV3(0, 2, 0), new FixedV3(0, 4, 0), 1, 1);
             role.Gravity = new FixedV3(0, -20, 0);
-            roleGo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            roleGo.transform.localScale = new Vector3(role.Radius.AsFloat(), role.Length.AsFloat(), role.Radius.AsFloat());
+            role.freezeRotationFlag = FreezeRotationFlag.AllRot;
             space.Add(role);
 
             // CollisionRules.AddRule(ground, role, CollisionRule.NoNarrowPhaseUpdate);
@@ -80,12 +75,9 @@ namespace BEPUPhysicsSample {
 
             space.Update(timeStep);
 
-            groundGo.transform.position = ground.Position.ToVector3();
-            roleGo.transform.position = role.Position.ToVector3();
-
-            Move();
             Jump();
             Falling();
+            Move();
 
         }
 
@@ -97,9 +89,9 @@ namespace BEPUPhysicsSample {
                 dir.X = 1;
             }
 
-            FixedV3 v = role.Position;
-            v.X += 5 * dir.X * 1 * Fixed64.EN2;
-            role.Position = v;
+            FixedV3 v = role.LinearVelocity;
+            v.X = 5 * dir.X;
+            role.LinearVelocity = v;
         }
 
         void Jump() {
@@ -132,6 +124,16 @@ namespace BEPUPhysicsSample {
 
             role.AngularVelocity = FixedV3.Zero;
 
+        }
+
+        void OnDrawGizmos() {
+            if (role != null) {
+                role.Editor_DrawGizmos();
+            }
+
+            if (ground != null) {
+                ground.Editor_DrawGizmos();
+            }
         }
 
     }
