@@ -82,6 +82,7 @@ namespace BEPUPhysicsSample {
         }
 
         void Move() {
+
             FixedV3 dir = FixedV3.Zero;
             if (Input.GetKey(KeyCode.A)) {
                 dir.X = -1;
@@ -89,9 +90,21 @@ namespace BEPUPhysicsSample {
                 dir.X = 1;
             }
 
+            if (Input.GetKey(KeyCode.W)) {
+                dir.Z = 1;
+            } else if (Input.GetKey(KeyCode.S)) {
+                dir.Z = -1;
+            }
+
             FixedV3 v = role.LinearVelocity;
             v.X = 5 * dir.X;
+            v.Z = 5 * dir.Z;
             role.LinearVelocity = v;
+
+            FixedV3 fwd = FixedV3.Forward;
+            dir.Normalize();
+            role.LookAt(fwd, dir);
+
         }
 
         void Jump() {

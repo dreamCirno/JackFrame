@@ -21,7 +21,7 @@ namespace BEPUPhysics1int {
 
             // Forward
             var fwd = entity.MotionState.WorldTransform.Forward;
-            Gizmos.DrawSphere((entity.position + fwd).ToVector(), 0.1f);
+            Gizmos.DrawLine(entity.position.ToVector(), (entity.position + fwd * 2).ToVector());
 
             // Shape
             Vector3 size = Vector3.zero;

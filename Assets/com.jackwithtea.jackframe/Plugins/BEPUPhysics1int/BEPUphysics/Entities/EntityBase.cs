@@ -828,6 +828,11 @@ namespace BEPUPhysics1int
             }
         }
 
+        public void LookAt(FixedV3 axisNormolize, FixedV3 dirNormolize) {
+            FixedQuaternion.GetQuaternionBetweenNormalizedVectors(ref axisNormolize, ref dirNormolize, out var q);
+            Orientation = q;
+        }
+
 
         //TODO: Include warnings about multithreading.  These modify things outside of the entity and use single-thread-only helpers.
         ///<summary>
