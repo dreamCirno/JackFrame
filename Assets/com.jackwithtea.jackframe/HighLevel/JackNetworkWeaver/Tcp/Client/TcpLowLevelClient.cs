@@ -47,6 +47,7 @@ namespace JackFrame.Network {
 
         public void Disconnect() {
             client.Disconnect();
+            connectionType = NetworkConnectionType.Disconnected;
         }
 
         public void Tick(int processLimit = 100) {
