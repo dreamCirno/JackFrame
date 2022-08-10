@@ -27,7 +27,7 @@ namespace JackFrame.Network {
         }
 
         public bool IsConnected() {
-            return connectionType == NetworkConnectionType.Connected;
+            return client.Connected;
         }
 
         public void Connect(string host, int port) {
